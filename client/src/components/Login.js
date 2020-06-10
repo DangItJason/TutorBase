@@ -16,39 +16,39 @@ class Login extends Component {
     });
   };
 
-  handleAuthentication = (event) => {
-    event.preventDefault();
+  // handleAuthentication = (event) => {
+  //   event.preventDefault();
 
-    //Assigns {result: true} or {result: false} to state.login
-    fetch("http://localhost:9000/login/login", {
-      method: "post",
-      body: JSON.stringify(this.state),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) =>
-        this.setState(
-          {
-            login: data,
-          },
-          () => {
-            //Callback function after states been updated.
-            if (this.state.login.result === true) {
-              console.log("Sucessful login");
-              this.props.history.push({
-                pathname: "/home",
-                name: this.state.name,
-                email: this.state.email,
-              });
-            } else if (this.state.login.result === false) {
-              console.log("Incorrect credentials");
-            }
-          }
-        )
-      );
-  };
+  //   //Assigns {result: true} or {result: false} to state.login
+  //   fetch("http://localhost:9000/login/login", {
+  //     method: "post",
+  //     body: JSON.stringify(this.state),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) =>
+  //       this.setState(
+  //         {
+  //           login: data,
+  //         },
+  //         () => {
+  //           //Callback function after states been updated.
+  //           if (this.state.login.result === true) {
+  //             console.log("Sucessful login");
+  //             this.props.history.push({
+  //               pathname: "/home",
+  //               name: this.state.name,
+  //               email: this.state.email,
+  //             });
+  //           } else if (this.state.login.result === false) {
+  //             console.log("Incorrect credentials");
+  //           }
+  //         }
+  //       )
+  //     );
+  // };
 
   render() {
     return (
