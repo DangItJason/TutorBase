@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import Sidebar from "./Sidebar"
-import Panel from "./Panel"
+import Sidebar from "./Sidebar";
+import Panel from "./Panel";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './dashboard.css';
 
 class ClientDashboard extends Component {
     constructor(props) {
