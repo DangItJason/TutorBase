@@ -6,6 +6,10 @@ body {
     background-color: #E86666;
 }
 
+.btn-red:hover {
+    background-color: #BF5252;
+}
+
 #sidebar-wrapper {
     min-height: 100vh;
     margin-left: -15rem;
@@ -17,7 +21,7 @@ body {
 
 #sidebar-wrapper .sidebar-heading {
     padding: 0.875rem 1.25rem;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
 
 #sidebar-wrapper .list-group {
