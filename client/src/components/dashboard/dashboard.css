@@ -2,6 +2,10 @@ body {
     overflow-x: hidden;
 }
 
+.bg-red {
+    background-color: #E86666;
+}
+
 #sidebar-wrapper {
     min-height: 100vh;
     margin-left: -15rem;
@@ -18,6 +22,10 @@ body {
 
 #sidebar-wrapper .list-group {
     width: 15rem;
+}
+
+#sidebar-wrapper a:hover {
+    background-color: #E06262;
 }
 
 #panel-wrapper {
