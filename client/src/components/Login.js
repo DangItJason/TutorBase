@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button, Container, Form, FormGroup, Input } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
@@ -52,63 +53,73 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
-        <div className="sidenav">
-          <div className="login-main-text">
-            <h2>Login</h2>
-            <p>Enter your email and password to continue.</p>
-          </div>
-        </div>
-        <div className="main">
-          <div className="col-md-4 col-sm-12">
-            <div className="login-form">
-              <form onSubmit={this.handleAuthentication}>
-                <div className="form-group">
-                  <label>Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Name"
-                    name="name"
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Email</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Email"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Password"
-                    value={this.state.password}
-                    name="password"
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <button type="submit" className="btn btn-black">
-                  Login
-                </button>
-                <Link to="/signup">
-                  <button type="submit" className="btn btn-secondary">
-                    Register
-                  </button>
-                </Link>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+      // <div>
+      //   <div className="sidenav">
+      //     <div className="login-main-text">
+      //       <h2>Login</h2>
+      //       <p>Enter your email and password to continue.</p>
+      //     </div>
+      //   </div>
+      //   <div className="main">
+      //     <div className="col-md-4 col-sm-12">
+      //       <div className="login-form">
+      //         <form onSubmit={this.handleAuthentication}>
+      //           <div className="form-group">
+      //             <label>Name</label>
+      //             <input
+      //               type="text"
+      //               className="form-control"
+      //               placeholder="Name"
+      //               name="name"
+      //               value={this.state.name}
+      //               onChange={this.handleChange}
+      //             />
+      //           </div>
+      //           <div className="form-group">
+      //             <label>Email</label>
+      //             <input
+      //               type="text"
+      //               className="form-control"
+      //               placeholder="Email"
+      //               name="email"
+      //               value={this.state.email}
+      //               onChange={this.handleChange}
+      //             />
+      //           </div>
+      //           <div className="form-group">
+      //             <label>Password</label>
+      //             <input
+      //               type="password"
+      //               className="form-control"
+      //               placeholder="Password"
+      //               value={this.state.password}
+      //               name="password"
+      //               onChange={this.handleChange}
+      //             />
+      //           </div>
+      //           <button type="submit" className="btn btn-black">
+      //             Login
+      //           </button>
+      //           <Link to="/signup">
+      //             <button type="submit" className="btn btn-secondary">
+      //               Register
+      //             </button>
+      //           </Link>
+      //         </form>
+      //       </div>
+      //     </div>
+      //   </div>
+      // </div>\
+      <Container classname="themed-contrainer" fluid="sm">
+        <h2>Login</h2>
+        <Form>
+          <FormGroup>
+            <Input type="email" name="email" placeholder="email"></Input>
+            <Input type="email" name="email" placeholder="password"></Input>
+          </FormGroup>
+          <Button color="danger">Login</Button>
+        </Form>
+      </Container>
     );
   }
 }
