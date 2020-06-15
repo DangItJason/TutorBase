@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Button, Container, Form, FormGroup, Input } from "reactstrap";
+import { Button, Container, Form, FormGroup, Label, Input } from "reactstrap";
 import { Link } from "react-router-dom";
-import "./Login.css";
+import "./login.css";
 
-class Login extends Component {
+class login extends Component {
   state = {
     name: "",
     email: "",
@@ -110,18 +110,21 @@ class Login extends Component {
       //     </div>
       //   </div>
       // </div>\
-      <Container classname="themed-contrainer" fluid="sm">
-        <h2>Login</h2>
+      <Container className="loginContainer" fluid="sm">
         <Form>
-          <FormGroup>
+          <Label className="loginText">Login</Label>
+          <FormGroup row>
             <Input type="email" name="email" placeholder="email"></Input>
+          </FormGroup>
+          <FormGroup row>
             <Input type="email" name="email" placeholder="password"></Input>
           </FormGroup>
-          <Button color="danger">Login</Button>
+
+          <Button color="danger">Sign In</Button>
         </Form>
       </Container>
     );
   }
 }
 
-export default Login;
+export default login;
