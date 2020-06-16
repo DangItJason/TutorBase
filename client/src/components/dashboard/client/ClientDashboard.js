@@ -18,7 +18,7 @@ class ClientDashboard extends Component {
 
     render() {
         return (
-            <div className={classNames("d-flex", (this.state.sidebarToggled) ? "toggled":"")} id="wrapper">
+            <div className={classNames("d-flex", (this.state.sidebarToggled) ? "toggled":"")} id="dashboard-wrapper">
                 <Sidebar />
                 <Panel action={this.toggleMenu} />
             </div>

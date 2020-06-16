@@ -6,8 +6,8 @@ class Panel extends Component {
     render() {
         return (
             <div id="panel-wrapper">
-                <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom")}>
-                    <Button className={classNames("bg-red", "btn-red")} id="menu-toggle" onClick={this.props.action}><span className="navbar-toggler-icon"></span></Button>
+                <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom", "shadow")}>
+                    <Button className={classNames("bg-red", "btn-red")} id="menu-toggle" onClick={this.props.action}>☰</Button>
                 </Navbar>
                 <div class="container-fluid">
                     <h1 class="mt-4">Client Dashboard</h1>

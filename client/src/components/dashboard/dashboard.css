@@ -36,8 +36,16 @@ body {
     min-width: 100vw;
 }
 
-#wrapper.toggled #sidebar-wrapper {
+#dashboard-wrapper, #dashboard-wrapper a {
+    color: #FFF;
+}
+
+#dashboard-wrapper.toggled #sidebar-wrapper {
     margin-left: 0;
+}
+
+.shadow {
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15);
 }
 
 @media (min-width: 768px) {
@@ -50,7 +58,7 @@ body {
         width: 100%;
     }
 
-    #wrapper.toggled #sidebar-wrapper {
+    #dashboard-wrapper.toggled #sidebar-wrapper {
         margin-left: -15rem;
     }
 }
