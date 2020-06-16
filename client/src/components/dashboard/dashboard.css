@@ -10,6 +10,10 @@ body {
     background-color: #BF5252;
 }
 
+.btn-red:focus {
+    background-color: #BF5252;
+}
+
 #sidebar-wrapper {
     min-height: 100vh;
     margin-left: -15rem;
