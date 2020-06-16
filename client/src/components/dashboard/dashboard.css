@@ -48,12 +48,12 @@ body {
     margin-right: 0.5rem;
 }
 
-#sidebar-wrapper a:hover {
-    background-color: #DB5C60;
+#sidebar-wrapper, #sidebar-wrapper a:hover,  #sidebar-wrapper a.tab-active{
+    color: #FFF;
 }
 
-#sidebar-wrapper, #sidebar-wrapper a {
-    color: #FFF;
+#sidebar-wrapper a {
+    color: #E5E5E5;
 }
 
 #panel-wrapper {
