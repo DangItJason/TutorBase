@@ -2,7 +2,11 @@ body {
     overflow-x: hidden;
 }
 
-.bg-red {
+.bg-none {
+    background-color: transparent;
+}
+
+.btn-red {
     background-color: #E66064;
 }
 
@@ -11,6 +15,8 @@ body {
 }
 
 #sidebar-wrapper {
+    background-image: linear-gradient(180deg, #E66064 10%, #C93642 100%);
+    background-size: cover;
     min-height: 100vh;
     margin-left: -15rem;
     -webkit-transition: margin .25s ease-out;
@@ -28,16 +34,21 @@ body {
     width: 15rem;
 }
 
+#sidebar-wrapper .list-group-item {
+    text-decoration: none;
+    border: none;
+}
+
 #sidebar-wrapper a:hover {
-    background-color: #E05E62;
+    background-color: #DB5C60;
+}
+
+#sidebar-wrapper, #sidebar-wrapper a {
+    color: #FFF;
 }
 
 #panel-wrapper {
     min-width: 100vw;
-}
-
-#dashboard-wrapper, #dashboard-wrapper a {
-    color: #FFF;
 }
 
 #dashboard-wrapper.toggled #sidebar-wrapper {
