@@ -34,9 +34,18 @@ body {
     width: 15rem;
 }
 
+#sidebar-wrapper .list-group-bottom {
+    position: fixed;
+    bottom: 1rem;
+}
+
 #sidebar-wrapper .list-group-item {
     text-decoration: none;
     border: none;
+}
+
+#sidebar-wrapper .list-group-item svg {
+    margin-right: 0.5rem;
 }
 
 #sidebar-wrapper a:hover {
