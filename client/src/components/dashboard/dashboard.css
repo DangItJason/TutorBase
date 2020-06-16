@@ -3,15 +3,11 @@ body {
 }
 
 .bg-red {
-    background-color: #E86666;
+    background-color: #E66064;
 }
 
-.btn-red:hover {
-    background-color: #BF5252;
-}
-
-.btn-red:focus {
-    background-color: #BF5252;
+.btn-red:hover, .btn-red:focus {
+    background-color: #BC4F52;
 }
 
 #sidebar-wrapper {
@@ -33,7 +29,7 @@ body {
 }
 
 #sidebar-wrapper a:hover {
-    background-color: #E06262;
+    background-color: #E05E62;
 }
 
 #panel-wrapper {
