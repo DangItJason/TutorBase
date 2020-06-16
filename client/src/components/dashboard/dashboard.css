@@ -56,6 +56,17 @@ body {
     color: #E5E5E5;
 }
 
+.hr {
+    display: inline-block;
+}
+
+.hr:after {
+    content: '';
+    display: block;
+    border-top: 1px solid #BFBFBF;
+    margin: 0.2em 0 0.2em 0;
+}
+
 #panel-wrapper {
     min-width: 100vw;
 }
