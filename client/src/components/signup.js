@@ -6,7 +6,8 @@ import "./login.css";
 
 class signup extends Component {
   state = {
-    name: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     visible: false,
@@ -56,22 +57,53 @@ class signup extends Component {
   render() {
     return (
       <Container className="loginContainer" fluid="sm">
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <Label className="loginText">Sign Up</Label>
           <FormGroup row>
-            <Input type="text" name="first_name" placeholder="first name"></Input>
+            <Input
+              type="text"
+              className="form-control"
+              name="first_name"
+              placeholder="first name"
+              value={this.state.first_name}
+              onChange={this.handleChange}
+            ></Input>
           </FormGroup>
           <FormGroup row>
-            <Input type="text" name="last_name" placeholder="last name"></Input>
+            <Input
+              type="text"
+              className="form-control"
+              name="last_name"
+              placeholder="last name"
+              value={this.state.last_name}
+              onChange={this.handleChange}
+            ></Input>
           </FormGroup>
           <FormGroup row>
-            <Input type="email" name="email" placeholder="email"></Input>
+            <Input
+              type="email"
+              className="form-control"
+              name="email"
+              placeholder="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+            ></Input>
           </FormGroup>
           <FormGroup row>
-            <Input type="password" name="password" placeholder="password"></Input>
+            <Input
+              type="password"
+              className="form-control"
+              name="password"
+              placeholder="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            ></Input>
           </FormGroup>
 
-          <Button color="danger">Create Account</Button>
+          <Button color="danger" type="submit">
+            Create Account
+          </Button>
+          <div>Already have an account? Click <Link to='/login'>here</Link></div>
         </Form>
       </Container>
     );

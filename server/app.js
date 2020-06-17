@@ -3,16 +3,17 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cors = require('cors'); //Dependicie for testing on different ports.
+var mongoose = require("mongoose");
+//Fill in DB Name
+const uri =
+  "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
+mongoose.connect(uri,  { useUnifiedTopology: true, useNewUrlParser: true  });
 
+var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var signupRouter = require("./routes/signup");
 var loginRouter = require("./routes/login");
-
-// var mongoose = require("mongoose");
-// //Fill in DB Name
-// const uri =
-//   "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/<dbname>?retryWrites=true&w=majority";
-// mongoose.connect(uri);
 
 var app = express();
 
@@ -20,12 +21,16 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
+app.use(cors({
+  origin: "http://localhost:9000",
+}));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/", indexRouter)
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
