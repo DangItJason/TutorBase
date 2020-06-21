@@ -1,8 +1,10 @@
 var express = require("express");
 var router = express.Router();
 var User = require("../models.js");
+var bcryptjs = require("bcryptjs");
 
-router.post("/signup", function (req, res, next) {
+router.post("/", function (req, res, next) {
+  console.log("here");
   User.findOne(
     {
       email: req.body.email,

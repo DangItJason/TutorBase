@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Container, Form, FormGroup, Label, Input } from "reactstrap";
 import { Link } from "react-router-dom";
-import "./login.css";
+import "./Login.css";
 
 class login extends Component {
   state = {
@@ -20,7 +20,6 @@ class login extends Component {
   handleAuthentication = (event) => {
     event.preventDefault();
 
-    //Assigns {result: true} or {result: false} to state.login
     fetch("http://localhost:9000/login/login", {
       method: "post",
       body: JSON.stringify(this.state),
@@ -64,7 +63,7 @@ class login extends Component {
           </FormGroup>
 
           <Button color="danger">Sign In</Button>
-          <div>Don't have an accout? Click <Link to='/signup'>here</Link>r</div>
+          <div>Don't have an accout? Click <Link to='/signup'>here</Link></div>
         </Form>
       </Container>
     );

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Container, Form, FormGroup, Label, Input } from "reactstrap";
 
 import { Link } from "react-router-dom";
-import "./login.css";
+import "./Login.css";
 
 class signup extends Component {
   state = {
@@ -33,7 +33,7 @@ class signup extends Component {
   };
   //Submit user data to DB -> Open up home page
   submitUser() {
-    fetch("http://localhost:9000/signup/signup", {
+    fetch("http://localhost:4001/signup/", {
       method: "post",
       body: JSON.stringify(this.state),
       headers: {
