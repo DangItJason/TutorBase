@@ -3,13 +3,15 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var cors = require('cors'); //Dependicie for testing on different ports.
+var cors = require('cors'); 
 var mongoose = require("mongoose");
-//Fill in DB Name
+//Dependicies
+var bcrypt = require('bcryptjs');
 const uri =
   "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
 mongoose.connect(uri,  { useUnifiedTopology: true, useNewUrlParser: true  });
 
+//Routes
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var signupRouter = require("./routes/signup");

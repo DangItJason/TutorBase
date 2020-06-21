@@ -48,10 +48,6 @@ class signup extends Component {
     if (this.isPasswordValid()) {
       this.submitUser();
     }
-    //Broken
-    // else {
-    //     this.state.visible ? <div>Hello world</div> : <div>Hidden</div>
-    // }
   };
 
   render() {
