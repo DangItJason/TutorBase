@@ -14,6 +14,7 @@ router.post("/login", function (req, res) {
       bcrypt.compare(req.body.password, user.password, function (err, result) {
         if (result == true) {
           console.log("Login success ... moving you to your home page!");
+          //You can modify these redirects to our landing pages.
           res.redirect("/home");
         } else {
           console.log("Incorrect password");
