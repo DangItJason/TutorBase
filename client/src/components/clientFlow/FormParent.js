@@ -10,7 +10,6 @@ import Step6 from "./6_reserve";
 class FormParent extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
             currentStep: 1,
             subject: "",
@@ -19,7 +18,8 @@ class FormParent extends Component {
             date: "",
             time: "",
             notes: ""
-        }
+        };
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange = event => {
@@ -27,18 +27,20 @@ class FormParent extends Component {
         this.setState({ [name]: value })
     }
 
-    handleSubmit = event => {}
+    handleSubmit = event => {
+        event.preventDefault();
+    }
 
     render() {
         const formProps = {
-            currentStep = this.state.handleSubmit,
-            handleChange = this.handleSubmit,
+            currentStep: this.state.handleSubmit,
+            handleChange: this.handleSubmit
         }
-        
+
         return (
             <Fragment>
                 <form onSubmit={this.handleSubmit}>
-                    <Step1 {...formProps} subject= {this.state.subject} />
+                    <Step1 {...formProps} subject={this.state.subject} />
                     <Step2 {...formProps} class={this.state.class} />
                     <Step3 {...formProps} tutorID={this.state.tutorID} />
                     <Step4 {...formProps} date={this.state.date} />
