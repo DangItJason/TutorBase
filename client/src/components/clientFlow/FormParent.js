@@ -17,7 +17,8 @@ class FormParent extends Component {
             class: "",
             tutorID: "",
             date: "",
-            time: ""
+            time: "",
+            notes: ""
         }
     }
 
@@ -26,28 +27,23 @@ class FormParent extends Component {
         this.setState({ [name]: value })
     }
 
+    handleSubmit = event => {}
+
     render() {
+        const formProps = {
+            currentStep = this.state.handleSubmit,
+            handleChange = this.handleSubmit,
+        }
+        
         return (
             <Fragment>
-                <form>
-                    <Step1 currentStep={this.state.currentStep} 
-                        handleChange={this.handleChange}
-                        subject = {this.state.subject} />
-                    <Step2 currentStep={this.state.currentStep} 
-                        handleChange={this.handleChange}
-                        subject = {this.state.subject} />
-                    <Step3 currentStep={this.state.currentStep} 
-                        handleChange={this.handleChange}
-                        subject = {this.state.subject} />
-                    <Step4 currentStep={this.state.currentStep} 
-                        handleChange={this.handleChange}
-                        subject = {this.state.subject} />
-                    <Step5 currentStep={this.state.currentStep} 
-                        handleChange={this.handleChange}
-                        subject = {this.state.subject} />
-                    <Step6 currentStep={this.state.currentStep} 
-                        handleChange={this.handleChange}
-                        subject = {this.state.subject} />
+                <form onSubmit={this.handleSubmit}>
+                    <Step1 {...formProps} subject= {this.state.subject} />
+                    <Step2 {...formProps} class={this.state.class} />
+                    <Step3 {...formProps} tutorID={this.state.tutorID} />
+                    <Step4 {...formProps} date={this.state.date} />
+                    <Step5 {...formProps} time={this.state.time} />
+                    <Step6 {...formProps} notes={this.state.notes} />
                 </form>
             </Fragment>
         );
