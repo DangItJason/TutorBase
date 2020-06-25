@@ -11,7 +11,7 @@ class FormParent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentStep: 3,
+            currentStep: 1,
             subject: "",
             class: "",
             tutor: "",

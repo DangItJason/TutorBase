@@ -12,6 +12,9 @@ class Panel extends Component {
                 <div class="container-fluid">
                     <h2 className={classNames("mt-4", "hr")}>Client Dashboard</h2>
                     <p>This is where the client will be able to schedule tutoring sessions.</p>
+                    <div class="row justify-content-md-center ">
+                        <FormParent />
+                    </div>
                 </div>
             </div>
         );
