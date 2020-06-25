@@ -33,14 +33,14 @@ class signup extends Component {
   };
   //Submit user data to DB -> Open up home page
   submitUser() {
-    fetch("http://localhost:4001/signup/", {
+    fetch("http://localhost:9000/signup", {
       method: "post",
       body: JSON.stringify(this.state),
       headers: {
         //Make sure your header content type you specify and body type match.
         "Content-Type": "application/json",
       },
-    }).then(this.props.history.push("/home"));
+    })
   }
 
   handleSubmit = (event) => {

@@ -24,6 +24,7 @@ router.post("/", function (req, res) {
       });
     }
   });
+  res.send("login complete [test]");
 });
 
 module.exports = router;

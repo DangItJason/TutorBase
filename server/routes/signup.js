@@ -3,8 +3,8 @@ var router = express.Router();
 var User = require("../models.js");
 var bcryptjs = require("bcryptjs");
 
-router.post("/", function (req, res, next) {
-  console.log("here");
+//Localhost:3000/signup
+router.post('/', function (req, res, next) {
   User.findOne(
     {
       email: req.body.email,
@@ -22,11 +22,12 @@ router.post("/", function (req, res, next) {
       newUser.save();
     }
   ).then(function (data) {
-      if (data) {
-          //Change end point to whatever the landing page is
-          res.redirect("/home");
-      }
+    if (data) {
+      //Change end point to whatever the landing page is
+      res.redirect("/home");
+    }
   });
+  res.send("sign-up complete [test]");
 });
 
-module.exports = router;
+module.exports = router
