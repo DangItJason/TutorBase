@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Step1 from "./1_subject";
 import Step2 from "./2_class";
-import Step3 from "./3_SelectTutor";
+import Step3 from "./3_selectTutor";
 import Step4 from "./4_selectDate";
 import Step5 from "./5_selectTime";
 import Step6 from "./6_reserve";
