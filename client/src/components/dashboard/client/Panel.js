@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { Navbar, Button } from "reactstrap"; 
+import FormParent from "../../clientFlow/FormParent";
 
 class Panel extends Component {
     render() {
