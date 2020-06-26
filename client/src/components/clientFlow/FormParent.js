@@ -17,7 +17,8 @@ class FormParent extends Component {
             class: "",
             tutor: "",
             date: "",
-            time: "",
+            startTime: "",
+            endTime: "",
             notes: ""
         };
         this.handleChange = this.handleChange.bind(this);
@@ -46,7 +47,10 @@ class FormParent extends Component {
                     <Step3 {...formProps} tutor={this.state.tutor} />
                     <Step4 {...formProps} date={this.state.date} />
                     <Step5 {...formProps} time={this.state.time} />
-                    <Step6 {...formProps} notes={this.state.notes} />
+                    <Step6 {...formProps} date={this.state.date} 
+                        startTime={this.state.startTime} 
+                        endTime={this.state.endTime}
+                        notes={this.state.notes} />
                 </form>
             </Fragment>
         );
