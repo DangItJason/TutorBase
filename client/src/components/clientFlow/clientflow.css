@@ -1,0 +1,12 @@
+/* Hide radio button */
+[type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Outline selected tutor card */
+[type=radio]:checked + p {
+    outline: 2px solid #E66064;
+}

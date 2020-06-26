@@ -5,6 +5,7 @@ import Step3 from "./3_selectTutor";
 import Step4 from "./4_selectDate";
 import Step5 from "./5_selectTime";
 import Step6 from "./6_reserve";
+import "./clientflow.css";
 
 
 class FormParent extends Component {
