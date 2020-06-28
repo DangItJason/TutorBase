@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 
 class Step2 extends Component {
-    state = {
-        //1. Grab class codes based on available tutors from server
-        //2. Pass into state
-        //3. Render components
-        class_codes = [],
-        //Create a seperate component for this. ... maybe?
-        class_cards = [],
-    };
+    constructor(props) {
+        super(props)
+        this.state = {
+            //1. Grab subject codes based on available tutors from server
+            //2. Pass into props
+            //3. Render components
+            class_codes: [],
+            //Create a seperate component for this.
+            class_cards: [],
+        };
+    }
 
     render() {
         
