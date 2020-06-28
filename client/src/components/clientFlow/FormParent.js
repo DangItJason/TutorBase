@@ -26,7 +26,15 @@ class FormParent extends Component {
 
     handleChange = event => {
         const { name, value } = event.target
-        this.setState({ [name]: value })
+        let step = this.state.currentStep;
+        step = step >= 5 ? 6 : step + 1;
+        this.setState({ [name]: value, currentStep: step });
+    }
+
+    prevStep = () => {
+        let step = this.state.currentStep;
+        step = step <= 1 ? 1 : step - 1;
+        this.setState({ currentStep: step });
     }
 
     handleSubmit = event => {
@@ -36,7 +44,7 @@ class FormParent extends Component {
     render() {
         const formProps = {
             currentStep: this.state.currentStep,
-            handleChange: this.handleSubmit
+            handleChange: this.handleChange
         }
 
         return (

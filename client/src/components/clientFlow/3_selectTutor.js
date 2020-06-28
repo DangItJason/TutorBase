@@ -24,7 +24,7 @@ class Step3 extends Component {
                 {tutors.map(tutor => 
                     <div className="radio-option">
                         <label>
-                            <input className="form-input" type="radio" name="tutor" id="tutor" value={this.props.tutor}></input>
+                            <input className="form-input" type="radio" name="tutor" id="tutor" value={this.props.tutor} onChange={this.props.handleChange}></input>
                             <p>{tutor.name}</p>
                         </label>
                     </div>
