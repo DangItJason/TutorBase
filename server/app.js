@@ -3,15 +3,14 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-// var cors = require('cors'); 
 var mongoose = require("mongoose");
+var cors = require("cors");
 var app = express();
 var bcrypt = require('bcryptjs');
 
 const uri =
   "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
 mongoose.connect(uri,  { useUnifiedTopology: true, useNewUrlParser: true  });
-//cors needs to execute before the routes are set up.
 
 
 //Routes
@@ -20,16 +19,11 @@ var usersRouter = require("./routes/users");
 var signupRouter = require("./routes/signup");
 var loginRouter = require("./routes/login");
 
-// app.use(cors({
-//   origin: "http://localhost:3000",
-// }));
-
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

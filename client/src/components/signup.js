@@ -31,7 +31,7 @@ class signup extends Component {
 
     return true;
   };
-  //Submit user data to DB -> Open up home page
+
   submitUser() {
     fetch("http://localhost:9000/signup", {
       method: "post",

@@ -11,8 +11,10 @@ router.post("/", function (req, res) {
   }).then(function (user) {
     if (!user) {
       res.redirect("/login");
+      console.find("error");
     } else {
-      bcrypt.compare(req.body.password, user.password, function (err, result) {
+      console.find("Searching for credentials");
+      bcryptjs.compare(req.body.password, user.password, function (err, result) {
         if (result == true) {
           console.log("Login success ... moving you to your home page!");
           //You can modify these redirects to our landing pages.
@@ -24,7 +26,6 @@ router.post("/", function (req, res) {
       });
     }
   });
-  res.send("login complete [test]");
 });
 
 module.exports = router;
