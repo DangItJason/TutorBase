@@ -20,7 +20,7 @@ class login extends Component {
   handleAuthentication = (event) => {
     event.preventDefault();
 
-    fetch("http://localhost:9000/login/login", {
+    fetch("http://localhost:9000/login", {
       method: "post",
       body: JSON.stringify(this.state),
       headers: {
@@ -53,16 +53,16 @@ class login extends Component {
   render() {
     return (
       <Container className="loginContainer" fluid="sm">
-        <Form>
+        <Form onSubmit={this.handleAuthentication}>
           <Label className="loginText">Login</Label>
           <FormGroup row>
             <Input type="email" name="email" placeholder="email"></Input>
           </FormGroup>
           <FormGroup row>
-            <Input type="email" name="email" placeholder="password"></Input>
+            <Input type="password" name="email" placeholder="password"></Input>
           </FormGroup>
 
-          <Button color="danger">Sign In</Button>
+          <Button color="danger" type="submit">Sign In</Button>
           <div>Don't have an accout? Click <Link to='/signup'>here</Link></div>
         </Form>
       </Container>
