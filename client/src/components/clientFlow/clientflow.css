@@ -6,6 +6,16 @@
     height: 0;
 }
 
+.form-label {
+    padding: 4px;
+}
+
+.form-label:hover {
+    outline: 2px solid #E66064;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
 /* Outline selected tutor card */
 [type=radio]:checked + p {
     outline: 2px solid #E66064;
@@ -13,6 +23,6 @@
 
 textarea {
     padding: 5px;
-    width: 100%;
-    height: 100px;
+    width: 40vw;
+    height: 30vh;
 }

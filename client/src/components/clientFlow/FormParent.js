@@ -13,6 +13,7 @@ class FormParent extends Component {
         super(props)
         this.state = {
             currentStep: 1,
+            furthestStep: 1,
             subject: "",
             class: "",
             tutor: "",
@@ -26,9 +27,8 @@ class FormParent extends Component {
 
     handleChange = event => {
         const { name, value } = event.target
-        let step = this.state.currentStep;
-        step = step >= 5 ? 6 : step + 1;
-        this.setState({ [name]: value, currentStep: step });
+        this.setState({ [name]: value });
+        this.nextStep();
     }
 
     prevStep = () => {
@@ -37,8 +37,34 @@ class FormParent extends Component {
         this.setState({ currentStep: step });
     }
 
+    nextStep = () => {
+        let step = this.state.currentStep;
+        step = step >= 5 ? 6 : step + 1;
+        this.setState({ currentStep: step });
+        if (step > this.state.furthestStep)
+            this.setState({ furthestStep: step });
+    }
+
     handleSubmit = event => {
         event.preventDefault();
+    }
+
+    prevButton() {
+        if (this.state.currentStep !== 1) {
+            return (
+                <button className="btn btn-secondary" type="button" onClick={this.prevStep}>Previous</button>
+            );
+        }
+        return null;
+    }
+
+    nextButton() {
+        if (this.state.currentStep < this.state.furthestStep) {
+            return (
+                <button className="btn btn-danger" type="button" onClick={this.nextStep}>Next</button>
+            );
+        }
+        return null;
     }
 
     render() {
@@ -52,13 +78,15 @@ class FormParent extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <Step1 {...formProps} subject={this.state.subject} />
                     <Step2 {...formProps} class={this.state.class} />
-                    <Step3 {...formProps} tutor={this.state.tutor} />
+                    <Step3 {...formProps} tutor={this.state.tutor}/>
                     <Step4 {...formProps} date={this.state.date} />
                     <Step5 {...formProps} time={this.state.time} />
                     <Step6 {...formProps} date={this.state.date} 
                         startTime={this.state.startTime} 
                         endTime={this.state.endTime}
                         notes={this.state.notes} />
+                    {this.prevButton()}
+                    {this.nextButton()}
                 </form>
             </Fragment>
         );

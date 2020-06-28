@@ -12,7 +12,7 @@ class Step6 extends Component {
                 <h2 className={classNames("mt-4", "hr")}>Reserve</h2>
                 <h3>{this.props.date}, {this.props.startTime} - {this.props.endTime}</h3>
                 <h4>Notes</h4>
-                <textarea 
+                <textarea
                     className="form-input" name="notes" id="notes"
                     placeholder="Have a preferred location? Need help on a specific homework or project? Let the tutor know here!">
                         {this.props.notes}
