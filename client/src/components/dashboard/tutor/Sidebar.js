@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import { ListGroup, ListGroupItem } from "reactstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressBook, faCalendar, faHistory, faCog, faRandom, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import {  faCalendar, faHistory, faCog, faRandom, faSignOutAlt, faChartArea, faUserClock } from '@fortawesome/free-solid-svg-icons'
 
 class Sidebar extends Component {
     render() {
@@ -10,10 +10,11 @@ class Sidebar extends Component {
             <div className={classNames("bg-none", "border-right")} id="sidebar-wrapper">
                 <div class="sidebar-heading">TutorBase</div>
                 <ListGroup>
-                    <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none", "tab-active")}><FontAwesomeIcon icon={faAddressBook} />Schedule a Session</ListGroupItem>
+                    <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none",)}><FontAwesomeIcon icon={faUserClock} />Schedule Preference</ListGroupItem>
                     <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCalendar} />Upcoming Meetings</ListGroupItem>
                     <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faHistory} />History</ListGroupItem>
                     <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCog} />Settings</ListGroupItem>
+                    <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faChartArea} />Analytics</ListGroupItem>
                 </ListGroup>
                 <ListGroup className="list-group-bottom">
                     <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faRandom} />Switch Dashboard</ListGroupItem>
