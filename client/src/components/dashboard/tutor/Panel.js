@@ -11,8 +11,16 @@ class Panel extends Component {
                 </Navbar>
                 <div class="container-fluid">
                     <h2 className={classNames("mt-4", "hr")}>Tutor Dashboard</h2>
-                    <p>This is where the tutor will be able to see their tutoring sessions.</p>
                 </div>
+
+                <div class="container-fluid">
+                    <h5 className={classNames("mt-4", "hr")}>Courses</h5>
+                    <p>This is where the tutor will be able to add or drop classes they are tutoring for.</p>
+                    <Button variant="danger">Add New Course</Button>
+                    <Button variant="danger">Drop Course</Button>
+
+                </div>
+
             </div>
         );
     }
