@@ -1,15 +1,16 @@
 var express = require("express");
 var router = express.Router();
+const request = require("request");
 //cover the testAPI key later
 var mandrill = require('node-mandrill')('Byr0Q1oJBN7KosdGU_skQA'); 
 
 function sendEmail ( _name, _email, _subject, _message) {
     mandrill('/messages/send', {
         message: {
-            to: [{email: _email , name: _name}],
+            to: [{email: 'nguyenjason06@gmail.com' , name: 'Jason Nguyen'}],
             from_email: 'tutorbaserpi@gmail.com',
-            subject: _subject,
-            text: _message
+            subject: "Hello World from API",
+            text: "Sup bitch"
         }
     }, function(error, response){
         if (error) console.log( error );
