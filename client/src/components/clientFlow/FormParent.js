@@ -12,8 +12,8 @@ class FormParent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentStep: 3,
-            furthestStep: 3,
+            currentStep: 1,
+            furthestStep: 1,
             subject: "",
             class: "",
             tutor: "",
@@ -78,11 +78,16 @@ class FormParent extends Component {
     render() {
         const formProps = {
             currentStep: this.state.currentStep,
-            handleChange: this.handleChange
+            handleChange: this.handleChange,
         }
 
         return (
             <Fragment>
+                <h2 class="text-center mt-4 fragment-title">Schedule a Tutoring Session</h2>
+                <div class="text-center mt-3 mb-2">
+                    <div class="ml-1 mr-1 nav-btn">{this.prevButton()}</div>
+                    <div class="ml-1 mr-1 nav-btn">{this.nextButton()}</div>
+                </div>
                 <form onSubmit={this.handleSubmit}>
                     <Step1 {...formProps} subject={this.state.subject} />
                     <Step2 {...formProps} class={this.state.class} />
@@ -95,8 +100,6 @@ class FormParent extends Component {
                         startTime={this.state.startTime} 
                         endTime={this.state.endTime}
                         notes={this.state.notes} />
-                    {this.prevButton()}
-                    {this.nextButton()}
                 </form>
             </Fragment>
         );

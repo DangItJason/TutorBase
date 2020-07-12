@@ -21,7 +21,7 @@ class Step3 extends Component {
         
         return (
             <div class="form-group text-center">
-                <h2 className={classNames("mt-4", "hr")}>Select a Tutor</h2>
+                <h3 class="hr mt-1">Select a Tutor</h3>
                 <div class="row justify-content-md-center">
                     {tutors.map(tutor => 
                         <div class="radio-option col-md-3 mb-4 ml-3 mr-3">

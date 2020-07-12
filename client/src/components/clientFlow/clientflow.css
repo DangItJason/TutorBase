@@ -1,3 +1,11 @@
+.fragment-title {
+    text-decoration: underline #BFBFBF;
+}
+
+.nav-btn {
+    display: inline-block;
+}
+
 /* Hide radio button */
 [type=radio] { 
     position: absolute;

@@ -9,7 +9,7 @@ class Step6 extends Component {
 
         return (
             <div class="form-group text-center">
-                <h2 className={classNames("mt-4", "hr")}>Reserve</h2>
+                <h3 class="hr mt-1">Reserve</h3>
                 <h3>{this.props.date}, {this.props.startTime} - {this.props.endTime}</h3>
                 <h4>Notes</h4>
                 <textarea

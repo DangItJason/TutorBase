@@ -14,7 +14,7 @@ class Step5 extends Component {
 
         return (
             <div class="form-group text-center">
-                <h2 className={classNames("mt-4", "hr")}>Select a Time</h2>
+                <h3 class="hr mt-1">Select a Time</h3>
                 <div class="row">
                     <div class="col-md-6">
                         <p>Start Time</p>
