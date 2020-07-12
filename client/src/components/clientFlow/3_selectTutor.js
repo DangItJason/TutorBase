@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
+import TutorCard from "../tutorCard/TutorCard";
 
 class Step3 extends Component {
     render() {
@@ -19,16 +20,18 @@ class Step3 extends Component {
             return null;
         
         return (
-            <div className="form-group">
+            <div class="form-group text-center">
                 <h2 className={classNames("mt-4", "hr")}>Select a Tutor</h2>
-                {tutors.map(tutor => 
-                    <div className="radio-option">
-                        <label>
-                            <input className="form-input" type="radio" name="tutor" value={tutor.name} onChange={this.props.handleChange} checked={this.props.tutor === tutor.name}></input>
-                            <p className="form-label">{tutor.name}</p>
-                        </label>
-                    </div>
-                )}
+                <div class="row justify-content-md-center">
+                    {tutors.map(tutor => 
+                        <div class="radio-option col-md-3 mb-4 ml-3 mr-3">
+                            <label>
+                                <input className="form-input" type="radio" name="tutor" value={tutor.name} onChange={this.props.handleChange} checked={this.props.tutor === tutor.name}></input>
+                                <p className="form-label"><TutorCard data={tutor}/></p>
+                            </label>
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }

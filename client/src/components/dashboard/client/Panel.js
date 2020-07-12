@@ -11,9 +11,7 @@ class Panel extends Component {
                     <Button className="btn-red" id="menu-toggle" onClick={this.props.action}>☰</Button>
                 </Navbar>
                 <div class="container-fluid">
-                    <div class="row justify-content-md-center ">
-                        <FormParent />
-                    </div>
+                    <FormParent />
                 </div>
             </div>
         );

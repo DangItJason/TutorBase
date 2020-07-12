@@ -19,7 +19,7 @@ class Step4 extends Component {
             return null;
 
         return (
-            <div className="form-group">
+            <div className="form-group text-center">
                 <h2 className={classNames("mt-4", "hr")}>Select a Day</h2>
                 {dates.map(date => 
                     <div className="radio-option">

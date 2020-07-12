@@ -13,7 +13,7 @@ class Step5 extends Component {
             return null;
 
         return (
-            <div className="form-group">
+            <div class="form-group text-center">
                 <h2 className={classNames("mt-4", "hr")}>Select a Time</h2>
                 <div class="row">
                     <div class="col-md-6">

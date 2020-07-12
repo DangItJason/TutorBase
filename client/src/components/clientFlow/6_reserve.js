@@ -8,7 +8,7 @@ class Step6 extends Component {
             return null;
 
         return (
-            <div className="form-group">
+            <div class="form-group text-center">
                 <h2 className={classNames("mt-4", "hr")}>Reserve</h2>
                 <h3>{this.props.date}, {this.props.startTime} - {this.props.endTime}</h3>
                 <h4>Notes</h4>
@@ -17,7 +17,8 @@ class Step6 extends Component {
                     placeholder="Have a preferred location? Need help on a specific homework or project? Let the tutor know here!">
                         {this.props.notes}
                 </textarea>
-                <button className="btn btn-danger btn-block">Book Now</button>
+                <br />
+                <button className="btn btn-danger">Book Now</button>
             </div>
         );
     }
