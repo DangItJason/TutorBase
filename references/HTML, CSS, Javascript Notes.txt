@@ -1,0 +1,71 @@
+Web Development Basics Notes
+
+HTML
+---------------------------------------------------------------
+Useful HTML Tags and Attributes:
+
+- "class = " attribute defines a class, which can be shared amongst
+multiple elements for CSS styling
+- "id = " attribute defines a unique id, which only this element
+uses for CSS styling
+
+<b>
+- Text between <b> tags is bolded
+- Similar effect achieved by <strong> tag, although it usually denotes
+a different context 
+
+<i>
+- Text between <i> tags is italicized
+- Similar effect achieved by <em> tag, although it usually denotes
+a different context
+
+<mark>
+- Text between <mark> tags are highlighted
+
+<div>
+- Denotes a division into a section of the document
+- Usually used to define a section that will share common CSS styling
+using a class or id
+
+<a> 
+- Used to create a link to another page
+- "href = " attribute defines the link destination to visit
+
+<ul> and <ol>
+- Creates a list, <ul> being unordered and <ol> being ordered
+- Use <li> tags to add list items
+
+<table>
+- Creates a table that can have rows, headers, and cells inside
+- The <tr> tag creates a table row, which can have cells or headers
+inside
+- The <th> tag creates a table header (similar to a regular cell but
+bolded and centered)
+- The <tr> tag creates a table cell
+
+<img>
+- Used to embed and image in the document
+- "src = " is the file name and where it is located
+- "alt = " is text to be placed where the image is in case the image
+cannot be displayed for some reason
+
+<style>
+- Insides <style> tags, CSS for the document can be added
+- Placed inside the <head> of the document
+
+<link>
+- Usually used to link an external style sheet
+- "rel = " attribute says what type of thing you are linking
+	- Most often going to be "stylesheet"
+- "href = " attribute is the file name and where it is located
+
+<script>
+- Can place javascript inside, for use on the document
+- More likely, link an external javascript file to use on this
+document
+- "src = " attribute is the file name and where it is located
+
+
+Javascript
+---------------------------------------------------------------
+Useful Javascript Notes for Web Development:
