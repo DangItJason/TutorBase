@@ -69,3 +69,54 @@ document
 Javascript
 ---------------------------------------------------------------
 Useful Javascript Notes for Web Development:
+
+- For user input, use the HTML <input> tag
+	- "type = " attribute specifies information about input that
+	the javascript code can sue
+		- Ex: "type = text" creates a single-line text box
+		- Ex: "type = submit" creates a button-like element
+	- "id = " attribute used to specify the element so it can
+	be grabbed by javascript code
+
+- To obtain the element in the javascript code from HTML, use the
+document.getElementById("ID") function
+	- Ex: var element = document.getElementById("ID");
+- The var element can be used to change the contents of the obtained
+element
+	- Ex: element.value = "Changed"; will change the value property within 
+	an HTML input field to "Changed"
+	- Ex: element.innerText = "Changed"; will change the innerText property
+	within an HTML element (works for many elements, such as <p>)
+
+- To call a javascript function on the click of an HTML button, use the
+<button> tag with the event attribute "onclick = function()" to call
+"function()" when the button is clicked
+
+- When taking one or more pieces of user input, usually put multiple
+<input> tags within a <form> tag that has a unique id
+	- Can then get the form by id (using document.getElementByID("FormID"));
+	in the javascript code
+	- Ex: If you have an <input> tag with "type = submit", you can make it
+	act similarly the the button onclick example
+		- First, get the element and store it in a var
+		- Then, add an event listener to the element using the addEventListener()
+		function, which will have a function of code to execute upon the event's
+		occurrence
+		- Will look like this:
+
+		var form = document.getElementById("FormID");
+		form.addEventListener("submit", function() {
+		//Inline function here of code to execute
+		//when a submit <input> tag is clicked
+		});
+
+		- Can either use an inline function like this or call another function 
+		to execute
+		- Can pass an argument to the function by doing function(event) and use
+		that argument in various ways, such as event.preventDefault(); which can
+		prevent some default actions from occurring from the event (such as 
+		preventing an <input> with "type = submit" inside a form from submitting the form
+		and resetting the page)
+
+- Use the console.log() function to write to the console
+- Use the alert() function to display a pop-up alert message
