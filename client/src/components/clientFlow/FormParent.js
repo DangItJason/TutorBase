@@ -15,12 +15,12 @@ class FormParent extends Component {
             currentStep: 1,
             furthestStep: 1,
             subject: "",
-            class: "",
+            course: "",
             tutor: "",
             date: "",
             startTime: "",
             endTime: "",
-            notes: ""
+            notes: "",
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeTime = this.handleChangeTime.bind(this);

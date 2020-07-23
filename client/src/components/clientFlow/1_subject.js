@@ -3,25 +3,44 @@ import React, { Component } from "react";
 class Step1 extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            //1. Grab subject codes based on available tutors from server
-            //2. Pass into props
-            //3. Render components
-            subject_codes: [],
-            //Create a seperate component for this.
-            subject_cards: [],
-        };
+        this.state = { subjects: [] };
+    }
+
+    componentDidMount() {
+        // Load subjects if they have not yet been loaded in 
+        if (!this.state.subjects.length) {
+            fetch("http://localhost:9000/catalog")
+                .then(res => {
+                    console.log(res);
+                    return res.json()
+                })
+                .then(subjects => { 
+                    console.log(subjects); 
+                    subjects.map(subject => 
+                        this.setState(prevState => ({
+                            subjects: [...prevState.subjects, {id: subject.id}]
+                        }))
+                    )
+                 });
+        }
     }
   
     render() {
-        
-        for (const [index, value] of this.state.subject_codes.entries()) {
-            this.state.subject_cards.push(<div>create_component_from_subject_code</div>)
-        }
+        // Only render this step if currentStep matches
+        if (this.props.currentStep !== 1) 
+            return null;
         
         return (
-            <div>
-                {this.state.subject_cards}
+            <div class="form-group text-center">
+                <h3 class="hr mt-1">Select a Subject</h3>
+                {this.state.subjects.map((subject, i) => 
+                    <div className="radio-option" key={i}>
+                        <label>
+                            <input className="form-input" type="radio" name="subject" value={subject.id} onChange={this.props.handleChange} checked={this.props.subject === subject.id}></input>
+                            <p className="form-label">{subject.id}</p>
+                        </label>
+                    </div>
+                )}
             </div>
         );
     }
