@@ -6,7 +6,7 @@ var fs = require("fs");
 router.post("/client", function (req, res) {
   //Make sure to source the .env file before running this endpoint. If that doesn't work just copy/paste the the key from .env into here
   sgMail.setApiKey(
-    "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"
+    process.env.SEND_GRID_API
   );
   sgMail.setSubstitutionWrappers('{{', '}}');
 
@@ -40,7 +40,7 @@ router.post("/client", function (req, res) {
 router.post("/tutor", function (req, res) {
   //Make sure to source the .env file before running this endpoint. If that doesn't work just copy/paste the the key from .env into here
   sgMail.setApiKey(
-    "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"
+    process.env.SEND_GRID_API
   );
   //Set substitution wrappers
   sgMail.setSubstitutionWrappers('{{', '}}');
@@ -54,7 +54,12 @@ router.post("/tutor", function (req, res) {
     templateId: "86fadcab-b74f-4ba8-a0dc-f7c1c9a19919",
     substitutions: {
       //Replace with req.body.xxx
-      clientName: "Johnny Appleseed",
+      tutorName: "Johnny Appleseed",
+      date: "10/10",
+      time: "2PM",
+      class: "Data Structures",
+      location: "Barton Hall Study Rooms",
+      notes: "I suck at arrays. plz help :) <3",
     },
   };
 
@@ -67,6 +72,10 @@ router.post("/tutor", function (req, res) {
   });
 
   res.send("Tutor Email Send Complete");
+});
+
+router.get('/confirmation', function(req, res) {
+  console.log("email confirmed - hello world");
 });
 
 module.exports = router;
