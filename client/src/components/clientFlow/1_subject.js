@@ -18,10 +18,10 @@ class Step1 extends Component {
                     console.log(subjects); 
                     subjects.map(subject => 
                         this.setState(prevState => ({
-                            subjects: [...prevState.subjects, {id: subject.id}]
+                            subjects: [...prevState.subjects, {id: subject.id, courses: subject.courses}]
                         }))
                     )
-                 });
+                });
         }
     }
   

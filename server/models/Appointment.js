@@ -10,7 +10,8 @@ const AppointmentSchema = new Schema({
     location: {type: String, required: true},
     tutor_id: {type: String, required: true},
     price: {type: Number, required: true},
-    notes: String
+    notes: String,
+    confirmed: {type: Boolean, default: false}
 });
 
 module.exports = Appointment = mongoose.model('Appointment', AppointmentSchema);
