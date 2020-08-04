@@ -7,7 +7,6 @@ import Step5 from "./5_selectTime";
 import Step6 from "./6_reserve";
 import "./clientflow.css";
 
-
 class FormParent extends Component {
     constructor(props) {
         super(props)
@@ -25,7 +24,7 @@ class FormParent extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeTime = this.handleChangeTime.bind(this);
     }
-
+    
     handleChange = event => {
         const { name, value } = event.target
         this.setState({ [name]: value });
@@ -90,8 +89,8 @@ class FormParent extends Component {
                 </div>
                 <form onSubmit={this.handleSubmit}>
                     <Step1 {...formProps} subject={this.state.subject} />
-                    <Step2 {...formProps} class={this.state.class} />
-                    <Step3 {...formProps} tutor={this.state.tutor}/>
+                    <Step2 {...formProps} subject={this.state.subject} class={this.state.class} />
+                    <Step3 {...formProps} class={this.state.class} tutor={this.state.tutor}/>
                     <Step4 {...formProps} date={this.state.date} />
                     <Step5 {...formProps} startTime={this.state.startTime} 
                         endTime={this.state.endTime} 

@@ -3,25 +3,48 @@ import React, { Component } from "react";
 class Step2 extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            //1. Grab subject codes based on available tutors from server
-            //2. Pass into props
-            //3. Render components
-            class_codes: [],
-            //Create a seperate component for this.
-            class_cards: [],
-        };
+        this.state = { subject: "", courses: [] }
     }
 
-    render() {
-        
-        for (const [index, value] of this.state.class_codes.entries()) {
-            this.state.class_cards.push(<div>create_component_from_class_code</div>)
+    loadComponentItems() {
+        // Load subjects if they have not yet been loaded in 
+        if (this.state.subject !== this.props.subject) {
+            this.setState({subject: this.props.subject})
+            this.setState({courses: []})
+            fetch("http://localhost:9000/catalog/courses/" + this.props.subject)
+                .then(res => {
+                    console.log(res);
+                    return res.json()
+                })
+                .then(courses => { 
+                    console.log(courses); 
+                    courses.map(course => 
+                        this.setState(prevState => ({
+                            courses: [...prevState.courses, {id: course.id, name: course.name}]
+                        }))
+                    )
+                });
         }
+    }
+  
+    render() {
+        // Only render this step if currentStep matches
+        if (this.props.currentStep !== 2) 
+            return null;
         
+        this.loadComponentItems();
+
         return (
-            <div>
-                {this.state.class_cards}
+            <div class="form-group text-center">
+                <h3 class="hr mt-1">Select a Course</h3>
+                {this.state.courses.map((course, i) => 
+                    <div className="radio-option">
+                        <label>
+                            <input className="form-input" type="radio" name="course" value={course.id} onChange={this.props.handleChange} checked={this.props.course === course.id}></input>
+                            <p className="form-label">{course.id} - {course.name}</p>
+                        </label>
+                    </div>
+                )}
             </div>
         );
     }

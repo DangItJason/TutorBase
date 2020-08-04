@@ -3,6 +3,11 @@ import classNames from "classnames";
 import TutorCard from "../tutorCard/TutorCard";
 
 class Step3 extends Component {
+    constructor(props) {
+        super(props)
+        this.state = { tutors: [] };
+    }
+
     render() {
         // Placeholder tutor data for testing purposes
         let tutors = [
