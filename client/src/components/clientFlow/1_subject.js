@@ -9,7 +9,11 @@ class Step1 extends Component {
     componentDidMount() {
         // Load subjects if they have not yet been loaded in 
         if (!this.state.subjects.length) {
-            fetch("http://localhost:9000/catalog")
+            var url = "http://localhost:9000/catalog";
+            var headers = {
+                "Content-Type": "application/json"
+            }
+            fetch(url, {method: 'GET', headers: headers})
                 .then(res => {
                     console.log(res);
                     return res.json()
