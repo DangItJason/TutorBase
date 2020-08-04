@@ -9,9 +9,11 @@ const User = require('../../models/User');
 // GET api/catalog
 // Get all subjects
 router.get('/', (req, res) => {
+    console.log("Searching for all subject codes");
     Subject.find().sort({name: 1})
         .then(subjects => res.json(subjects))
         .catch(err => res.status(400).json({ msg: err.message }));
+
 });
 
 // GET api/catalog/courses
@@ -20,6 +22,7 @@ router.get('/courses', (req, res) => {
     Course.find().sort({name: 1})
         .then(courses => res.json(courses))
         .catch(err => res.status(400).json({ msg: err.message }));
+
 });
 
 // GET /api/catalog/courses/subject_id
