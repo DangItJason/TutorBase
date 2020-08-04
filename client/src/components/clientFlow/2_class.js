@@ -38,7 +38,7 @@ class Step2 extends Component {
             <div class="form-group text-center">
                 <h3 class="hr mt-1">Select a Course</h3>
                 {this.state.courses.map((course, i) => 
-                    <div className="radio-option">
+                    <div className="radio-option" key={i}>
                         <label>
                             <input className="form-input" type="radio" name="course" value={course.id} onChange={this.props.handleChange} checked={this.props.course === course.id}></input>
                             <p className="form-label">{course.id} - {course.name}</p>

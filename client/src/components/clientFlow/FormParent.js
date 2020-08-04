@@ -89,8 +89,8 @@ class FormParent extends Component {
                 </div>
                 <form onSubmit={this.handleSubmit}>
                     <Step1 {...formProps} subject={this.state.subject} />
-                    <Step2 {...formProps} subject={this.state.subject} class={this.state.class} />
-                    <Step3 {...formProps} class={this.state.class} tutor={this.state.tutor}/>
+                    <Step2 {...formProps} subject={this.state.subject} course={this.state.course} />
+                    <Step3 {...formProps} course={this.state.course} tutor={this.state.tutor}/>
                     <Step4 {...formProps} date={this.state.date} />
                     <Step5 {...formProps} startTime={this.state.startTime} 
                         endTime={this.state.endTime} 
