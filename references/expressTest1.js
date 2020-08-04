@@ -25,11 +25,11 @@ What this code does:
 	when a connection is started
 
 3.) We are sending back a response to the client when the client goes to the
-	page
+	page (making a get request)
 
 How to run this:
 
-1.) For this specific file, type node basic_express.js into command line. You
+1.) For this specific file, type node expressTest1.js into command line. You
 	may have to install dependencies if the current directory does not already
 	have a node_modules folder.
 
@@ -37,4 +37,5 @@ How to run this:
 	command line, indicating a connection has been started.
 
 3.) Going to localhost:3000/ in the browser, you should see the response message
-	that has been sent and loaded to the browser.
+	that has been sent and loaded to the browser (from the get request).
+*/
