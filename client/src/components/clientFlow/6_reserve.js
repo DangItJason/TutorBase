@@ -1,14 +1,16 @@
 import React, { Component } from "react";
-import Toast from 'light-toast';
+import ToastSubmit from "./toast/submit.js";
 import classNames from "classnames";
 
 class Step6 extends Component {
 
+ 
 
     render() {
         // Only render this step if currentStep matches
         if (this.props.currentStep !== 6) 
             return null;
+       
 
         return (
             <div class="form-group text-center">
@@ -21,9 +23,7 @@ class Step6 extends Component {
                         {this.props.notes}
                 </textarea>
                 <br />
-                <button className="btn btn-danger" onClick = {() => {
-                    Toast.success("Appointment Submitted!. We'll send you an email if the tutor accepts the appointment.", 3000);
-                }}>Book Now</button>
+                <ToastSubmit message = "Hello World"></ToastSubmit>
             </div>
         );
     }
