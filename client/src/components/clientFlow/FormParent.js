@@ -54,6 +54,33 @@ class FormParent extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+
+        //Send verification email to tutor
+        var url = "http://localhost:9000/email-user/tutor";
+        var headers = {
+            "Content-Type": "application/json"
+        }
+        var body = {
+            tutorName: this.state.tutor,
+            date: this.state.date,
+            class: this.state.course,
+            notes: this.state.notes,
+            endTime: this.state.endTime,
+            startTime: this.state.startTime,
+
+        }
+        fetch(url, {method: 'POST', headers: headers, body: body})
+            .then(res => {
+                console.log(res);
+            })
+        
+
+        //Send confirmation email to client
+        var url = "http://localhost:9000/email-user/client";
+        fetch(url, {method: 'POST', headers: headers, body: body})
+            .then(res => {
+                console.log(res);
+            }) 
     }
 
     prevButton() {

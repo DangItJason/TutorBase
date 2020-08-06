@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import Toast from 'light-toast';
 import classNames from "classnames";
 
 class Step6 extends Component {
+
+
     render() {
         // Only render this step if currentStep matches
         if (this.props.currentStep !== 6) 
@@ -18,7 +21,9 @@ class Step6 extends Component {
                         {this.props.notes}
                 </textarea>
                 <br />
-                <button className="btn btn-danger">Book Now</button>
+                <button className="btn btn-danger" onClick = {() => {
+                    Toast.success("Appointment Submitted!. We'll send you an email if the tutor accepts the appointment.", 3000);
+                }}>Book Now</button>
             </div>
         );
     }
