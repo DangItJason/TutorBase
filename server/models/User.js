@@ -7,6 +7,7 @@ const UserSchema = new Schema({
     password: {type: String, required: true}, // User password
     first_name: {type: String, required: true},
     last_name: {type: String, required: true},
+    profile_img: {type: String, default: ""},
     client: {
         appts: [Appointment], // Upcoming appointments
         past_appts: [Appointment] // Past appointments
@@ -14,6 +15,8 @@ const UserSchema = new Schema({
     tutor: {
         appts: [Appointment], // Upcoming appointments
         past_appts: [Appointment], // Past appointments
+        courses: [Schema.ObjectId],
+        times: [{sun: [Number]}, {mon: [Number]}, {tues: [Number]}, {wed: [Number]}, {thurs: [Number]}, {fri: [Number]}, {sat: [Number]}],
         price: {type: Number, default: 30}
     }
 });

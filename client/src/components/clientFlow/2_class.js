@@ -20,7 +20,7 @@ class Step2 extends Component {
                     console.log(courses); 
                     courses.map(course => 
                         this.setState(prevState => ({
-                            courses: [...prevState.courses, {id: course.id, name: course.name}]
+                            courses: [...prevState.courses, {id: course.id, name: course.name, tutors: course.tutors}]
                         }))
                     )
                 });
@@ -40,7 +40,7 @@ class Step2 extends Component {
                 {this.state.courses.map((course, i) => 
                     <div className="radio-option" key={i}>
                         <label>
-                            <input className="form-input" type="radio" name="course" value={course.id} onChange={this.props.handleChange} checked={this.props.course === course.id}></input>
+                            <input className="form-input" type="radio" name="course" value={course.id} tutors={course.tutors} onChange={this.props.handleChangeCourse} checked={this.props.course === course.id}></input>
                             <p className="form-label">{course.id} - {course.name}</p>
                         </label>
                     </div>
