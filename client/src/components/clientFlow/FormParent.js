@@ -11,6 +11,7 @@ class FormParent extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            clientName: "",
             currentStep: 3,
             furthestStep: 3,
             subject: "",
@@ -61,6 +62,7 @@ class FormParent extends Component {
             "Content-Type": "application/json"
         }
         var body = {
+            clientName: this.state.clientName,
             tutorName: this.state.tutor,
             date: this.state.date,
             class: this.state.course,
