@@ -15,13 +15,11 @@ router.post("/client", function (req, res) {
   console.log("Preparing client-email confirmatin message");
   
   const msg = {
-    //replace with to: req.body.client_email
-    to: "nguyenjason06@gmail.com",
+    to: req.body.clientEmail,
     from: "tutorbaserpi@gmail.com",
     templateId: "7ea79e53-32fb-4127-8e60-4b260cb79648",
     substitutions: {
-      //Replace with req.body.xxx
-      clientName: "Johnny Appleseed",
+      clientName: req.body.clientName,
     },
   };
 
@@ -49,17 +47,17 @@ router.post("/tutor", function (req, res) {
   
   const msg = {
     //replace with to: req.body.tutor_email
-    to: "nguyenjason06@gmail.com",
+    to: req.body.tutorEmail,
     from: "tutorbaserpi@gmail.com",
     templateId: "86fadcab-b74f-4ba8-a0dc-f7c1c9a19919",
     substitutions: {
       //Replace with req.body.xxx
-      tutorName: "Johnny Appleseed",
-      date: "10/10",
-      time: "2PM",
-      class: "Data Structures",
-      location: "Barton Hall Study Rooms",
-      notes: "I suck at arrays. plz help :) <3",
+      clientName: req.body.clientName,
+      tutorName: req.body.tutorName,
+      date: req.body.date,
+      time: req.body.startTime.concat(" - ", req.body.endTime),
+      class: req.body.course,
+      notes: req.body.notes,
     },
   };
 
