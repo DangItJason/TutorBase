@@ -11,10 +11,12 @@
     "@testing-library/user-event": "^7.2.1",
     "bootstrap": "^4.5.0",
     "classnames": "^2.2.6",
+    "light-toast": "^0.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-toast-notifications": "^2.4.0",
     "reactstrap": "^8.5.1"
   },
   "scripts": {
