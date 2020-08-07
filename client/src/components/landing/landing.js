@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./landing.css";
-import intro_mobile from "./assets/img/intro-mobile.png";
+import intro_mobile from "./assets/img/logo3.png";
 import logo from "./assets/img/logo2.png"
 
 class landing extends Component {
