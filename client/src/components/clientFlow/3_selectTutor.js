@@ -6,54 +6,33 @@ class Step3 extends Component {
     constructor(props) {
         super(props)
         this.state = { course: "", tutors: [] };
-        // tutor structure: {
-            // tutor_: {
-            //     id: "",
-            //     name: "",
-            //     profile_img: "",
-            //     next_avail: ""
-            // }
-        // }
     }
 
-    loadComponentItems() {
+    componentDidUpdate() {
         // Load tutors if they have not yet been loaded in 
         if (this.state.course !== this.props.course) {
-            this.setState({course: this.props.course})
-            this.setState({tutors: []})
-            fetch("http://localhost:9000/catalog/tutors")
-                // Retrieve all User objects with IDs in this.props.tutor_ids
+            this.setState({course: this.props.course, tutors: []})
+            // Retrieve all User objects with IDs in this.props.tutor_ids
+            fetch("http://localhost:9000/catalog/tutors", {method: 'POST', body: JSON.stringify({ tutor_ids: this.props.tutor_ids }), headers: {'Content-Type': 'application/json'}})
                 .then(res => {
                     console.log(res);
                     return res.json()
                 })
-                .then(tutors => { 
-                    tutors.map(tutor => 
+                .then(users => { 
+                    console.log(users);
+                    users.map(user => 
                         this.setState(prevState => ({
-                            tutors: [...prevState.tutors, {id: tutor.id, name: tutor.first_name + tutor.last_name, profile_img: tutor.profile_img, next_avail: ""}]
+                            tutors: [...prevState.tutors, {id: user._id, email: user.email, name: user.first_name + " " + user.last_name, info: user.tutor, next_avail: ""}]
                         }))
                     )
                 });
         }
     }
 
-    render() {
-        // Placeholder tutor data for testing purposes
-        // let tutors = [
-        //     {name: "Tutor Name1", available: "11:00AM", img: "https://randomuser.me/api/portraits/lego/1.jpg"},
-        //     {name: "Tutor Name2", available: "2:00PM", img: "https://randomuser.me/api/portraits/lego/2.jpg"},
-        //     {name: "Tutor Name3", available: "3:00PM", img: "https://randomuser.me/api/portraits/lego/3.jpg"},
-        //     {name: "Tutor Name4", available: "10:00AM", img: "https://randomuser.me/api/portraits/lego/4.jpg"},
-        //     {name: "Tutor Name5", available: "1:30PM", img: "https://randomuser.me/api/portraits/lego/5.jpg"},
-        //     {name: "Tutor Name6", available: "4:30PM", img: "https://randomuser.me/api/portraits/lego/6.jpg"},
-        //     {name: "Tutor Name7", available: "5:00PM", img: "https://randomuser.me/api/portraits/lego/7.jpg"},
-        // ];
-        
+    render() {        
         // Only render this step if currentStep matches
         if (this.props.currentStep !== 3) 
             return null;
-
-        this.loadComponentItems();
         
         return (
             <div class="form-group text-center">

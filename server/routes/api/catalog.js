@@ -40,14 +40,6 @@ router.get('/course', (req, res) => {
         .catch(err => res.status(400).json({ msg: err.message }));
 });
 
-// GET api/catalog/tutors
-// Get tutors (Users) from a list of Object IDs
-router.get('/tutors', (req, res) => {
-    User.find({_id: {"$in": req.body.tutor_ids}})
-        .then(tutors => res.json(tutors))
-        .catch(err => res.status(400).json({ msg: err.message }));
-});
-
 // POST api/catalog
 // Create a new Subject object
 router.post('/', (req, res) => {
@@ -81,6 +73,14 @@ router.post('/course/update', (req, res) => {
     Course.updateOne({id: req.body.course_id}, {$push: {tutors: req.body.tutor_id}})
         .then(course => res.json(course))
         .catch(err => res.status(400).json({ msg: err.message}));
+});
+
+// POST api/catalog/tutors
+// Get tutors (Users) from a list of Object IDs
+router.post('/tutors', (req, res) => {
+    User.find({_id: {"$in": req.body.tutor_ids}}, '-password -client' , {lean: true}).sort({first_name: 1})
+        .then(users => res.json(users))
+        .catch(err => res.status(400).json({ msg: err.message }));
 });
 
 // POST api/catalog/appointment

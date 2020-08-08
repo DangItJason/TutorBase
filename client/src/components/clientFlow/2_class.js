@@ -6,11 +6,10 @@ class Step2 extends Component {
         this.state = { subject: "", courses: [] }
     }
 
-    loadComponentItems() {
+    componentDidUpdate() {
         // Load subjects if they have not yet been loaded in 
         if (this.state.subject !== this.props.subject) {
-            this.setState({subject: this.props.subject})
-            this.setState({courses: []})
+            this.setState({subject: this.props.subject, courses: []})
             fetch("http://localhost:9000/catalog/courses/" + this.props.subject)
                 .then(res => {
                     console.log(res);
@@ -32,15 +31,13 @@ class Step2 extends Component {
         if (this.props.currentStep !== 2) 
             return null;
         
-        this.loadComponentItems();
-
         return (
             <div class="form-group text-center">
                 <h3 class="hr mt-1">Select a Course</h3>
                 {this.state.courses.map((course, i) => 
                     <div className="radio-option" key={i}>
                         <label>
-                            <input className="form-input" type="radio" name="course" value={course.id} tutors={course.tutors} onChange={this.props.handleChangeCourse} checked={this.props.course === course.id}></input>
+                            <input className="form-input" type="radio" name="course" value={course.id} data-tutors={course.tutors} onChange={this.props.handleChangeCourse} checked={this.props.course === course.id}></input>
                             <p className="form-label">{course.id} - {course.name}</p>
                         </label>
                     </div>

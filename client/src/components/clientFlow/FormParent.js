@@ -12,8 +12,8 @@ class FormParent extends Component {
         super(props)
         this.state = {
             clientName: "",
-            currentStep: 3,
-            furthestStep: 3,
+            currentStep: 1,
+            furthestStep: 1,
             subject: "",
             course: "",
             tutor: "",
@@ -42,8 +42,8 @@ class FormParent extends Component {
     }
 
     handleChangeCourse = event => {
-        const { name, value, tutors} = event.target
-        this.setState({tutors_ids: tutors, [name]: value});
+        const { name, value } = event.target
+        this.setState({[name]: value, tutor_ids: [event.target.dataset.tutors]});
         this.nextStep();
     }
 
@@ -86,7 +86,7 @@ class FormParent extends Component {
         
 
         //Send confirmation email to client
-        var url = "http://localhost:9000/email-user/client";
+        url = "http://localhost:9000/email-user/client";
         fetch(url, {method: 'POST', headers: headers, body: body})
             .then(res => {
                 console.log(res);
