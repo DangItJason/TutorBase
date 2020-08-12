@@ -70,7 +70,7 @@ class landing extends Component {
                 <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12">
                   <div className="contents">
                     <h2 className="head-title">In-demand RPI tutors on demand.</h2>
-                    <p>Find the help you need with for any RPI offered class with confidence on RPI's very first remote, hiring platform for students.</p>
+                    <p>Find the help you need with confidence for any offered class on RPI's very first remote, hiring platform for students.</p>
                     <div className="header-button">
                       <a
                         rel="nofollow"
@@ -388,13 +388,12 @@ class landing extends Component {
                     <div className="contetn">
                       <div className="info-text">
                         <h3>
-                          <a href="#">David Smith</a>
+                          <a href="#">Jason Nguyen</a>
                         </h3>
-                        <p>Front-end Developer</p>
+                        <p>Project Manager</p>
                       </div>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Quod eos id officiis hic tenetur.
+                        Junior / CS
                       </p>
                       <ul className="social-icons">
                         <li>
@@ -446,129 +445,12 @@ class landing extends Component {
                     <div className="contetn">
                       <div className="info-text">
                         <h3>
-                          <a href="#">ERIC PETERSON</a>
+                          <a href="#">Jeremy Weiss</a>
                         </h3>
-                        <p>Product Designer</p>
+                        <p>Project Manager</p>
                       </div>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Quod eos id officiis hic tenetur.
-                      </p>
-                      <ul className="social-icons">
-                        <li>
-                          <a href="#">
-                            <i
-                              className="lni lni-facebook-filled"
-                              aria-hidden="true"
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i
-                              className="lni lni-twitter-filled"
-                              aria-hidden="true"
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i
-                              className="lni lni-instagram-filled"
-                              aria-hidden="true"
-                            />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-6 col-md-12 col-xs-12">
-                  <div
-                    className="team-item wow fadeInRight animated"
-                    data-wow-delay="0.6s"
-                    style={{
-                      visibility: "visible",
-                      WebkitAnimationDelay: "0.6s",
-                      MozAnimationDelay: "0.6s",
-                      animationDelay: "0.6s",
-                    }}
-                  >
-                    <div className="team-img">
-                      <img
-                        className="img-fluid"
-                        src="assets/img/team/team-03.png"
-                        alt
-                      />
-                    </div>
-                    <div className="contetn">
-                      <div className="info-text">
-                        <h3>
-                          <a href="#">DURWIN BABB</a>
-                        </h3>
-                        <p>Lead Designer</p>
-                      </div>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Quod eos id officiis hic tenetur.
-                      </p>
-                      <ul className="social-icons">
-                        <li>
-                          <a href="#">
-                            <i
-                              className="lni lni-facebook-filled"
-                              aria-hidden="true"
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i
-                              className="lni lni-twitter-filled"
-                              aria-hidden="true"
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i
-                              className="lni lni-instagram-filled"
-                              aria-hidden="true"
-                            />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-6 col-md-12 col-xs-12">
-                  <div
-                    className="team-item wow fadeInRight animated"
-                    data-wow-delay="0.8s"
-                    style={{
-                      visibility: "visible",
-                      WebkitAnimationDelay: "0.8s",
-                      MozAnimationDelay: "0.8s",
-                      animationDelay: "0.8s",
-                    }}
-                  >
-                    <div className="team-img">
-                      <img
-                        className="img-fluid"
-                        src="assets/img/team/team-04.png"
-                        alt
-                      />
-                    </div>
-                    <div className="contetn">
-                      <div className="info-text">
-                        <h3>
-                          <a href="#">MARIJN OTTE</a>
-                        </h3>
-                        <p>Lead Designer</p>
-                      </div>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Quod eos id officiis hic tenetur.
+                        Junior / CS
                       </p>
                       <ul className="social-icons">
                         <li>
@@ -615,9 +497,7 @@ class landing extends Component {
                       </h3>
                       <div className="textwidget">
                         <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Quisque lobortis tincidunt est, et euismod purus
-                          suscipit quis.
+                          We don't have much yet in our footer. I guess this goes here.
                         </p>
                       </div>
                       <div className="social-icon">
@@ -692,7 +572,7 @@ class landing extends Component {
                       </li>
                       <li>
                         <a href="#">
-                          <i className="lni-envelope" /> E: contact@uideck.com
+                          <i className="lni-envelope" /> E: tutorbaserpi@gmail.com
                         </a>
                       </li>
                     </ul>
