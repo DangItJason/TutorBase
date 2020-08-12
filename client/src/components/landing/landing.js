@@ -70,7 +70,7 @@ class landing extends Component {
                 <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12">
                   <div className="contents">
                     <h2 className="head-title">In-demand RPI tutors on demand.</h2>
-                    <p>Find and connect and with RPI tutors for any class with confidence on RPI's very first remote, hiring platform for students.</p>
+                    <p>Find the help you need with for any RPI offered class with confidence on RPI's very first remote, hiring platform for students.</p>
                     <div className="header-button">
                       <a
                         rel="nofollow"
@@ -106,7 +106,7 @@ class landing extends Component {
                 className="section-title wow fadeInDown"
                 data-wow-delay="0.3s"
               >
-                How it Works
+                Find the help you need in three easy steps.
               </h2>
               <div className="shape wow fadeInDown" data-wow-delay="0.3s" />
             </div>
@@ -122,10 +122,10 @@ class landing extends Component {
                   </div>
                   <div className="services-content">
                     <h3>
-                      <a href="#">1. Create an account</a>
+                      <a href="#">1. Create an account - it's free</a>
                     </h3>
                     <p>
-                      Register an account through your RPI email. It's free!
+                      Register a TutorBase client account through your RPI email.
                     </p>
                   </div>
                 </div>
@@ -141,10 +141,10 @@ class landing extends Component {
                   </div>
                   <div className="services-content">
                     <h3>
-                      <a href="#">2. Pick from a variety of tutors</a>
+                      <a href="#">2. Use our search tool</a>
                     </h3>
                     <p>
-                      TutorBase connects you with top RPI tutors from every core class and subject offered during the semester.
+                      Let us know what subject and class you need help in to let us accommodate you! Preferred working location? COVID-19 friendly?
                     </p>
                   </div>
                 </div>
@@ -160,10 +160,10 @@ class landing extends Component {
                   </div>
                   <div className="services-content">
                     <h3>
-                      <a href="#">3. Schedule an appointment</a>
+                      <a href="#">3. Pick your best match</a>
                     </h3>
                     <p>
-                      In five simple clicks, you'll have the help you need [edit later].
+                      From your given information, we'll generate you a list of available tutors to choose from!
                     </p>
                   </div>
                 </div>
