@@ -16,7 +16,7 @@ const UserSchema = new Schema({
         appts: [Appointment], // Upcoming appointments
         past_appts: [Appointment], // Past appointments
         courses: [Schema.ObjectId],
-        times: [{sun: [Number]}, {mon: [Number]}, {tues: [Number]}, {wed: [Number]}, {thurs: [Number]}, {fri: [Number]}, {sat: [Number]}],
+        times: [[Date], [Date], [Date], [Date], [Date], [Date], [Date]],
         price: {type: Number, default: 30}
     }
 });

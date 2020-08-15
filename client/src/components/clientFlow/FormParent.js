@@ -2,9 +2,8 @@ import React, { Component, Fragment } from "react";
 import Step1 from "./1_subject";
 import Step2 from "./2_class";
 import Step3 from "./3_selectTutor";
-import Step4 from "./4_selectDate";
-import Step5 from "./5_selectTime";
-import Step6 from "./6_reserve";
+import Step4 from "./4_selectDateTime";
+import Step5 from "./5_reserve";
 import "./clientflow.css";
 
 class FormParent extends Component {
@@ -35,10 +34,8 @@ class FormParent extends Component {
     }
 
     handleChangeTime = event => {
-        const { name, value } = event.target
-        this.setState({ [name]: value });
-        if ((name === "endTime" && this.state.startTime !== "") || (name === "startTime" && this.state.endTime !== ""))
-            this.nextStep();
+        // const { name, value } = event.target
+        this.setState({ furthestStep: this.state.furthestStep + 1 });
     }
 
     handleChangeCourse = event => {
@@ -55,7 +52,7 @@ class FormParent extends Component {
 
     nextStep = () => {
         let step = this.state.currentStep;
-        step = step >= 5 ? 6 : step + 1;
+        step = step >= 4 ? 5 : step + 1;
         this.setState({ currentStep: step });
         if (step > this.state.furthestStep)
             this.setState({ furthestStep: step });
@@ -128,11 +125,8 @@ class FormParent extends Component {
                     <Step1 {...formProps} subject={this.state.subject} />
                     <Step2 {...formProps} subject={this.state.subject} course={this.state.course} handleChangeCourse={this.handleChangeCourse} />
                     <Step3 {...formProps} course={this.state.course} tutor_ids={this.state.tutor_ids} tutor={this.state.tutor}/>
-                    <Step4 {...formProps} date={this.state.date} />
-                    <Step5 {...formProps} startTime={this.state.startTime} 
-                        endTime={this.state.endTime} 
-                        handleChangeTime={this.handleChangeTime} />
-                    <Step6 {...formProps} date={this.state.date} 
+                    <Step4 {...formProps} startTime={this.state.startTime} endTime={this.state.endTime} handleChangeTime={this.handleChangeTime} />
+                    <Step5 {...formProps} date={this.state.date} 
                         startTime={this.state.startTime} 
                         endTime={this.state.endTime}
                         notes={this.state.notes} />

@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import ToastSubmit from "./toast/submit.js";
 import classNames from "classnames";
 
-class Step6 extends Component {
-
+class Step5 extends Component {
  
-
     render() {
         // Only render this step if currentStep matches
-        if (this.props.currentStep !== 6) 
+        if (this.props.currentStep !== 5) 
             return null;
        
 
@@ -29,4 +27,4 @@ class Step6 extends Component {
     }
 }
 
-export default Step6;
+export default Step5;

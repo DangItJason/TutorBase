@@ -34,3 +34,7 @@ textarea {
     width: 40vw;
     height: 30vh;
 }
+
+.rat-TimeSlot_component, .rat-AvailableTimes_home {
+    background-color: #E66064;
+}
