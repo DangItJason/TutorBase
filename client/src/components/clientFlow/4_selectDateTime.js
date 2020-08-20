@@ -12,6 +12,7 @@ class Step4 extends Component {
             <div class="form-group text-center">
                 <h3 class="hr mt-1">Select a Time</h3>
                 <AvailableTimes
+                    timeConvention="12h"
                     weekStartsOn="sunday"
                     onChange={(selections) => {
                         selections.forEach(({ start, end }) => {
