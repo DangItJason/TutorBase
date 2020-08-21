@@ -1,6 +1,7 @@
 MongoDB Notes
+
+Basics
 ---------------------------------------------------------------
-Basics:
 
 - Mongo is a "NoSQL" database, meaning no predefined blueprint
 for the data is needed
@@ -29,16 +30,21 @@ ID when it is created
 - Can interact with the database using the Mongo Shell, or using Mongoose,
 which lets you communicate with the database from the javascript code
 
-Mongo Shell:
+Mongo Shell
+-----------------------------------------------------------------------
 
 - Enter "mongod" in one terminal to start a local server
 - Enter "mongo" in another terminal to connect to this local server
 - Enter "show dbs" to show a list of all of the created databases
 - Enter "use x" to switch to database "x" from the list
 
+Creating a Database
+
 - Enter "use new-db" to create and switch to a new database,
 called "new-db" for this example
 	- This is somewhat similar to creating and switching to a new branch in Git
+
+Adding Documents
 
 - Enter "db.users.insert({"userName":"User1","Password":"Password1"})
 	- This inserts a single "user" into a new collection called "users"
@@ -47,6 +53,8 @@ called "new-db" for this example
 
 - Enter "show collections" to see all of the collections in the database
 	- The "users" collection should appear for this example
+
+Searching for Documents
 
 - Enter "db.users.find()" to return all of the documents in the collection
 	- Can enter "db.users.find().pretty()" for the documents to be formatted
@@ -62,3 +70,59 @@ no have to match the format
 	despite the fact that the first one has it
 	- This can cause a problem, as you cane easily accidentally add a document with
 	the wrong contents
+
+- Enter "db.users.find({"_id":ObjectId("")})" to find the document with the ID given
+between the double quotes
+- Enter "db.users.find({"userName":"User1"})" to return the document for User1
+- The item we are searching for (between double quotes) can belong to multiple
+multiple documents, and it will return all documents that apply
+	- For example:
+	db.users.insert({"userName":"User1","Major":"CSCI","Password","Pass1"})
+	db.users.insert({"userName":"User2","Major":"CSCI","Password","Pass2"})
+	db.users.insert({"userName":"User3","Major":"MATH","Password","Pass3"})
+	db.users.find({"Major":"CSCI"}).pretty() 
+	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	will return the documents for User1 and User2 in a JSON-like formatting
+
+	db.users.findOne({"Major":"CSCI"}).pretty()
+	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	will return only the first matching document that it finds
+	(User1 in this case)
+
+Updating a Document
+
+- Enter "db.users.update({"userName":"User1"},{$set:{"Password":"NewPass1"}})""
+	- This finds the document with userName of "User1" and sets its "Password"
+	field to be "NewPass1"
+	- The shell should then tell you three things:
+		- "nMatched", which is the number of documents the search has matched
+		- "nUpserted", which is the number of new documents inserted
+		- "nModified", which is the number of documents modified
+		- For this example, "nMatched":1, "nUpserted":0, and "nModified":1
+
+Deleting a Document
+
+- Enter "db.users.remove({"userName":"User3"})" to remove the document for User3
+	- The shell should then tell you one thing:
+	- "nRemoved", the number of documents removed from this command
+	- For this example, "nRemoved":1
+- Enter "db.users.remove({"userName":"User3"}, {justOne:true})" will remove
+only one document that matches, even if more than one exist
+
+Other Comments on Mongo Shell
+
+- The main operations on a database are pretty much the CRUD operations from express
+	- Create --- POST --- Insert()
+	- Read --- GET --- Find()
+	- Update --- PUT --- Update()
+	- Delete --- DELETE --- Remove()
+
+- Working within the shell itself is generally considered dangerous and bad practice
+	- Can easily add a number of unwanted documents due to typos, repetition, etc.
+	- Can accidentally delete several wanted documents just by forgetting the
+	justOne:true part of the remove command
+	- Overall: not really something permanent that we can apply to a real application
+		- Moreso used just for testing or experimenting
+
+- Thus, we are inclined to turn to something like Mongoose: a javascript library that
+allows us to tie the database into our actual application
