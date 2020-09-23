@@ -7,6 +7,7 @@ var mongoose = require("mongoose");
 var cors = require("cors");
 var app = express();
 var bcrypt = require('bcryptjs');
+var fs = require("fs");
 
 const uri =
   "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
@@ -18,6 +19,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var signupRouter = require("./routes/signup");
 var loginRouter = require("./routes/login");
+var emailClientRouter = require("./routes/email-user");
 
 app.use(cors({
   origin: "http://localhost:3001",
@@ -38,6 +40,7 @@ app.use("/", indexRouter)
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
+app.use("/email-user", emailClientRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

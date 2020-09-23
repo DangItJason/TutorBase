@@ -1,13 +1,12 @@
 var express = require("express");
 var router = express.Router();
 var User = require("../models.js");
-var bcryptjs = require("bcryptjs");
+var bcrypt = require("bcryptjs");
 
 router.post("/", function (req, res) {
+  console.log("Searching for" + JSON.stringify(req.body.email));
   User.findOne({
-    where: {
-      email: req.body.email,
-    },
+    email: req.body.email,
   }).then(function (user) {
     if (user) {
       bcrypt.compare(req.body.password, user.password, function (err, result) {

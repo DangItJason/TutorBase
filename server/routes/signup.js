@@ -21,13 +21,11 @@ router.post("/", function (req, res, next) {
       });
       newUser.save();
     }
-  ).then(function (data) {
+  ).then(data => {
     if (data) {
-      //Change end point to whatever the landing page is
-      res.redirect("/home");
+      res.redirect("/home"); //Broken
     }
   });
-  res.send("sign-up complete [test]");
 });
 
-module.exports = router
+module.exports = router;
