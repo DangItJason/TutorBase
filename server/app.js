@@ -3,7 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-// var cors = require('cors'); 
+var cors = require('cors'); 
 var mongoose = require("mongoose");
 var app = express();
 var bcrypt = require('bcryptjs');
@@ -20,9 +20,9 @@ var usersRouter = require("./routes/users");
 var signupRouter = require("./routes/signup");
 var loginRouter = require("./routes/login");
 
-// app.use(cors({
-//   origin: "http://localhost:3000",
-// }));
+app.use(cors({
+  origin: "http://localhost:3001",
+}));
 
 
 // view engine setup
