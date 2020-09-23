@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, Container, Form, FormGroup, Label, Input } from "reactstrap";
-
 import { Link } from "react-router-dom";
 import "./Login.css";
 
@@ -31,7 +30,7 @@ class signup extends Component {
 
     return true;
   };
-  //Submit user data to DB -> Open up home page
+
   submitUser() {
     fetch("http://localhost:9000/signup", {
       method: "post",

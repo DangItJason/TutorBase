@@ -4,7 +4,7 @@ var User = require("../models.js");
 var bcryptjs = require("bcryptjs");
 
 //Localhost:3000/signup
-router.post('/', function (req, res, next) {
+router.post("/", function (req, res, next) {
   User.findOne(
     {
       email: req.body.email,
@@ -21,13 +21,11 @@ router.post('/', function (req, res, next) {
       });
       newUser.save();
     }
-  ).then(function (data) {
+  ).then(data => {
     if (data) {
-      //Change end point to whatever the landing page is
-      res.redirect("/home");
+      res.redirect("/home"); //Broken
     }
   });
-  res.send("sign-up complete [test]");
 });
 
-module.exports = router
+module.exports = router;
