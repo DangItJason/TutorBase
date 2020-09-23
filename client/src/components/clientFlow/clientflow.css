@@ -1,0 +1,40 @@
+.fragment-title {
+    text-decoration: underline #BFBFBF;
+}
+
+.nav-btn {
+    display: inline-block;
+}
+
+/* Hide radio button */
+[type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.form-label {
+    padding: 4px;
+}
+
+.form-label:hover {
+    outline: 2px solid #E66064;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+/* Outline selected tutor card */
+[type=radio]:checked + p {
+    outline: 2px solid #E66064;
+}
+
+textarea {
+    padding: 5px;
+    width: 40vw;
+    height: 30vh;
+}
+
+.rat-TimeSlot_component, .rat-AvailableTimes_home {
+    background-color: #E66064;
+}
