@@ -22,9 +22,9 @@ var signupRouter = require("./routes/signup");
 var loginRouter = require("./routes/login");
 var emailClientRouter = require("./routes/email-user");
 
-// app.use(cors({
-//   origin: "http://localhost:3000",
-// }));
+app.use(cors({
+  origin: "http://localhost:3001",
+}));
 
 
 // view engine setup

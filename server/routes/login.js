@@ -1,30 +1,29 @@
 var express = require("express");
 var router = express.Router();
 var User = require("../models.js");
-var bcryptjs = require("bcryptjs");
+var bcrypt = require("bcryptjs");
 
 router.post("/", function (req, res) {
+  console.log("Searching for" + JSON.stringify(req.body.email));
   User.findOne({
-    where: {
-      email: req.body.email,
-    },
+    email: req.body.email,
   }).then(function (user) {
-    if (!user) {
-      res.redirect("/login");
-    } else {
+    if (user) {
       bcrypt.compare(req.body.password, user.password, function (err, result) {
         if (result == true) {
-          console.log("Login success ... moving you to your home page!");
-          //You can modify these redirects to our landing pages.
-          res.redirect("/home");
+          console.log("Login success...");
+          return res.json({message: "success"});
         } else {
-          console.log("Incorrect password");
-          res.redirect("/");
+          console.log("Incorrect password...");
+          return res.json({message: "failure"});
         }
       });
     }
+    if (!user) {
+      console.log("User does not exist");
+      return res.send.json({message: "dne"}); //does not exist
+    }
   });
-  res.send("login complete [test]");
 });
 
 module.exports = router;
