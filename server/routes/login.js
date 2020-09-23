@@ -10,6 +10,7 @@ router.post("/", function (req, res) {
   }).then(function (user) {
     if (user) {
       bcrypt.compare(req.body.password, user.password, function (err, result) {
+
         if (result == true) {
           console.log("Login success...");
           return res.json({message: "success"});
