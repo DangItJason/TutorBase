@@ -9,21 +9,21 @@ router.post("/", function (req, res) {
       email: req.body.email,
     },
   }).then(function (user) {
-    if (!user) {
-      res.redirect("/login");
-      console.find("error");
-    } else {
-      console.find("Searching for credentials");
-      bcryptjs.compare(req.body.password, user.password, function (err, result) {
+    if (user) {
+      bcrypt.compare(req.body.password, user.password, function (err, result) {
+
         if (result == true) {
-          console.log("Login success ... moving you to your home page!");
-          //You can modify these redirects to our landing pages.
-          res.redirect("/home");
+          console.log("Login success...");
+          return res.json({message: "success"});
         } else {
-          console.log("Incorrect password");
-          res.redirect("/");
+          console.log("Incorrect password...");
+          return res.json({message: "failure"});
         }
       });
+    }
+    if (!user) {
+      console.log("User does not exist");
+      return res.send.json({message: "dne"}); //does not exist
     }
   });
 });

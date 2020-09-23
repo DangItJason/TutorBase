@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require("../models.js");
 var bcryptjs = require("bcryptjs");
 
+//Localhost:3000/signup
 router.post("/", function (req, res, next) {
   User.findOne(
     {
