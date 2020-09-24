@@ -4,14 +4,13 @@ var User = require("../models.js");
 var bcrypt = require("bcryptjs");
 
 router.post("/", function (req, res) {
-  console.log("Searching for" + JSON.stringify(req.body.email));
+  console.log("Searching for " + JSON.stringify(req.body.email));
   User.findOne({
     email: req.body.email,
   }).then(function (user) {
     if (user) {
       bcrypt.compare(req.body.password, user.password, function (err, result) {
-
-        if (result == true) {
+        if (result == true) { 
           console.log("Login success...");
           return res.json({message: "success"});
         } else {
@@ -22,7 +21,7 @@ router.post("/", function (req, res) {
     }
     if (!user) {
       console.log("User does not exist");
-      return res.send.json({message: "dne"}); //does not exist
+      return res.json({message: "dne"}); //does not exist
     }
   });
 });
