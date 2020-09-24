@@ -20,18 +20,19 @@ class login extends Component {
     event.preventDefault();
     fetch("http://localhost:9000/login", {
       method: "post",
-      body: JSON.stringify(this.state),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(this.state)
     })
       .then(res => res.json())
       .then((data) => {
         //Callback function after states been updated.
+        console.log(data.message)
         if (data.message === "success") {
           //Pass properties to next application
           //NOTE: Re-write this. Not safe
-          this.props.history.push({ 
+          this.props.history.push({
             pathname: "/home", //---Change path as desired.
             email: this.state.email,
           });

@@ -2,8 +2,9 @@ var express = require("express");
 var router = express.Router();
 var User = require("../models.js");
 var bcrypt = require("bcryptjs");
+var passport = require("passport")
 
-router.post("/", function (req, res) {
+router.post("/", passport.authenticate('cas'), function (req, res) {
   console.log("Searching for" + JSON.stringify(req.body.email));
   User.findOne({
     email: req.body.email,
@@ -13,18 +14,19 @@ router.post("/", function (req, res) {
 
         if (result == true) {
           console.log("Login success...");
-          return res.json({message: "success"});
+          return res.json({ message: "success" });
         } else {
           console.log("Incorrect password...");
-          return res.json({message: "failure"});
+          return res.json({ message: "failure" });
         }
       });
     }
     if (!user) {
       console.log("User does not exist");
-      return res.send.json({message: "dne"}); //does not exist
+      return res.json({ message: "dne" }); //does not exist
     }
   });
 });
 
 module.exports = router;
+
