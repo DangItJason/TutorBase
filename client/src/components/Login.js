@@ -46,9 +46,9 @@ class login extends Component {
   render() {
     return (
       <Container className="loginContainer" fluid="sm">
-        <Form onSubmit={this.handleAuthentication}>
+        {/* <Form onSubmit={this.handleAuthentication}> */}
           <Label className="loginText">Login</Label>
-          <FormGroup row>
+          {/* <FormGroup row>
             <Input
               type="email"
               name="email"
@@ -67,15 +67,15 @@ class login extends Component {
               value={this.state.password}
               onChange={this.handleChange}
             ></Input>
-          </FormGroup>
-
-          <Button color="danger" type="submit">
+          </FormGroup> */}
+          <a href="http://localhost:9000/login"><Button color="danger">
             Sign In
-          </Button>
+          </Button></a>
+          
           <div>
             Don't have an accout? Click <Link to="/signup">here</Link>
           </div>
-        </Form>
+        {/* </Form> */}
       </Container>
     );
   }

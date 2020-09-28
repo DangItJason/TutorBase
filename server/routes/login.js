@@ -2,16 +2,16 @@ var express = require("express");
 var router = express.Router();
 var User = require("../models.js");
 var bcrypt = require("bcryptjs");
-var passport = require("passport")
+var passport = require("passport");
 
-router.post("/", passport.authenticate('cas'), function (req, res) {
-  console.log("Searching for" + JSON.stringify(req.body.email));
+router.get("/", passport.authenticate("cas"), function (req, res) {
+  console.log("localhost:9000/login has been called");
+  // console.log("Searching for" + JSON.stringify(req.body.email));
   User.findOne({
     email: req.body.email,
   }).then(function (user) {
     if (user) {
       bcrypt.compare(req.body.password, user.password, function (err, result) {
-
         if (result == true) {
           console.log("Login success...");
           return res.json({ message: "success" });
@@ -29,4 +29,3 @@ router.post("/", passport.authenticate('cas'), function (req, res) {
 });
 
 module.exports = router;
-

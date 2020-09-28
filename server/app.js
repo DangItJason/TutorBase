@@ -14,8 +14,6 @@ var cas = require("./config/casStrategy")
 var session = require("express-session");
 var passport = require("passport");
 
-
-
 const uri =
   "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
 mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
