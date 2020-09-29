@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
-import Step1 from "./1_subject";
-import Step2 from "./2_class";
-import Step3 from "./3_selectTutor";
-import Step4 from "./4_selectDateTime";
-import Step5 from "./5_reserve";
+import Step1 from "./SelectSubject";
+import Step2 from "./SelectClass";
+import Step3 from "./SelectTutor";
+import Step4 from "./SelectDateTime";
+import Step5 from "./BookMeeting";
 import "./clientflow.css";
 
 class FormParent extends Component {

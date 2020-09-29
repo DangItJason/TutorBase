@@ -23,7 +23,7 @@ var catalogRouter = require("./routes/api/catalog");
 var emailClientRouter = require("./routes/email-user");
 
 app.use(cors({
-  origin: "http://localhost:3001",
+  origin: "http://localhost:3000",
 }));
 
 // view engine setup
