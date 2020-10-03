@@ -11,7 +11,7 @@ class FormParent extends Component {
         super(props)
         this.state = {
             clientName: "",
-            currentStep: 1,
+            currentStep: 4,
             furthestStep: 1,
             subject: "",
             course: "",
@@ -26,7 +26,7 @@ class FormParent extends Component {
         this.handleChangeTime = this.handleChangeTime.bind(this);
         this.handleChangeCourse = this.handleChangeCourse.bind(this);
     }
-    
+
     handleChange = event => {
         const { name, value } = event.target
         this.setState({ [name]: value });
@@ -80,14 +80,14 @@ class FormParent extends Component {
             .then(res => {
                 console.log(res);
             })
-        
+
 
         //Send confirmation email to client
         url = "http://localhost:9000/email-user/client";
         fetch(url, {method: 'POST', headers: headers, body: body})
             .then(res => {
                 console.log(res);
-            }) 
+            })
     }
 
     prevButton() {
@@ -126,8 +126,8 @@ class FormParent extends Component {
                     <Step2 {...formProps} subject={this.state.subject} course={this.state.course} handleChangeCourse={this.handleChangeCourse} />
                     <Step3 {...formProps} course={this.state.course} tutor_ids={this.state.tutor_ids} tutor={this.state.tutor}/>
                     <Step4 {...formProps} startTime={this.state.startTime} endTime={this.state.endTime} handleChangeTime={this.handleChangeTime} />
-                    <Step5 {...formProps} date={this.state.date} 
-                        startTime={this.state.startTime} 
+                    <Step5 {...formProps} date={this.state.date}
+                        startTime={this.state.startTime}
                         endTime={this.state.endTime}
                         notes={this.state.notes} />
                 </form>
