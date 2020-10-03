@@ -48,6 +48,14 @@ router.get('/tutor/hours/:tutor_id', (req, res) => {
     .catch(err => res.status(400).json({ msg: err.message }));
 });
 
+// GET api/catalog/tutor/appointments/tutor_id
+// Get a specific tutor's already scheduled appointments
+router.get('/tutor/appointments/:tutor_id', (req, res) => {
+    User.findById(req.params.tutor_id, 'tutor.appts')
+    .then(appointments => res.json(appointments))
+    .catch(err => res.status(400).json({ msg: err.message }));
+});
+
 // POST api/catalog
 // Create a new Subject object
 router.post('/', (req, res) => {
