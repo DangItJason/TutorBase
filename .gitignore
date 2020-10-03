@@ -25,3 +25,6 @@ yarn-debug.log*
 yarn-error.log*
 #api keys
 
+
+# Ignore webstorm auotgen files
+.idea/*
