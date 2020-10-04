@@ -7,8 +7,9 @@ class Step4 extends Component {
         // Only render this step if currentStep matches
         if (this.props.currentStep !== 4) 
             return null;
+        return null;
 
-        return (
+        /*(
             <div class="form-group text-center">
                 <h3 class="hr mt-1">Select a Time</h3>
                 <AvailableTimes
@@ -27,7 +28,7 @@ class Step4 extends Component {
                     availableHourRange={{ start: 10, end: 20 }}
                 />
             </div>
-        );
+        );*/
     }
 }
 
