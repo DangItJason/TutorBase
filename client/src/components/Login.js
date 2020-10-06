@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Button, Container, Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  Button,
+  Container,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Row,
+  Col,
+} from "reactstrap";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
@@ -23,12 +32,12 @@ class login extends Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify(this.state),
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((data) => {
         //Callback function after states been updated.
-        console.log(data.message)
+        console.log(data.message);
         if (data.message === "success") {
           //Pass properties to next application
           //NOTE: Re-write this. Not safe
@@ -46,36 +55,19 @@ class login extends Component {
   render() {
     return (
       <Container className="loginContainer" fluid="sm">
-        {/* <Form onSubmit={this.handleAuthentication}> */}
+        <Row>
           <Label className="loginText">Login</Label>
-          {/* <FormGroup row>
-            <Input
-              type="email"
-              name="email"
-              className="form-control"
-              placeholder="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            ></Input>
-          </FormGroup>
-          <FormGroup row>
-            <Input
-              type="password"
-              name="password"
-              className="form-control"
-              placeholder="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            ></Input>
-          </FormGroup> */}
-          <a href="http://localhost:9000/login"><Button color="danger">
-            Sign In
-          </Button></a>
-          
+        </Row>
+        <Row>
+          <a href="http://localhost:9000/login">
+            <Button color="danger">Sign In</Button>
+          </a>
+        </Row>
+        <Row>
           <div>
             Don't have an accout? Click <Link to="/signup">here</Link>
           </div>
-        {/* </Form> */}
+        </Row>
       </Container>
     );
   }

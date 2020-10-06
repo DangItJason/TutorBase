@@ -1,13 +1,19 @@
-const CasStrategy = require('passport-cas').Strategy;
+const CasStrategy = require("passport-cas").Strategy;
 
-module.exports = new CasStrategy({
-    version: 'CAS3.0',
-    ssoBaseURL: 'https://cas-auth.rpi.edu/cas',
-    serverBaseURL: 'http://localhost:9000/'
-},
-    function (username, profile, done) {
-        console.log(usename);
-        console.log(profile);
-        done(null, username);
-    }
+module.exports = new CasStrategy(
+  {
+    ssoBaseURL: "https://cas-auth.rpi.edu/cas",
+    serverBaseURL: "http://localhost:9000/",
+  },
+  function (login, done) {
+    User.findOne({ login: login }, function (err, user) {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false, { message: "Unknown user" });
+      }
+      return done(null, user);
+    });
+  }
 );

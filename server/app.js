@@ -48,7 +48,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-passport.use(cas);
+// passport.use(cas);
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -5,9 +5,9 @@ body {
 }
 
 .loginContainer {
-    height: 750px;
     display: flex;
-    align-items: center;
+    height: 750px;
+    align-items: center; 
     justify-content: center;
 }
 
