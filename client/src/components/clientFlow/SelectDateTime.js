@@ -40,6 +40,13 @@ const tempTutorData = [
   },
 ];
 
+// Week Options
+const mobileWeekOptions = {
+  daynames: ["", "", "", "", "", "", ""],
+};
+
+const weekOptions = {};
+
 // Date Utility Function
 Date.prototype.addHours = function (h) {
   this.setTime(this.getTime() + h * 60 * 60 * 1000);
@@ -50,8 +57,8 @@ class Step4 extends Component {
   constructor(props) {
     super(props);
     this.cal = createRef();
-    this.mobile = isMobile ? "day" : "week";
-    this.currentView = "month";
+    this.mobile = isMobile;
+    this.currentView = "week";
   }
 
   render() {
@@ -194,7 +201,8 @@ class Step4 extends Component {
             ref={this.cal}
             height={"100%"}
             schedules={getSchedules()}
-            view={this.mobile}
+            view={this.currentView}
+            week={this.mobile ? mobileWeekOptions : weekOptions}
             taskView={false}
             scheduleView={["time"]}
             useCreationPopup={true}
