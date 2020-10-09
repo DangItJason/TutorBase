@@ -51,6 +51,7 @@ class Step4 extends Component {
     super(props);
     this.cal = createRef();
     this.mobile = isMobile ? "day" : "week";
+    this.currentView = "month";
   }
 
   render() {
@@ -132,23 +133,78 @@ class Step4 extends Component {
     };
     ////////////////////////
 
+    // Instance Functions //
+    const calNext = () => {
+      const calendarInstance = this.cal.current.getInstance();
+      calendarInstance.next();
+    };
+
+    const calBack = () => {
+      const calendarInstance = this.cal.current.getInstance();
+      calendarInstance.prev();
+    };
+
+    const calReturn = () => {
+      const calendarInstance = this.cal.current.getInstance();
+      calendarInstance.today();
+    };
+
+    const setMonthView = () => {
+      const calendarInstance = this.cal.current.getInstance();
+      calendarInstance.changeView("month", true);
+    };
+
+    const setWeekView = () => {
+      const calendarInstance = this.cal.current.getInstance();
+      calendarInstance.changeView("week", true);
+    };
+
+    const setDayView = () => {
+      const calendarInstance = this.cal.current.getInstance();
+      calendarInstance.changeView("day", true);
+    };
+    ////////////////////////
+
     return (
       <div class="form-group text-center">
         <h3 class="hr mt-1">Select a Time</h3>
-        <Calendar
-          ref={this.cal}
-          height={"100%"}
-          schedules={getSchedules()}
-          view={this.mobile}
-          taskView={false}
-          scheduleView={["time"]}
-          useCreationPopup={true}
-          useDetailPopup={true}
-          onClickSchedule={onClickSchedule}
-          onBeforeCreateSchedule={onBeforeCreateSchedule}
-          onBeforeDeleteSchedule={onBeforeDeleteSchedule}
-          onBeforeUpdateSchedule={onBeforeUpdateSchedule}
-        />
+
+        <div>
+          <div style={{ display: "flex", alignSelf: "left" }}>
+            <button onClick={calBack}>Back</button>
+            <button onClick={calReturn}>Today</button>
+            <button onClick={calNext}>Next</button>
+            <select>
+              <option onClick={setMonthView} value={"Month"}>
+                Month
+              </option>
+              <option
+                onClick={setWeekView}
+                value={"Week"}
+                selected={"selected"}
+              >
+                Week
+              </option>
+              <option onClick={setDayView} value={"Day"}>
+                Day
+              </option>
+            </select>
+          </div>
+          <Calendar
+            ref={this.cal}
+            height={"100%"}
+            schedules={getSchedules()}
+            view={this.mobile}
+            taskView={false}
+            scheduleView={["time"]}
+            useCreationPopup={true}
+            useDetailPopup={true}
+            onClickSchedule={onClickSchedule}
+            onBeforeCreateSchedule={onBeforeCreateSchedule}
+            onBeforeDeleteSchedule={onBeforeDeleteSchedule}
+            onBeforeUpdateSchedule={onBeforeUpdateSchedule}
+          />
+        </div>
       </div>
     );
   }
