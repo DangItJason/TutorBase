@@ -15,9 +15,12 @@
     "light-toast": "^0.3.0",
     "react": "^16.13.1",
     "react-available-times": "^1.4.0",
+    "react-device-detect": "^1.14.0",
     "react-dom": "^16.13.1",
+    "react-measure": "^2.5.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-sizeme": "^2.6.12",
     "react-toast-notifications": "^2.4.0",
     "reactstrap": "^8.5.1",
     "tui-calendar": "^1.12.14"
@@ -42,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "^2.1.2"
   }
 }
