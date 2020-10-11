@@ -20,6 +20,7 @@ passport.use(new (require("passport-cas").Strategy)(
         if (err) {
           console.log("Err");
           return done(err);
+
         }
         if (!user) {
           console.log("Unknown User");
@@ -86,6 +87,7 @@ router.get("/", (req, res, next) => {
     if (!user) {
       req.session.messages = info.message;
       return res.redirect('/signup');
+
     }
   
     req.logIn(user, function (err) {

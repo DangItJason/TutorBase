@@ -26,6 +26,7 @@ class login extends Component {
   };
 
   handleAuthentication = (event) => {
+    console.log("searching");
     event.preventDefault();
     fetch("http://localhost:9000/login", {
       method: "post",
@@ -38,7 +39,9 @@ class login extends Component {
       .then((data) => {
         //Callback function after states been updated.
         console.log(data.message);
+
         if (data.message === "success") {
+          console.log("success");
           //Pass properties to next application
           //NOTE: Re-write this. Not safe
           this.props.history.push({
@@ -46,6 +49,7 @@ class login extends Component {
             email: this.state.email,
           });
         } else if (data.message === "failure") {
+          console.log("failure");
           console.log("Incorrect credentials");
         }
       })
