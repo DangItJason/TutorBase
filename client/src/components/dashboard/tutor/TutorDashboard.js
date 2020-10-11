@@ -7,7 +7,7 @@ import '../dashboard.css';
 
 class TutorDashboard extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.toggleMenu = this.toggleMenu.bind(this);
         this.state = { sidebarToggled: false };
     }
@@ -20,7 +20,7 @@ class TutorDashboard extends Component {
         return (
             <div className={classNames("d-flex", (this.state.sidebarToggled) ? "toggled":"")} id="dashboard-wrapper">
                 <Sidebar />
-                <Panel action={this.toggleMenu} />
+                <Panel action={this.toggleMenu} extension={this.props.extension}/> 
             </div>
         );
     }
