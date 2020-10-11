@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { Navbar, Button } from "reactstrap"; 
+import Settings from "../../tutorComponents/settings";
 import TutorDashboard from "./TutorDashboard";
 
 class Panel extends Component {
 
-    state = {
-        visible: "settings"
-    }
 
     render() {
         return (
@@ -26,11 +24,11 @@ class Panel extends Component {
                     <Button variant="danger">Drop Course</Button>
 
                 </div> */}
-                {this.props.extension === "schedule" ? <div>Hello World(Schedule)</div> : null}
+                {this.props.extension === "schedule" ? <Settings></Settings> : null}
                 {this.props.extension === "meetings" ? <div>Hello World(Meetings)</div> : null}
                 {this.props.extension === "history" ? <div>Hello World(History)</div> : null}
                 {this.props.extension === "analytics" ? <div>Hello World(Analytics)</div> : null}
-                {this.props.extension === "settings" ? <div>Hello World(Settings)</div> : null}
+                {this.props.extension === "settings" ? <Settings></Settings> : null}
                 
             </div>
         );
