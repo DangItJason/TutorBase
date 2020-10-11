@@ -9,9 +9,14 @@ var app = express();
 var bcrypt = require('bcryptjs');
 var fs = require("fs");
 
+//Authentication Packages
+var cas = require("./config/casStrategy")
+var session = require("express-session");
+var passport = require("passport");
+
 const uri =
   "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
-mongoose.connect(uri,  { useUnifiedTopology: true, useNewUrlParser: true  });
+mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
 
 
 //Routes
@@ -23,19 +28,38 @@ var catalogRouter = require("./routes/api/catalog");
 var emailClientRouter = require("./routes/email-user");
 
 app.use(cors({
-  origin: "http://localhost:3001",
+  origin: "http://localhost:3000",
 }));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-app.use(cors());
+// app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+//Authentication Middleware
+app.use(session({
+  secret: 'djskfjalkjsadlkf',
+  resave: false,
+  saveUninitialized: false
+}));
+// passport.use(cas);
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(err, user);
+});
 
 app.use("/", indexRouter)
 app.use("/users", usersRouter);
