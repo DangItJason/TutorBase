@@ -8,6 +8,63 @@ class Step3 extends Component {
         this.state = { course: "", tutors: [] };
     }
 
+    formatDate(date) {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        let strTime = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear().toString().substring(0, 2) + ', ' + hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
+
+    nextAvailableTime(info) {
+        let time = new Date();
+        let hours = info['times'];
+        let interval = info['interval'];
+        let hr = time.getHours();
+        let mins = time.getMinutes();
+        let nextAvailHr = 0;
+        let nextAvailMins = 0;
+
+        // Round up minutes based on tutor-specified interval
+        if (mins + interval >= 60) {
+            hr += 1;
+            mins = 0;
+        }
+        else if (mins !== 0 && mins % interval !== 0)
+            mins += (interval - (mins % interval));
+
+        let dayInd = time.getDay();
+        let dayCount = 0;
+
+        for (dayCount; dayCount < 7; dayCount++) {
+            if (dayInd > 6)
+                dayInd = 0;
+            let workHrs = hours[dayInd];
+            for (var pair of workHrs) {
+                const startHr = (pair[0] - pair[0] % 100) / 100;
+                const endHr = (pair[1] - pair[1] % 100) / 100;
+                // Current time falls between interval
+                if (startHr <= hr && hr < endHr && (mins + interval) < 60) {
+                    nextAvailHr = hr;
+                    nextAvailMins = mins;
+                    return this.formatDate(new Date(time.getFullYear(), time.getMonth(), time.getDate() + dayCount, nextAvailHr, nextAvailMins));
+                }
+                // Current time falls before interval
+                else if (hr < startHr) {
+                    const startMins = pair[0] % 100;
+                    nextAvailHr = startHr;
+                    nextAvailMins = startMins;
+                    return this.formatDate(new Date(time.getFullYear(), time.getMonth(), time.getDate() + dayCount, nextAvailHr, nextAvailMins));
+                }
+            }
+            dayInd++;          
+        }
+        return this.formatDate(time);
+    }
+
     componentDidUpdate() {
         // Load tutors if they have not yet been loaded in 
         if (this.state.course !== this.props.course) {
@@ -22,7 +79,7 @@ class Step3 extends Component {
                     console.log(users);
                     users.map(user => 
                         this.setState(prevState => ({
-                            tutors: [...prevState.tutors, {id: user._id, email: user.email, name: user.first_name + " " + user.last_name, info: user.tutor, next_avail: ""}]
+                            tutors: [...prevState.tutors, {id: user._id, email: user.email, name: user.first_name + " " + user.last_name, info: user.tutor, next_avail: this.nextAvailableTime(user.tutor)}]
                         }))
                     )
                 });
