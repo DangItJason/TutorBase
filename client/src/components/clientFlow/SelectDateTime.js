@@ -4,6 +4,13 @@ import Calendar from "@toast-ui/react-calendar";
 import "tui-calendar/dist/tui-calendar.css";
 import { TZDate } from "tui-calendar";
 import { isMobile } from "react-device-detect";
+import {
+  Button,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Dropdown,
+} from "reactstrap";
 
 /*
     Reach ToastUI Calendar Documentation: https://github.com/nhn/toast-ui.react-calendar
@@ -57,26 +64,31 @@ class Step4 extends Component {
   constructor(props) {
     super(props);
     this.cal = createRef();
+    this.mobile = isMobile;
+    this.currentView = "week";
     this.state = {
+      calTypeOpen: false,
       tutorHours: null,
     };
   }
 
-  componentDidUpdate(prevProps,prevState) {
-    if (prevProps == this.props) { return; }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps == this.props) {
+      return;
+    }
     if (this.props.tutor[0]) {
       fetch("http://localhost:9000/catalog/tutor/hours/" + this.props.tutor[0])
-        .then(res => res.json())
-        .then((hours) => {
-          // console.log(hours);
-          this.setState({tutorHours: hours})
-        },
-        (error) => {
-          console.log(error);
-        });
+        .then((res) => res.json())
+        .then(
+          (hours) => {
+            // console.log(hours);
+            this.setState({ tutorHours: hours });
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
     }
-    this.mobile = isMobile;
-    this.currentView = "week";
   }
 
   render() {
@@ -191,6 +203,10 @@ class Step4 extends Component {
       const calendarInstance = this.cal.current.getInstance();
       calendarInstance.changeView("day", true);
     };
+
+    const toggleCalType = (prevState) => {
+      this.setState({ calTypeOpen: !prevState.calTypeOpen });
+    };
     ////////////////////////
 
     return (
@@ -199,24 +215,29 @@ class Step4 extends Component {
 
         <div>
           <div style={{ display: "flex", alignSelf: "left" }}>
-            <button onClick={calBack}>Back</button>
-            <button onClick={calReturn}>Today</button>
-            <button onClick={calNext}>Next</button>
-            <select>
-              <option onClick={setMonthView} value={"Month"}>
-                Month
-              </option>
-              <option
-                onClick={setWeekView}
-                value={"Week"}
-                selected={"selected"}
-              >
-                Week
-              </option>
-              <option onClick={setDayView} value={"Day"}>
-                Day
-              </option>
-            </select>
+            <Button style={{ margin: "0.2em" }} onClick={calBack}>
+              Back
+            </Button>
+            <Button style={{ margin: "0.2em" }} onClick={calReturn}>
+              Today
+            </Button>
+            <Button style={{ margin: "0.2em" }} onClick={calNext}>
+              Next
+            </Button>
+            <Dropdown
+              style={{ margin: "0.2em" }}
+              isOpen={this.state.calTypeOpen}
+              toggle={() => {
+                toggleCalType(this.state);
+              }}
+            >
+              <DropdownToggle caret>{this.currentView}</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={setDayView}>Day</DropdownItem>
+                <DropdownItem onClick={setWeekView}>Week</DropdownItem>
+                <DropdownItem onClick={setMonthView}>Month</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
           <Calendar
             ref={this.cal}
