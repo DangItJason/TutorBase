@@ -9,7 +9,7 @@ class Sidebar extends Component {
         return (
             <div className={classNames("bg-none", "border-right")} id="sidebar-wrapper">
                 <div class="sidebar-heading">TutorBase</div>
-                <ListGroup>
+                <ListGroup className>
                     <ListGroupItem tag="a" href="tutor/preferences" className={classNames("list-group-item", "bg-none", "tab-active")}><FontAwesomeIcon icon={faUserClock} />Schedule Preferences</ListGroupItem>
                     <ListGroupItem tag="a" href="tutor/meetings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCalendar} />Upcoming Meetings</ListGroupItem>
                     <ListGroupItem tag="a" href="tutor/history" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faHistory} />History</ListGroupItem>

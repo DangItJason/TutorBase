@@ -1,3 +1,7 @@
+.background {
+    background: #f8f8f8;
+}
+
 .parent {
     display: flex;
     align-items: flex-start; 
@@ -7,7 +11,7 @@
 .title {
     display: flex;
     align-items: flex-start; 
-    justify-content: space-around;
+    margin-left: 15px;
     height: 65px;
 }
 
@@ -19,9 +23,22 @@
     font-size: 20px;
 }
 
+.heading-item {
+    font-size: 20px;
+    padding-right: 10px;
+}
+
 .font-adj {
     height: 18px;
     font-size: 20px;
+}
+
+.body-text {
+    font-size: 16px;
+}
+
+.bubble-container {
+    background: white;
 }
 
 hr {
