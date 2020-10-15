@@ -8,6 +8,10 @@ const User = require('../models/User');
 
 mongoose.set('useFindAndModify', false);
 
+router.get('/price', (req, res) => {
+    User.find({ email: req.body.email }).then(users => res.json(users[0].tutor.price)).catch(err => res.status(400).json({ msg: err.message }));
+});
+
 router.put('/price', async (req, res) => {
     try {
         await User.findOneAndUpdate(req.body.user, { tutor: { price: req.body.price } })
@@ -16,7 +20,6 @@ router.put('/price', async (req, res) => {
         res.status(400).json({ msg: err.message })
     }
 });
-
 
 
 module.exports = router;
