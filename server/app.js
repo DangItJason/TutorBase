@@ -26,6 +26,7 @@ var signupRouter = require("./routes/signup");
 var loginRouter = require("./routes/login");
 var catalogRouter = require("./routes/api/catalog");
 var emailClientRouter = require("./routes/email-user");
+var tutorOperations = require("./routes/tutor-operations")
 
 app.use(cors({
   origin: "http://localhost:3000",
@@ -67,6 +68,7 @@ app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 app.use("/catalog", catalogRouter);
 app.use("/email-user", emailClientRouter);
+app.use("/tutor-operations", tutorOperations);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
