@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require("../models.js");
 var bcrypt = require("bcryptjs");
 var passport = require("passport");
+const jwt = require('jsonwebtoken');
 
 passport.use(new (require("passport-cas").Strategy)(
     {
@@ -96,6 +97,12 @@ router.get("/", (req, res, next) => {
       }
   
       req.session.messages = '';
+      const payload = { user };
+          const token = jwt.sign(payload, secret, {
+            expiresIn: '1h'
+          });
+          res.cookie('token', token, { httpOnly: true })
+            .sendStatus(200);
       return res.redirect('http://localhost:3000/clientDashboard');
     });
   })(req, res, next);

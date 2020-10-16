@@ -18,6 +18,8 @@ const uri =
   "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
 mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
 
+//Not so secret token key
+const token_secret = "elonmuskismydaddy";
 
 //Routes
 var indexRouter = require("./routes/index");
