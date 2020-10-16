@@ -105,27 +105,23 @@ router.post('/appointment', (req, res) => {
     const newAppt = new Appointment({
         appt_id: new mongoose.mongo.ObjectId(),
         course_id: req.body.course_id,
-        date: new Date(req.body.date),
-        start_time: req.body.start,
-        end_time: req.body.end,
-        location: req.body.loc,
+        start_time: new Date(req.body.start_time), // YYYY-MM-DD
+        duration: req.body.duration,
+        location: req.body.location,
         tutor_id: req.body.tutor_id,
         client_id: req.body.client_id,
         price: req.body.price,
         notes: req.body.notes
     });
-
-    // TODO: Check that both object ids exist before pushing appointment
-
+    
     // Add appointment to client
-    User.updateOne({_id: req.body.client_id}, {$push: {client : {appts: newAppt }}})
-        .catch(err => res.status(400).json({ msg: err.message}));
+    User.updateOne({_id: req.body.client_id}, {$push: {'client.appts' : newAppt}})
+        .catch(err => res.status(400).json({msg: err.message}));
 
-    // Add appointment to tutor
-    User.updateOne({_id: req.body.client_id}, {$push: {tutor : {appts: newAppt }}})
-        .catch(err => res.status(400).json({ msg: err.message}));
-
-    res.json(newAppt);
+    // // Add appointment to tutor
+    User.updateOne({_id: req.body.tutor_id}, {$push: {'tutor.appts' : newAppt}})
+        .then(user => res.json(user))
+        .catch(err => res.status(400).json({msg: err.message}));
 });
 
 module.exports = router;
