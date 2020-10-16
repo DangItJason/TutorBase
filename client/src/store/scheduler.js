@@ -2,11 +2,14 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 // The initial state of the UserData container
 export const initialState = {
-    currentStep: ''
+    currentStep: '',
+    selectedSubject: '',
+    selectedCourse: '',
+    selectedTutor: '',
 };
 
-const userDataSlice = createSlice({
-    name: 'userData',
+const schedulerSlice = createSlice({
+    name: 'scheduler',
     initialState,
     reducers: {
         setUsername(state, action: PayloadAction<string>) {
@@ -15,4 +18,4 @@ const userDataSlice = createSlice({
     },
 });
 
-export const { actions, reducer, name: sliceKey } = userDataSlice;
+export const { actions, reducer, name: sliceKey } = schedulerSlice;
