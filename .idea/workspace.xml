@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9761d2f-23a5-4401-a8d6-8fb9c91a9516" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dashboard/client/ClientDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dashboard/client/ClientDashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dashboard/client/Panel.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dashboard/client/Panel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/store/configureStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/configureStore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/store/scheduler.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/store/tutorData.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/store/userData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/clientFlowData.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +73,7 @@
       <workItem from="1602277302258" duration="925000" />
       <workItem from="1602278266111" duration="16000" />
       <workItem from="1602508394855" duration="4671000" />
-      <workItem from="1603126186901" duration="1069000" />
+      <workItem from="1603126186901" duration="1690000" />
     </task>
     <servers />
   </component>
