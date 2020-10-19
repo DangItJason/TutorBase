@@ -23,7 +23,7 @@ class FormParent extends Component {
             tutor_ids: []
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleChangeTime = this.handleChangeTime.bind(this);
+        // this.handleChangeTime = this.handleChangeTime.bind(this);
         this.handleChangeCourse = this.handleChangeCourse.bind(this);
     }
     
@@ -33,10 +33,10 @@ class FormParent extends Component {
         this.nextStep();
     }
 
-    handleChangeTime = event => {
-        // const { name, value } = event.target
-        this.setState({ furthestStep: this.state.furthestStep + 1 });
-    }
+    // handleChangeTime = event => {
+    //     // const { name, value } = event.target
+    //     this.setState({ furthestStep: this.state.furthestStep + 1 });
+    // }
 
     handleChangeCourse = event => {
         const { name, value } = event.target
@@ -125,7 +125,8 @@ class FormParent extends Component {
                     <Step1 {...formProps} subject={this.state.subject} />
                     <Step2 {...formProps} subject={this.state.subject} course={this.state.course} handleChangeCourse={this.handleChangeCourse} />
                     <Step3 {...formProps} course={this.state.course} tutor_ids={this.state.tutor_ids} tutor={this.state.tutor}/>
-                    <Step4 {...formProps} startTime={this.state.startTime} endTime={this.state.endTime} handleChangeTime={this.handleChangeTime} />
+                    {/* <Step4 {...formProps} startTime={this.state.startTime} endTime={this.state.endTime} handleChangeTime={this.handleChangeTime} /> */}
+                    <Step4 {...formProps} startTime={this.state.startTime} endTime={this.state.endTime} />
                     <Step5 {...formProps} date={this.state.date} 
                         startTime={this.state.startTime} 
                         endTime={this.state.endTime}

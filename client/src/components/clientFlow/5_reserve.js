@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ToastSubmit from "./toast/submit.js";
 import classNames from "classnames";
+import {connect} from "react-redux";
 
 class Step5 extends Component {
  
@@ -27,4 +28,14 @@ class Step5 extends Component {
     }
 }
 
-export default Step5;
+function mapStateToProps(state){
+    const { clientFlow } = state;
+    return {    
+        date: clientFlow.date, 
+        startTime: clientFlow.startTime,
+        endTime: clientFlow.endTime,
+        notes: clientFlow.notes,
+    };
+}
+
+export default connect(mapStateToProps)(Step5);
