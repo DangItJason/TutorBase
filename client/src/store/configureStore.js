@@ -1,7 +1,6 @@
 import {configureStore, combineReducers} from "@reduxjs/toolkit";
-import {reducer as userDataReducer} from './userData';
-import {reducer as schedulerReducer} from './scheduler';
+import {reducer as clientFlow} from './clientFlowData';
 
 export default configureStore({
-    reducer: combineReducers({userDataReducer, schedulerReducer})
+    reducer: combineReducers({clientFlow })
 })

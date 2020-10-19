@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Navbar, Button } from "reactstrap"; 
+import { Navbar, Button } from "reactstrap";
 import FormParent from "../../clientFlow/FormParent";
+import {connect} from "react-redux";
 
 class Panel extends Component {
     render() {
@@ -18,4 +19,10 @@ class Panel extends Component {
     }
 }
 
-export default Panel;
+const mapDispatchToProps = dispatch => {
+    return {
+        toggleSidebar: () => dispatch({type: 'toggleSidebar'})
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Panel);
