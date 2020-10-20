@@ -2,18 +2,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // The initial state of the UserData container
 export const initialState = {
-    sidebarToggled: false,
-    clientName: "",
-    currentStep: 1,
-    furthestStep: 1,
-    subject: "",
-    course: "",
-    tutor: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-    notes: "",
-    tutor_ids: []
+  sidebarToggled: false,
+  clientName: "",
+  currentStep: 1,
+  furthestStep: 1,
+  subject: "",
+  course: "",
+  tutor: "",
+  date: "",
+  startTime: "",
+  endTime: "",
+  notes: "",
+  tutor_ids: [],
 };
 
 const clientFlowSlice = createSlice({
@@ -32,6 +32,10 @@ const clientFlowSlice = createSlice({
       state.course = action.payload[0];
       state.tutor_ids = action.payload[1];
     },
+    setTutor(state, action) {
+      const { name, value } = action.target;
+      state.tutor = value;
+    },
     decrementStep(state) {
       state.currentStep = state.currentStep <= 1 ? 1 : state.currentStep - 1;
     },
@@ -39,6 +43,9 @@ const clientFlowSlice = createSlice({
       state.currentStep = state.currentStep >= 4 ? 5 : state.currentStep + 1;
       if (state.currentStep > state.furthestStep)
         state.furthestStep = state.currentStep;
+    },
+    incrementFurthestStep(state) {
+      state.furthestStep = state.furthestStep + 1;
     },
   },
 });

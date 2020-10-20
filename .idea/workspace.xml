@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e9761d2f-23a5-4401-a8d6-8fb9c91a9516" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/1_subject.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/1_subject.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/2_class.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/2_class.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/FormParent.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/FormParent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dashboard/client/ClientDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dashboard/client/ClientDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/tutorCard/TutorCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/tutorCard/TutorCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/4_selectDateTime.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/4_selectDateTime.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/store/clientFlowData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/clientFlowData.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +35,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../crabapple-conglomerate" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="C:\$env\Repositories\TutorBase\client\node_modules\prettier" />
     <property name="run.prettier.on.save" value="true" />
@@ -83,6 +76,7 @@
       <workItem from="1602508394855" duration="4671000" />
       <workItem from="1603126186901" duration="5351000" />
       <workItem from="1603141677297" duration="11000" />
+      <workItem from="1603211179092" duration="235000" />
     </task>
     <servers />
   </component>
