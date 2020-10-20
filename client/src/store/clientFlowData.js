@@ -2,18 +2,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // The initial state of the UserData container
 export const initialState = {
-  sidebarToggled: false,
-  currentStep: 1,
-  clientName: "",
-  furthestStep: 1,
-  subject: "",
-  course: "",
-  tutor: "",
-  date: "",
-  startTime: "",
-  endTime: "",
-  notes: "",
-  tutor_ids: [],
+    sidebarToggled: false,
+    clientName: "",
+    currentStep: 1,
+    furthestStep: 1,
+    subject: "",
+    course: "",
+    tutor: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+    notes: "",
+    tutor_ids: []
 };
 
 const clientFlowSlice = createSlice({

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import TutorCard from "../tutorCard/TutorCard";
+import {connect} from "react-redux";
+import {actions} from "../../store/clientFlowData";
 
 class Step3 extends Component {
     constructor(props) {
@@ -41,7 +43,17 @@ class Step3 extends Component {
                     {this.state.tutors.map(tutor => 
                         <div class="radio-option col-md-3 mb-4 ml-3 mr-3">
                             <label>
-                                <input className="form-input" type="radio" name="tutor" value={tutor.name} onChange={this.props.handleChange} checked={this.props.tutor === tutor.name}></input>
+                                <input 
+                                    className="form-input" 
+                                    type="radio" 
+                                    name="tutor" 
+                                    value={tutor.name} 
+                                    onChange={(event) => {
+                                        this.updateTutor(event);
+                                        this.incrementStep();
+                                    }} 
+                                    checked={this.props.tutor === tutor.name} 
+                                />
                                 <p className="form-label"><TutorCard data={tutor}/></p>
                             </label>
                         </div>
@@ -52,4 +64,20 @@ class Step3 extends Component {
     }
 }
 
-export default Step3;
+const mapDispatchToProps = dispatch => {
+    return {
+        updateTutor: (state, event) => dispatch(actions.updateTutor(state, event)),
+        incrementStep: (state) => dispatch(actions.incrementStep(state))
+    }
+}
+
+function mapStateToProps(state){
+    const { clientFlow } = state;
+    return {    
+        course: clientFlow.course, 
+        tutor_ids: clientFlow.tutor_ids,
+        tutor: clientFlow.tutor,
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Step3);

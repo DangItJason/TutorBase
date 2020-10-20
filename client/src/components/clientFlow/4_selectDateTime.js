@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import AvailableTimes from 'react-available-times';
+import {connect} from "react-redux";
+import {actions} from "../../store/clientFlowData";
 
 class Step4 extends Component {
 
@@ -31,4 +33,18 @@ class Step4 extends Component {
     }
 }
 
-export default Step4;
+const mapDispatchToProps = dispatch => {
+    return {
+        toggleSidebar: (state, event) => dispatch(actions.handleChangeTime(state, event))
+    }
+}
+
+function mapStateToProps(state){
+    const { clientFlow } = state;
+    return {
+        startTime: clientFlow.startTime,
+        endTime: clientFlow.endTime,
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Step4);
