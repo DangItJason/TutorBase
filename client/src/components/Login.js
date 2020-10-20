@@ -69,7 +69,7 @@ class login extends Component {
         </Row>
         <Row>
           <div>
-            Don't have an accout? Click <Link to="/signup">here</Link>
+            Don't have an account? Click <Link to="/signup">here</Link>
           </div>
         </Row>
       </Container>
