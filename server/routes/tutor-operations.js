@@ -9,7 +9,9 @@ const User = require('../models/User');
 mongoose.set('useFindAndModify', false);
 
 router.get('/price', (req, res) => {
-    User.find({ email: req.body.email }).then(users => res.json(users[0].tutor.price)).catch(err => res.status(400).json({ msg: err.message }));
+    User.find({ email: req.body.email })
+        .then(users => res.json(users[0].tutor.price))
+        .catch(err => res.status(400).json({ msg: err.message }));
 });
 
 router.put('/price', async (req, res) => {
@@ -39,6 +41,21 @@ router.get('/schedule', (req, res) => {
 router.put('/schedule', async (req, res) => {
     try {
         await User.findOneAndUpdate({ email: req.body.email }, { $set: { "tutor.times": req.body.times } })
+        res.send(true)
+    } catch (err) {
+        res.status(400).json({ msg: err.message })
+    }
+});
+
+router.get('/interval', (req, res) => {
+    User.find({ email: req.body.email })
+        .then(users => res.json(users[0].tutor.interval))
+        .catch(err => res.status(400).json({ msg: err.message }))
+});
+
+router.put('/interval', async (req, res) => {
+    try {
+        await User.findOneAndUpdate({ email: req.body.email }, { $set: { "tutor.interval": req.body.interval } })
         res.send(true)
     } catch (err) {
         res.status(400).json({ msg: err.message })
