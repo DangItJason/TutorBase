@@ -14,7 +14,7 @@ router.get('/price', (req, res) => {
 
 router.put('/price', async (req, res) => {
     try {
-        await User.findOneAndUpdate(req.body.user, { tutor: { price: req.body.price } })
+        await User.findOneAndUpdate({ email: req.body.email }, { $set: { "tutor.price": req.body.price } })
         res.send(true)
     } catch (err) {
         res.status(400).json({ msg: err.message })
@@ -27,5 +27,22 @@ router.get('/courses', (req, res) => {
         .catch(err => res.status(400).json({ msg: err.message }));
 });
 
+router.get('/schedule', (req, res) => {
+    User.find({ email: req.body.email })
+        .then(users => {
+            res.json(users[0].tutor.times)
+        }
+        )
+        .catch(err => res.status(400).json({ msg: err.message }));
+});
+
+router.put('/schedule', async (req, res) => {
+    try {
+        await User.findOneAndUpdate({ email: req.body.email }, { $set: { "tutor.times": req.body.times } })
+        res.send(true)
+    } catch (err) {
+        res.status(400).json({ msg: err.message })
+    }
+});
 
 module.exports = router;
