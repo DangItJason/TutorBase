@@ -17,6 +17,18 @@ class Settings extends Component {
     name_modal: false
   };
 
+  componentDidMount() {
+    fetch("http://localhost:9000/tutor-operations/price/" + this.state.email,  {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+       console.log(res);
+        return res.json()
+      }).then(price => {
+        this.setState({ price: price, temp_price: price });
+      });
+  }
+
   handlePriceChange = (value) => {
     this.setState({ temp_price: value })
   }
@@ -24,7 +36,7 @@ class Settings extends Component {
   savePriceChange = (e) => {
     this.setState({ price: this.state.temp_price });
     fetch("http://localhost:9000/tutor-operations/price", {
-      method: "put",
+      method: "PUT",
       body: JSON.stringify({email: this.state.email, price: this.state.temp_price}),
       headers: {"Content-Type": "application/json"},
     })

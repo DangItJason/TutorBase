@@ -10,8 +10,8 @@ mongoose.set('useFindAndModify', false);
 
 // GET tutor-operations/price
 // Get a tutor's price
-router.get('/price', (req, res) => {
-    User.find({ email: req.body.email })
+router.get('/price/:email', (req, res) => {
+    User.find({ email: req.params.email })
         .then(users => res.json(users[0].tutor.price))
         .catch(err => res.status(400).json({ msg: err.message }));
 });
