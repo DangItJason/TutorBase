@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9761d2f-23a5-4401-a8d6-8fb9c91a9516" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/store/signUpData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/4_selectDateTime.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/4_selectDateTime.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/store/clientFlowData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/clientFlowData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/signup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/tutorCard/TutorCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/tutorCard/TutorCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/store/configureStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/configureStore.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +79,9 @@
       <workItem from="1602508394855" duration="4671000" />
       <workItem from="1603126186901" duration="5351000" />
       <workItem from="1603141677297" duration="11000" />
-      <workItem from="1603211179092" duration="235000" />
+      <workItem from="1603211179092" duration="863000" />
+      <workItem from="1603229221275" duration="369000" />
+      <workItem from="1603457782516" duration="1536000" />
     </task>
     <servers />
   </component>

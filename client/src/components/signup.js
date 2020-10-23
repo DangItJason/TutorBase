@@ -1,93 +1,51 @@
 import React, { Component } from "react";
-import { Button, Container, Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
+import {
+  Button,
+  Container,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Row,
+  Col,
+} from "reactstrap";
 import { Link } from "react-router-dom";
 import "./Login.css";
 import { MdCheck } from "react-icons/md";
-import { VscError} from "react-icons/vsc";
+import { VscError } from "react-icons/vsc";
+import { actions } from "../store/signUpData";
+import { connect } from "react-redux";
 
 class signup extends Component {
-  state = {
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    visible: false,
-    passwordValid: false,
-    emailValid: false,
-    firstNameValid: false,
-    lastNameValid: false,
-    loginValid: true
-  };
-
   handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-    if(event.target.name === "email"){
-      this.isEmailValidShow();
-    }
-    else if(event.target.name ==="password"){
-      this.isPasswordValidShow();
-    }
-    else if(event.target.name === "first_name"){
-      this.isFirstNameValidShow();
-    }
-    else if(event.target.name === "last_name"){
-      this.isLastNameValidShow();
+    if (event.target.name === "email") {
+      this.props.setEmailValid();
+    } else if (event.target.name === "password") {
+      this.props.setPasswordValid();
+    } else if (event.target.name === "first_name") {
+      this.props.setFirstNameValid();
+    } else if (event.target.name === "last_name") {
+      this.props.setLastNameValid();
     }
   };
 
-  isPasswordValidShow = () => {
-    if(this.state.password.length < 8){
-      this.setState({
-        passwordValid: false
-      });
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.setPasswordValid();
+    this.props.setLastNameValid();
+    this.props.setEmailValid();
+    this.props.setFirstNameValid();
+    if (
+      this.props.auth.emailValid &&
+      this.props.auth.passwordValid &&
+      this.props.auth.firstNameValid &&
+      this.props.auth.lastNameValid
+    ) {
+      this.submitUser();
+    } else {
+      this.props.setLoginValid(false);
     }
-    else{
-      this.setState({
-        passwordValid: true
-      });
-    }
-  }
-
-  isEmailValidShow = () => {
-    if(this.state.email.includes("@") && this.state.email.includes(".")){
-      this.setState({
-        emailValid: true
-      });
-    }
-    else{
-      this.setState({
-        emailValid: false
-      });
-    }
-  }
-
-  isFirstNameValidShow = () => {
-    if(this.state.first_name.length > 0){
-      this.setState({
-        firstNameValid: true
-      });
-    }
-    else{
-      this.setState({
-        firstNameValid: false
-      });
-    }
-  }
-
-  isLastNameValidShow = () => {
-    if(this.state.first_name.length > 0){
-      this.setState({
-        lastNameValid: true
-      });
-    }
-    else{
-      this.setState({
-        lastNameValid: false
-      });
-    }
-  }
+  };
 
   submitUser() {
     fetch("http://localhost:9000/signup", {
@@ -97,27 +55,11 @@ class signup extends Component {
         //Make sure your header content type you specify and body type match.
         "Content-Type": "application/json",
       },
-    })
+    });
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.isPasswordValidShow();
-    this.isLastNameValidShow();
-    this.isEmailValidShow();
-    this.isFirstNameValidShow();
-    if (this.state.emailValid && this.state.passwordValid && this.state.firstNameValid && this.state.lastNameValid) {
-      this.submitUser();
-    }
-    else{
-      this.setState({
-        loginValid: false
-      });
-    }
-  };
-
   render() {
-    const passwordValid = this.state.passwordValid;
+    const passwordValid = this.props.auth.passwordValid;
     return (
       <Container className="loginContainer" fluid="sm">
         <Form onSubmit={this.handleSubmit}>
@@ -131,15 +73,19 @@ class signup extends Component {
                     className="form-control"
                     name="first_name"
                     placeholder="first name"
-                    value={this.state.first_name}
+                    value={this.props.auth.first_name}
                     onChange={this.handleChange}
                     autoComplete="off"
                   ></Input>
                 </Col>
                 <Col xs="auto">
-                <div>
-                  {this.state.firstNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                </div>
+                  <div>
+                    {this.props.auth.firstNameValid ? (
+                      <MdCheck size="30px" color="green"></MdCheck>
+                    ) : (
+                      <VscError size="30px" color="red"></VscError>
+                    )}
+                  </div>
                 </Col>
               </Row>
             </Container>
@@ -153,38 +99,45 @@ class signup extends Component {
                     className="form-control"
                     name="last_name"
                     placeholder="last name"
-                    value={this.state.last_name}
+                    value={this.props.auth.last_name}
                     onChange={this.handleChange}
                     autoComplete="off"
                   ></Input>
                 </Col>
                 <Col xs="auto">
-                <div>
-                  {this.state.lastNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                </div>
+                  <div>
+                    {this.props.auth.lastNameValid ? (
+                      <MdCheck size="30px" color="green"></MdCheck>
+                    ) : (
+                      <VscError size="30px" color="red"></VscError>
+                    )}
+                  </div>
                 </Col>
               </Row>
-            
             </Container>
           </FormGroup>
           <FormGroup row>
             <Container fluid>
               <Row>
                 <Col xs="auto">
-                <Input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  placeholder="email"
-                  autoComplete="off"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                ></Input>
+                  <Input
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    placeholder="email"
+                    autoComplete="off"
+                    value={this.props.auth.email}
+                    onChange={this.handleChange}
+                  ></Input>
                 </Col>
                 <Col xs="auto">
-                <div>
-                  {this.state.emailValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                </div>
+                  <div>
+                    {this.props.auth.emailValid ? (
+                      <MdCheck size="30px" color="green"></MdCheck>
+                    ) : (
+                      <VscError size="30px" color="red"></VscError>
+                    )}
+                  </div>
                 </Col>
               </Row>
             </Container>
@@ -197,7 +150,7 @@ class signup extends Component {
               value={this.state.email}
               onChange={this.handleChange}
             ></Input>*/}
-            
+
             {/*<div>
               {this.state.emailValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
             </div>*/}
@@ -206,37 +159,54 @@ class signup extends Component {
             <Container fluid>
               <Row>
                 <Col xs="auto">
-                <Input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  placeholder="password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                  autoComplete="off"
-                ></Input>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    placeholder="password"
+                    value={this.props.auth.password}
+                    onChange={this.handleChange}
+                    autoComplete="off"
+                  ></Input>
                 </Col>
                 <Col xs="auto">
-                <div>
-                  {this.state.passwordValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                </div>
+                  <div>
+                    {this.props.auth.passwordValid ? (
+                      <MdCheck size="30px" color="green"></MdCheck>
+                    ) : (
+                      <VscError size="30px" color="red"></VscError>
+                    )}
+                  </div>
                 </Col>
               </Row>
             </Container>
-            
-            
           </FormGroup>
-          <div>
-            {this.state.loginValid ? '' : 'Invalid Fields'}
-          </div>
+          <div>{this.props.auth.loginValid ? "" : "Invalid Fields"}</div>
           <Button color="danger" type="submit">
             Create Account
           </Button>
-          <div>Already have an account? Click <Link to='/login'>here</Link></div>
+          <div>
+            Already have an account? Click <Link to="/login">here</Link>
+          </div>
         </Form>
       </Container>
     );
   }
 }
 
-export default signup;
+function mapStateToProps(state) {
+  const { authenticationData } = state;
+  return { auth: authenticationData };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setLoginValid: (state) => dispatch(actions.setLoginValid(state)),
+    setLastNameValid: (state) => dispatch(actions.setLastNameValid(state)),
+    setFirstNameValid: (state) => dispatch(actions.setFirstNameValid(state)),
+    setEmailValid: (state) => dispatch(actions.setEmailValid(state)),
+    setPasswordValid: (state) => dispatch(actions.setPasswordValid(state)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(signup);

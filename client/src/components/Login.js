@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Container,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Row,
-  Col,
-} from "reactstrap";
+import { Button, Container, Label, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
