@@ -19,6 +19,18 @@ const signUpSlice = createSlice({
   name: "signUp",
   initialState,
   reducers: {
+    setLastName(state, action) {
+      state.last_name = action.payload;
+    },
+    setFirstName(state, action) {
+      state.first_name = action.payload;
+    },
+    setEmail(state, action) {
+      state.email = action.payload;
+    },
+    setPassword(state, action) {
+      state.password = action.payload;
+    },
     setLoginValid(state, action) {
       state.loginValid = action.payload;
     },
@@ -26,7 +38,7 @@ const signUpSlice = createSlice({
       state.lastNameValid = state.last_name.length > 0;
     },
     setFirstNameValid(state) {
-      state.firstNameValid = this.state.first_name.length > 0;
+      state.firstNameValid = state.first_name.length > 0;
     },
     setEmailValid(state) {
       state.emailValid = !!(

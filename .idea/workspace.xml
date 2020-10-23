@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9761d2f-23a5-4401-a8d6-8fb9c91a9516" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/store/signUpData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/signup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/tutorCard/TutorCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/tutorCard/TutorCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/store/configureStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/configureStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/store/signUpData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/signUpData.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +39,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="C:\$env\Repositories\TutorBase\client\node_modules\prettier" />
     <property name="run.prettier.on.save" value="true" />
-    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -82,6 +79,7 @@
       <workItem from="1603211179092" duration="863000" />
       <workItem from="1603229221275" duration="369000" />
       <workItem from="1603457782516" duration="1536000" />
+      <workItem from="1603478485203" duration="99000" />
     </task>
     <servers />
   </component>
@@ -102,11 +100,11 @@
       <screen x="0" y="0" width="3440" height="1440" />
     </state>
     <state x="622" y="337" key="#xdebugger.evaluate/0.0.3440.1440/865.-1080.1920.1080@0.0.3440.1440" timestamp="1601842648686" />
-    <state x="640" y="478" key="FileChooserDialogImpl" timestamp="1603141686560">
+    <state x="640" y="478" key="FileChooserDialogImpl" timestamp="1603479575615">
       <screen x="0" y="0" width="3440" height="1440" />
     </state>
     <state x="640" y="478" key="FileChooserDialogImpl/0.0.3440.1440/783.-1080.1920.1050@0.0.3440.1440" timestamp="1602517042636" />
-    <state x="640" y="478" key="FileChooserDialogImpl/0.0.3440.1440/783.-1080.1920.1080@0.0.3440.1440" timestamp="1603141686560" />
+    <state x="640" y="478" key="FileChooserDialogImpl/0.0.3440.1440/783.-1080.1920.1080@0.0.3440.1440" timestamp="1603479575615" />
     <state x="640" y="478" key="FileChooserDialogImpl/0.0.3440.1440/865.-1080.1920.1080@0.0.3440.1440" timestamp="1601758540107" />
     <state width="1696" height="404" key="GridCell.Tab.0.bottom" timestamp="1602511080996">
       <screen x="0" y="0" width="3440" height="1440" />
@@ -160,11 +158,11 @@
       <screen x="0" y="0" width="3440" height="1440" />
     </state>
     <state width="1696" height="496" key="GridCell.Tab.2.right/0.0.3440.1440/865.-1080.1920.1080@0.0.3440.1440" timestamp="1601849379565" />
-    <state x="1221" y="365" key="SettingsEditor" timestamp="1603130002771">
+    <state x="1722" y="371" key="SettingsEditor" timestamp="1603479580288">
       <screen x="0" y="0" width="3440" height="1440" />
     </state>
     <state x="1221" y="365" key="SettingsEditor/0.0.3440.1440/783.-1080.1920.1050@0.0.3440.1440" timestamp="1601992116732" />
-    <state x="1221" y="365" key="SettingsEditor/0.0.3440.1440/783.-1080.1920.1080@0.0.3440.1440" timestamp="1603130002771" />
+    <state x="1722" y="371" key="SettingsEditor/0.0.3440.1440/783.-1080.1920.1080@0.0.3440.1440" timestamp="1603479580288" />
     <state x="1221" y="365" key="SettingsEditor/0.0.3440.1440/865.-1080.1920.1080@0.0.3440.1440" timestamp="1601736896078" />
     <state x="-7" y="0" width="1734" height="1447" key="dock-window-1" timestamp="1603128504928">
       <screen x="0" y="0" width="3440" height="1440" />
