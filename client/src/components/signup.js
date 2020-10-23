@@ -19,12 +19,16 @@ import { connect } from "react-redux";
 class signup extends Component {
   handleChange = (event) => {
     if (event.target.name === "email") {
+      this.props.setEmail(event.target.value);
       this.props.setEmailValid();
     } else if (event.target.name === "password") {
+      this.props.setPassword(event.target.value);
       this.props.setPasswordValid();
     } else if (event.target.name === "first_name") {
+      this.props.setFirstName(event.target.value);
       this.props.setFirstNameValid();
     } else if (event.target.name === "last_name") {
+      this.props.setLastName(event.target.value);
       this.props.setLastNameValid();
     }
   };
@@ -201,6 +205,13 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setLastName: (state, action) =>
+      dispatch(actions.setLastNameValid(state, action)),
+    setFirstName: (state, action) =>
+      dispatch(actions.setFirstNameValid(state, action)),
+    setEmail: (state, action) => dispatch(actions.setEmailValid(state, action)),
+    setPassword: (state, action) =>
+      dispatch(actions.setPasswordValid(state, action)),
     setLoginValid: (state) => dispatch(actions.setLoginValid(state)),
     setLastNameValid: (state) => dispatch(actions.setLastNameValid(state)),
     setFirstNameValid: (state) => dispatch(actions.setFirstNameValid(state)),

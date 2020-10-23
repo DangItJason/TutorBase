@@ -19,6 +19,18 @@ const signUpSlice = createSlice({
   name: "signUp",
   initialState,
   reducers: {
+    setLastName(state, action) {
+      state.lastNameValid = action.payload;
+    },
+    setFirstName(state, action) {
+      state.firstNameValid = action.payload;
+    },
+    setEmail(state, action) {
+      state.emailValid = action.payload;
+    },
+    setPassword(state, action) {
+      state.passwordValid = action.payload;
+    },
     setLoginValid(state, action) {
       state.loginValid = action.payload;
     },
