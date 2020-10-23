@@ -25,7 +25,6 @@ class signup extends Component {
       this.props.setPassword(event.target.value);
       this.props.setPasswordValid();
     } else if (event.target.name === "first_name") {
-      console.log(event.target.value);
       this.props.setFirstName(event.target.value);
       this.props.setFirstNameValid();
     } else if (event.target.name === "last_name") {
