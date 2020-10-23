@@ -195,8 +195,8 @@ class signup extends Component {
 }
 
 function mapStateToProps(state) {
-  const { authenticationData } = state;
-  return { auth: authenticationData };
+  const { signUp } = state;
+  return { auth: signUp };
 }
 
 const mapDispatchToProps = (dispatch) => {

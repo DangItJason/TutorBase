@@ -2,18 +2,24 @@ import React, { Component } from "react";
 import { Button, Container, Label, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import { actions } from "../store/loginData";
+import { connect } from "react-redux";
 
 class login extends Component {
-  state = {
-    email: "",
-    password: "",
-    login: null,
-  };
+  // state = {
+  //   email: "",
+  //   password: "",
+  //   login: null,
+  // };
 
   handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+    if (event.target.name === "email") {
+      this.props.setEmail(event.target.value);
+    } else if (event.target.name === "password") {
+      this.props.setPassword(event.target.value);
+    } else if (event.target.name === "login") {
+      this.props.setLogin(event.target.value);
+    }
   };
 
   handleAuthentication = (event) => {
@@ -68,4 +74,21 @@ class login extends Component {
   }
 }
 
-export default login;
+const mapDispatchToProps = dispatch => {
+  return {
+    setEmail: (state, event) => dispatch(actions.setEmail(state, event)),
+    setPassword: (state, event) => dispatch(actions.setPassword(state, event)),
+    setLogin: (state, event) => dispatch(actions.setLogin(state, event)),
+  }
+}
+
+function mapStateToProps(state){
+  const { loginState } = state;
+  return {    
+      email: loginState.email, 
+      password: loginState.password,
+      login: loginState.login,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(login);
