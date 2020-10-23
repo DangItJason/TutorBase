@@ -10,13 +10,30 @@ import "./settings.css";
 class Settings extends Component {
   state = {
     profile: "Jason Nguyen",
-    price: "55",
+    email: "test2@gmail.com",
+    price: 55,
+    temp_price: 55,
     price_modal: false,
     name_modal: false
   };
 
   handlePriceChange = (value) => {
-    this.setState({ price: value })
+    this.setState({ temp_price: value })
+  }
+
+  savePriceChange = (e) => {
+    this.setState({ price: this.state.temp_price });
+    fetch("http://localhost:9000/tutor-operations/price", {
+      method: "put",
+      body: JSON.stringify({email: this.state.email, price: this.state.temp_price}),
+      headers: {"Content-Type": "application/json"},
+    })
+    this.togglePriceModal(e);
+  }
+
+  cancelPriceChange = (e) => {
+    this.setState({ temp_price: this.state.price });
+    this.togglePriceModal(e);
   }
 
   togglePriceModal = (e) => {
@@ -78,15 +95,15 @@ class Settings extends Component {
                         min={15}
                         max={80}
                         step={1}
-                        value={this.state.price}
+                        value={this.state.temp_price}
                         onChange={this.handlePriceChange}
                       />
-                      <div className='value'>${this.state.price}</div>
+                      <div className='value'>${this.state.temp_price}</div>
                     </div>
                   </ModalBody>
                   <ModalFooter>
-                    <Button className="btn-red" onClick={this.togglePriceModal}>Save</Button>{' '}
-                    <Button color="secondary" onClick={this.togglePriceModal}>Cancel</Button>
+                    <Button className="btn-red" onClick={this.savePriceChange}>Save</Button>
+                    <Button color="secondary" onClick={this.cancelPriceChange}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
                 
