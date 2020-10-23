@@ -1,15 +1,34 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import Slider from 'react-rangeslider';
+import 'react-rangeslider/lib/index.css';
 import "./settings.css";
 
 class Settings extends Component {
   state = {
     profile: "Jason Nguyen",
     price: "55",
+    price_modal: false,
+    name_modal: false
   };
+
+  handlePriceChange = (value) => {
+    this.setState({ price: value })
+  }
+
+  togglePriceModal = (e) => {
+    e.preventDefault();
+    this.setState({ price_modal: !this.state.price_modal })
+  };
+
+  toggleNameModal = (e) => {
+    e.preventDefault();
+    this.setState({ name_modal: !this.state.name_modal })
+  };
+  
   render() {
     return (
       <Container fluid className={classNames("background")}>
@@ -21,16 +40,55 @@ class Settings extends Component {
           <Col xl="6">
             <ListGroup className="heading-text">
               <ListGroupItem className="bubble-container">
+                
                 <span className="heading-item">{this.state.profile}</span>
-                <span className="heading-item"><FontAwesomeIcon
-                  icon={faEdit}
-                  className="font-adj"
-                ></FontAwesomeIcon></span>
+                <a href="#" className="modal-link" onClick={this.toggleNameModal}>
+                  <span className="heading-item"><FontAwesomeIcon
+                    icon={faEdit}
+                    className="font-adj"
+                  ></FontAwesomeIcon></span>
+                </a>
+                <Modal isOpen={this.state.name_modal} fade={false} toggle={this.toggleNameModal} className="name-modal">
+                  <ModalHeader toggle={this.toggleNameModal}>Edit Name</ModalHeader>
+                  <ModalBody>
+                    Change your name here.
+                    <InputGroup>
+                      <Input placeholder={this.state.profile} />
+                    </InputGroup>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary" onClick={this.toggleNameModal}>Save</Button>{' '}
+                    <Button color="secondary" onClick={this.toggleNameModal}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
+                
                 <span className="heading-item">${this.state.price}/h</span>
-                <span className="heading-item"><FontAwesomeIcon
+                <a href="#" className="modal-link" onClick={this.togglePriceModal}>
+                  <span className="heading-item"><FontAwesomeIcon
                   icon={faEdit}
                   className="font-adj"
-                ></FontAwesomeIcon></span>
+                  ></FontAwesomeIcon></span>
+                </a>
+                <Modal isOpen={this.state.price_modal} fade={false} toggle={this.togglePriceModal} className="price-modal">
+                  <ModalHeader toggle={this.togglePriceModal}>Edit Price</ModalHeader>
+                  <ModalBody>
+                    Change your hourly tutoring price rate.
+                    <div className='slider'>
+                      <Slider
+                        min={15}
+                        max={80}
+                        step={1}
+                        value={this.state.price}
+                        onChange={this.handlePriceChange}
+                      />
+                      <div className='value'>${this.state.price}</div>
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button className="btn-red" onClick={this.togglePriceModal}>Save</Button>{' '}
+                    <Button color="secondary" onClick={this.togglePriceModal}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
                 
               </ListGroupItem>
               <br></br>
