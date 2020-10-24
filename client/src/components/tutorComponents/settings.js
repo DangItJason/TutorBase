@@ -1,15 +1,63 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import Slider from 'react-rangeslider';
+import 'react-rangeslider/lib/index.css';
 import "./settings.css";
 
 class Settings extends Component {
   state = {
     profile: "Jason Nguyen",
-    price: "55",
+    email: "test2@gmail.com",
+    price: 55,
+    temp_price: 55,
+    price_modal: false,
+    name_modal: false
   };
+
+  componentDidMount() {
+    fetch("http://localhost:9000/tutor-operations/price/" + this.state.email,  {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+       console.log(res);
+        return res.json()
+      }).then(price => {
+        this.setState({ price: price, temp_price: price });
+      });
+  }
+
+  handlePriceChange = (value) => {
+    this.setState({ temp_price: value })
+  }
+
+  savePriceChange = (e) => {
+    this.setState({ price: this.state.temp_price });
+    fetch("http://localhost:9000/tutor-operations/price", {
+      method: "PUT",
+      body: JSON.stringify({email: this.state.email, price: this.state.temp_price}),
+      headers: {"Content-Type": "application/json"},
+    })
+    this.togglePriceModal(e);
+  }
+
+  cancelPriceChange = (e) => {
+    this.setState({ temp_price: this.state.price });
+    this.togglePriceModal(e);
+  }
+
+  togglePriceModal = (e) => {
+    e.preventDefault();
+    this.setState({ price_modal: !this.state.price_modal })
+  };
+
+  toggleNameModal = (e) => {
+    e.preventDefault();
+    this.setState({ name_modal: !this.state.name_modal })
+  };
+  
   render() {
     return (
       <Container fluid className={classNames("background")}>
@@ -21,16 +69,55 @@ class Settings extends Component {
           <Col xl="6">
             <ListGroup className="heading-text">
               <ListGroupItem className="bubble-container">
+                
                 <span className="heading-item">{this.state.profile}</span>
-                <span className="heading-item"><FontAwesomeIcon
-                  icon={faEdit}
-                  className="font-adj"
-                ></FontAwesomeIcon></span>
+                <a href="#" className="modal-link" onClick={this.toggleNameModal}>
+                  <span className="heading-item"><FontAwesomeIcon
+                    icon={faEdit}
+                    className="font-adj"
+                  ></FontAwesomeIcon></span>
+                </a>
+                <Modal isOpen={this.state.name_modal} fade={false} toggle={this.toggleNameModal} className="name-modal">
+                  <ModalHeader toggle={this.toggleNameModal}>Edit Name</ModalHeader>
+                  <ModalBody>
+                    Change your name here.
+                    <InputGroup>
+                      <Input placeholder={this.state.profile} />
+                    </InputGroup>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary" onClick={this.toggleNameModal}>Save</Button>{' '}
+                    <Button color="secondary" onClick={this.toggleNameModal}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
+                
                 <span className="heading-item">${this.state.price}/h</span>
-                <span className="heading-item"><FontAwesomeIcon
+                <a href="#" className="modal-link" onClick={this.togglePriceModal}>
+                  <span className="heading-item"><FontAwesomeIcon
                   icon={faEdit}
                   className="font-adj"
-                ></FontAwesomeIcon></span>
+                  ></FontAwesomeIcon></span>
+                </a>
+                <Modal isOpen={this.state.price_modal} fade={false} toggle={this.togglePriceModal} className="price-modal">
+                  <ModalHeader toggle={this.togglePriceModal}>Edit Price</ModalHeader>
+                  <ModalBody>
+                    Change your hourly tutoring price rate.
+                    <div className='slider'>
+                      <Slider
+                        min={15}
+                        max={80}
+                        step={1}
+                        value={this.state.temp_price}
+                        onChange={this.handlePriceChange}
+                      />
+                      <div className='value'>${this.state.temp_price}</div>
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button className="btn-red" onClick={this.savePriceChange}>Save</Button>
+                    <Button color="secondary" onClick={this.cancelPriceChange}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
                 
               </ListGroupItem>
               <br></br>

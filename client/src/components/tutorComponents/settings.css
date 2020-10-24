@@ -1,3 +1,12 @@
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
 .background {
     background: #f8f8f8;
 }
@@ -41,11 +50,16 @@
     background: white;
 }
 
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
+.modal-link {
+    color: #212529;
+    transition: 0.25s;
+}
+
+.modal-link:hover {
+    color: #E66064;
+    transition: 0.25s;
+}
+
+.rangeslider-horizontal .rangeslider__fill {
+    background-color: #E66064;
 }
