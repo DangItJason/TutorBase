@@ -8,6 +8,7 @@ var cors = require("cors");
 var app = express();
 var bcrypt = require('bcryptjs');
 var fs = require("fs");
+var isLoggedIn = require('./middleware/authentication');
 
 //Authentication Packages
 var cas = require("./config/casStrategy")
@@ -30,9 +31,7 @@ var catalogRouter = require("./routes/api/catalog");
 var emailClientRouter = require("./routes/email-user");
 var tutorOperations = require("./routes/tutor-operations")
 
-app.use(cors({
-  origin: "http://localhost:3000",
-}));
+app.use(cors());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -46,6 +45,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 //Authentication Middleware
+passport.use(cas);
+
 app.use(session({
   secret: 'djskfjalkjsadlkf',
   resave: false,
@@ -57,12 +58,13 @@ app.use(passport.session());
 
 
 passport.serializeUser(function (user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
 passport.deserializeUser(function (user, done) {
   done(err, user);
 });
+
 
 app.use("/", indexRouter)
 app.use("/users", usersRouter);
@@ -71,6 +73,10 @@ app.use("/signup", signupRouter);
 app.use("/catalog", catalogRouter);
 app.use("/email-user", emailClientRouter);
 app.use("/tutor-operations", tutorOperations);
+
+app.get('/checkLogin', isLoggedIn, function (req, res) {
+  res.sendStatus(200);
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

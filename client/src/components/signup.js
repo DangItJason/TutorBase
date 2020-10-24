@@ -3,7 +3,7 @@ import { Button, Container, Form, FormGroup, Label, Input, Row, Col } from "reac
 import { Link } from "react-router-dom";
 import "./Login.css";
 import { MdCheck } from "react-icons/md";
-import { VscError} from "react-icons/vsc";
+import { VscError } from "react-icons/vsc";
 
 class signup extends Component {
   state = {
@@ -23,27 +23,27 @@ class signup extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
-    if(event.target.name === "email"){
+    if (event.target.name === "email") {
       this.isEmailValidShow();
     }
-    else if(event.target.name ==="password"){
+    else if (event.target.name === "password") {
       this.isPasswordValidShow();
     }
-    else if(event.target.name === "first_name"){
+    else if (event.target.name === "first_name") {
       this.isFirstNameValidShow();
     }
-    else if(event.target.name === "last_name"){
+    else if (event.target.name === "last_name") {
       this.isLastNameValidShow();
     }
   };
 
   isPasswordValidShow = () => {
-    if(this.state.password.length < 8){
+    if (this.state.password.length < 8) {
       this.setState({
         passwordValid: false
       });
     }
-    else{
+    else {
       this.setState({
         passwordValid: true
       });
@@ -51,12 +51,12 @@ class signup extends Component {
   }
 
   isEmailValidShow = () => {
-    if(this.state.email.includes("@") && this.state.email.includes(".")){
+    if (this.state.email.includes("@") && this.state.email.includes(".")) {
       this.setState({
         emailValid: true
       });
     }
-    else{
+    else {
       this.setState({
         emailValid: false
       });
@@ -64,12 +64,12 @@ class signup extends Component {
   }
 
   isFirstNameValidShow = () => {
-    if(this.state.first_name.length > 0){
+    if (this.state.first_name.length > 0) {
       this.setState({
         firstNameValid: true
       });
     }
-    else{
+    else {
       this.setState({
         firstNameValid: false
       });
@@ -77,12 +77,12 @@ class signup extends Component {
   }
 
   isLastNameValidShow = () => {
-    if(this.state.first_name.length > 0){
+    if (this.state.first_name.length > 0) {
       this.setState({
         lastNameValid: true
       });
     }
-    else{
+    else {
       this.setState({
         lastNameValid: false
       });
@@ -109,7 +109,7 @@ class signup extends Component {
     if (this.state.emailValid && this.state.passwordValid && this.state.firstNameValid && this.state.lastNameValid) {
       this.submitUser();
     }
-    else{
+    else {
       this.setState({
         loginValid: false
       });
@@ -137,9 +137,9 @@ class signup extends Component {
                   ></Input>
                 </Col>
                 <Col xs="auto">
-                <div>
-                  {this.state.firstNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                </div>
+                  <div>
+                    {this.state.firstNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
+                  </div>
                 </Col>
               </Row>
             </Container>
@@ -159,32 +159,32 @@ class signup extends Component {
                   ></Input>
                 </Col>
                 <Col xs="auto">
-                <div>
-                  {this.state.lastNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                </div>
+                  <div>
+                    {this.state.lastNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
+                  </div>
                 </Col>
               </Row>
-            
+
             </Container>
           </FormGroup>
           <FormGroup row>
             <Container fluid>
               <Row>
                 <Col xs="auto">
-                <Input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  placeholder="email"
-                  autoComplete="off"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                ></Input>
+                  <Input
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    placeholder="email"
+                    autoComplete="off"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                  ></Input>
                 </Col>
                 <Col xs="auto">
-                <div>
-                  {this.state.emailValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                </div>
+                  <div>
+                    {this.state.emailValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
+                  </div>
                 </Col>
               </Row>
             </Container>
@@ -197,7 +197,7 @@ class signup extends Component {
               value={this.state.email}
               onChange={this.handleChange}
             ></Input>*/}
-            
+
             {/*<div>
               {this.state.emailValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
             </div>*/}
@@ -206,25 +206,25 @@ class signup extends Component {
             <Container fluid>
               <Row>
                 <Col xs="auto">
-                <Input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  placeholder="password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                  autoComplete="off"
-                ></Input>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    placeholder="password"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    autoComplete="off"
+                  ></Input>
                 </Col>
                 <Col xs="auto">
-                <div>
-                  {this.state.passwordValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                </div>
+                  <div>
+                    {this.state.passwordValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
+                  </div>
                 </Col>
               </Row>
             </Container>
-            
-            
+
+
           </FormGroup>
           <div>
             {this.state.loginValid ? '' : 'Invalid Fields'}
