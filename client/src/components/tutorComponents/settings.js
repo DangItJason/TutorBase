@@ -13,8 +13,10 @@ class Settings extends Component {
     email: "test2@gmail.com",
     price: 55,
     temp_price: 55,
+    courses: [],
     price_modal: false,
-    name_modal: false
+    name_modal: false,
+    courses_modal: false,
   };
 
   componentDidMount() {
@@ -27,6 +29,20 @@ class Settings extends Component {
       }).then(price => {
         this.setState({ price: price, temp_price: price });
       });
+
+    fetch("http://localhost:9000/tutor-operations/courses/" + this.state.email,  {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+        console.log(res);
+        return res.json()
+      }).then(courses => {
+        this.setState({ courses: courses });
+      });
+  }
+
+  saveNameChange = (e) => {
+    this.togglePriceModal(e);
   }
 
   handlePriceChange = (value) => {
@@ -48,6 +64,10 @@ class Settings extends Component {
     this.togglePriceModal(e);
   }
 
+  saveCoursesChange = (e) => {
+    this.toggleCoursesModal(e);
+  }
+
   togglePriceModal = (e) => {
     e.preventDefault();
     this.setState({ price_modal: !this.state.price_modal })
@@ -57,10 +77,15 @@ class Settings extends Component {
     e.preventDefault();
     this.setState({ name_modal: !this.state.name_modal })
   };
+
+  toggleCoursesModal = (e) => {
+    e.preventDefault();
+    this.setState({ courses_modal: !this.state.courses_modal })
+  };
   
   render() {
     return (
-      <Container fluid className={classNames("background")}>
+      <Container fluid className="background">
         <Row className="title">
           <div class="profile-text">Settings</div>
         </Row>
@@ -69,34 +94,27 @@ class Settings extends Component {
           <Col xl="6">
             <ListGroup className="heading-text">
               <ListGroupItem className="bubble-container">
-                
                 <span className="heading-item">{this.state.profile}</span>
                 <a href="#" className="modal-link" onClick={this.toggleNameModal}>
-                  <span className="heading-item"><FontAwesomeIcon
-                    icon={faEdit}
-                    className="font-adj"
-                  ></FontAwesomeIcon></span>
+                  <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                 </a>
                 <Modal isOpen={this.state.name_modal} fade={false} toggle={this.toggleNameModal} className="name-modal">
                   <ModalHeader toggle={this.toggleNameModal}>Edit Name</ModalHeader>
                   <ModalBody>
                     Change your name here.
                     <InputGroup>
-                      <Input placeholder={this.state.profile} />
+                      <Input id="profile-name" placeholder={this.state.profile} />
                     </InputGroup>
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="primary" onClick={this.toggleNameModal}>Save</Button>{' '}
+                    <Button className="btn-red" onClick={this.saveNameChange}>Save</Button>{' '}
                     <Button color="secondary" onClick={this.toggleNameModal}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
-                
+
                 <span className="heading-item">${this.state.price}/h</span>
                 <a href="#" className="modal-link" onClick={this.togglePriceModal}>
-                  <span className="heading-item"><FontAwesomeIcon
-                  icon={faEdit}
-                  className="font-adj"
-                  ></FontAwesomeIcon></span>
+                  <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                 </a>
                 <Modal isOpen={this.state.price_modal} fade={false} toggle={this.togglePriceModal} className="price-modal">
                   <ModalHeader toggle={this.togglePriceModal}>Edit Price</ModalHeader>
@@ -118,16 +136,11 @@ class Settings extends Component {
                     <Button color="secondary" onClick={this.cancelPriceChange}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
-                
               </ListGroupItem>
               <br></br>
               <ListGroupItem>
                 <span className="heading-item">Description</span>
-                <span className="heading-item"><FontAwesomeIcon
-                  icon={faEdit}
-                  className="font-adj"
-                ></FontAwesomeIcon></span>
-                
+                <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                 <hr></hr>
                 <div className="body-text">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
@@ -159,11 +172,31 @@ class Settings extends Component {
           <Col xl="6">
             <ListGroup className="heading-text">
               <ListGroupItem>
-                Availability
-                <FontAwesomeIcon
-                  icon={faEdit}
-                  className="font-adj"
-                ></FontAwesomeIcon>
+                <span className="heading-item">Availability</span>
+                <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
+              </ListGroupItem>
+              <br></br>
+              <ListGroupItem>
+                <span className="heading-item">Courses Offered</span>
+                  <a href="#" className="modal-link" onClick={this.toggleCoursesModal}>
+                    <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
+                  </a>
+                  <hr/>
+                  <ListGroup>
+                  {this.state.courses.map((course, i) => 
+                    <ListGroupItem className="body-text" key={i}>{course}</ListGroupItem>
+                  )}
+                  </ListGroup>
+                  <Modal isOpen={this.state.courses_modal} fade={false} toggle={this.toggleCoursesModal} className="courses-modal">
+                    <ModalHeader toggle={this.toggleCoursesModal}>Edit Courses</ModalHeader>
+                    <ModalBody>
+                      Change your courses offered.
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button className="btn-red" onClick={this.saveCoursesChange}>Save</Button>
+                      <Button color="secondary" onClick={this.toggleCoursesModal}>Cancel</Button>
+                    </ModalFooter>
+                  </Modal>
               </ListGroupItem>
             </ListGroup>
           </Col>

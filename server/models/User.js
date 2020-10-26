@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     tutor: {
         appts: [Appointment], // Upcoming appointments
         past_appts: [Appointment], // Past appointments
-        courses: [Schema.ObjectId],
+        courses: [String],
         times: [[[Number, Number]], [[Number, Number]], [[Number, Number]], [[Number, Number]], [[Number, Number]], [[Number, Number]], [[Number, Number]]],
         price: { type: Number, default: 30 },
         interval: { type: Number, default: 30 },

@@ -29,8 +29,8 @@ router.put('/price', async (req, res) => {
 
 // GET tutor-operations/courses
 // Get a tutor's courses
-router.get('/courses', (req, res) => {
-    User.find({ email: req.body.email })
+router.get('/courses/:email', (req, res) => {
+    User.find({ email: req.params.email })
         .then(users => res.json(users[0].tutor.courses))
         .catch(err => res.status(400).json({ msg: err.message }));
 });
@@ -39,7 +39,7 @@ router.get('/courses', (req, res) => {
 // Update an existing tutor's courses
 router.put('/courses', async (req, res) => {
     try {
-        await User.findOneAndUpdate({ email: req.body.email }, { $push: { tutor: { courses: req.body.course_id } } })
+        await User.findOneAndUpdate({ email: req.body.email }, { $set: { "tutor.courses": req.body.courses } })
         res.send(true)
     } catch (err) {
         res.status(400).json({ msg: err.message })
