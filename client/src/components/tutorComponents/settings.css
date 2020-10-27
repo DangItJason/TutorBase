@@ -60,6 +60,32 @@ hr {
     transition: 0.25s;
 }
 
+.list-remove {
+    color: #7A7A7A;
+    background-color: #FFF;
+    border: none;
+    transition: 0.25s;
+    float: right;
+    text-decoration: none;
+    margin-top: -5px;
+}
+
+.list-remove:hover {
+    color: #E66064;
+    transition: 0.25s;
+    text-decoration: none;
+}
+
+.list-remove:active {
+    color: #E66064;
+    text-decoration: none;
+}
+
+.list-remove:focus {
+    color: #E66064;
+    text-decoration: none;
+}
+
 .rangeslider-horizontal .rangeslider__fill {
     background-color: #E66064;
 }

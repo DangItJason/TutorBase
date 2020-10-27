@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faBan, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
@@ -14,6 +14,7 @@ class Settings extends Component {
     price: 55,
     temp_price: 55,
     courses: [],
+    temp_courses: [],
     price_modal: false,
     name_modal: false,
     courses_modal: false,
@@ -37,7 +38,7 @@ class Settings extends Component {
         console.log(res);
         return res.json()
       }).then(courses => {
-        this.setState({ courses: courses });
+        this.setState({ courses: courses, temp_courses: courses });
       });
   }
 
@@ -64,7 +65,29 @@ class Settings extends Component {
     this.togglePriceModal(e);
   }
 
+  handleCourseRemove = e => {
+    const { value } = e.target;
+    e.preventDefault();
+    const filtered_courses = this.state.temp_courses.filter((c) => c !== value);
+    this.setState({ temp_courses: filtered_courses });
+  }
+
+  handleCourseAdd = e => {
+    e.preventDefault();
+  }
+
   saveCoursesChange = (e) => {
+    this.setState({ courses: this.state.temp_courses });
+    fetch("http://localhost:9000/tutor-operations/courses", {
+      method: "PUT",
+      body: JSON.stringify({email: this.state.email, courses: this.state.temp_courses}),
+      headers: {"Content-Type": "application/json"},
+    })
+    this.toggleCoursesModal(e);
+  }
+
+  cancelCoursesChange = (e) => {
+    this.setState({ temp_courses: this.state.courses });
     this.toggleCoursesModal(e);
   }
 
@@ -102,6 +125,7 @@ class Settings extends Component {
                   <ModalHeader toggle={this.toggleNameModal}>Edit Name</ModalHeader>
                   <ModalBody>
                     Change your name here.
+                    <hr/>
                     <InputGroup>
                       <Input id="profile-name" placeholder={this.state.profile} />
                     </InputGroup>
@@ -120,6 +144,7 @@ class Settings extends Component {
                   <ModalHeader toggle={this.togglePriceModal}>Edit Price</ModalHeader>
                   <ModalBody>
                     Change your hourly tutoring price rate.
+                    <hr/>
                     <div className='slider'>
                       <Slider
                         min={15}
@@ -132,7 +157,7 @@ class Settings extends Component {
                     </div>
                   </ModalBody>
                   <ModalFooter>
-                    <Button className="btn-red" onClick={this.savePriceChange}>Save</Button>
+                    <Button className="btn-red" onClick={this.savePriceChange}>Save</Button>{' '}
                     <Button color="secondary" onClick={this.cancelPriceChange}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
@@ -191,10 +216,21 @@ class Settings extends Component {
                     <ModalHeader toggle={this.toggleCoursesModal}>Edit Courses</ModalHeader>
                     <ModalBody>
                       Change your courses offered.
+                      <hr/>
+                      <ListGroup>
+                      {this.state.temp_courses.map((course, i) => 
+                        <ListGroupItem className="body-text" key={i}>
+                          {course}
+                          <Button color="link" className="list-remove" value={course} onClick={this.handleCourseRemove}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
+                        </ListGroupItem>
+                      )}
+                      </ListGroup>
+                      <br/>
+                      <Button color="success" onClick={this.handleCourseAdd}><FontAwesomeIcon icon={faPlus} className="font-adj"/></Button>
                     </ModalBody>
                     <ModalFooter>
                       <Button className="btn-red" onClick={this.saveCoursesChange}>Save</Button>
-                      <Button color="secondary" onClick={this.toggleCoursesModal}>Cancel</Button>
+                      <Button color="secondary" onClick={this.cancelCoursesChange}>Cancel</Button>
                     </ModalFooter>
                   </Modal>
               </ListGroupItem>
