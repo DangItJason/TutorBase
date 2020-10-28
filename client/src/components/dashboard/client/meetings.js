@@ -1,3 +1,4 @@
+import { applyMiddleware } from "@reduxjs/toolkit";
 import React, { Component } from "react";
 import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import {
@@ -16,6 +17,22 @@ class Meetings extends Component {
     this.state = {
       dropdownOpen: false,
       dropdownValue: "Completed",
+      //Dummy data until express routes are implemented
+      appointments: [ 
+          {
+              'name' : 'Jason',
+              'color' : 'success',
+          },
+          {
+              'name' : 'Jeremy',
+              'color' : 'warning',
+          }
+          ,
+          {
+              'name' : 'David',
+              'color' : 'danger',
+          }
+        ]
     };
   }
 
@@ -32,12 +49,16 @@ class Meetings extends Component {
     });
   }
 
+
   render() {
     return (
       <Container fluid>
         <Row className="title">
           <div class="profile-text">Settings</div>
         </Row>
+        
+        <hr></hr>
+
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
           <DropdownToggle caret color="secondary" outline>
             {this.state.dropDownValue}
@@ -57,7 +78,14 @@ class Meetings extends Component {
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <hr></hr>
+
+        <ListGroup>
+            {this.state.appointments.map(appointment => (
+                    <ListGroupItem color={appointment.color} className="item">
+                        {appointment.name}
+                    </ListGroupItem>
+                ))}
+        </ListGroup>
       </Container>
     );
   }

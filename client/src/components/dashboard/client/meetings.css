@@ -24,6 +24,11 @@
     font-size: 20px;
 }
 
+.item {
+    height: 50px;
+    margin-top: 10px;
+}
+
 hr {
     display: block;
     height: 1px;
