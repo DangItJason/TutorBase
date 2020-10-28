@@ -14,7 +14,14 @@ function App() {
           <Route exact path='/' component ={login} />
           <Route exact path='/login' component={login} />
           <Route exact path='/signup' component={signup} />
-          <Route exact path='/home' component={ClientDashboard} />
+          <Route exact path='/home'
+            render={(props) => (
+              <ClientDashboard {...props} extension='form'></ClientDashboard>
+            )}></Route>
+          <Route exact path='/home/meetings'
+            render={(props) => (
+              <ClientDashboard {...props} extension='meetings'></ClientDashboard>
+            )}></Route>
         </Switch>
       </Router>
     </ToastProvider>

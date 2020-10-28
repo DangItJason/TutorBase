@@ -15,7 +15,7 @@ class ClientDashboard extends Component {
         return (
             <div className={classNames("d-flex", (this.props.sidebarToggled) ? "toggled":"")} id="dashboard-wrapper">
                 <Sidebar />
-                <Panel />
+                <Panel extension={this.props.extension}/>
             </div>
         );
     }
