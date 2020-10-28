@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input } from "reactstrap";
+import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, InputGroup, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faBan, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faBan, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
@@ -15,6 +15,8 @@ class Settings extends Component {
     temp_price: 55,
     courses: [],
     temp_courses: [],
+    added_courses: [],
+    add_course: false,
     price_modal: false,
     name_modal: false,
     courses_modal: false,
@@ -43,7 +45,7 @@ class Settings extends Component {
   }
 
   saveNameChange = (e) => {
-    this.togglePriceModal(e);
+    this.toggleNameModal(e);
   }
 
   handlePriceChange = (value) => {
@@ -74,10 +76,27 @@ class Settings extends Component {
 
   handleCourseAdd = e => {
     e.preventDefault();
+    this.setState(prevState => ({ added_courses: [...prevState.added_courses, '']}))
+  }
+
+  handleTempCourseChange = (i, event) => {
+    let values = [...this.state.added_courses];
+    values[i] = event.target.value;
+    this.setState({ added_courses: values });
+  }
+
+  handleTempCourseAdd = (course) => {
+    this.setState(prevState => ({ temp_courses: [...prevState.temp_courses, course],
+      added_courses: this.state.added_courses.filter(a_course => a_course != course)
+    }));
+  }
+
+  handleTempCourseRemove = (index) => {
+    this.setState({ added_courses: this.state.added_courses.filter((c, i) => index != i) })
   }
 
   saveCoursesChange = (e) => {
-    this.setState({ courses: this.state.temp_courses });
+    this.setState({ courses: this.state.temp_courses, add_course: false });
     fetch("http://localhost:9000/tutor-operations/courses", {
       method: "PUT",
       body: JSON.stringify({email: this.state.email, courses: this.state.temp_courses}),
@@ -87,7 +106,7 @@ class Settings extends Component {
   }
 
   cancelCoursesChange = (e) => {
-    this.setState({ temp_courses: this.state.courses });
+    this.setState({ temp_courses: this.state.courses, add_course: false });
     this.toggleCoursesModal(e);
   }
 
@@ -224,9 +243,20 @@ class Settings extends Component {
                           <Button color="link" className="list-remove" value={course} onClick={this.handleCourseRemove}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
                         </ListGroupItem>
                       )}
+                      {this.state.added_courses.map((course, i) => 
+                      <Form key={i}>
+                        <ListGroupItem className="body-text">
+                          <InputGroup>
+                            <Input className="list-add-input" value={course || ''} onChange={this.handleTempCourseChange.bind(this, i)}/>
+                            <Button color="link" className="list-add" onClick={(c) => this.handleTempCourseAdd(course)}><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
+                            <Button color="link" className="list-remove" onClick={(index) => this.handleTempCourseRemove(i)}><FontAwesomeIcon icon={faTimes} className="font-adj"/></Button>
+                          </InputGroup>
+                        </ListGroupItem>
+                      </Form>
+                      )}
                       </ListGroup>
                       <br/>
-                      <Button color="success" onClick={this.handleCourseAdd}><FontAwesomeIcon icon={faPlus} className="font-adj"/></Button>
+                      <Button color="success" onClick={this.handleCourseAdd}>Add <FontAwesomeIcon icon={faPlus} className="font-adj"/></Button>
                     </ModalBody>
                     <ModalFooter>
                       <Button className="btn-red" onClick={this.saveCoursesChange}>Save</Button>

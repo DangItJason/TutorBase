@@ -86,6 +86,37 @@ hr {
     text-decoration: none;
 }
 
+.list-add {
+    color: #7A7A7A;
+    background-color: #FFF;
+    border: none;
+    transition: 0.25s;
+    float: right;
+    text-decoration: none;
+    margin-top: -5px;
+    margin-right: 3px;
+}
+
+.list-add:hover {
+    color: #28A745;
+    transition: 0.25s;
+    text-decoration: none;
+}
+
+.list-add:active {
+    color: #28A745;
+    text-decoration: none;
+}
+
+.list-add:focus {
+    color: #28A745;
+    text-decoration: none;
+}
+
+.list-add-input {
+    margin-right: 10px;
+}
+
 .rangeslider-horizontal .rangeslider__fill {
     background-color: #E66064;
 }
