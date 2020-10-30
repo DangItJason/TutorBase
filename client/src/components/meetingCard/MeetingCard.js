@@ -31,6 +31,7 @@ class MeetingCard extends Component {
     if (this.state.cardExpanded) {
       card = <div className={'expanded-card ' + cardType} onClick={this.toggleCard}></div>;
     }
+    
     return (<>{card}</>);
   }
 }

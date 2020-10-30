@@ -84,8 +84,8 @@ class Meetings extends Component {
         </Dropdown>
 
         {this.state.appointments.map(appointment => (
-              <MeetingCard appointment={appointment} />
-          ))}
+          <MeetingCard appointment={appointment} />
+        ))}
       </Container>
     );
   }
