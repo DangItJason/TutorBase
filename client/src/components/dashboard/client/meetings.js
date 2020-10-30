@@ -8,6 +8,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import "./meetings.css";
+import MeetingCard from '../../meetingCard/MeetingCard';
 
 class Meetings extends Component {
   constructor(props) {
@@ -21,16 +22,19 @@ class Meetings extends Component {
       appointments: [ 
           {
               'name' : 'Jason',
-              'color' : 'success',
+              'color' : 'Completed',
           },
           {
               'name' : 'Jeremy',
-              'color' : 'warning',
-          }
-          ,
+              'color' : 'Pending',
+          },
           {
               'name' : 'David',
-              'color' : 'danger',
+              'color' : 'Upcoming',
+          },
+          {
+            'name' : 'Jacob',
+            'color' : 'Denied',
           }
         ]
     };
@@ -74,18 +78,14 @@ class Meetings extends Component {
               <div onClick={this.changeValue}>Upcoming</div>
             </DropdownItem>
             <DropdownItem>
-              <div onClick={this.changeValue}>Declined</div>
+              <div onClick={this.changeValue}>Denied</div>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
 
-        <ListGroup>
-            {this.state.appointments.map(appointment => (
-                    <ListGroupItem color={appointment.color} className="item">
-                        {appointment.name}
-                    </ListGroupItem>
-                ))}
-        </ListGroup>
+        {this.state.appointments.map(appointment => (
+              <MeetingCard appointment={appointment} />
+          ))}
       </Container>
     );
   }
