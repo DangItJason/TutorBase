@@ -87,4 +87,55 @@ router.put('/interval', async (req, res) => {
     }
 });
 
+// GET tutor-operations/name
+// Get a users Name
+router.get('/name/:email', (req, res) => {
+    User.find({ email: req.params.email })
+        .then(users => res.json({
+            first_name: users[0].first_name,
+            last_name: users[0].last_name
+        }))
+        .catch(err => res.status(400).json({ msg: err.message }));
+});
+
+// PUT tutor-operations/name
+// Update an existing users first and last name
+router.put('/name', async (req, res) => {
+    try {
+        await User.findOneAndUpdate({ email: req.body.email }, {
+            $set: {
+                "first_name": req.body.first_name,
+                "last_name": req.body.last_name
+            }
+        })
+        res.send(true)
+    } catch (err) {
+        res.status(400).json({ msg: err.message })
+    }
+});
+
+// GET tutor-operations/description
+// Get a users description
+router.get('/description/:email', (req, res) => {
+    User.find({ email: req.params.email })
+        .then(users => res.json({ description: users[0].description }))
+        .catch(err => res.status(400).json({ msg: err.message }));
+});
+
+// PUT tutor-operations/description
+// Update an existing users desctiption
+router.put('/description', async (req, res) => {
+    try {
+        console.log(req.body.description)
+        await User.findOneAndUpdate({ email: req.body.email }, {
+            $set: {
+                "description": req.body.description
+            }
+        })
+        res.send(true)
+    } catch (err) {
+        res.status(400).json({ msg: err.message })
+    }
+});
+
 module.exports = router;

@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     profile_img: { type: String, default: "" },
+    description: { type: String, default: "Hello :)", max: 200 },
     client: {
         appts: [Appointment], // Upcoming appointments
         past_appts: [Appointment] // Past appointments
