@@ -2,8 +2,8 @@
 Creating a better system to connect students and tutors.
 
 ## Links
-- [https://rcos.io/projects/dangitjason/tutorbase/profile](RCOS Project Profile)
--[https://docs.google.com/document/d/1yP6Er1oroquKuXtOQowfGb3ipf_c5aIY3sENKr8ZoEU/edit?usp=sharing](Fall 2020 Project Proposal)
+- [https://rcos.io/projects/dangitjason/tutorbase/profile](https://rcos.io/projects/dangitjason/tutorbase/profile) (RCOS Project Page)
+- [https://docs.google.com/document/d/1yP6Er1oroquKuXtOQowfGb3ipf_c5aIY3sENKr8ZoEU/edit?usp=sharing](https://docs.google.com/document/d/1yP6Er1oroquKuXtOQowfGb3ipf_c5aIY3sENKr8ZoEU/edit?usp=sharing) (Fall 2020 Project Proposal)
 
 
 ### Overview
