@@ -29,28 +29,42 @@ class Meetings extends Component {
           name: "Jason Nguyen",
           color: "Completed",
           location: "Barton",
-          time: "2PM-4PM"
+          time: "2PM-4PM",
         },
         {
           name: "Jeremy Weiss",
           color: "Pending",
           location: "Union",
-          time: "12PM-4PM"
+          time: "12PM-4PM",
         },
         {
           name: "David Yao",
           color: "Upcoming",
-          location: "DCC 308",          
-          time: "10AM-8PM"
+          location: "DCC 308",
+          time: "10AM-8PM",
         },
         {
           name: "Jacob Zamani",
           color: "Denied",
           location: "Off-Campus",
-          time: "8PM-10PM"
+          time: "8PM-10PM",
         },
       ],
     });
+
+    var url = "http://localhost:9000/catalog";
+    var headers = {
+      "Content-Type": "application/json",
+    };
+    fetch(url, { method: "GET", headers: headers })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((appointments) => {
+        console.log(appointments);
+        this.setState({appointments: appointments})
+      });
   }
 
   toggle = () => {
@@ -71,10 +85,11 @@ class Meetings extends Component {
 
   render() {
     const appointments = this.state.appointments;
-    const dropDownValue = this.state.dropdownValue
+    const dropDownValue = this.state.dropdownValue;
 
     const filteredDropdown = appointments.filter(
-      (appointment) => (appointment.color === dropDownValue) || dropDownValue === "All"
+      (appointment) =>
+        appointment.color === dropDownValue || dropDownValue === "All"
     );
 
     return (
@@ -90,11 +105,11 @@ class Meetings extends Component {
             {this.state.dropdownValue}
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem onClick={this.changeValue} >All</DropdownItem>
-            <DropdownItem onClick={this.changeValue} >Completed</DropdownItem>
-            <DropdownItem onClick={this.changeValue} >Pending</DropdownItem>
-            <DropdownItem onClick={this.changeValue} >Upcoming</DropdownItem>
-            <DropdownItem onClick={this.changeValue} >Denied</DropdownItem>
+            <DropdownItem onClick={this.changeValue}>All</DropdownItem>
+            <DropdownItem onClick={this.changeValue}>Completed</DropdownItem>
+            <DropdownItem onClick={this.changeValue}>Pending</DropdownItem>
+            <DropdownItem onClick={this.changeValue}>Upcoming</DropdownItem>
+            <DropdownItem onClick={this.changeValue}>Denied</DropdownItem>
           </DropdownMenu>
         </Dropdown>
 

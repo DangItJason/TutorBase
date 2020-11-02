@@ -9,12 +9,16 @@ const UserSchema = new Schema({
     last_name: {type: String, required: true},
     profile_img: {type: String, default: ""},
     client: {
-        appts: [Appointment], // Upcoming appointments
-        past_appts: [Appointment] // Past appointments
+        upcoming: [Appointment], // Upcoming appointments
+        completed: [Appointment], // Past (Completed) appointments 
+        pending: [Appointment], // Pending Appointments
+        declined: [Appointment] // Declined Appointments
     },
     tutor: {
-        appts: [Appointment], // Upcoming appointments
-        past_appts: [Appointment], // Past appointments
+        upcoming_appts: [Appointment], // Upcoming appointments
+        completed_appts: [Appointment], // Past (Completed) appointments 
+        pending_appts: [Appointment], // Pending Appointments
+        declined_appts: [Appointment], // Declined Appointments
         courses: [Schema.ObjectId],
         times: [[Date], [Date], [Date], [Date], [Date], [Date], [Date]],
         price: {type: Number, default: 30}

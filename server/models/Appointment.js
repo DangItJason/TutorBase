@@ -12,7 +12,7 @@ const AppointmentSchema = new Schema({
     client_id: {type: Schema.ObjectId, required: true}, // Object ID of client
     price: {type: Number, required: true},
     notes: String,
-    confirmed: {type: Boolean, default: false}
+    // confirmed: {type: Boolean, default: false}
 });
 
 module.exports = Appointment = mongoose.model('Appointment', AppointmentSchema);
