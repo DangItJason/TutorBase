@@ -2,8 +2,6 @@ import React, { Component, createRef, useCallback, useRef } from "react";
 import AvailableTimes from "react-available-times";
 import Calendar from "@toast-ui/react-calendar";
 import "tui-calendar/dist/tui-calendar.css";
-import "tui-date-picker/dist/tui-date-picker.css";
-import "tui-time-picker/dist/tui-time-picker.css";
 import { TZDate } from "tui-calendar";
 import { isMobile } from "react-device-detect";
 import {
