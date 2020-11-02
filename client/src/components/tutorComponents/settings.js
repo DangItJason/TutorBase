@@ -9,8 +9,10 @@ import "./settings.css";
 
 class Settings extends Component {
   state = {
-    profile: "Jason Nguyen",
+    first_name: "Jason",
+    last_name: "Nguyen",
     email: "test2@gmail.com",
+    description: "",
     price: 55,
     temp_price: 55,
     courses: [],
@@ -20,6 +22,7 @@ class Settings extends Component {
     price_modal: false,
     name_modal: false,
     courses_modal: false,
+    desc_modal: false
   };
 
   componentDidMount() {
@@ -42,9 +45,35 @@ class Settings extends Component {
       }).then(courses => {
         this.setState({ courses: courses, temp_courses: courses });
       });
+    
+    fetch("http://localhost:9000/tutor-operations/name/" + this.state.email,  {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      console.log(res);
+      return res.json();
+    }).then(name => {
+      this.setState({ first_name: name.first_name});
+      this.setState({ last_name: name.last_name});
+    });
+
+    fetch("http://localhost:9000/tutor-operations/description/" + this.state.email,  {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      console.log(res);
+      return res.json();
+    }).then(description => {
+      this.setState({ description: description.description});
+    });
   }
 
   saveNameChange = (e) => {
+    fetch("http://localhost:9000/tutor-operations/name", {
+      method: "PUT",
+      body: JSON.stringify({email: this.state.email, first_name: this.state.first_name, last_name: this.state.last_name}),
+      headers: {"Content-Type": "application/json"}
+    });
     this.toggleNameModal(e);
   }
 
@@ -60,6 +89,15 @@ class Settings extends Component {
       headers: {"Content-Type": "application/json"},
     })
     this.togglePriceModal(e);
+  }
+
+  saveDescChange = (e) => {
+    fetch("http://localhost:9000/tutor-operations/description", {
+      method: "PUT",
+      body: JSON.stringify({email: this.state.email, description: this.state.description}),
+      headers: {"Content-Type": "application/json"}
+    });
+    this.toggleDescModal(e);
   }
 
   cancelPriceChange = (e) => {
@@ -95,6 +133,18 @@ class Settings extends Component {
     this.setState({ added_courses: this.state.added_courses.filter((c, i) => index != i) })
   }
 
+  handleDescChange = (e) => {
+    this.setState({description: e.target.value});
+  }
+
+  handleFirstChange = (e) => {
+    this.setState({first_name: e.target.value});
+  }
+
+  handleLastChange = (e) => {
+    this.setState({last_name: e.target.value});
+  }
+
   saveCoursesChange = (e) => {
     this.setState({ courses: this.state.temp_courses, add_course: false });
     fetch("http://localhost:9000/tutor-operations/courses", {
@@ -124,6 +174,11 @@ class Settings extends Component {
     e.preventDefault();
     this.setState({ courses_modal: !this.state.courses_modal })
   };
+
+  toggleDescModal = (e) => {
+    e.preventDefault();
+    this.setState({ desc_modal: !this.state.desc_modal });
+  };
   
   render() {
     return (
@@ -136,7 +191,7 @@ class Settings extends Component {
           <Col xl="6">
             <ListGroup className="heading-text">
               <ListGroupItem className="bubble-container">
-                <span className="heading-item">{this.state.profile}</span>
+                <span className="heading-item">{this.state.first_name + " " + this.state.last_name}</span>
                 <a href="#" className="modal-link" onClick={this.toggleNameModal}>
                   <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                 </a>
@@ -146,7 +201,10 @@ class Settings extends Component {
                     Change your name here.
                     <hr/>
                     <InputGroup>
-                      <Input id="profile-name" placeholder={this.state.profile} />
+                      First Name:<Input id="first-name" value={this.state.first_name} onChange={this.handleFirstChange}/>
+                    </InputGroup>
+                    <InputGroup>
+                      Last Name:<Input id="last-name" value={this.state.last_name} onChange={this.handleLastChange} />
                     </InputGroup>
                   </ModalBody>
                   <ModalFooter>
@@ -184,10 +242,28 @@ class Settings extends Component {
               <br></br>
               <ListGroupItem>
                 <span className="heading-item">Description</span>
-                <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
+                {/*<span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>*/}
+                <a href="#" className="modal-link" onClick={this.toggleDescModal}>
+                  <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
+                </a>
+                <Modal isOpen={this.state.desc_modal} fade={false} toggle={this.toggleDescModal} className="desc-modal">
+                  <ModalHeader toggle={this.toggleDescModal}>Edit Description</ModalHeader>
+                  <ModalBody>
+                    Change your description here.
+                    <hr/>
+                    <InputGroup>
+                      <Input id="description-name" value={this.state.description} type="textarea" onChange={this.handleDescChange} rows="10"/>
+                    </InputGroup>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button className="btn-red" onClick={this.saveDescChange}>Save</Button>{' '}
+                    <Button color="secondary" onClick={this.toggleDescModal}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
                 <hr></hr>
                 <div className="body-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+                  {this.state.description}
+                {/*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
                 sit amet metus pharetra neque vestibulum lobortis in maximus
                 tortor. Praesent vitae placerat dolor, pellentesque egestas
                 orci. Pellentesque pharetra aliquet iaculis. Cras non urna
@@ -208,7 +284,7 @@ class Settings extends Component {
                 Nunc purus nisi, volutpat id dui sed, pretium ultrices sapien.
                 Etiam quis tempor justo. In sit amet nulla congue nulla auctor
                 mollis. Quisque vel tempus sapien. Suspendisse dignissim diam id
-                lobortis auctor. Ut et ullamcorper purus.
+                lobortis auctor. Ut et ullamcorper purus.*/}
                 </div>
               </ListGroupItem>
             </ListGroup>
