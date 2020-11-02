@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Button } from "reactstrap";
 import "./MeetingCard.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 class MeetingCard extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class MeetingCard extends Component {
       cardExpanded: false,
     };
   }
-  
+
   toggleCard = () => {
     this.setState({
       cardExpanded: !this.state.cardExpanded,
@@ -18,21 +19,52 @@ class MeetingCard extends Component {
   };
 
   render() {
-    let cardType = 'upcoming-card';
-    if(this.props.appointment.color === 'Completed') {
-      cardType = 'completed-card';
-    } else if(this.props.appointment.color === 'Denied') {
-      cardType = 'denied-card';
-    } else if(this.props.appointment.color === 'Pending') {
-      cardType = 'pending-card';
+    let cardType = "upcoming-card";
+
+    if (this.props.appointment.color === "Completed") {
+      cardType = "completed-card";
+    } else if (this.props.appointment.color === "Denied") {
+      cardType = "denied-card";
+    } else if (this.props.appointment.color === "Pending") {
+      cardType = "pending-card";
     }
 
-    let card = <div className={'compressed-card ' + cardType} onClick={this.toggleCard}></div>;
+    let card = (
+      <div className={"compressed-card " + cardType} onClick={this.toggleCard}>
+        <div className={"card-container-start"}>
+          <div className={"card-name"}>
+            {this.props.appointment.name}
+          </div>
+          <div className={"card-location"}>
+            {this.props.appointment.location}
+          </div>
+          <div className={"card-time"}>
+            {this.props.appointment.time}
+          </div>
+        </div>
+        <div className={"card-container-end"}>
+          <div className={"card-icon"}>
+            <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+          </div>
+          <div className={"card-icon"}>
+            <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+          </div>
+          <div className={"card-status"}>
+            {this.props.appointment.color}
+          </div>
+        </div>
+      </div>
+    );
     if (this.state.cardExpanded) {
-      card = <div className={'expanded-card ' + cardType} onClick={this.toggleCard}></div>;
+      card = (
+        <div
+          className={"expanded-card " + cardType}
+          onClick={this.toggleCard}
+        ></div>
+      );
     }
-    
-    return (<>{card}</>);
+
+    return <>{card}</>;
   }
 }
 

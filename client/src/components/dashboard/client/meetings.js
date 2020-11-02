@@ -26,20 +26,28 @@ class Meetings extends Component {
     this.setState({
       appointments: [
         {
-          name: "Jason",
+          name: "Jason Nguyen",
           color: "Completed",
+          location: "Barton",
+          time: "2PM-4PM"
         },
         {
-          name: "Jeremy",
+          name: "Jeremy Weiss",
           color: "Pending",
+          location: "Union",
+          time: "12PM-4PM"
         },
         {
-          name: "David",
+          name: "David Yao",
           color: "Upcoming",
+          location: "DCC 308",          
+          time: "10AM-8PM"
         },
         {
-          name: "Jacob",
+          name: "Jacob Zamani",
           color: "Denied",
+          location: "Off-Campus",
+          time: "8PM-10PM"
         },
       ],
     });
@@ -72,7 +80,7 @@ class Meetings extends Component {
     return (
       <Container fluid>
         <Row className="title">
-          <div class="profile-text">Settings</div>
+          <div class="profile-text">Meetings</div>
         </Row>
 
         <hr></hr>
