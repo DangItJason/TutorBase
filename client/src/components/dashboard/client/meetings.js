@@ -8,7 +8,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import "./meetings.css";
-import MeetingCard from '../../meetingCard/MeetingCard';
+import MeetingCard from "../../meetingCard/MeetingCard";
 
 class Meetings extends Component {
   constructor(props) {
@@ -17,27 +17,54 @@ class Meetings extends Component {
     this.changeValue = this.changeValue.bind(this);
     this.state = {
       dropdownOpen: false,
-      dropdownValue: "Completed",
-      //Dummy data until express routes are implemented
-      appointments: [ 
-          {
-              'name' : 'Jason',
-              'color' : 'Completed',
-          },
-          {
-              'name' : 'Jeremy',
-              'color' : 'Pending',
-          },
-          {
-              'name' : 'David',
-              'color' : 'Upcoming',
-          },
-          {
-            'name' : 'Jacob',
-            'color' : 'Denied',
-          }
-        ]
+      dropdownValue: "All",
+      appointments: [],
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      appointments: [
+        {
+          name: "Jason Nguyen",
+          color: "Completed",
+          location: "Barton",
+          time: "2PM-4PM",
+        },
+        {
+          name: "Jeremy Weiss",
+          color: "Pending",
+          location: "Union",
+          time: "12PM-4PM",
+        },
+        {
+          name: "David Yao",
+          color: "Upcoming",
+          location: "DCC 308",
+          time: "10AM-8PM",
+        },
+        {
+          name: "Jacob Zamani",
+          color: "Denied",
+          location: "Off-Campus",
+          time: "8PM-10PM",
+        },
+      ],
+    });
+
+    var url = "http://localhost:9000/catalog";
+    var headers = {
+      "Content-Type": "application/json",
+    };
+    fetch(url, { method: "GET", headers: headers })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((appointments) => {
+        console.log(appointments);
+        this.setState({appointments: appointments})
+      });
   }
 
   toggle = () => {
@@ -46,44 +73,47 @@ class Meetings extends Component {
     });
   };
 
-  changeValue(e) {
-    this.setState({
-      dropDownValue: e.currentTarget.textContent,
-      dropdownOpen: !this.state.dropdownOpen,
-    });
-  }
-
+  changeValue = (e) => {
+    this.setState(
+      {
+        dropdownValue: e.target.innerText,
+        dropdownOpen: !this.state.dropdownOpen,
+      },
+      () => console.log("DropDownValue: " + this.state.dropdownValue)
+    );
+  };
 
   render() {
+    const appointments = this.state.appointments;
+    const dropDownValue = this.state.dropdownValue;
+
+    const filteredDropdown = appointments.filter(
+      (appointment) =>
+        appointment.color === dropDownValue || dropDownValue === "All"
+    );
+
     return (
       <Container fluid>
         <Row className="title">
-          <div class="profile-text">Settings</div>
+          <div class="profile-text">Meetings</div>
         </Row>
-        
+
         <hr></hr>
 
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
           <DropdownToggle caret color="secondary" outline>
-            {this.state.dropDownValue}
+            {this.state.dropdownValue}
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem>
-              <div onClick={this.changeValue}>Completed</div>
-            </DropdownItem>
-            <DropdownItem>
-              <div onClick={this.changeValue}>Pending</div>
-            </DropdownItem>
-            <DropdownItem>
-              <div onClick={this.changeValue}>Upcoming</div>
-            </DropdownItem>
-            <DropdownItem>
-              <div onClick={this.changeValue}>Denied</div>
-            </DropdownItem>
+            <DropdownItem onClick={this.changeValue}>All</DropdownItem>
+            <DropdownItem onClick={this.changeValue}>Completed</DropdownItem>
+            <DropdownItem onClick={this.changeValue}>Pending</DropdownItem>
+            <DropdownItem onClick={this.changeValue}>Upcoming</DropdownItem>
+            <DropdownItem onClick={this.changeValue}>Denied</DropdownItem>
           </DropdownMenu>
         </Dropdown>
 
-        {this.state.appointments.map(appointment => (
+        {filteredDropdown.map((appointment) => (
           <MeetingCard appointment={appointment} />
         ))}
       </Container>
