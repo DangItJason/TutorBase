@@ -42,7 +42,9 @@ class MeetingCard extends Component {
             {this.props.appointment.time}
           </div>
         </div>
-        <div className={"card-container-end"}>
+        
+        {cardType === "pending-card" && 
+          <div className={"card-container-end"}>
           <div className={"card-icon"}>
             <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
           </div>
@@ -53,6 +55,10 @@ class MeetingCard extends Component {
             {this.props.appointment.color}
           </div>
         </div>
+        }
+        
+
+
       </div>
     );
     if (this.state.cardExpanded) {
