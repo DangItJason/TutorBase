@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, InputGroup, Input } from "reactstrap";
+import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, InputGroup, Input, Alert } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faBan, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Slider from 'react-rangeslider';
+import Autocomplete from 'react-autocomplete';
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
 
@@ -13,13 +14,16 @@ class Settings extends Component {
     email: "test2@gmail.com",
     price: 55,
     temp_price: 55,
+    course_catalog: [],
     courses: [],
     temp_courses: [],
     added_courses: [],
-    add_course: false,
+    course_add_suggestions: [],
     price_modal: false,
     name_modal: false,
     courses_modal: false,
+    add_course_err: false,
+    add_course_err_msg: ""
   };
 
   componentDidMount() {
@@ -41,6 +45,20 @@ class Settings extends Component {
         return res.json()
       }).then(courses => {
         this.setState({ courses: courses, temp_courses: courses });
+      });
+
+    fetch("http://localhost:9000/catalog/courses",  {
+      method: "GET",
+      headers: {"Content-Type": "application/json"}
+    }).then(res => {
+        console.log(res);
+        return res.json()
+      }).then(courses => {
+        courses.map(course => 
+          this.setState(prevState => ({
+              course_catalog: [...prevState.course_catalog, course.name]
+          }))
+        )
       });
   }
 
@@ -67,6 +85,10 @@ class Settings extends Component {
     this.togglePriceModal(e);
   }
 
+  resetCourseErrMsg = () => {
+    this.setState({ add_course_err: false, add_course_err_msg: "" });
+  }
+
   handleCourseRemove = e => {
     const { value } = e.target;
     e.preventDefault();
@@ -84,19 +106,32 @@ class Settings extends Component {
     values[i] = event.target.value;
     this.setState({ added_courses: values });
   }
+  
+  handleAutofillCourse = (i, course) => {
+    let values = [...this.state.added_courses];
+    values[i] = course;
+    this.setState({ added_courses: values });
+  }
 
   handleTempCourseAdd = (course) => {
-    this.setState(prevState => ({ temp_courses: [...prevState.temp_courses, course],
-      added_courses: this.state.added_courses.filter(a_course => a_course != course)
-    }));
+    if (this.state.temp_courses.includes(course))
+      this.setState({ add_course_err: true, add_course_err_msg: "Course already added." });
+    else if (!this.state.course_catalog.includes(course))
+      this.setState({ add_course_err: true, add_course_err_msg: "Invalid course." });
+    else {
+      this.setState(prevState => ({ temp_courses: [...prevState.temp_courses, course],
+        added_courses: this.state.added_courses.filter(a_course => a_course !== course),
+        add_course_err: false
+      }));
+    }
   }
 
   handleTempCourseRemove = (index) => {
-    this.setState({ added_courses: this.state.added_courses.filter((c, i) => index != i) })
+    this.setState({ added_courses: this.state.added_courses.filter((c, i) => index !== i) })
   }
 
   saveCoursesChange = (e) => {
-    this.setState({ courses: this.state.temp_courses, add_course: false });
+    this.setState({ courses: this.state.temp_courses, add_course_err: false });
     fetch("http://localhost:9000/tutor-operations/courses", {
       method: "PUT",
       body: JSON.stringify({email: this.state.email, courses: this.state.temp_courses}),
@@ -106,7 +141,7 @@ class Settings extends Component {
   }
 
   cancelCoursesChange = (e) => {
-    this.setState({ temp_courses: this.state.courses, add_course: false });
+    this.setState({ temp_courses: this.state.courses, add_course_err: false });
     this.toggleCoursesModal(e);
   }
 
@@ -192,23 +227,7 @@ class Settings extends Component {
                 tortor. Praesent vitae placerat dolor, pellentesque egestas
                 orci. Pellentesque pharetra aliquet iaculis. Cras non urna
                 magna. Integer erat tortor, porta pharetra sodales in, fringilla
-                eu nisi. In lacus nunc, scelerisque a velit vitae, placerat
-                volutpat arcu. Donec a erat id nulla molestie porttitor. Duis
-                pellentesque mauris quis libero ultrices imperdiet. Vestibulum
-                vel odio cursus ligula aliquam dignissim ac nec tellus.
-                Vestibulum massa sem, scelerisque nec ullamcorper elementum,
-                congue sed diam. Duis volutpat tincidunt est vel pretium. Proin
-                at leo at risus viverra varius eget ac lorem. Praesent erat
-                risus, semper quis tincidunt sit amet, posuere non mauris. Duis
-                placerat fermentum interdum. Aliquam ornare, sem id pretium
-                commodo, velit odio porttitor augue, et fringilla augue eros ac
-                velit. Fusce fermentum facilisis urna in consequat. Ut aliquam
-                purus nec metus hendrerit molestie. Donec eu varius eros, quis
-                condimentum neque. Donec porttitor aliquet leo id tincidunt.
-                Nunc purus nisi, volutpat id dui sed, pretium ultrices sapien.
-                Etiam quis tempor justo. In sit amet nulla congue nulla auctor
-                mollis. Quisque vel tempus sapien. Suspendisse dignissim diam id
-                lobortis auctor. Ut et ullamcorper purus.
+                eu nisi.
                 </div>
               </ListGroupItem>
             </ListGroup>
@@ -235,6 +254,11 @@ class Settings extends Component {
                     <ModalHeader toggle={this.toggleCoursesModal}>Edit Courses</ModalHeader>
                     <ModalBody>
                       Change your courses offered.
+                      { this.state.add_course_err ?
+                        <Alert color="danger">
+                          <b>ERROR:</b><br/>{this.state.add_course_err_msg}
+                        </Alert>
+                      : null }
                       <hr/>
                       <ListGroup>
                       {this.state.temp_courses.map((course, i) => 
@@ -247,7 +271,19 @@ class Settings extends Component {
                       <Form key={i}>
                         <ListGroupItem className="body-text">
                           <InputGroup>
-                            <Input className="list-add-input" value={course || ''} onChange={this.handleTempCourseChange.bind(this, i)}/>
+                            <Autocomplete className="list-add-input"
+                              getItemValue={(item) => item}
+                              items={this.state.course_catalog}
+                              renderItem={(item, isHighlighted) =>
+                                <div key={item} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                                  {item}
+                                </div>
+                              }
+                              value={course || ''}
+                              onChange={this.handleTempCourseChange.bind(this, i)}
+                              onSelect={(index, val) => this.handleAutofillCourse(i, val)}
+
+                            />
                             <Button color="link" className="list-add" onClick={(c) => this.handleTempCourseAdd(course)}><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
                             <Button color="link" className="list-remove" onClick={(index) => this.handleTempCourseRemove(i)}><FontAwesomeIcon icon={faTimes} className="font-adj"/></Button>
                           </InputGroup>
