@@ -70,8 +70,8 @@ router.put('/schedule', async (req, res) => {
 
 // GET tutor-operations/interval
 // Get a tutor's meeting interval
-router.get('/interval', (req, res) => {
-    User.find({ email: req.body.email })
+router.get('/interval/:email', (req, res) => {
+    User.find({ email: req.params.email })
         .then(users => res.json(users[0].tutor.interval))
         .catch(err => res.status(400).json({ msg: err.message }))
 });
