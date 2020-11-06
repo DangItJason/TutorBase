@@ -15,6 +15,8 @@ class Settings extends Component {
     description: "",
     price: 55,
     temp_price: 55,
+    meeting_interval: 30,
+    temp_meeting_interval: 30,
     courses: [],
     temp_courses: [],
     added_courses: [],
@@ -22,7 +24,8 @@ class Settings extends Component {
     price_modal: false,
     name_modal: false,
     courses_modal: false,
-    desc_modal: false
+    desc_modal: false,
+    interval_modal: false
   };
 
   componentDidMount() {
@@ -66,6 +69,16 @@ class Settings extends Component {
     }).then(description => {
       this.setState({ description: description.description});
     });
+
+    fetch("http://localhost:9000/tutor-operations/interval/" + this.state.email, {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      console.log(res);
+      return res.json();
+    }).then(interval => {
+      this.setState({ meeting_interval: interval, temp_meeting_interval: interval });
+    })
   }
 
   saveNameChange = (e) => {
@@ -179,6 +192,30 @@ class Settings extends Component {
     e.preventDefault();
     this.setState({ desc_modal: !this.state.desc_modal });
   };
+
+  toggleIntervalModal = (e) => {
+    e.preventDefault();
+    this.setState({ interval_modal: !this.state.interval_modal });
+  }
+
+  cancelIntervalChange = (e) => {
+    this.setState({temp_meeting_interval: this.state.meeting_interval});
+    this.toggleIntervalModal(e);
+  }
+
+  saveIntervalChange = (e) => {
+    this.setState({ meeting_interval: this.state.temp_meeting_interval });
+    fetch("http://localhost:9000/tutor-operations/interval", {
+      method: "PUT",
+      body: JSON.stringify({email: this.state.email, interval: this.state.temp_meeting_interval}),
+      headers: {"Content-Type": "application/json"},
+    })
+    this.toggleIntervalModal(e);
+  }
+
+  handleIntervalChange = (value) => {
+    this.setState({ temp_meeting_interval: value });
+  }
   
   render() {
     return (
@@ -263,28 +300,6 @@ class Settings extends Component {
                 <hr></hr>
                 <div className="body-text">
                   {this.state.description}
-                {/*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                sit amet metus pharetra neque vestibulum lobortis in maximus
-                tortor. Praesent vitae placerat dolor, pellentesque egestas
-                orci. Pellentesque pharetra aliquet iaculis. Cras non urna
-                magna. Integer erat tortor, porta pharetra sodales in, fringilla
-                eu nisi. In lacus nunc, scelerisque a velit vitae, placerat
-                volutpat arcu. Donec a erat id nulla molestie porttitor. Duis
-                pellentesque mauris quis libero ultrices imperdiet. Vestibulum
-                vel odio cursus ligula aliquam dignissim ac nec tellus.
-                Vestibulum massa sem, scelerisque nec ullamcorper elementum,
-                congue sed diam. Duis volutpat tincidunt est vel pretium. Proin
-                at leo at risus viverra varius eget ac lorem. Praesent erat
-                risus, semper quis tincidunt sit amet, posuere non mauris. Duis
-                placerat fermentum interdum. Aliquam ornare, sem id pretium
-                commodo, velit odio porttitor augue, et fringilla augue eros ac
-                velit. Fusce fermentum facilisis urna in consequat. Ut aliquam
-                purus nec metus hendrerit molestie. Donec eu varius eros, quis
-                condimentum neque. Donec porttitor aliquet leo id tincidunt.
-                Nunc purus nisi, volutpat id dui sed, pretium ultrices sapien.
-                Etiam quis tempor justo. In sit amet nulla congue nulla auctor
-                mollis. Quisque vel tempus sapien. Suspendisse dignissim diam id
-                lobortis auctor. Ut et ullamcorper purus.*/}
                 </div>
               </ListGroupItem>
             </ListGroup>
@@ -293,7 +308,32 @@ class Settings extends Component {
             <ListGroup className="heading-text">
               <ListGroupItem>
                 <span className="heading-item">Availability</span>
-                <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
+                <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span><br></br>
+                <span className="heading-item">{this.state.meeting_interval + " minute sessions"}</span>
+                <a href="#" className="modal-link" onClick={this.toggleIntervalModal}>
+                  <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
+                </a>
+                <Modal isOpen={this.state.interval_modal} fade={false} toggle={this.toggleIntervalModal} className="interval-modal">
+                  <ModalHeader toggle={this.toggleIntervalModal}>Edit Meeting Interval</ModalHeader>
+                  <ModalBody>
+                    Change the length of your tutor sessions.
+                    <hr/>
+                    <div className='slider'>
+                      <Slider
+                        min={15}
+                        max={60}
+                        step={5}
+                        value={this.state.temp_meeting_interval}
+                        onChange={this.handleIntervalChange}
+                      />
+                      <div className='value'>{this.state.temp_meeting_interval} minutes</div>
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button className="btn-red" onClick={this.saveIntervalChange}>Save</Button>{' '}
+                    <Button color="secondary" onClick={this.cancelIntervalChange}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
               </ListGroupItem>
               <br></br>
               <ListGroupItem>
