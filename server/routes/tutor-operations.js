@@ -118,7 +118,7 @@ router.put('/name', async (req, res) => {
 // Get a users description
 router.get('/description/:email', (req, res) => {
     User.find({ email: req.params.email })
-        .then(users => res.json({ description: users[0].description }))
+        .then(users => res.json({ description: users[0].tutor.description }))
         .catch(err => res.status(400).json({ msg: err.message }));
 });
 
@@ -129,7 +129,7 @@ router.put('/description', async (req, res) => {
         console.log(req.body.description)
         await User.findOneAndUpdate({ email: req.body.email }, {
             $set: {
-                "description": req.body.description
+                "tutor.description": req.body.description
             }
         })
         res.send(true)
