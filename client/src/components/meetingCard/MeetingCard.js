@@ -45,20 +45,61 @@ class MeetingCard extends Component {
         
         {cardType === "pending-card" && 
           <div className={"card-container-end"}>
-          <div className={"card-icon"}>
-            <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+            <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+            </div>
+            <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+            </div>
+            <div className={"card-status"}>
+              {this.props.appointment.color}
+            </div>
           </div>
-          <div className={"card-icon"}>
-            <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
-          </div>
-          <div className={"card-status"}>
-            {this.props.appointment.color}
-          </div>
-        </div>
         }
-        
 
+        {cardType === "denied-card" &&
+        <div className={"card-container-end"}>
+            {/* <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+            </div>
+            <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+            </div> */}
+            <div className={"card-status"}>
+              {this.props.appointment.color}
+            </div>
+          </div>
+        }
 
+        {cardType === "upcoming-card" &&
+        <div className={"card-container-end"}>
+            {/* <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+            </div>
+            <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+            </div> */}
+            <div className={"card-status"}>
+              {this.props.appointment.color}
+            </div>
+          </div>
+        }
+
+        {cardType === "completed-card" &&
+        <div className={"card-container-end"}>
+            {/* <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+            </div>
+            <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+            </div> */}
+            <div className={"card-status"}>
+              {this.props.appointment.color}
+            </div>
+          </div>
+        }
+
+          
       </div>
     );
     if (this.state.cardExpanded) {
