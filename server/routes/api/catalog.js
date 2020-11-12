@@ -67,10 +67,19 @@ router.post('/course', (req, res) => {
     newCourse.save().then(course => res.json(course));
 });
 
-// POST api/catalog/course/update
-// Update an existing Course object with a new tutor
-router.post('/course/update', (req, res) => {
-    Course.updateOne({ id: req.body.course_id }, { $push: { tutors: req.body.tutor_id } })
+// POST api/catalog/course/add_tutor
+// Add tutor to an existing Course object
+// If tutor already exists, nothing is added
+router.post('/course/add-tutor', (req, res) => {
+    Course.updateOne({ name: req.body.course_name }, { $addToSet: { tutors: req.body.tutor_id }, })
+        .then(course => res.json(course))
+        .catch(err => res.status(400).json({ msg: err.message }));
+});
+
+// POST api/catalog/course/remove_tutor
+// Remove tutor from an existing Course object 
+router.post('/course/remove-tutor', (req, res) => {
+    Course.updateOne({ name: req.body.course_name }, { $pull: { tutors: req.body.tutor_id } })
         .then(course => res.json(course))
         .catch(err => res.status(400).json({ msg: err.message }));
 });

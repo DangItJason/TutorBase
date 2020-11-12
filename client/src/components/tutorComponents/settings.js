@@ -13,6 +13,7 @@ class Settings extends Component {
     first_name: "Jason",
     last_name: "Nguyen",
     email: "test2@gmail.com",
+    obj_id: "5f89d834aa18dfd7e932967d",
     description: "",
     price: 55,
     temp_price: 55,
@@ -22,7 +23,6 @@ class Settings extends Component {
     courses: [],
     temp_courses: [],
     added_courses: [],
-    course_add_suggestions: [],
     price_modal: false,
     name_modal: false,
     courses_modal: false,
@@ -194,12 +194,34 @@ class Settings extends Component {
   }
 
   saveCoursesChange = (e) => {
-    this.setState({ courses: this.state.temp_courses, add_course_err: false });
+    // Update tutor's list of courses
     fetch("http://localhost:9000/tutor-operations/courses", {
       method: "PUT",
       body: JSON.stringify({email: this.state.email, courses: this.state.temp_courses}),
       headers: {"Content-Type": "application/json"},
     })
+    // Update course('s) list of tutors
+    let removed_set = this.state.courses.filter(c => !this.state.temp_courses.includes(c));
+    let added_set = this.state.temp_courses.filter(c => !this.state.courses.includes(c));
+    let tutor = this.state.obj_id;
+    removed_set.forEach(function(c) {
+      console.log(c, tutor);
+      fetch("http://localhost:9000/catalog/course/remove-tutor", {
+        method: "POST",
+        body: JSON.stringify({course_name: c, tutor_id: tutor}),
+        headers: {"Content-Type": "application/json"},
+      });
+    });
+    added_set.forEach(function(c) {
+      console.log(c, tutor);
+      fetch("http://localhost:9000/catalog/course/add-tutor", {
+        method: "POST",
+        body: JSON.stringify({course_name: c, tutor_id:  tutor}),
+        headers: {"Content-Type": "application/json"},
+      });
+    });
+
+    this.setState({ courses: this.state.temp_courses, add_course_err: false });
     this.toggleCoursesModal(e);
   }
 
@@ -413,7 +435,6 @@ class Settings extends Component {
                               value={course || ''}
                               onChange={this.handleTempCourseChange.bind(this, i)}
                               onSelect={(index, val) => this.handleAutofillCourse(i, val)}
-
                             />
                             <Button color="link" className="list-add" onClick={(c) => this.handleTempCourseAdd(course)}><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
                             <Button color="link" className="list-remove" onClick={(index) => this.handleTempCourseRemove(i)}><FontAwesomeIcon icon={faTimes} className="font-adj"/></Button>
