@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./MeetingCard.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 class MeetingCard extends Component {
   constructor(props) {
@@ -32,35 +32,98 @@ class MeetingCard extends Component {
     let card = (
       <div className={"compressed-card " + cardType} onClick={this.toggleCard}>
         <div className={"card-container-start"}>
-          <div className={"card-name"}>
-            {this.props.appointment.name}
-          </div>
+          <div className={"card-name"}>{this.props.appointment.name}</div>
           <div className={"card-location"}>
             {this.props.appointment.location}
           </div>
-          <div className={"card-time"}>
-            {this.props.appointment.time}
-          </div>
+          <div className={"card-time"}>{this.props.appointment.time}</div>
         </div>
-        <div className={"card-container-end"}>
-          <div className={"card-icon"}>
-            <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+
+        {cardType === "pending-card" && (
+          <div className={"card-container-end"}>
+            <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+            </div>
+            <div className={"card-icon"}>
+              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+            </div>
+            <div className={"card-status"}>{this.props.appointment.color}</div>
           </div>
-          <div className={"card-icon"}>
-            <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+        )}
+
+        {cardType === "denied-card" && (
+          <div className={"card-container-end"}>
+            <div className={"card-status"}>{this.props.appointment.color}</div>
           </div>
-          <div className={"card-status"}>
-            {this.props.appointment.color}
+        )}
+
+        {cardType === "upcoming-card" && (
+          <div className={"card-container-end"}>
+            <div className={"card-status"}>{this.props.appointment.color}</div>
           </div>
-        </div>
+        )}
+
+        {cardType === "completed-card" && (
+          <div className={"card-container-end"}>
+            <div className={"card-status"}>{this.props.appointment.color}</div>
+          </div>
+        )}
       </div>
     );
     if (this.state.cardExpanded) {
       card = (
-        <div
-          className={"expanded-card " + cardType}
-          onClick={this.toggleCard}
-        ></div>
+        <div className={"expanded-card " + cardType} onClick={this.toggleCard}>
+          <div className={"card-container-start-expanded"}>
+            <div className={"card-name"}>{this.props.appointment.name}</div>
+            <div className={"card-location"}>
+              {this.props.appointment.location}
+            </div>
+            <div className={"card-time"}>{this.props.appointment.time}</div>
+          </div>
+
+          {cardType === "pending-card" && (
+            <div className={"card-container-end-expanded"}>
+              <div className={"card-icon"}>
+                <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+              </div>
+              <div className={"card-icon"}>
+                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+              </div>
+              <div className={"card-status"}>
+                {this.props.appointment.color}
+              </div>
+            </div>
+          )}
+
+          {cardType === "denied-card" && (
+            <div className={"card-container-end-expanded"}>
+              <div className={"card-status"}>
+                {this.props.appointment.color}
+              </div>
+            </div>
+          )}
+
+          {cardType === "upcoming-card" && (
+            <div className={"card-container-end-expanded"}>
+              <div className={"card-status"}>
+                {this.props.appointment.color}
+              </div>
+            </div>
+          )}
+
+          {cardType === "completed-card" && (
+            <div className={"card-container-end-expanded"}>
+              <div className={"card-status"}>
+                {this.props.appointment.color}
+              </div>
+            </div>
+          )}
+          <div className={"card-container-item "}>Client Notes:</div>
+          <div className={"break"}></div> 
+          <div className={"client-notes"}>
+            {this.props.appointment.notes}
+          </div>
+        </div>
       );
     }
 
