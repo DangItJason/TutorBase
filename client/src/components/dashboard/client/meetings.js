@@ -67,7 +67,7 @@ class Meetings extends Component {
       })
       .then((appointments) => {
         console.log(appointments);
-        this.setState({appointments: appointments})
+        // this.setState({appointments: appointments})
       });
   }
 
