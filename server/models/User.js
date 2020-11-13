@@ -15,10 +15,10 @@ const UserSchema = new Schema({
         declined: [Appointment] // Declined Appointments
     },
     tutor: {
-        upcoming_appts: [Appointment], // Upcoming appointments
-        completed_appts: [Appointment], // Past (Completed) appointments 
-        pending_appts: [Appointment], // Pending Appointments
-        declined_appts: [Appointment], // Declined Appointments
+        upcoming: [Appointment], // Upcoming appointments
+        completed: [Appointment], // Past (Completed) appointments 
+        pending: [Appointment], // Pending Appointments
+        declined: [Appointment], // Declined Appointments
         courses: [Schema.ObjectId],
         times: [[Date], [Date], [Date], [Date], [Date], [Date], [Date]],
         price: {type: Number, default: 30}

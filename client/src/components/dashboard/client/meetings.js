@@ -23,51 +23,18 @@ class Meetings extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      appointments: [
-        {
-          name: "Jason Nguyen",
-          color: "Completed",
-          location: "Barton",
-          time: "2PM-4PM",
-          notes: "Hi, I need help with DS really badly."
-        },
-        {
-          name: "Jeremy Weiss",
-          color: "Pending",
-          location: "Union",
-          time: "12PM-4PM",
-          notes: "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TESTTEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TESTTEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TESTTEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TESTTEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TESTTEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TESTTEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST"
-        },
-        {
-          name: "David Yao",
-          color: "Upcoming",
-          location: "DCC 308",
-          time: "10AM-8PM",
-          notes: "N/A"
-        },
-        {
-          name: "Jacob Zamani",
-          color: "Denied",
-          location: "Off-Campus",
-          time: "8PM-10PM",
-          notes: ""
-        },
-      ],
-    });
+    var url = "http://localhost:9000/meetings/appointments";
+    const requestOptions = {
+      method: 'POST',
+      body: JSON.stringify({"user_id" : "5f23951c7b297f01f21a1877"}),
+      headers: { 'Content-Type': 'application/json' }
+  };
 
-    var url = "http://localhost:9000/catalog";
-    var headers = {
-      "Content-Type": "application/json",
-    };
-    fetch(url, { method: "GET", headers: headers })
-      .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((appointments) => {
-        console.log(appointments);
-        this.setState({appointments: appointments})
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((obj) => {
+        console.log(obj.client)
+        this.setState({appointments: [...obj.client.pending, ...obj.client.upcoming, ...obj.client.completed, ...obj.client.declined]})
       });
   }
 
