@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "reactstrap";
 
 class MeetingCard extends Component {
   constructor(props) {
@@ -42,10 +43,10 @@ class MeetingCard extends Component {
         {cardType === "pending-card" && (
           <div className={"card-container-end"}>
             <div className={"card-icon"}>
-              <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+              <Button><FontAwesomeIcon icon={faCheck}></FontAwesomeIcon></Button>
             </div>
             <div className={"card-icon"}>
-              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+              <Button><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></Button>
             </div>
             <div className={"card-status"}>{this.props.appointment.color}</div>
           </div>
@@ -84,10 +85,10 @@ class MeetingCard extends Component {
           {cardType === "pending-card" && (
             <div className={"card-container-end-expanded"}>
               <div className={"card-icon"}>
-                <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                <Button><FontAwesomeIcon icon={faCheck}></FontAwesomeIcon></Button>
               </div>
               <div className={"card-icon"}>
-                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                <Button><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></Button>
               </div>
               <div className={"card-status"}>
                 {this.props.appointment.color}
