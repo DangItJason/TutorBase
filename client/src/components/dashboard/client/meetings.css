@@ -4,6 +4,15 @@
     justify-content: space-around;
 }
 
+.card-container {
+    border-radius: 0.28571429rem 0 0 0.28571429rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    overflow-y: scroll;
+    height: 500px;
+    border: 1px solid #6c757d;
+}
+
 .title {
     display: flex;
     align-items: flex-start; 

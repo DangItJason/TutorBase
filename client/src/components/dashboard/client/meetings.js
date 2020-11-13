@@ -117,9 +117,11 @@ class Meetings extends Component {
           </DropdownMenu>
         </Dropdown>
 
-        {filteredDropdown.map((appointment) => (
-          <MeetingCard appointment={appointment} />
-        ))}
+        <Container fluid className="card-container">
+          {filteredDropdown.map((appointment) => (
+            <MeetingCard appointment={appointment} />
+          ))}
+        </Container>
       </Container>
     );
   }
