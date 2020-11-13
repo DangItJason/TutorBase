@@ -1,17 +1,19 @@
 .compressed-card {
     display: flex;
-    align-items: center;
+    /*align-items: flex-start;*/
     width: 100%;
     height: 75px;
     border-radius: 0.28571429rem;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.075);
+    padding-top: 5px;
     margin: 15px 0;
     cursor: pointer;
 }
 
+
 .expanded-card {
     display: flex;
-    align-items: flex-start;
+    /*align-items: flex-start;*/
     flex-wrap: wrap;
     width: 100%;
     min-height: 200px;
