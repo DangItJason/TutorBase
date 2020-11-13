@@ -1,6 +1,5 @@
-import { applyMiddleware } from "@reduxjs/toolkit";
 import React, { Component } from "react";
-import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import { Container, Row, ListGroup, ListGroupItem } from "reactstrap";
 import {
   Dropdown,
   DropdownToggle,
@@ -30,26 +29,11 @@ class Meetings extends Component {
       headers: { 'Content-Type': 'application/json' }
   };
 
-<<<<<<< HEAD
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((obj) => {
         console.log(obj.client)
         this.setState({appointments: [...obj.client.pending, ...obj.client.upcoming, ...obj.client.completed, ...obj.client.declined]})
-=======
-    var url = "http://localhost:9000/catalog";
-    var headers = {
-      "Content-Type": "application/json",
-    };
-    fetch(url, { method: "GET", headers: headers })
-      .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((appointments) => {
-        console.log(appointments);
-        // this.setState({appointments: appointments})
->>>>>>> 88f86f63511a63878bce732e217cff3635e4e2c6
       });
   }
 
