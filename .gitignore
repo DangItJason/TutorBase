@@ -5,8 +5,6 @@ client/node_modules
 server/node_modules
 /.pnp
 .pnp.js
-server/package-lock.json
-client/package-lock.json
 
 # testing
 /coverage
@@ -27,5 +25,6 @@ yarn-debug.log*
 yarn-error.log*
 #api keys
 
-# Remove Webstorm InteliJ files
+
+# Ignore webstorm auotgen files
 .idea/*
