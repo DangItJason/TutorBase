@@ -1,19 +1,25 @@
 import React, { Component } from "react";
-import { Button, Container, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Container, Label, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import { actions } from "../store/loginData";
+import { connect } from "react-redux";
 
 class login extends Component {
-  state = {
-    email: "",
-    password: "",
-    login: null,
-  };
+  // state = {
+  //   email: "",
+  //   password: "",
+  //   login: null,
+  // };
 
   handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+    if (event.target.name === "email") {
+      this.props.setEmail(event.target.value);
+    } else if (event.target.name === "password") {
+      this.props.setPassword(event.target.value);
+    } else if (event.target.name === "login") {
+      this.props.setLogin(event.target.value);
+    }
   };
 
   handleAuthentication = (event) => {
@@ -21,21 +27,21 @@ class login extends Component {
     event.preventDefault();
     fetch("http://localhost:9000/login", {
       method: "post",
-      body: JSON.stringify(this.state),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(this.state),
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((data) => {
         //Callback function after states been updated.
-        console.log("searching");
+        console.log(data.message);
 
         if (data.message === "success") {
           console.log("success");
           //Pass properties to next application
           //NOTE: Re-write this. Not safe
-          this.props.history.push({ 
+          this.props.history.push({
             pathname: "/home", //---Change path as desired.
             email: this.state.email,
           });
@@ -50,39 +56,39 @@ class login extends Component {
   render() {
     return (
       <Container className="loginContainer" fluid="sm">
-        <Form onSubmit={this.handleAuthentication}>
+        <Row>
           <Label className="loginText">Login</Label>
-          <FormGroup row>
-            <Input
-              type="email"
-              name="email"
-              className="form-control"
-              placeholder="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            ></Input>
-          </FormGroup>
-          <FormGroup row>
-            <Input
-              type="password"
-              name="password"
-              className="form-control"
-              placeholder="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            ></Input>
-          </FormGroup>
-
-          <Button color="danger" type="submit">
-            Sign In
-          </Button>
+        </Row>
+        <Row>
+          <a href="http://localhost:9000/login">
+            <Button color="danger">Sign In</Button>
+          </a>
+        </Row>
+        <Row>
           <div>
-            Don't have an accout? Click <Link to="/signup">here</Link>
+            Don't have an account? Click <Link to="/signup">here</Link>
           </div>
-        </Form>
+        </Row>
       </Container>
     );
   }
 }
 
-export default login;
+const mapDispatchToProps = dispatch => {
+  return {
+    setEmail: (state, event) => dispatch(actions.setEmail(state, event)),
+    setPassword: (state, event) => dispatch(actions.setPassword(state, event)),
+    setLogin: (state, event) => dispatch(actions.setLogin(state, event)),
+  }
+}
+
+function mapStateToProps(state){
+  const { loginState } = state;
+  return {    
+      email: loginState.email, 
+      password: loginState.password,
+      login: loginState.login,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(login);
