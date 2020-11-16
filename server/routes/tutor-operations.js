@@ -48,12 +48,9 @@ router.put('/courses', async (req, res) => {
 
 // GET tutor-operations/schedule
 // Get a tutor's schedule
-router.get('/schedule', (req, res) => {
-    User.find({ email: req.body.email })
-        .then(users => {
-            res.json(users[0].tutor.times)
-        }
-        )
+router.get('/schedule/:email', (req, res) => {
+    User.find({ email: req.params.email })
+        .then(users => res.json(users[0].tutor.times))
         .catch(err => res.status(400).json({ msg: err.message }));
 });
 
@@ -115,7 +112,7 @@ router.put('/name', async (req, res) => {
 });
 
 // GET tutor-operations/description
-// Get a users description
+// Get a tutor's description
 router.get('/description/:email', (req, res) => {
     User.find({ email: req.params.email })
         .then(users => res.json({ description: users[0].tutor.description }))
@@ -123,7 +120,7 @@ router.get('/description/:email', (req, res) => {
 });
 
 // PUT tutor-operations/description
-// Update an existing users desctiption
+// Update an existing tutor's description
 router.put('/description', async (req, res) => {
     try {
         console.log(req.body.description)

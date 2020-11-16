@@ -23,6 +23,7 @@ class Settings extends Component {
     courses: [],
     temp_courses: [],
     added_courses: [],
+    schedule: [[], [], [], [], [], [], []],
     price_modal: false,
     name_modal: false,
     courses_modal: false,
@@ -96,7 +97,18 @@ class Settings extends Component {
       return res.json();
     }).then(interval => {
       this.setState({ meeting_interval: interval, temp_meeting_interval: interval });
-    })
+    });
+
+    fetch("http://localhost:9000/tutor-operations/schedule/" + this.state.email, {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      console.log(res);
+      return res.json();
+    }).then(times => {
+      this.setState({ schedule: times });
+      console.log(times);
+    });
   }
 
   saveNameChange = (e) => {
@@ -273,7 +285,35 @@ class Settings extends Component {
   handleIntervalChange = (value) => {
     this.setState({ temp_meeting_interval: value });
   }
-  
+
+  // Given 1 to 4 digit integer, format as a 12hr time
+  // e.g. Given time = 845, return "8:45AM"
+  intToTime(time) {
+    // Case of after midnight
+    if (time.toString().length <= 2)
+      return "12:" + time + "AM";
+    let mins = time % 100;
+    let hrs =  (time-mins) / 100;
+    let meridiem = hrs >= 12 ? "PM" : "AM";
+    mins = mins === 0 ? "00" : mins.toString();
+    hrs = hrs > 12 ? (hrs-12).toString() : hrs.toString();
+    return hrs + ":" + mins + meridiem;    
+  }
+
+  // Given list of times for certain day, e.g. dayTimes = [[600,800], [1600,2000]]
+  // Returns string of formatted 12hr times, with each block of time comma separated
+  formatTimeList = (e, dayTimes) => {
+    if (dayTimes === null)
+      return "None";
+    let timeStr = "";
+    dayTimes.forEach(function(block, index) {
+      timeStr += (e.intToTime(block[0]) + " - " + e.intToTime(block[1]));
+      if (index != dayTimes.length-1)
+        timeStr+= ", ";
+    });
+    return timeStr;
+  }
+
   render() {
     return (
       <Container fluid className="background">
@@ -335,6 +375,34 @@ class Settings extends Component {
               </ListGroupItem>
               <br></br>
               <ListGroupItem>
+                <span className="heading-item">{this.state.meeting_interval + " minute sessions"}</span>
+                <a href="#" className="modal-link" onClick={this.toggleIntervalModal}>
+                  <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
+                </a>
+                <Modal isOpen={this.state.interval_modal} fade={false} toggle={this.toggleIntervalModal} className="interval-modal">
+                  <ModalHeader toggle={this.toggleIntervalModal}>Edit Meeting Interval</ModalHeader>
+                  <ModalBody>
+                    Change the length of your tutor sessions.
+                    <hr/>
+                    <div className='slider'>
+                      <Slider
+                        min={15}
+                        max={60}
+                        step={5}
+                        value={this.state.temp_meeting_interval}
+                        onChange={this.handleIntervalChange}
+                      />
+                      <div className='value'>{this.state.temp_meeting_interval} minutes</div>
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button className="btn-red" onClick={this.saveIntervalChange}>Save</Button>{' '}
+                    <Button color="secondary" onClick={this.cancelIntervalChange}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
+              </ListGroupItem>
+              <br></br>
+              <ListGroupItem>
                 <span className="heading-item">Description</span>
                 <a href="#" className="modal-link" onClick={this.toggleDescModal}>
                   <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
@@ -365,31 +433,13 @@ class Settings extends Component {
               <ListGroupItem>
                 <span className="heading-item">Availability</span>
                 <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span><br></br>
-                <span className="heading-item">{this.state.meeting_interval + " minute sessions"}</span>
-                <a href="#" className="modal-link" onClick={this.toggleIntervalModal}>
-                  <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
-                </a>
-                <Modal isOpen={this.state.interval_modal} fade={false} toggle={this.toggleIntervalModal} className="interval-modal">
-                  <ModalHeader toggle={this.toggleIntervalModal}>Edit Meeting Interval</ModalHeader>
-                  <ModalBody>
-                    Change the length of your tutor sessions.
-                    <hr/>
-                    <div className='slider'>
-                      <Slider
-                        min={15}
-                        max={60}
-                        step={5}
-                        value={this.state.temp_meeting_interval}
-                        onChange={this.handleIntervalChange}
-                      />
-                      <div className='value'>{this.state.temp_meeting_interval} minutes</div>
-                    </div>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button className="btn-red" onClick={this.saveIntervalChange}>Save</Button>{' '}
-                    <Button color="secondary" onClick={this.cancelIntervalChange}>Cancel</Button>
-                  </ModalFooter>
-                </Modal>
+                <span className="day-item">SUN: {this.formatTimeList(this, this.state.schedule[0])}</span>
+                <span className="day-item">MON: {this.formatTimeList(this, this.state.schedule[1])}</span>
+                <span className="day-item">TUE: {this.formatTimeList(this, this.state.schedule[2])}</span>
+                <span className="day-item">WED: {this.formatTimeList(this, this.state.schedule[3])}</span>
+                <span className="day-item">THU: {this.formatTimeList(this, this.state.schedule[4])}</span>
+                <span className="day-item">FRI: {this.formatTimeList(this, this.state.schedule[5])}</span>
+                <span className="day-item">SAT: {this.formatTimeList(this, this.state.schedule[6])}</span>
               </ListGroupItem>
               <br></br>
               <ListGroupItem>
