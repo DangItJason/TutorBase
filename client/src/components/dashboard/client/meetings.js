@@ -8,6 +8,8 @@ import {
 } from "reactstrap";
 import "./meetings.css";
 import MeetingCard from "../../meetingCard/MeetingCard";
+import { actions } from "../../../store/clientFlowData";
+import { connect } from "react-redux";
 
 class Meetings extends Component {
   constructor(props) {
@@ -17,7 +19,6 @@ class Meetings extends Component {
     this.state = {
       dropdownOpen: false,
       dropdownValue: "All",
-      appointments: [],
     };
   }
 
@@ -32,8 +33,13 @@ class Meetings extends Component {
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((obj) => {
-        console.log(obj.client)
-        this.setState({appointments: [...obj.client.pending, ...obj.client.upcoming, ...obj.client.completed, ...obj.client.declined]})
+        console.log(obj.client);
+        this.props.setAppointments([
+          ...obj.client.pending,
+          ...obj.client.upcoming,
+          ...obj.client.completed,
+          ...obj.client.declined,
+        ]);
       });
   }
 
@@ -54,7 +60,7 @@ class Meetings extends Component {
   };
 
   render() {
-    const appointments = this.state.appointments;
+    const appointments = this.props.data.appointments;
     const dropDownValue = this.state.dropdownValue;
 
     const filteredDropdown = appointments.filter(
@@ -93,4 +99,16 @@ class Meetings extends Component {
   }
 }
 
-export default Meetings;
+function mapStateToProps(state) {
+  const { clientData } = state;
+  return { data: clientData };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAppointments: (state, action) =>
+      dispatch(actions.setAppointments(state, action)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Meetings);
