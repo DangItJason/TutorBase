@@ -7,7 +7,6 @@ const UserSchema = new Schema({
     password: { type: String, required: true }, // User password
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
-    profile_img: { type: String, default: "" },
     client: {
         appts: [Appointment], // Upcoming appointments
         past_appts: [Appointment] // Past appointments
@@ -16,6 +15,7 @@ const UserSchema = new Schema({
         appts: [Appointment], // Upcoming appointments
         past_appts: [Appointment], // Past appointments
         courses: [String],
+        profile_img: { type: String, default: "" },
         description: { type: String, default: "Hello :)", max: 200 },
         times: [[[Number, Number]], [[Number, Number]], [[Number, Number]], [[Number, Number]], [[Number, Number]], [[Number, Number]], [[Number, Number]]],
         price: { type: Number, default: 30 },

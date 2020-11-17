@@ -37,6 +37,11 @@ hr {
     padding-right: 10px;
 }
 
+.img-responsive {
+    max-width: 30%;
+    height: auto;
+}
+
 .day-item {
     font-size: 16px;
     display: block;

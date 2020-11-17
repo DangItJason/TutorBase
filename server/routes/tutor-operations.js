@@ -135,4 +135,12 @@ router.put('/description', async (req, res) => {
     }
 });
 
+// GET tutor-operations/pfp
+// Get a tutor's profile picture
+router.get('/pfp/:email', (req, res) => {
+    User.find({ email: req.params.email })
+        .then(users => res.json(users[0].tutor.profile_img))
+        .catch(err => res.status(400).json({ msg: err.message }));
+});
+
 module.exports = router;

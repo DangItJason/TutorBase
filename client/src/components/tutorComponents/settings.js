@@ -14,6 +14,7 @@ class Settings extends Component {
     last_name: "Nguyen",
     email: "test2@gmail.com",
     obj_id: "5f89d834aa18dfd7e932967d",
+    profile_pic: "",
     description: "",
     price: 55,
     temp_price: 55,
@@ -107,7 +108,16 @@ class Settings extends Component {
       return res.json();
     }).then(times => {
       this.setState({ schedule: times });
-      console.log(times);
+    });
+
+    fetch("http://localhost:9000/tutor-operations/pfp/" + this.state.email, {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      console.log(res);
+      return res.json();
+    }).then(pfp => {
+      this.setState({ profile_pic: pfp });
     });
   }
 
@@ -324,6 +334,9 @@ class Settings extends Component {
         <Row xs="2" className="parent">
           <Col xl="6">
             <ListGroup className="heading-text">
+              <ListGroupItem>
+                <img src={this.state.profile_pic} className="img-responsive"></img>
+              </ListGroupItem>
               <ListGroupItem className="bubble-container">
                 <span className="heading-item">{this.state.first_name + " " + this.state.last_name}</span>
                 <a href="#" className="modal-link" onClick={this.toggleNameModal}>
