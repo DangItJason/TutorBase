@@ -25,7 +25,7 @@ class Meetings extends Component {
     var url = "http://localhost:9000/meetings/appointments";
     const requestOptions = {
       method: 'POST',
-      body: JSON.stringify({"user_id" : "5f23951c7b297f01f21a1877"}),
+      body: JSON.stringify({'user_id' : '5f23951c7b297f01f21a1877'}),
       headers: { 'Content-Type': 'application/json' }
   };
 

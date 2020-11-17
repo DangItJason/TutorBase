@@ -11,8 +11,9 @@ var mongo = require("mongodb");
 // Get all appointments from a client id
 router.post("/appointments", (req, res) => {
 
-//   var id = JSON.stringify(req.body.user_id);
-  var id = mongoose.Types.ObjectId('5f23951c7b297f01f21a1877');
+  var id = mongoose.Types.ObjectId("5f23951c7b297f01f21a1877");
+
+  console.log(JSON.stringify(req.body.user_id));
   console.log("Searching for objectID: " + id);
   User.findById(id, { client : 1, _id : 0 }) //Only return client fields
     .then((user) => {
@@ -22,3 +23,22 @@ router.post("/appointments", (req, res) => {
 });
 
 module.exports = router;
+
+//POST api/meetings/movePending
+//Move desired pending appointment to upcoming
+router.post("/movePending", (req, res) => {
+
+  var id = mongoose.Types.ObjectId("5f23951c7b297f01f21a1877");
+
+  console.log("Moving pending object to upcoming array:");
+  User.updateOne({
+    '_id': id
+  }, {
+    $pull : {'client.$.pending' : { 'name' : req.body.name }},
+    $push : {'client.upcoming' : { 'client.$.pending' : { 'name ' : req.body.name }}}
+  })
+    .then((pending) => {
+      res.json(pending);
+    })
+
+})
