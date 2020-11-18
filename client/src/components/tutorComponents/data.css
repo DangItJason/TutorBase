@@ -17,14 +17,6 @@ hr {
     justify-content: space-around;
 }
 
-.top_container {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-around;
-
-    flex-direction: row;
-}
-
 .title {
     display: flex;
     align-items: flex-start; 
@@ -65,6 +57,8 @@ hr {
 }
 
 .bubble-container {
+    height: 69px;
+    width: 30%;
     background: white;
 }
 

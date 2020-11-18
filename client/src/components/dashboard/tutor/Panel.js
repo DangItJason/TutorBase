@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import { Navbar, Button } from "reactstrap"; 
 import Settings from "../../tutorComponents/settings";
+import Analytics from "../../tutorComponents/data";
 import TutorDashboard from "./TutorDashboard";
 
 class Panel extends Component {
@@ -27,7 +28,7 @@ class Panel extends Component {
                 {this.props.extension === "schedule" ? <Settings></Settings> : null}
                 {this.props.extension === "meetings" ? <div>Hello World(Meetings)</div> : null}
                 {this.props.extension === "history" ? <div>Hello World(History)</div> : null}
-                {this.props.extension === "analytics" ? <div>Hello World(Analytics)</div> : null}
+                {this.props.extension === "analytics" ? <Analytics></Analytics> : null}
                 {this.props.extension === "settings" ? <Settings></Settings> : null}
                 
             </div>
