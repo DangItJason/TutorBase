@@ -6,6 +6,7 @@ body {
 
 .loginContainer {
     display: flex;
+    flex-direction: column; /* forces flex to be in a column */
     height: 750px;
     align-items: center; 
     justify-content: center;
