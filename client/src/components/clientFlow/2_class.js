@@ -50,9 +50,10 @@ class Step2 extends Component {
                 value={course.id}
                 data-tutors={course.tutors}
                 onChange={(event) => {
+                  console.log(event.target.dataset);
                   this.props.setCourse([
                     event.target.value,
-                    [event.target.dataset.tutors],
+                    event.target.dataset.tutors.split(","),
                   ]);
                   this.props.incrementStep();
                 }}
@@ -76,7 +77,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setCourse: (state, payload) => dispatch(actions.setSubject(state, payload)),
+    setCourse: (state, payload) => dispatch(actions.setCourse(state, payload)),
     incrementStep: (state) => dispatch(actions.incrementStep(state)),
   };
 };

@@ -3,8 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="e9761d2f-23a5-4401-a8d6-8fb9c91a9516" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/signup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/store/signUpData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/signUpData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/2_class.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/2_class.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/3_selectTutor.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/3_selectTutor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/4_selectDateTime.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/4_selectDateTime.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/FormParent.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/FormParent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/store/clientFlowData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/clientFlowData.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +45,7 @@
     <property name="prettierjs.PrettierConfiguration.Package" value="C:\$env\Repositories\TutorBase\client\node_modules\prettier" />
     <property name="run.prettier.on.save" value="true" />
     <property name="settings.editor.selected.configurable" value="terminal" />
+    <property name="ts.external.directory.path" value="C:\$env\Programs\WebStorm 2020.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -86,6 +92,9 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="321" y="375" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601840345069">
       <screen x="0" y="0" width="3440" height="1440" />
@@ -106,25 +115,29 @@
     <state x="640" y="478" key="FileChooserDialogImpl/0.0.3440.1440/783.-1080.1920.1050@0.0.3440.1440" timestamp="1602517042636" />
     <state x="640" y="478" key="FileChooserDialogImpl/0.0.3440.1440/783.-1080.1920.1080@0.0.3440.1440" timestamp="1603479575615" />
     <state x="640" y="478" key="FileChooserDialogImpl/0.0.3440.1440/865.-1080.1920.1080@0.0.3440.1440" timestamp="1601758540107" />
-    <state width="1696" height="404" key="GridCell.Tab.0.bottom" timestamp="1602511080996">
+    <state width="1696" height="404" key="GridCell.Tab.0.bottom" timestamp="1605983209513">
       <screen x="0" y="0" width="3440" height="1440" />
     </state>
     <state width="1696" height="404" key="GridCell.Tab.0.bottom/0.0.3440.1440/783.-1080.1920.1050@0.0.3440.1440" timestamp="1602511080996" />
+    <state width="1696" height="404" key="GridCell.Tab.0.bottom/0.0.3440.1440/783.-1080.1920.1080@0.0.3440.1440" timestamp="1605983209513" />
     <state width="1696" height="496" key="GridCell.Tab.0.bottom/0.0.3440.1440/865.-1080.1920.1080@0.0.3440.1440" timestamp="1601849379565" />
-    <state width="1696" height="404" key="GridCell.Tab.0.center" timestamp="1602511080996">
+    <state width="1696" height="404" key="GridCell.Tab.0.center" timestamp="1605983209512">
       <screen x="0" y="0" width="3440" height="1440" />
     </state>
     <state width="1696" height="404" key="GridCell.Tab.0.center/0.0.3440.1440/783.-1080.1920.1050@0.0.3440.1440" timestamp="1602511080996" />
+    <state width="1696" height="404" key="GridCell.Tab.0.center/0.0.3440.1440/783.-1080.1920.1080@0.0.3440.1440" timestamp="1605983209512" />
     <state width="1696" height="496" key="GridCell.Tab.0.center/0.0.3440.1440/865.-1080.1920.1080@0.0.3440.1440" timestamp="1601849379565" />
-    <state width="1696" height="404" key="GridCell.Tab.0.left" timestamp="1602511080996">
+    <state width="1696" height="404" key="GridCell.Tab.0.left" timestamp="1605983209512">
       <screen x="0" y="0" width="3440" height="1440" />
     </state>
     <state width="1696" height="404" key="GridCell.Tab.0.left/0.0.3440.1440/783.-1080.1920.1050@0.0.3440.1440" timestamp="1602511080996" />
+    <state width="1696" height="404" key="GridCell.Tab.0.left/0.0.3440.1440/783.-1080.1920.1080@0.0.3440.1440" timestamp="1605983209512" />
     <state width="1696" height="496" key="GridCell.Tab.0.left/0.0.3440.1440/865.-1080.1920.1080@0.0.3440.1440" timestamp="1601849379565" />
-    <state width="1696" height="404" key="GridCell.Tab.0.right" timestamp="1602511080996">
+    <state width="1696" height="404" key="GridCell.Tab.0.right" timestamp="1605983209512">
       <screen x="0" y="0" width="3440" height="1440" />
     </state>
     <state width="1696" height="404" key="GridCell.Tab.0.right/0.0.3440.1440/783.-1080.1920.1050@0.0.3440.1440" timestamp="1602511080996" />
+    <state width="1696" height="404" key="GridCell.Tab.0.right/0.0.3440.1440/783.-1080.1920.1080@0.0.3440.1440" timestamp="1605983209512" />
     <state width="1696" height="496" key="GridCell.Tab.0.right/0.0.3440.1440/865.-1080.1920.1080@0.0.3440.1440" timestamp="1601849379565" />
     <state width="1696" height="496" key="GridCell.Tab.1.bottom" timestamp="1601849379565">
       <screen x="0" y="0" width="3440" height="1440" />

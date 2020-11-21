@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // The initial state of the UserData container
 export const initialState = {
   sidebarToggled: false,
+  calendarConfirmed: false,
   clientName: "",
   currentStep: 1,
   furthestStep: 1,
@@ -23,6 +24,13 @@ const clientFlowSlice = createSlice({
     toggleSidebar(state) {
       state.sidebarToggled = !state.sidebarToggled;
     },
+    setSessionTime(state, action) {
+      console.log("SET SESSION ACTION:", action);
+      state.date = action.payload[0];
+      state.startTime = action.payload[1];
+      state.endTime = action.payload[2];
+      state.calendarConfirmed = true;
+    },
     setSubject(state, action) {
       console.log("SET SUBJECT ACTION:", action);
       state.subject = action.payload;
@@ -33,8 +41,7 @@ const clientFlowSlice = createSlice({
       state.tutor_ids = action.payload[1];
     },
     setTutor(state, action) {
-      const { name, value } = action.target;
-      state.tutor = value;
+      state.tutor = action.target;
     },
     decrementStep(state) {
       state.currentStep = state.currentStep <= 1 ? 1 : state.currentStep - 1;
