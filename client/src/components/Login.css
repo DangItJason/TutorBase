@@ -2,16 +2,35 @@ html,
 body {
     font-family: "Lato", sans-serif;
     height: 100%;
+    padding-top: 50px
 }
 
 .loginContainer {
+    height: 500px;
+    width: 500px;
     display: flex;
-    flex-direction: column; /* forces flex to be in a column */
-    height: 750px;
-    align-items: center; 
-    justify-content: center;
+    margin: auto;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #6c757d;
+    border-radius: 0.28571429rem;
 }
 
 .loginText {
+    font-size: 50px;
+}
+
+.signInButton {
+    margin-top: 50px;
+    height: 70px;
+    width: 100%;
+    font-size: 50px;
+}
+
+.signUpDiv {
+    margin-top: 25px;
+}
+
+.logoText {
     font-size: 50px;
 }

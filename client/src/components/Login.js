@@ -64,21 +64,60 @@ class login extends Component {
 
   render() {
     return (
-      <Container className="loginContainer" fluid="sm">
-        <Row>
-          <Label className="loginText">Login</Label>
-        </Row>
-        <Row>
-          {/* <a href="http://localhost:9000/login"> */}
-          <Button onClick={this.redirect} color="danger">Sign In</Button>
-          {/* </a> */}
-        </Row>
-        <Row>
-          <div>
-            Don't have an accout? Click <Link to="/signup">here</Link>
-          </div>
-        </Row>
-      </Container>
+        <div className="loginContainer">
+          <Container>
+            <Row>
+              <Col xs="3"/>
+              <Col xs="6">
+                <Label className="logoText">
+                  TutorBase
+                </Label>
+              </Col>
+              <Col xs="3"/>
+            </Row>
+            <Row>
+              <Col xs="1"/>
+              <Col xs="10">A better system to connect students and tutors at RPI.</Col>
+              <Col xs="1"/>
+            </Row>
+            <Row>
+              <Col xs="4"/>
+              <Col xs="4">
+                <Button onClick={this.redirect} color="danger" size="lg" className="signInButton">Sign In</Button>
+              </Col>
+              <Col xs="4"/>
+            </Row>
+            <Row>
+              <Col xs="3"/>
+              <Col xs="9">
+                <div className="signUpDiv">
+                  Don't have an account? <Link to="/signup">
+                  &nbsp;Sign up</Link>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+        // <Container className="loginContainer">
+        //   <Row>
+        //     <Label className="loginText">Login</Label>
+        //   </Row>
+        // </Container>
+      // <Container className="loginContainer" fluid="sm">
+      //   <Row>
+      //     <Label className="loginText">Login</Label>
+      //   </Row>
+      //   <Row>
+      //     {/* <a href="http://localhost:9000/login"> */}
+      //     <Button onClick={this.redirect} color="danger">Sign In</Button>
+      //     {/* </a> */}
+      //   </Row>
+      //   <Row>
+      //     <div>
+      //       Don't have an accout? Click <Link to="/signup">here</Link>
+      //     </div>
+      //   </Row>
+      // </Container>
     );
   }
 }
