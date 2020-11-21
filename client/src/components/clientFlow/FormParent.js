@@ -13,51 +13,6 @@ class FormParent extends Component {
     super(props);
   }
 
-  // handleChange = event => {
-  //     const { name, value } = event.target
-  //     this.setState({ [name]: value });
-  //     this.props.incrementStep();
-  // }
-  //
-  // handleChangeTime = event => {
-  //     // const { name, value } = event.target
-  //     this.setState({ furthestStep: this.state.furthestStep + 1 });
-  // }
-  //
-  // handleChangeCourse = event => {
-  //     const { name, value } = event.target
-  //     this.setState({[name]: value, tutor_ids: [event.target.dataset.tutors]});
-  //     this.nextStep();
-  // }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    //Send verification email to tutor
-    var url = "http://localhost:9000/email-user/tutor";
-    var headers = {
-      "Content-Type": "application/json",
-    };
-    var body = {
-      clientName: this.state.clientName,
-      tutorName: this.state.tutor,
-      date: this.state.date,
-      class: this.state.course,
-      notes: this.state.notes,
-      endTime: this.state.endTime,
-      startTime: this.state.startTime,
-    };
-    fetch(url, { method: "POST", headers: headers, body: body }).then((res) => {
-      console.log(res);
-    });
-
-    //Send confirmation email to client
-    url = "http://localhost:9000/email-user/client";
-    fetch(url, { method: "POST", headers: headers, body: body }).then((res) => {
-      console.log(res);
-    });
-  };
-
   prevButton() {
     if (this.props.flowData.currentStep !== 1) {
       return (

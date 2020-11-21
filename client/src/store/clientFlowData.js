@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export const initialState = {
   sidebarToggled: false,
   calendarConfirmed: false,
-  clientName: "",
+  clientName: "test",
   currentStep: 1,
   furthestStep: 1,
   subject: "",
@@ -41,7 +41,7 @@ const clientFlowSlice = createSlice({
       state.tutor_ids = action.payload[1];
     },
     setTutor(state, action) {
-      state.tutor = action.target;
+      state.tutor = action.payload;
     },
     decrementStep(state) {
       state.currentStep = state.currentStep <= 1 ? 1 : state.currentStep - 1;

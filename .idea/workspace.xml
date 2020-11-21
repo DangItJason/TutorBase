@@ -3,12 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e9761d2f-23a5-4401-a8d6-8fb9c91a9516" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/2_class.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/2_class.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/3_selectTutor.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/3_selectTutor.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/4_selectDateTime.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/4_selectDateTime.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/5_reserve.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/5_reserve.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/FormParent.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/FormParent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/clientFlow/toast/submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/clientFlow/toast/submit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/store/clientFlowData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/clientFlowData.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

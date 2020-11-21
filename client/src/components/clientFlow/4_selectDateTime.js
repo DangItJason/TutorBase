@@ -34,6 +34,7 @@ class Step4 extends Component {
     this.mobile = isMobile;
     this.currentView = "week";
     this.state = {
+      schedule: null,
       date: null,
       start: null,
       end: null,
@@ -55,28 +56,25 @@ class Step4 extends Component {
       const event = this.cal.current.calendarInst.getElement(id, calendarId);
     };
 
+    const onAfterRenderSchedule = (e) => {
+      console.log(e);
+      let startDay = e.schedule.start;
+      let endDay = e.schedule.end;
+
+      this.props.setSessionTime([
+        new Date(
+          startDay.getFullYear(),
+          startDay.getMonth(),
+          startDay.getDay()
+        ).toDateString(),
+        `${startDay.getHours()}:${startDay.getMinutes()}`,
+        `${endDay.getHours()}:${endDay.getMinutes()}`,
+      ]);
+    };
+
     const onBeforeCreateSchedule = (scheduleData) => {
       console.log(scheduleData);
-      let startDay = scheduleData.start;
-      let endDay = scheduleData.end;
       let id = String(Math.random());
-      let date = new Date(
-        startDay.getFullYear(),
-        startDay.getMonth(),
-        startDay.getDay()
-      ).toDateString();
-      let start = `${startDay.getHours()}:${startDay.getMinutes()}`;
-      let end = `${endDay.getHours()}:${endDay.getMinutes()}`;
-
-      // this.props.setSessionTime([
-      //   new Date(
-      //     startDay.getFullYear(),
-      //     startDay.getMonth(),
-      //     startDay.getDay()
-      //   ).toDateString(),
-      //   `${startDay.getHours()}:${startDay.getMinutes()}`,
-      //   `${endDay.getHours()}:${endDay.getMinutes()}`,
-      // ]);
 
       const schedule = {
         id: id,
@@ -196,6 +194,7 @@ class Step4 extends Component {
             onBeforeCreateSchedule={onBeforeCreateSchedule}
             onBeforeDeleteSchedule={onBeforeDeleteSchedule}
             onBeforeUpdateSchedule={onBeforeUpdateSchedule}
+            onAfterRenderSchedule={onAfterRenderSchedule}
           />
         </div>
       </div>
