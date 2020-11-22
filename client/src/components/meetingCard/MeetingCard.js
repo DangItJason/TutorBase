@@ -19,6 +19,14 @@ class MeetingCard extends Component {
     });
   };
 
+  acceptPendingCard = (e) => {
+
+  }
+
+  rejectPendingCard = (e) => {
+
+  }
+
   render() {
     let cardType = "upcoming-card";
 
