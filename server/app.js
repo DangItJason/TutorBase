@@ -8,6 +8,8 @@ var cors = require("cors");
 var app = express();
 var bcrypt = require('bcryptjs');
 var fs = require("fs");
+
+//Middleware
 var isLoggedIn = require('./middleware/authentication');
 
 //Authentication Packages
@@ -22,7 +24,7 @@ mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
 //Not so secret token key
 const token_secret = "elonmuskismydaddy";
 
-//Routes
+//Routers
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var signupRouter = require("./routes/signup");
@@ -31,6 +33,7 @@ var catalogRouter = require("./routes/api/catalog");
 var emailClientRouter = require("./routes/email-user");
 var tutorOperations = require("./routes/tutor-operations")
 
+//Allowing Cors Usage
 app.use(cors());
 
 // view engine setup
@@ -66,6 +69,7 @@ passport.deserializeUser(function (user, done) {
 });
 
 
+// Route REST URL's are set up
 app.use("/", indexRouter)
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
@@ -73,7 +77,6 @@ app.use("/signup", signupRouter);
 app.use("/catalog", catalogRouter);
 app.use("/email-user", emailClientRouter);
 app.use("/tutor-operations", tutorOperations);
-
 app.get('/checkLogin', isLoggedIn, function (req, res) {
   res.sendStatus(200);
 })
