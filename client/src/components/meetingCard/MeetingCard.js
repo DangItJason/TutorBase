@@ -8,6 +8,8 @@ class MeetingCard extends Component {
   constructor(props) {
     super(props);
     this.toggleCard = this.toggleCard.bind(this);
+    this.acceptPendingCard = this.acceptPendingCard.bind(this);
+    this.rejectPendingCard = this.rejectPendingCard.bind(this);
     this.state = {
       cardExpanded: false,
     };
@@ -20,11 +22,11 @@ class MeetingCard extends Component {
   };
 
   acceptPendingCard = (e) => {
-
+    console.log('Accepted');
   }
 
   rejectPendingCard = (e) => {
-
+    console.log('Rejected');
   }
 
   render() {
@@ -51,10 +53,14 @@ class MeetingCard extends Component {
         {cardType === "pending-card" && (
           <div className={"card-container-end"}>
             <div className={"card-icon"}>
-              <Button><FontAwesomeIcon icon={faCheck}></FontAwesomeIcon></Button>
+              <Button onClick={this.acceptPendingCard}>
+                <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+              </Button>
             </div>
             <div className={"card-icon"}>
-              <Button><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></Button>
+              <Button onClick={this.rejectPendingCard}>
+                <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+              </Button>
             </div>
             <div className={"card-status"}>{this.props.appointment.color}</div>
           </div>
@@ -93,10 +99,14 @@ class MeetingCard extends Component {
           {cardType === "pending-card" && (
             <div className={"card-container-end-expanded"}>
               <div className={"card-icon"}>
-                <Button><FontAwesomeIcon icon={faCheck}></FontAwesomeIcon></Button>
+                <Button onClick={this.acceptPendingCard}>
+                  <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                </Button>
               </div>
               <div className={"card-icon"}>
-                <Button><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></Button>
+                <Button onClick={this.rejectPendingCard}>
+                  <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                </Button>
               </div>
               <div className={"card-status"}>
                 {this.props.appointment.color}
