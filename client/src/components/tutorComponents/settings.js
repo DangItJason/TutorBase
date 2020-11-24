@@ -27,7 +27,7 @@ class Settings extends Component {
     added_courses: [],
     schedule: [[], [], [], [], [], [], []],
     temp_schedule:  [[], [], [], [], [], [], []],
-    active_schedule_tab: '0',
+    active_schedule_tab: 0,
     price_modal: false,
     name_modal: false,
     courses_modal: false,
@@ -363,6 +363,9 @@ class Settings extends Component {
   }
 
   render() {
+
+    let schedule_days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
     return (
       <Container fluid className="background">
         <Row className="title">
@@ -498,153 +501,59 @@ class Settings extends Component {
                   <ModalBody>
                     <Nav tabs>
                       <NavItem>
-                        <NavLink className={classNames({ active: this.state.active_schedule_tab === '0' })}
-                          onClick={() => { this.toggleScheduleTab('0'); }} >
+                        <NavLink className={classNames({ active: this.state.active_schedule_tab === 0 })}
+                          onClick={() => { this.toggleScheduleTab(0); }} >
                           SUN
                         </NavLink>
                       </NavItem>
                       <NavItem>
-                        <NavLink className={classNames({ active: this.state.active_schedule_tab === '1' })}
-                          onClick={() => { this.toggleScheduleTab('1'); }} >
+                        <NavLink className={classNames({ active: this.state.active_schedule_tab === 1 })}
+                          onClick={() => { this.toggleScheduleTab(1); }} >
                           MON
                         </NavLink>
                       </NavItem>
                       <NavItem>
-                        <NavLink className={classNames({ active: this.state.active_schedule_tab === '2' })}
-                          onClick={() => { this.toggleScheduleTab('2'); }} >
+                        <NavLink className={classNames({ active: this.state.active_schedule_tab === 2 })}
+                          onClick={() => { this.toggleScheduleTab(2); }} >
                           TUE
                         </NavLink>
                       </NavItem>
                       <NavItem>
-                        <NavLink className={classNames({ active: this.state.active_schedule_tab === '3' })}
-                          onClick={() => { this.toggleScheduleTab('3'); }} >
+                        <NavLink className={classNames({ active: this.state.active_schedule_tab === 3 })}
+                          onClick={() => { this.toggleScheduleTab(3); }} >
                           WED
                         </NavLink>
                       </NavItem>
                       <NavItem>
-                        <NavLink className={classNames({ active: this.state.active_schedule_tab === '4' })}
-                          onClick={() => { this.toggleScheduleTab('4'); }} >
+                        <NavLink className={classNames({ active: this.state.active_schedule_tab === 4 })}
+                          onClick={() => { this.toggleScheduleTab(4); }} >
                           THU
                         </NavLink>
                       </NavItem>
                       <NavItem>
-                        <NavLink className={classNames({ active: this.state.active_schedule_tab === '5' })}
-                          onClick={() => { this.toggleScheduleTab('5'); }} >
+                        <NavLink className={classNames({ active: this.state.active_schedule_tab === 5 })}
+                          onClick={() => { this.toggleScheduleTab(5); }} >
                           FRI
                         </NavLink>
                       </NavItem>
                       <NavItem>
-                        <NavLink className={classNames({ active: this.state.active_schedule_tab === '6' })}
-                          onClick={() => { this.toggleScheduleTab('6'); }} >
+                        <NavLink className={classNames({ active: this.state.active_schedule_tab === 6 })}
+                          onClick={() => { this.toggleScheduleTab(6); }} >
                           SAT
                         </NavLink>
                       </NavItem>
                     </Nav>
                     <TabContent activeTab={this.state.active_schedule_tab}>
                       <br></br>
-                      <TabPane tabId="0">
+                      <TabPane tabId={this.state.active_schedule_tab}>
                         <Row>
                           <Col sm="12">
-                            <p className="schedule-tab-header">Change your Sunday availability.</p>
+                            <p className="schedule-tab-header">
+                              Change your {schedule_days[this.state.active_schedule_tab]} availability.
+                            </p>
                             <hr/>
                             <ListGroup>
-                              {this.state.temp_schedule[0].map((time, i) => 
-                                <ListGroupItem className="body-text" key={i}>
-                                  {this.formatTime(time)}
-                                  <Button color="link" className="list-remove" value={time}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
-                                </ListGroupItem>
-                                )}
-                            </ListGroup>
-                          </Col>
-                        </Row>
-                      </TabPane>
-                      <TabPane tabId="1">
-                        <Row>
-                          <Col sm="12">
-                            <p className="schedule-tab-header">Change your Monday availability.</p>
-                            <hr/>
-                            <ListGroup>
-                              {this.state.temp_schedule[1].map((time, i) => 
-                                <ListGroupItem className="body-text" key={i}>
-                                  {this.formatTime(time)}
-                                  <Button color="link" className="list-remove" value={time}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
-                                </ListGroupItem>
-                                )}
-                            </ListGroup>
-                          </Col>
-                        </Row>
-                      </TabPane>
-                      <TabPane tabId="2">
-                        <Row>
-                          <Col sm="12">
-                            <p className="schedule-tab-header">Change your Tuesday availability.</p>
-                            <hr/>
-                            <ListGroup>
-                              {this.state.temp_schedule[2].map((time, i) => 
-                                <ListGroupItem className="body-text" key={i}>
-                                  {this.formatTime(time)}
-                                  <Button color="link" className="list-remove" value={time}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
-                                </ListGroupItem>
-                                )}
-                            </ListGroup>
-                          </Col>
-                        </Row>
-                      </TabPane>
-                      <TabPane tabId="3">
-                        <Row>
-                          <Col sm="12">
-                            <p className="schedule-tab-header">Change your Wednesday availability.</p>
-                            <hr/>
-                            <ListGroup>
-                              {this.state.temp_schedule[3].map((time, i) => 
-                                <ListGroupItem className="body-text" key={i}>
-                                  {this.formatTime(time)}
-                                  <Button color="link" className="list-remove" value={time}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
-                                </ListGroupItem>
-                                )}
-                            </ListGroup>
-                          </Col>
-                        </Row>
-                      </TabPane>
-                      <TabPane tabId="4">
-                        <Row>
-                          <Col sm="12">
-                            <p className="schedule-tab-header">Change your Thursday availability.</p>
-                            <hr/>
-                            <ListGroup>
-                              {this.state.temp_schedule[4].map((time, i) => 
-                                <ListGroupItem className="body-text" key={i}>
-                                  {this.formatTime(time)}
-                                  <Button color="link" className="list-remove" value={time}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
-                                </ListGroupItem>
-                                )}
-                            </ListGroup>
-                          </Col>
-                        </Row>
-                      </TabPane>
-                      <TabPane tabId="5">
-                        <Row>
-                          <Col sm="12">
-                            <p className="schedule-tab-header">Change your Friday availability.</p>
-                            <hr/>
-                            <ListGroup>
-                              {this.state.temp_schedule[5].map((time, i) => 
-                                <ListGroupItem className="body-text" key={i}>
-                                  {this.formatTime(time)}
-                                  <Button color="link" className="list-remove" value={time}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
-                                </ListGroupItem>
-                                )}
-                            </ListGroup>
-                          </Col>
-                        </Row>
-                      </TabPane>
-                      <TabPane tabId="6">
-                        <Row>
-                          <Col sm="12">
-                            <p className="schedule-tab-header">Change your Satuday availability.</p>
-                            <hr/>
-                            <ListGroup>
-                              {this.state.temp_schedule[6].map((time, i) => 
+                              {this.state.temp_schedule[this.state.active_schedule_tab].map((time, i) => 
                                 <ListGroupItem className="body-text" key={i}>
                                   {this.formatTime(time)}
                                   <Button color="link" className="list-remove" value={time}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
