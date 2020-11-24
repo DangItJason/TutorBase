@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, InputGroup, Input, Alert } from "reactstrap";
+import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, InputGroup, Input, Alert, Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faBan, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Slider from 'react-rangeslider';
@@ -25,13 +25,17 @@ class Settings extends Component {
     temp_courses: [],
     added_courses: [],
     schedule: [[], [], [], [], [], [], []],
+    temp_schedule: [[], [], [], [], [], [], []],
     price_modal: false,
     name_modal: false,
     courses_modal: false,
     add_course_err: false,
     add_course_err_msg: "",
     desc_modal: false,
-    interval_modal: false
+    interval_modal: false,
+    availability_modal: false,
+    active_tab: 0,
+    tab_name: "Sun"
   };
 
   componentDidMount() {
@@ -275,11 +279,16 @@ class Settings extends Component {
   toggleIntervalModal = (e) => {
     e.preventDefault();
     this.setState({ interval_modal: !this.state.interval_modal });
-  }
+  };
 
   cancelIntervalChange = (e) => {
     this.setState({temp_meeting_interval: this.state.meeting_interval});
     this.toggleIntervalModal(e);
+  };
+
+  toggleAvailabilityModal = (e) => {
+    e.preventDefault();
+    this.setState({ availability_modal: !this.state.availability_modal });
   }
 
   saveIntervalChange = (e) => {
@@ -322,6 +331,11 @@ class Settings extends Component {
         timeStr+= ", ";
     });
     return timeStr;
+  }
+
+  setTab = (e) => {
+    this.setState({active_tab: e.target.id});
+    this.setState({tab_name: e.target.text});
   }
 
   render() {
@@ -445,7 +459,9 @@ class Settings extends Component {
             <ListGroup className="heading-text">
               <ListGroupItem>
                 <span className="heading-item">Availability</span>
-                <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span><br></br>
+                <a href="#" className="modal-link" onClick={this.toggleAvailabilityModal}>
+                  <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span><br></br>
+                </a>
                 <span className="day-item">SUN: {this.formatTimeList(this, this.state.schedule[0])}</span>
                 <span className="day-item">MON: {this.formatTimeList(this, this.state.schedule[1])}</span>
                 <span className="day-item">TUE: {this.formatTimeList(this, this.state.schedule[2])}</span>
@@ -453,6 +469,42 @@ class Settings extends Component {
                 <span className="day-item">THU: {this.formatTimeList(this, this.state.schedule[4])}</span>
                 <span className="day-item">FRI: {this.formatTimeList(this, this.state.schedule[5])}</span>
                 <span className="day-item">SAT: {this.formatTimeList(this, this.state.schedule[6])}</span>
+                <Modal isOpen={this.state.availability_modal} fade={false} toggle={this.toggleAvailabilityModal} className="availability-modal">
+                  <ModalHeader toggle={this.toggleAvailabilityModal}>Edit Availability</ModalHeader>
+                  <ModalBody>
+                    Change your weekly availability.
+                    <hr/>
+                    <Nav tabs>
+                      <NavItem>
+                        <NavLink onClick={this.setTab} id={0}>Sun</NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink onClick={this.setTab} id={1}>Mon</NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink onClick={this.setTab} id={2}>Tue</NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink onClick={this.setTab} id={3}>Wed</NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink onClick={this.setTab} id={4}>Thu</NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink onClick={this.setTab} id={5}>Fri</NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink onClick={this.setTab} id={6}>Sat</NavLink>
+                      </NavItem>
+                    </Nav>
+                    <h2>{this.state.tab_name}</h2>
+                    {this.formatTimeList(this, this.state.schedule[this.state.active_tab])}
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button className="btn-red" onClick={this.saveAvailabilityChange}>Save</Button>{' '}
+                    <Button color="secondary" onClick={this.cancelAvailabilityChange}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
               </ListGroupItem>
               <br></br>
               <ListGroupItem>
