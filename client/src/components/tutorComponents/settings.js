@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, InputGroup, Input, Alert, TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
+import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, InputGroup, Input, Alert, Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faBan, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Slider from 'react-rangeslider';
@@ -299,11 +299,16 @@ class Settings extends Component {
   toggleIntervalModal = (e) => {
     e.preventDefault();
     this.setState({ interval_modal: !this.state.interval_modal });
-  }
+  };
 
   cancelIntervalChange = (e) => {
     this.setState({temp_meeting_interval: this.state.meeting_interval});
     this.toggleIntervalModal(e);
+  };
+
+  toggleAvailabilityModal = (e) => {
+    e.preventDefault();
+    this.setState({ availability_modal: !this.state.availability_modal });
   }
 
   saveIntervalChange = (e) => {
@@ -350,6 +355,11 @@ class Settings extends Component {
         timeStr+= ", ";
     });
     return timeStr;
+  }
+
+  setTab = (e) => {
+    this.setState({active_tab: e.target.id});
+    this.setState({tab_name: e.target.text});
   }
 
   render() {
