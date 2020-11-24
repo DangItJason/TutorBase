@@ -20,9 +20,11 @@
     "react-icons": "^3.11.0",
     "react-rangeslider": "^2.2.0",
     "react-router-dom": "^5.2.0",
+    "react-schedule-selector": "^3.0.0",
     "react-scripts": "3.4.1",
     "react-toast-notifications": "^2.4.0",
-    "reactstrap": "^8.5.1"
+    "reactstrap": "^8.5.1",
+    "styled-components": "^5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

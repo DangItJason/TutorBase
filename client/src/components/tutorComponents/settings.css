@@ -1,3 +1,7 @@
+body {
+    background: #f8f8f8;
+}
+
 hr {
     display: block;
     height: 1px;
@@ -62,10 +66,6 @@ hr {
 
 .body-text {
     font-size: 16px;
-}
-
-.bubble-container {
-    background: white;
 }
 
 .modal-link {
@@ -137,4 +137,8 @@ hr {
 
 .rangeslider-horizontal .rangeslider__fill {
     background-color: #E66064;
+}
+
+.schedule-tab-header {
+    padding-left: 5px;
 }
