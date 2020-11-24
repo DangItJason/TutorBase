@@ -73,7 +73,7 @@ class Step4 extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps == this.props) {
+    if (prevProps === this.props) {
       return;
     }
     if (this.props.tutor[0]) {
