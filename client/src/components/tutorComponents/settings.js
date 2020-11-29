@@ -246,12 +246,12 @@ class Settings extends Component {
       });
     });
 
-    this.setState({ courses: this.state.temp_courses, add_course_err: false });
+    this.setState({ courses: this.state.temp_courses, added_courses: [], add_course_err: false });
     this.toggleCoursesModal(e);
   }
 
   cancelCoursesChange = (e) => {
-    this.setState({ temp_courses: this.state.courses, add_course_err: false });
+    this.setState({ temp_courses: this.state.courses, added_courses: [], add_course_err: false });
     this.toggleCoursesModal(e);
   }
 
@@ -265,42 +265,63 @@ class Settings extends Component {
   }
 
   // --- Schedule Availability Functions ---
-  handleTimeBlockRemove = e => {
-    const { key } = e.target;
+  handleTimeBlockRemove = (index, e) => {
     e.preventDefault();
     let sched = rambda.clone(this.state.temp_schedule);
-    sched[this.state.schedule_tab].splice(key, 1);
+    sched[this.state.schedule_tab].splice(index, 1);
+    // Sort before setting new state
+    sched[this.state.schedule_tab] = sched[this.state.schedule_tab].sort(function(a, b) {return a[0] - b[0]});
     this.setState({ temp_schedule: sched });
   }
 
   handleScheduleBlockAdd = e => {
     e.preventDefault();
-    this.setState(prevState => ({
-      added_times: {
-          ...prevState.added_times,
-          [prevState.added_times[prevState.schedule_tab]]: prevState.added_times[prevState.schedule_tab].push([[''], ['']]),
-      },
-    }));
+    let added = rambda.clone(this.state.added_times);
+    added[this.state.schedule_tab].push([[''], ['']]);
+    this.setState({ added_times: added });
+  }
+
+  // interKey: which block within the given day
+  // intraKey: which time (start=0, end=1) within the given block
+  handleTempTimeChange = (interKey, intraKey, event) => {
+    let sched = rambda.clone(this.state.added_times);
+    sched[this.state.schedule_tab][interKey][intraKey] = event.target.value;
+    this.setState({ added_times: sched });
+  }
+
+  handleTempTimeAdd = (index, event) => {
+    let added = rambda.clone(this.state.added_times);
+    let sched = rambda.clone(this.state.temp_schedule);
+    let newBlock = [parseInt(added[this.state.schedule_tab][index][0], 10), parseInt(added[this.state.schedule_tab][index][1], 10)];
+    sched[this.state.schedule_tab].push(newBlock);
+    added[this.state.schedule_tab].splice(index, 1);
+    // Sort before setting new state
+    sched[this.state.schedule_tab] = sched[this.state.schedule_tab].sort(function(a, b) {return a[0] - b[0]});
+    this.setState({ temp_schedule: sched, added_times: added });
+  }
+
+  handleTempTimeRemove = (index, event) => {
+    let sched = rambda.clone(this.state.added_times);
+    sched[this.state.schedule_tab].splice(index, 1);
+    this.setState({ added_times: sched });
   }
 
   saveScheduleChange = (e) => {
-
-    // **NOTE**: makes sure to sort each day's array of times before putting through
-    //              the PUT request
-
-    // fetch("http://localhost:9000/tutor-operations/schedule", {
-    //   method: "PUT",
-    //   body: JSON.stringify({email: this.state.email, times: this.state.temp_schedule}),
-    //   headers: {"Content-Type": "application/json"},
-    // });
-
-    // this.setState({ schedule: this.state.temp_schedule, add_time_err: false });
-
+    let sched = rambda.clone(this.state.temp_schedule);
+    sched = 
+    fetch("http://localhost:9000/tutor-operations/schedule", {
+      method: "PUT",
+      body: JSON.stringify({email: this.state.email, times: sched}),
+      headers: {"Content-Type": "application/json"},
+    });
+    this.setState({ schedule: rambda.clone(this.state.temp_schedule), 
+      added_times: [[], [], [], [], [], [], []] ,add_time_err: false });
     this.toggleAvailabilityModal(e);
   }
 
   cancelScheduleChange = (e) => {
-    this.setState({ temp_schedule: rambda.clone(this.state.schedule), add_time_err: false });
+    this.setState({ temp_schedule: rambda.clone(this.state.schedule), 
+      added_times: [[], [], [], [], [], [], []], add_time_err: false });
     this.toggleScheduleModal(e);
   }
 
@@ -553,17 +574,17 @@ class Settings extends Component {
                               {this.state.temp_schedule[this.state.schedule_tab].map((block, i) => 
                                 <ListGroupItem className="body-text" key={i}>
                                   {this.formatTime(block)}
-                                  <Button color="link" className="list-remove" key={i} value={block} onClick={this.handleTimeBlockRemove}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
+                                  <Button color="link" className="list-remove" value={block} onClick={this.handleTimeBlockRemove.bind(this, i)}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
                                 </ListGroupItem>
                               )}
                               {this.state.added_times[this.state.schedule_tab].map((block, i) => 
                                 <Form key={i}>
                                   <ListGroupItem className="body-text">
                                     <InputGroup>
-                                      <Input>{block[0]}</Input>
-                                      <Input>{block[1]}</Input>
-                                      <Button color="link" className="list-add"><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
-                                      <Button color="link" className="list-remove"><FontAwesomeIcon icon={faTimes} className="font-adj"/></Button>
+                                      <Input value={block[0] || ''} onChange={this.handleTempTimeChange.bind(this, i, 0)} type="datetime"/>
+                                      <Input value={block[1] || ''} onChange={this.handleTempTimeChange.bind(this, i, 1)} type="datetime"/>
+                                      <Button color="link" className="list-add" onClick={this.handleTempTimeAdd.bind(this, i)}><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
+                                      <Button color="link" className="list-remove" onClick={this.handleTempTimeRemove.bind(this, i)}><FontAwesomeIcon icon={faTimes} className="font-adj"/></Button>
                                     </InputGroup>
                                   </ListGroupItem>
                                 </Form>
