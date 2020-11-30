@@ -16,8 +16,6 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      time1: moment(),
-      time2: moment(),
       first_name: "Jason",
       last_name: "Nguyen",
       email: "test2@gmail.com",
@@ -44,7 +42,8 @@ class Settings extends Component {
       desc_modal: false,
       interval_modal: false,
       schedule_modal: false,
-      add_time_err: false
+      add_time_err: false,
+      add_time_err_msg: ""
     };
   }
 
@@ -180,10 +179,6 @@ class Settings extends Component {
   }
 
   // --- Course Functions ---
-  resetCourseErrMsg = () => {
-    this.setState({ add_course_err: false, add_course_err_msg: "" });
-  }
-
   handleCourseRemove = e => {
     const { value } = e.target;
     e.preventDefault();
@@ -296,13 +291,38 @@ class Settings extends Component {
 
   handleTempTimeAdd = (index, event) => {
     let added = rambda.clone(this.state.added_times);
-    let sched = rambda.clone(this.state.temp_schedule);
     let newBlock = [parseInt(added[this.state.schedule_tab][index][0], 10), parseInt(added[this.state.schedule_tab][index][1], 10)];
-    sched[this.state.schedule_tab].push(newBlock);
-    added[this.state.schedule_tab].splice(index, 1);
-    // Sort before setting new state
-    sched[this.state.schedule_tab] = sched[this.state.schedule_tab].sort(function(a, b) {return a[0] - b[0]});
-    this.setState({ temp_schedule: sched, added_times: added });
+    if (newBlock[0] === newBlock[1])
+      this.setState({ add_time_err: true, add_time_err_msg: "Start and end times must be different." });
+    else if (newBlock[0] >= newBlock[1])
+      this.setState({ add_time_err: true, add_time_err_msg: "Start time must be after end time." });
+    else if (rambda.includes(newBlock, this.state.temp_schedule[this.state.schedule_tab]))
+      this.setState({ add_time_err: true, add_time_err_msg: "Time block is already added." });
+    else {
+      let timeIncl = false;
+      for (let i = 0; i < this.state.temp_schedule[this.state.schedule_tab].length; i++) {
+        if ((this.state.temp_schedule[this.state.schedule_tab][i][1] <= newBlock[0]) ||
+          (this.state.temp_schedule[this.state.schedule_tab][i][0] >= newBlock[1]))
+          continue;
+        else if ((this.state.temp_schedule[this.state.schedule_tab][i][0] <= newBlock[0]) ||
+          (this.state.temp_schedule[this.state.schedule_tab][i][1] >= newBlock[1]) ||
+          (this.state.temp_schedule[this.state.schedule_tab][i][0] >= newBlock[0] && 
+          (this.state.temp_schedule[this.state.schedule_tab][i][1] >= newBlock[1]))) {
+          timeIncl = true;
+          break;
+        }
+      }
+      if (timeIncl)
+        this.setState({ add_time_err: true, add_time_err_msg: "Time block overlaps existing availability." });
+      else {
+        let sched = rambda.clone(this.state.temp_schedule);
+        sched[this.state.schedule_tab].push(newBlock);
+        added[this.state.schedule_tab].splice(index, 1);
+        // Sort before setting new state
+        sched[this.state.schedule_tab] = sched[this.state.schedule_tab].sort(function(a, b) {return a[0] - b[0]});
+        this.setState({ temp_schedule: sched, added_times: added, add_time_err: false });
+      }
+    }
   }
 
   handleTempTimeRemove = (index, event) => {
@@ -313,14 +333,13 @@ class Settings extends Component {
 
   saveScheduleChange = (e) => {
     let sched = rambda.clone(this.state.temp_schedule);
-    sched = 
     fetch("http://localhost:9000/tutor-operations/schedule", {
       method: "PUT",
       body: JSON.stringify({email: this.state.email, times: sched}),
       headers: {"Content-Type": "application/json"},
     });
     this.setState({ schedule: rambda.clone(this.state.temp_schedule), 
-      added_times: [[], [], [], [], [], [], []] ,add_time_err: false });
+      added_times: [[], [], [], [], [], [], []], add_time_err: false });
     this.toggleAvailabilityModal(e);
   }
 
@@ -396,7 +415,7 @@ class Settings extends Component {
   }
 
   formatTimeList = blockList => {
-    if (blockList.length == 0)
+    if (blockList.length === 0)
       return "None";
     let ret = "";
     blockList.forEach((block, index) => {
@@ -574,6 +593,11 @@ class Settings extends Component {
                             <p className="schedule-tab-header">
                               Change your {schedule_days[this.state.schedule_tab].day} availability.
                             </p>
+                            { this.state.add_time_err ?
+                              <Alert color="danger">
+                                <b>ERROR:</b><br/>{this.state.add_time_err_msg}
+                              </Alert>
+                            : null }
                             <hr/>
                             <ListGroup>
                               {this.state.temp_schedule[this.state.schedule_tab].map((block, i) => 
