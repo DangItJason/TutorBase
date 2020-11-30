@@ -5,14 +5,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faBan, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Slider from 'react-rangeslider';
 import Autocomplete from 'react-autocomplete';
+import TimePicker from 'rc-time-picker';
+import moment from 'moment';
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
+import 'rc-time-picker/assets/index.css';
 const rambda = require('ramda');
 
 class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      time1: moment(),
+      time2: moment(),
       first_name: "Jason",
       last_name: "Nguyen",
       email: "test2@gmail.com",
@@ -277,7 +282,7 @@ class Settings extends Component {
   handleScheduleBlockAdd = e => {
     e.preventDefault();
     let added = rambda.clone(this.state.added_times);
-    added[this.state.schedule_tab].push([[''], ['']]);
+    added[this.state.schedule_tab].push([[moment().minute(0).format('HHmm')], [moment().minute(0).format('HHmm')]]);
     this.setState({ added_times: added });
   }
 
@@ -285,7 +290,7 @@ class Settings extends Component {
   // intraKey: which time (start=0, end=1) within the given block
   handleTempTimeChange = (interKey, intraKey, event) => {
     let sched = rambda.clone(this.state.added_times);
-    sched[this.state.schedule_tab][interKey][intraKey] = event.target.value;
+    sched[this.state.schedule_tab][interKey][intraKey] = event.format('HHmm');
     this.setState({ added_times: sched });
   }
 
@@ -581,8 +586,28 @@ class Settings extends Component {
                                 <Form key={i}>
                                   <ListGroupItem className="body-text">
                                     <InputGroup>
-                                      <Input value={block[0] || ''} onChange={this.handleTempTimeChange.bind(this, i, 0)} type="datetime"/>
-                                      <Input value={block[1] || ''} onChange={this.handleTempTimeChange.bind(this, i, 1)} type="datetime"/>
+                                      <TimePicker
+                                        showSecond={false}
+                                        value={moment(('0000' + block[0]).slice(-4), 'HHmm')}
+                                        defaultValue={moment().hour(0).minute(0)}
+                                        onChange={this.handleTempTimeChange.bind(this, i, 0)}
+                                        format={'h:mm a'}
+                                        minuteStep={this.state.meeting_interval}
+                                        allowEmpty={false}
+                                        use12Hours={true}
+                                        inputReadOnly={true}
+                                      />
+                                      <TimePicker
+                                        showSecond={false}
+                                        value={moment(('0000' + block[1]).slice(-4), 'HHmm')}
+                                        defaultValue={moment().hour(0).minute(0)}
+                                        onChange={this.handleTempTimeChange.bind(this, i, 1)}
+                                        format={'h:mm a'}
+                                        minuteStep={this.state.meeting_interval}
+                                        allowEmpty={false}
+                                        use12Hours={true}
+                                        inputReadOnly={true}
+                                      /> 
                                       <Button color="link" className="list-add" onClick={this.handleTempTimeAdd.bind(this, i)}><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
                                       <Button color="link" className="list-remove" onClick={this.handleTempTimeRemove.bind(this, i)}><FontAwesomeIcon icon={faTimes} className="font-adj"/></Button>
                                     </InputGroup>
