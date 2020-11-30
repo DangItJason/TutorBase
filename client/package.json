@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:9000",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
@@ -13,16 +14,23 @@
     "bootstrap": "^4.5.0",
     "classnames": "^2.2.6",
     "light-toast": "^0.3.0",
+    "moment": "^2.29.1",
     "prettier": "^2.1.2",
+    "ramda": "^0.27.1",
+    "rc-time-picker": "^3.7.3",
     "react": "^16.13.1",
+    "react-autocomplete": "^1.8.1",
     "react-available-times": "^1.4.0",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
+    "react-rangeslider": "^2.2.0",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
+    "react-schedule-selector": "^3.0.0",
     "react-scripts": "3.4.1",
     "react-toast-notifications": "^2.4.0",
-    "reactstrap": "^8.5.1"
+    "reactstrap": "^8.5.1",
+    "styled-components": "^5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

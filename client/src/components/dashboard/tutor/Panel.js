@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { Navbar, Button } from "reactstrap"; 
+import Settings from "../../tutorComponents/settings";
+import Analytics from "../../tutorComponents/data";
+import TutorDashboard from "./TutorDashboard";
 
 class Panel extends Component {
+
+
     render() {
         return (
             <div id="panel-wrapper">
                 <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom", "shadow")}>
                     <Button className="btn-red" id="menu-toggle" onClick={this.props.action}>☰</Button>
                 </Navbar>
-                <div class="container-fluid">
+                {/* <div class="container-fluid">
                     <h2 className={classNames("mt-4", "hr")}>Tutor Dashboard</h2>
                 </div>
 
@@ -19,8 +24,13 @@ class Panel extends Component {
                     <Button variant="danger">Add New Course</Button>
                     <Button variant="danger">Drop Course</Button>
 
-                </div>
-
+                </div> */}
+                {this.props.extension === "schedule" ? <Settings></Settings> : null}
+                {this.props.extension === "meetings" ? <div>Hello World(Meetings)</div> : null}
+                {this.props.extension === "history" ? <div>Hello World(History)</div> : null}
+                {this.props.extension === "analytics" ? <Analytics></Analytics> : null}
+                {this.props.extension === "settings" ? <Settings></Settings> : null}
+                
             </div>
         );
     }
