@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import {
   Button,
   Container,
-  Form,
-  FormGroup,
   Label,
-  Input,
   Row,
   Col,
 } from "reactstrap";
@@ -98,26 +95,6 @@ class login extends Component {
             </Row>
           </Container>
         </div>
-        // <Container className="loginContainer">
-        //   <Row>
-        //     <Label className="loginText">Login</Label>
-        //   </Row>
-        // </Container>
-      // <Container className="loginContainer" fluid="sm">
-      //   <Row>
-      //     <Label className="loginText">Login</Label>
-      //   </Row>
-      //   <Row>
-      //     {/* <a href="http://localhost:9000/login"> */}
-      //     <Button onClick={this.redirect} color="danger">Sign In</Button>
-      //     {/* </a> */}
-      //   </Row>
-      //   <Row>
-      //     <div>
-      //       Don't have an accout? Click <Link to="/signup">here</Link>
-      //     </div>
-      //   </Row>
-      // </Container>
     );
   }
 }
