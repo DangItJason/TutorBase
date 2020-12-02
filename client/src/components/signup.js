@@ -119,76 +119,79 @@ class signup extends Component {
   render() {
     const passwordValid = this.state.passwordValid;
     return (
-      <Container className="loginContainer" fluid="sm">
-        <Form onSubmit={this.handleSubmit}>
-          <Label className="loginText">Sign Up</Label>
-          <FormGroup row>
-            <Container>
-              <Row>
-                <Col xs="auto">
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="first_name"
-                    placeholder="first name"
-                    value={this.state.first_name}
-                    onChange={this.handleChange}
-                    autoComplete="off"
-                  ></Input>
-                </Col>
-                <Col xs="auto">
-                  <div>
-                    {this.state.firstNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                  </div>
-                </Col>
-              </Row>
-            </Container>
-          </FormGroup>
-          <FormGroup row>
-            <Container>
-              <Row>
-                <Col xs="auto">
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="last_name"
-                    placeholder="last name"
-                    value={this.state.last_name}
-                    onChange={this.handleChange}
-                    autoComplete="off"
-                  ></Input>
-                </Col>
-                <Col xs="auto">
-                  <div>
-                    {this.state.lastNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                  </div>
-                </Col>
-              </Row>
+      <Container className="signupContainer" fluid="xs">
+        <Row>
+          <Col xs="1"/>
+          <Col xs="11">
+            <Form onSubmit={this.handleSubmit}>
+              <Label className="loginText">Sign Up</Label>
+              <FormGroup row>
+                <Container>
+                  <Row>
+                    <Col xs="auto">
+                      <Input
+                          type="text"
+                          className="form-control"
+                          name="first_name"
+                          placeholder="first name"
+                          value={this.state.first_name}
+                          onChange={this.handleChange}
+                          autoComplete="off"
+                      />
+                    </Col>
+                    <Col xs="auto">
+                      <div>
+                        {this.state.firstNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
+                      </div>
+                    </Col>
+                  </Row>
+                </Container>
+              </FormGroup>
+              <FormGroup row>
+                <Container>
+                  <Row>
+                    <Col xs="auto">
+                      <Input
+                          type="text"
+                          className="form-control"
+                          name="last_name"
+                          placeholder="last name"
+                          value={this.state.last_name}
+                          onChange={this.handleChange}
+                          autoComplete="off"
+                      />
+                    </Col>
+                    <Col xs="auto">
+                      <div>
+                        {this.state.lastNameValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
+                      </div>
+                    </Col>
+                  </Row>
 
-            </Container>
-          </FormGroup>
-          <FormGroup row>
-            <Container fluid>
-              <Row>
-                <Col xs="auto">
-                  <Input
-                    type="email"
-                    className="form-control"
-                    name="email"
-                    placeholder="email"
-                    autoComplete="off"
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                  ></Input>
-                </Col>
-                <Col xs="auto">
-                  <div>
-                    {this.state.emailValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                  </div>
-                </Col>
-              </Row>
-            </Container>
-            {/*<Input
+                </Container>
+              </FormGroup>
+              <FormGroup row>
+                <Container fluid>
+                  <Row>
+                    <Col xs="auto">
+                      <Input
+                          type="email"
+                          className="form-control"
+                          name="email"
+                          placeholder="email"
+                          autoComplete="off"
+                          value={this.state.email}
+                          onChange={this.handleChange}
+                      />
+                    </Col>
+                    <Col xs="auto">
+                      <div>
+                        {this.state.emailValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
+                      </div>
+                    </Col>
+                  </Row>
+                </Container>
+                {/*<Input
               type="email"
               className="form-control"
               name="email"
@@ -198,45 +201,51 @@ class signup extends Component {
               onChange={this.handleChange}
             ></Input>*/}
 
-            {/*<div>
+                {/*<div>
               {this.state.emailValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
             </div>*/}
-          </FormGroup>
-          <FormGroup row>
-            <Container fluid>
-              <Row>
-                <Col xs="auto">
-                  <Input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    placeholder="password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    autoComplete="off"
-                  ></Input>
-                </Col>
-                <Col xs="auto">
-                  <div>
-                    {this.state.passwordValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
-                  </div>
-                </Col>
-              </Row>
-            </Container>
+              </FormGroup>
+              <FormGroup row>
+                <Container fluid>
+                  <Row>
+                    <Col xs="auto">
+                      <Input
+                          type="password"
+                          className="form-control"
+                          name="password"
+                          placeholder="password"
+                          value={this.state.password}
+                          onChange={this.handleChange}
+                          autoComplete="off"
+                      />
+                    </Col>
+                    <Col xs="auto">
+                      <div>
+                        {this.state.passwordValid ? <MdCheck size="30px" color="green"></MdCheck> : <VscError size="30px" color="red"></VscError>}
+                      </div>
+                    </Col>
+                  </Row>
+                </Container>
 
 
-          </FormGroup>
-          <div>
-            {this.state.loginValid ? '' : 'Invalid Fields'}
-          </div>
-          <Button color="danger" type="submit">
-            Create Account
-          </Button>
-          <div>Already have an account? Click <Link to='/login'>here</Link></div>
-        </Form>
+              </FormGroup>
+              <div>
+                {this.state.loginValid ? '' : 'Invalid Fields'}
+              </div>
+              <Button color="danger" type="submit">
+                Create Account
+              </Button>
+              <div>Already have an account? Click <Link to='/login'>here</Link></div>
+            </Form>
+
+          </Col>
+        </Row>
+
       </Container>
     );
   }
 }
 
 export default signup;
+
+
