@@ -1,48 +1,56 @@
 import React, { Component } from "react";
-import ToastSubmit from "./toast/submit.js";
-import classNames from "classnames";
 import { connect } from "react-redux";
-import { useToasts } from "react-toast-notifications";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class Step5 extends Component {
   render() {
-    // const { addToast } = useToasts();
+    const confirmSubmit = () => {
+      toast.success(
+        "Appointment Submitted! We'll let you know when the tutor confirms the appointment!!",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+    };
 
     const handleSubmit = () => {
-      // event.preventDefault();
       console.log("Submitting");
 
-      //Send verification email to tutor
-      var url = "http://localhost:9000/email-user/tutor";
+      // Create Appointment
+      var url = "http://localhost:9000/catalog/appointment";
       var headers = {
         "Content-Type": "application/json",
       };
       var body = {
-        clientName: this.props.flowData.clientName,
-        tutorName: this.props.flowData.tutor,
-        date: this.props.flowData.date,
-        class: this.props.flowData.course,
-        notes: this.props.flowData.notes,
-        endTime: this.props.flowData.endTime,
-        startTime: this.props.flowData.startTime,
-      };
-      // fetch(url, { method: "POST", headers: headers, body: body }).then(
-      //   (res) => {
-      //     console.log(res);
-      //   }
-      // );
-
-      //Send confirmation email to client
-      url = "http://localhost:9000/appointment";
-      body = {
-        appt_id: "1123123123123123",
         course_id: this.props.flowData.course,
+        start: this.props.flowData.startTime,
+        end: this.props.flowData.endTime,
+        loc: "temp",
+        tutor_id: this.props.flowData.tutor,
+        client_id: this.props.flowData.clientName,
+        price: "temp",
+        date: this.props.flowData.data,
+        notes: this.props.flowData.notes,
       };
-      fetch(url, { method: "POST", headers: headers, body: body }).then(
-        (res) => {
-          console.log(res);
-        }
-      );
+
+      console.log("RESERVE POST BODY: ", body);
+
+      fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }).then((res) => {
+        console.log(res);
+      });
+
+      // TODO: Verify appointment creation and send email to client and tutor for confirmation
     };
 
     // Only render this step if currentStep matches
@@ -67,16 +75,11 @@ class Step5 extends Component {
         <button
           className="btn btn-danger"
           onClick={() => {
-            // addToast(
-            //   "Appointment Submitted! We'll let you know when the tutor confirms the appointment!",
-            //   {
-            //     appearance: "success",
-            //     placement: "bottom-left",
-            //   }
-            // );
+            confirmSubmit();
             handleSubmit();
           }}
         >
+          <ToastContainer />
           Book Now
         </button>
       </div>

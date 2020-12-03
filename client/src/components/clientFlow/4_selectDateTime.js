@@ -14,18 +14,21 @@ import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
 import "tui-calendar/dist/tui-calendar.css";
 
-// Week Options
+// Calendar Default Options //
 const mobileWeekOptions = {
   daynames: ["", "", "", "", "", "", ""],
 };
 
 const weekOptions = {};
+//////////////////////////////
 
-// Date Utility Function
+// Date Utility Function //
+//Add hours to a dateTime//
 Date.prototype.addHours = function (h) {
   this.setTime(this.getTime() + h * 60 * 60 * 1000);
   return this;
 };
+///////////////////////////
 
 class Step4 extends Component {
   constructor(props) {
@@ -34,21 +37,19 @@ class Step4 extends Component {
     this.mobile = isMobile;
     this.currentView = "week";
     this.state = {
-      schedule: null,
-      date: null,
-      start: null,
-      end: null,
       calTypeOpen: false,
-      tutorHours: null,
     };
   }
 
+  /* This currently only supports saving one schedule appointment
+     at a time. */
   render() {
-    // if (this.state.startDay != null)
-    //   this.test(this.state.startDay, this.state.endDay);
-
     // Only render this step if currentStep matches
     if (this.props.currentStep !== 4) return null;
+
+    const toggleCalType = (prevState) => {
+      this.setState({ calTypeOpen: !prevState.calTypeOpen });
+    };
 
     // Template Functions //
     const onClickSchedule = (e) => {
@@ -56,8 +57,12 @@ class Step4 extends Component {
       const event = this.cal.current.calendarInst.getElement(id, calendarId);
     };
 
+    /* After all schedules are rendered
+       on the calendar run this function.
+       which saves the schedule details
+       to store. */
     const onAfterRenderSchedule = (e) => {
-      console.log(e);
+      console.log("AFTER RENDER SCHEDULE:", e);
       let startDay = e.schedule.start;
       let endDay = e.schedule.end;
 
@@ -69,12 +74,13 @@ class Step4 extends Component {
         ).toDateString(),
         `${startDay.getHours()}:${startDay.getMinutes()}`,
         `${endDay.getHours()}:${endDay.getMinutes()}`,
+        e.schedule,
       ]);
     };
 
     const onBeforeCreateSchedule = (scheduleData) => {
       console.log(scheduleData);
-      let id = String(Math.random());
+      let id = 1;
 
       const schedule = {
         id: id,
@@ -145,10 +151,6 @@ class Step4 extends Component {
       calendarInstance.changeView("day", true);
       this.currentView = "day";
     };
-
-    const toggleCalType = (prevState) => {
-      this.setState({ calTypeOpen: !prevState.calTypeOpen });
-    };
     ////////////////////////
 
     return (
@@ -188,7 +190,7 @@ class Step4 extends Component {
             week={this.mobile ? mobileWeekOptions : weekOptions}
             taskView={false}
             scheduleView={["time"]}
-            useCreationPopup={true}
+            useCreationPopup={!this.apptCreated}
             useDetailPopup={true}
             onClickSchedule={onClickSchedule}
             onBeforeCreateSchedule={onBeforeCreateSchedule}

@@ -15,6 +15,7 @@ export const initialState = {
   endTime: "",
   notes: "",
   tutor_ids: [],
+  appointment: {},
 };
 
 const clientFlowSlice = createSlice({
@@ -29,6 +30,7 @@ const clientFlowSlice = createSlice({
       state.date = action.payload[0];
       state.startTime = action.payload[1];
       state.endTime = action.payload[2];
+      state.schedules = action.payload[3];
       state.calendarConfirmed = true;
     },
     setSubject(state, action) {
