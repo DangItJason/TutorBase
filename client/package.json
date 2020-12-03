@@ -34,8 +34,7 @@
     "react-toast-notifications": "^2.4.0",
     "react-toastify": "^6.1.0",
     "reactstrap": "^8.5.1",
-    "tui-calendar": "^1.12.14"
-    "reactstrap": "^8.5.1",
+    "tui-calendar": "^1.12.14",
     "styled-components": "^5.2.1"
   },
   "scripts": {
