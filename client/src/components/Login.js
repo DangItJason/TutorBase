@@ -12,6 +12,12 @@ class login extends Component {
   //   login: null,
   // };
 
+  redirect() {
+    window.location.href = 'http://localhost:9000/login';
+    // // maybe can add spinner while loading
+    // return null;
+  }
+
   handleChange = (event) => {
     if (event.target.name === "email") {
       this.props.setEmail(event.target.value);
@@ -25,12 +31,12 @@ class login extends Component {
   handleAuthentication = (event) => {
     console.log("searching");
     event.preventDefault();
-    fetch("http://localhost:9000/login", {
-      method: "post",
+    fetch("/login/cas", {
+      method: "get",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.state),
+      // body: JSON.stringify(this.state),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -60,9 +66,9 @@ class login extends Component {
           <Label className="loginText">Login</Label>
         </Row>
         <Row>
-          <a href="http://localhost:9000/login">
-            <Button color="danger">Sign In</Button>
-          </a>
+          {/* <a href="http://localhost:9000/login"> */}
+          <Button onClick={this.redirect} color="danger">Sign In</Button>
+          {/* </a> */}
         </Row>
         <Row>
           <div>
