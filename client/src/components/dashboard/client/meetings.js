@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { actions } from "../../../store/clientData";
 import { Container, Row, ListGroup, ListGroupItem } from "reactstrap";
 import {
   Dropdown,
@@ -8,8 +10,6 @@ import {
 } from "reactstrap";
 import "./meetings.css";
 import MeetingCard from "../../meetingCard/MeetingCard";
-import { actions } from "../../../store/clientFlowData";
-import { connect } from "react-redux";
 
 class Meetings extends Component {
   constructor(props) {
@@ -26,19 +26,18 @@ class Meetings extends Component {
     var url = "http://localhost:9000/meetings/appointments";
     const requestOptions = {
       method: 'POST',
-      body: JSON.stringify({'user_id' : '5f23951c7b297f01f21a1877'}),
+      body: JSON.stringify({'user_id' : '5f89d834aa18dfd7e932967d'}),
       headers: { 'Content-Type': 'application/json' }
-  };
+    };
 
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((obj) => {
-        console.log(obj.client);
         this.props.setAppointments([
           ...obj.client.pending,
           ...obj.client.upcoming,
           ...obj.client.completed,
-          ...obj.client.declined,
+          ...obj.client.denied,
         ]);
       });
   }
@@ -90,8 +89,8 @@ class Meetings extends Component {
         </Dropdown>
 
         <Container fluid className="card-container">
-          {filteredDropdown.map((appointment) => (
-            <MeetingCard appointment={appointment} />
+          {filteredDropdown.map((appointment, index) => (
+            <MeetingCard key={index} appointment={appointment} />
           ))}
         </Container>
       </Container>
