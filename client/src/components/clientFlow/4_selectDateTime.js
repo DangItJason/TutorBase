@@ -38,14 +38,45 @@ class Step4 extends Component {
     this.currentView = "week";
     this.state = {
       calTypeOpen: false,
+      prevSchedule: [],
     };
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // console.log("Step 4 MOUNTING");
+    // console.log("Prev State", prevState);
+    // console.log("Curr State", this.state);
+    // console.log("apptSubj", this.props.flowData.apptSubj);
+    // console.log("VALID DATE:", new Date());
+    if (
+      this.props.flowData.apptSubj !== "" &&
+      prevState.prevSchedule === this.state.prevSchedule
+    ) {
+      // console.log("start", new Date(this.props.flowData.apptStartTime));
+      // console.log("end", new Date(this.props.flowData.apptEndTime));
+      this.setState({
+        prevSchedule: [
+          {
+            id: "1",
+            calendarId: "0",
+            title: this.props.flowData.apptSubj,
+            category: "time",
+            dueDateClass: "",
+            start: new Date(this.props.flowData.apptStartTime),
+            end: new Date(this.props.flowData.apptEndTime),
+            bgColor: "lightblue",
+            location: this.props.flowData.apptLoc,
+          },
+        ],
+      });
+    }
   }
 
   /* This currently only supports saving one schedule appointment
      at a time. */
   render() {
     // Only render this step if currentStep matches
-    if (this.props.currentStep !== 4) return null;
+    if (this.props.flowData.currentStep !== 4) return null;
 
     const toggleCalType = (prevState) => {
       this.setState({ calTypeOpen: !prevState.calTypeOpen });
@@ -62,24 +93,28 @@ class Step4 extends Component {
        which saves the schedule details
        to store. */
     const onAfterRenderSchedule = (e) => {
+      // TODO: This is being called twice for some reason
+      // TODO: Block the user from trying to create another appt, if they do it loops infinitely
       console.log("AFTER RENDER SCHEDULE:", e);
       let startDay = e.schedule.start;
       let endDay = e.schedule.end;
+      let apptLoc = e.schedule.location;
+      let apptSubj = e.schedule.title;
 
-      this.props.setSessionTime([
-        new Date(
-          startDay.getFullYear(),
-          startDay.getMonth(),
-          startDay.getDay()
-        ).toDateString(),
-        `${startDay.getHours()}:${startDay.getMinutes()}`,
-        `${endDay.getHours()}:${endDay.getMinutes()}`,
-        e.schedule,
-      ]);
+      let apptDate = new Date(
+        startDay.getFullYear(),
+        startDay.getMonth(),
+        startDay.getDay()
+      ).toDateString();
+
+      let apptStart = startDay.getTime();
+      let apptEnd = endDay.getTime();
+
+      this.props.setAppt([apptDate, apptStart, apptEnd, apptLoc, apptSubj]);
     };
 
     const onBeforeCreateSchedule = (scheduleData) => {
-      console.log(scheduleData);
+      console.log("BEFORE CREATE SCHEDULE:", scheduleData);
       let id = 1;
 
       const schedule = {
@@ -185,13 +220,22 @@ class Step4 extends Component {
           </div>
           <Calendar
             ref={this.cal}
+            calendars={[
+              {
+                id: "0",
+                name: "Schedule",
+                bgColor: "#9e5fff",
+                borderColor: "#9e5fff",
+              },
+            ]}
             height={"100%"}
             view={this.currentView}
             week={this.mobile ? mobileWeekOptions : weekOptions}
             taskView={false}
             scheduleView={["time"]}
-            useCreationPopup={!this.apptCreated}
+            useCreationPopup={true}
             useDetailPopup={true}
+            schedules={this.state.prevSchedule}
             onClickSchedule={onClickSchedule}
             onBeforeCreateSchedule={onBeforeCreateSchedule}
             onBeforeDeleteSchedule={onBeforeDeleteSchedule}
@@ -208,19 +252,13 @@ const mapDispatchToProps = (dispatch) => {
   return {
     incrementFurthest: (state) =>
       dispatch(actions.incrementFurthestStep(state)),
-    setSessionTime: (state, action) =>
-      dispatch(actions.setSessionTime(state, action)),
+    setAppt: (state, action) => dispatch(actions.setAppt(state, action)),
   };
 };
 
 function mapStateToProps(state) {
   const { clientFlow } = state;
-  return {
-    startTime: clientFlow.startTime,
-    endTime: clientFlow.endTime,
-    currentStep: clientFlow.currentStep,
-    flowData: clientFlow,
-  };
+  return { flowData: clientFlow };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Step4);

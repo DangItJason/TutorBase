@@ -24,30 +24,39 @@ class Step5 extends Component {
       console.log("Submitting");
 
       // Create Appointment
-      var url = "http://localhost:9000/catalog/appointment";
-      var headers = {
+      let url = "http://localhost:9000/catalog/appointment";
+      let headers = {
         "Content-Type": "application/json",
       };
-      var body = {
-        course_id: this.props.flowData.course,
-        start: this.props.flowData.startTime,
-        end: this.props.flowData.endTime,
-        loc: "temp",
-        tutor_id: this.props.flowData.tutor,
-        client_id: this.props.flowData.clientName,
+
+      let start = new Date(this.props.flowData.apptStartTime);
+      let startMin = ("0" + start.getMinutes()).slice(-2);
+      let startHour = ("0" + start.getHours()).slice(-2);
+
+      let end = new Date(this.props.flowData.apptEndTime);
+      let endMin = ("0" + start.getMinutes()).slice(-2);
+      let endHour = ("0" + start.getHours()).slice(-2);
+
+      let body = {
+        course_id: this.props.flowData.courseId,
+        start: startHour + ":" + startMin,
+        end: endHour + ":" + endMin,
+        loc: this.props.flowData.apptLoc,
+        tutor_id: this.props.flowData.tutorId,
+        client_id: this.props.flowData.clientId,
         price: "temp",
         date: this.props.flowData.data,
         notes: this.props.flowData.notes,
       };
 
-      console.log("RESERVE POST BODY: ", body);
+      //console.log("RESERVE POST BODY: ", body);
 
       fetch(url, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(body),
       }).then((res) => {
-        console.log(res);
+        //console.log(res);
       });
 
       // TODO: Verify appointment creation and send email to client and tutor for confirmation

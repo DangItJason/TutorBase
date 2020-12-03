@@ -5,26 +5,26 @@ import { actions } from "../../store/clientFlowData";
 class Step1 extends Component {
   constructor(props) {
     super(props);
-    this.state = { subjects: [] };
+    this.state = { subjectIds: [] };
   }
 
   componentDidMount() {
     // Load subjects if they have not yet been loaded in
-    if (!this.state.subjects.length) {
-      var url = "http://localhost:9000/catalog";
-      var headers = {
+    if (!this.state.subjectIds.length) {
+      let url = "http://localhost:9000/catalog";
+      let headers = {
         "Content-Type": "application/json",
       };
       fetch(url, { method: "GET", headers: headers })
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           return res.json();
         })
         .then((subjects) => {
-          console.log(subjects);
+          //console.log(subjects);
           subjects.map((subject) =>
             this.setState((prevState) => ({
-              subjects: [...prevState.subjects, { id: subject.id }],
+              subjectIds: [...prevState.subjectIds, { id: subject.id }],
             }))
           );
         });
@@ -38,7 +38,7 @@ class Step1 extends Component {
     return (
       <div class="form-group text-center">
         <h3 class="hr mt-1">Select a Subject</h3>
-        {this.state.subjects.map((subject, i) => (
+        {this.state.subjectIds.map((subject, i) => (
           <div className="radio-option" key={i}>
             <label>
               <input
@@ -50,7 +50,7 @@ class Step1 extends Component {
                   this.props.setSubject(event.target.value);
                   this.props.incrementStep();
                 }}
-                checked={this.props.flowData.subject === subject.id}
+                checked={this.props.flowData.subjectId === subject.id}
               ></input>
               <p className="form-label">{subject.id}</p>
             </label>
@@ -61,6 +61,7 @@ class Step1 extends Component {
   }
 }
 
+// REDUX MAPPING //
 function mapStateToProps(state) {
   const { clientFlow } = state;
   return { flowData: clientFlow };

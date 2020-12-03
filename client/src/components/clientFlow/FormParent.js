@@ -13,7 +13,9 @@ class FormParent extends Component {
     super(props);
   }
 
+  // Button to move to a previous step
   prevButton() {
+    // First step has no previous step, dont show
     if (this.props.flowData.currentStep !== 1) {
       return (
         <button
@@ -25,10 +27,14 @@ class FormParent extends Component {
         </button>
       );
     }
+
     return null;
   }
 
+  // Button to move to the next step
   nextButton() {
+    /* Moving to the next step is only possible
+       if it already has been visited */
     if (this.props.flowData.currentStep < this.props.flowData.furthestStep) {
       return (
         <button
@@ -40,12 +46,18 @@ class FormParent extends Component {
         </button>
       );
     }
+
     return null;
   }
 
+  /* On the calendar step we don't want to auto
+     move to the next step until the time is confirmed
+     (Because the user can alter and edit the timeslot
+     at will). However, once a timeslot is created show
+     this confirm button to move on. */
   confirmButton() {
     if (
-      this.props.flowData.calendarConfirmed &&
+      this.props.flowData.apptConfirm &&
       this.props.flowData.furthestStep === 4
     ) {
       return (
@@ -62,11 +74,6 @@ class FormParent extends Component {
   }
 
   render() {
-    // const formProps = {
-    //     currentStep: this.state.currentStep,
-    //     handleChange: this.handleChange,
-    // }
-
     return (
       <Fragment>
         <h2 class="text-center mt-4 fragment-title">
@@ -87,6 +94,7 @@ class FormParent extends Component {
   }
 }
 
+// REDUX MAPPING //
 function mapStateToProps(state) {
   const { clientFlow } = state;
   return { flowData: clientFlow };
