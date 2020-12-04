@@ -5,22 +5,22 @@ import { connect } from "react-redux";
 class Step2 extends Component {
   constructor(props) {
     super(props);
-    this.state = { subject: "", courses: [] };
+    this.state = { subjectId: "", courses: [] };
   }
 
   componentDidUpdate() {
     // Load subjects if they have not yet been loaded in
-    if (this.state.subject !== this.props.flowData.subject) {
-      this.setState({ subject: this.props.flowData.subject, courses: [] });
+    if (this.state.subjectId !== this.props.flowData.subjectId) {
+      this.setState({ subjectId: this.props.flowData.subjectId, courses: [] });
       fetch(
-        "http://localhost:9000/catalog/courses/" + this.props.flowData.subject
+        "http://localhost:9000/catalog/courses/" + this.props.flowData.subjectId
       )
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           return res.json();
         })
         .then((courses) => {
-          console.log(courses);
+          //console.log(courses);
           courses.map((course) =>
             this.setState((prevState) => ({
               courses: [
@@ -47,16 +47,20 @@ class Step2 extends Component {
                 className="form-input"
                 type="radio"
                 name="course"
-                value={course.id}
+                value={course.name + "{}[]" + course.id}
                 data-tutors={course.tutors}
                 onChange={(event) => {
+                  // console.log(event.target.dataset);
+                  // console.log(event.target.value);
+                  let course = event.target.value.split("{}[]");
                   this.props.setCourse([
-                    event.target.value,
-                    [event.target.dataset.tutors],
+                    course[0],
+                    course[1],
+                    event.target.dataset.tutors.split(","),
                   ]);
                   this.props.incrementStep();
                 }}
-                checked={this.props.flowData.course === course.id}
+                checked={this.props.flowData.courseName === course.id}
               ></input>
               <p className="form-label">
                 {course.id} - {course.name}
@@ -69,6 +73,7 @@ class Step2 extends Component {
   }
 }
 
+// REDUX MAPPING //
 function mapStateToProps(state) {
   const { clientFlow } = state;
   return { flowData: clientFlow };
@@ -76,7 +81,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setCourse: (state, payload) => dispatch(actions.setSubject(state, payload)),
+    setCourse: (state, payload) => dispatch(actions.setCourse(state, payload)),
     incrementStep: (state) => dispatch(actions.incrementStep(state)),
   };
 };

@@ -28,3 +28,4 @@ yarn-error.log*
 
 # Remove Webstorm InteliJ files
 .idea/*
+.idea/
