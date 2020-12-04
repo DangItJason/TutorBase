@@ -5,6 +5,7 @@ import {
   Label,
   Row,
   Col,
+  Media,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./Login.css";
@@ -92,6 +93,19 @@ class login extends Component {
                   &nbsp;Sign up</Link>
                 </div>
               </Col>
+            </Row>
+            <Row style={{paddingTop: "180px"}}>
+              <Col xs="4"/>
+              <Col xs="8">
+                  An <a href="https://rcos.io/"> RCOS</a> project. &nbsp;
+                <a href="https://github.com/DangItJason/TutorBase">
+                  <img style={{width:"32px", height:"32px"}} src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub"/>
+                </a>
+              </Col>
+
+
+                {/*<Media object src={'/'} alt="GitHub" />*/}
+                {/*<img src="login_images/GitHub-Mark-32px.png" alt="GitHub"/>*/}
             </Row>
           </Container>
         </div>
