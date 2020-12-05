@@ -12,6 +12,9 @@ class MeetingCard extends Component {
     this.rejectPendingCard = this.rejectPendingCard.bind(this);
     this.state = {
       cardExpanded: false,
+      cardType: "upcoming-card",
+      cardSet: false,
+      aptColor: this.props.appointment.color
     };
   }
 
@@ -22,26 +25,41 @@ class MeetingCard extends Component {
   };
 
   acceptPendingCard = (e) => {
-    console.log('Accepted');
+    this.setState({cardType: "upcoming-card", aptColor: "Upcoming"});
+    var url = "http://localhost:9000/meetings/movePending";
+    const request = {
+      method: "POST",
+      body: JSON.stringify({'name': this.props.appointment.name}),
+      headers: { 'Content-Type': 'application/json' }
+    };
+    fetch(url, request);
+
   }
 
   rejectPendingCard = (e) => {
-    console.log('Rejected');
+    this.setState({cardType: "denied-card", aptColor: "Denied"});
+    var url = "http://localhost:9000/meetings/denyPending";
+    const request = {
+      method: "POST",
+      body: JSON.stringify({'name': this.props.appointment.name}),
+      headers: { 'Content-Type': 'application/json' }
+    };
+    fetch(url, request);
   }
 
   render() {
-    let cardType = "upcoming-card";
+    //let cardType = "upcoming-card";
 
-    if (this.props.appointment.color === "Completed") {
-      cardType = "completed-card";
-    } else if (this.props.appointment.color === "Denied") {
-      cardType = "denied-card";
-    } else if (this.props.appointment.color === "Pending") {
-      cardType = "pending-card";
+    if (this.props.appointment.color === "Completed" && !this.state.cardSet) {
+      this.setState({cardType: "completed-card", cardSet: true});
+    } else if (this.props.appointment.color === "Denied" && !this.state.cardSet) {
+      this.setState({cardType: "denied-card", cardSet: true});
+    } else if (this.props.appointment.color === "Pending" && !this.state.cardSet) {
+      this.setState({cardType: "pending-card", cardSet: true});
     }
 
     let card = (
-      <div className={"compressed-card " + cardType} onClick={this.toggleCard}>
+      <div className={"compressed-card " + this.state.cardType} onClick={this.toggleCard}>
         <div className={"card-container-start"}>
           <div className={"card-name"}>{this.props.appointment.name}</div>
           <div className={"card-location"}>
@@ -50,7 +68,7 @@ class MeetingCard extends Component {
           <div className={"card-time"}>{this.props.appointment.time}</div>
         </div>
 
-        {cardType === "pending-card" && (
+        {this.state.cardType === "pending-card" && (
           <div className={"card-container-end"}>
             <div className={"card-icon"}>
               <Button onClick={this.acceptPendingCard}>
@@ -59,35 +77,35 @@ class MeetingCard extends Component {
             </div>
             <div className={"card-icon"}>
               <Button onClick={this.rejectPendingCard}>
-                <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
               </Button>
             </div>
-            <div className={"card-status"}>{this.props.appointment.color}</div>
+            <div className={"card-status"}>{this.state.aptColor}</div>
           </div>
         )}
 
-        {cardType === "denied-card" && (
+        {this.state.cardType === "denied-card" && (
           <div className={"card-container-end"}>
-            <div className={"card-status"}>{this.props.appointment.color}</div>
+            <div className={"card-status"}>{this.state.aptColor}</div>
           </div>
         )}
 
-        {cardType === "upcoming-card" && (
+        {this.state.cardType === "upcoming-card" && (
           <div className={"card-container-end"}>
-            <div className={"card-status"}>{this.props.appointment.color}</div>
+            <div className={"card-status"}>{this.state.aptColor}</div>
           </div>
         )}
 
-        {cardType === "completed-card" && (
+        {this.state.cardType === "completed-card" && (
           <div className={"card-container-end"}>
-            <div className={"card-status"}>{this.props.appointment.color}</div>
+            <div className={"card-status"}>{this.state.aptColor}</div>
           </div>
         )}
       </div>
     );
     if (this.state.cardExpanded) {
       card = (
-        <div className={"expanded-card " + cardType} onClick={this.toggleCard}>
+        <div className={"expanded-card " + this.state.cardType} onClick={this.toggleCard}>
           <div className={"card-container-start-expanded"}>
             <div className={"card-name"}>{this.props.appointment.name}</div>
             <div className={"card-location"}>
@@ -96,7 +114,7 @@ class MeetingCard extends Component {
             <div className={"card-time"}>{this.props.appointment.time}</div>
           </div>
 
-          {cardType === "pending-card" && (
+          {this.state.cardType === "pending-card" && (
             <div className={"card-container-end-expanded"}>
               <div className={"card-icon"}>
                 <Button onClick={this.acceptPendingCard}>
@@ -105,35 +123,35 @@ class MeetingCard extends Component {
               </div>
               <div className={"card-icon"}>
                 <Button onClick={this.rejectPendingCard}>
-                  <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                  <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
                 </Button>
               </div>
               <div className={"card-status"}>
-                {this.props.appointment.color}
+                {this.state.aptColor}
               </div>
             </div>
           )}
 
-          {cardType === "denied-card" && (
+          {this.state.cardType === "denied-card" && (
             <div className={"card-container-end-expanded"}>
               <div className={"card-status"}>
-                {this.props.appointment.color}
+                {this.state.aptColor}
               </div>
             </div>
           )}
 
-          {cardType === "upcoming-card" && (
+          {this.state.cardType === "upcoming-card" && (
             <div className={"card-container-end-expanded"}>
               <div className={"card-status"}>
-                {this.props.appointment.color}
+                {this.state.aptColor}
               </div>
             </div>
           )}
 
-          {cardType === "completed-card" && (
+          {this.state.cardType === "completed-card" && (
             <div className={"card-container-end-expanded"}>
               <div className={"card-status"}>
-                {this.props.appointment.color}
+                {this.state.aptColor}
               </div>
             </div>
           )}

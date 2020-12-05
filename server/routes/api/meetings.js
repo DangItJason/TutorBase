@@ -28,14 +28,33 @@ module.exports = router;
 //Move desired pending appointment to upcoming
 router.post("/movePending", (req, res) => {
 
-  var id = mongoose.Types.ObjectId("5f23951c7b297f01f21a1877");
+  var id = mongoose.Types.ObjectId("5f89d834aa18dfd7e932967d");
 
   console.log("Moving pending object to upcoming array:");
   User.updateOne({
     '_id': id
   }, {
     $pull : {'client.$.pending' : { 'name' : req.body.name }},
-    $push : {'client.upcoming' : { 'client.$.pending' : { 'name ' : req.body.name }}}
+    $push : {'client.upcoming' : { 'client.$.pending' : { 'name' : req.body.name }}}
+  })
+    .then((pending) => {
+      res.json(pending);
+    })
+
+})
+
+//POST api/meetings/denyPending
+//Move desired pending appointment to denied
+router.post("/denyPending", (req, res) => {
+
+  var id = mongoose.Types.ObjectId("5f89d834aa18dfd7e932967d");
+
+  console.log("Moving pending object to denied array:");
+  User.updateOne({
+    '_id': id
+  }, {
+    $pull : {'client.$.pending' : { 'name' : req.body.name }},
+    $push : {'client.denied' : { 'client.$.pending' : { 'name' : req.body.name }}}
   })
     .then((pending) => {
       res.json(pending);
