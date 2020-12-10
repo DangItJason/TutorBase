@@ -18,6 +18,12 @@ class login extends Component {
     // return null;
   }
 
+  redirect() {
+    window.location.href = 'http://localhost:9000/login';
+    // // maybe can add spinner while loading
+    // return null;
+  }
+
   handleChange = (event) => {
     if (event.target.name === "email") {
       this.props.setEmail(event.target.value);
