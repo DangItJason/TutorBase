@@ -1,6 +1,11 @@
 # TutorBase
 Creating a better system to connect students and tutors.
 
+## Links
+- [https://rcos.io/projects/dangitjason/tutorbase/profile](https://rcos.io/projects/dangitjason/tutorbase/profile) (RCOS Project Page)
+- [https://docs.google.com/document/d/1yP6Er1oroquKuXtOQowfGb3ipf_c5aIY3sENKr8ZoEU/edit?usp=sharing](https://docs.google.com/document/d/1yP6Er1oroquKuXtOQowfGb3ipf_c5aIY3sENKr8ZoEU/edit?usp=sharing) (Fall 2020 Project Proposal)
+
+
 ### Overview
 TutorBase is a free, open-source platform that connects RPI students and RPI tutors. TutorBase provides two key functionalities: control of operations for the tutor and ability to connect with tutors easily for the student.
 
@@ -18,3 +23,6 @@ Make sure you have NodeJS (and npm) installed.
 
 ## Development
 This app is currently under development, utilizing the MERN (MongoDB, Express, React, and Node.js) stack.
+
+## License
+MIT

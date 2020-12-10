@@ -10,7 +10,7 @@ import moment from 'moment';
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
 import 'rc-time-picker/assets/index.css';
-const rambda = require('ramda');
+const rambda = require('rambda');
 
 class Settings extends Component {
   constructor(props) {
@@ -18,10 +18,13 @@ class Settings extends Component {
     this.state = {
       first_name: "Jason",
       last_name: "Nguyen",
+      temp_firstn: "",
+      temp_lastn: "",
       email: "test2@gmail.com",
       obj_id: "5f89d834aa18dfd7e932967d",
       profile_pic: "",
       description: "",
+      temp_description: "",
       price: 55,
       temp_price: 55,
       course_catalog: [],
@@ -99,8 +102,8 @@ class Settings extends Component {
       console.log(res);
       return res.json();
     }).then(name => {
-      this.setState({ first_name: name.first_name })
-      this.setState({ last_name: name.last_name })
+      this.setState({ first_name: name.first_name, temp_firstn: name.first_name })
+      this.setState({ last_name: name.last_name, temp_lastn: name.last_name })
     });
 
     fetch("http://localhost:9000/tutor-operations/description/" + this.state.email,  {
@@ -110,7 +113,7 @@ class Settings extends Component {
       console.log(res);
       return res.json();
     }).then(description => {
-      this.setState({ description: description.description });
+      this.setState({ description: description.description, temp_description: description.description });
     });
 
     fetch("http://localhost:9000/tutor-operations/interval/" + this.state.email, {
@@ -135,12 +138,27 @@ class Settings extends Component {
   }
 
   // --- Name Functions ---
+  handleFirstChange = (e) => {
+    this.setState({temp_firstn: e.target.value});
+  }
+
+  handleLastChange = (e) => {
+    this.setState({temp_lastn: e.target.value});
+  }
+
   saveNameChange = (e) => {
     fetch("http://localhost:9000/tutor-operations/name", {
       method: "PUT",
-      body: JSON.stringify({email: this.state.email, first_name: this.state.first_name, last_name: this.state.last_name}),
+      body: JSON.stringify({email: this.state.email, first_name: this.state.temp_firstn, last_name: this.state.temp_lastn}),
       headers: {"Content-Type": "application/json"}
     });
+    this.setState({first_name: this.state.temp_firstn, last_name: this.state.temp_lastn})
+    this.toggleNameModal(e);
+  }
+
+  cancelNameChange = (e) => {
+    this.setState({ temp_firstn: this.state.first_name });
+    this.setState({ temp_lastn: this.state.last_name });
     this.toggleNameModal(e);
   }
 
@@ -165,17 +183,23 @@ class Settings extends Component {
   }
 
   // --- Description Functions ---
+  handleDescChange = (e) => {
+    this.setState({temp_description: e.target.value});
+  }
+
   saveDescChange = (e) => {
     fetch("http://localhost:9000/tutor-operations/description", {
       method: "PUT",
-      body: JSON.stringify({email: this.state.email, description: this.state.description}),
+      body: JSON.stringify({email: this.state.email, description: this.state.temp_description}),
       headers: {"Content-Type": "application/json"}
     });
+    this.setState({description: this.state.temp_description});
     this.toggleDescModal(e);
   }
 
-  handleDescChange = (e) => {
-    this.setState({description: e.target.value});
+  cancelDescChange = (e) => {
+    this.setState({ temp_description: this.state.description });
+    this.toggleDescModal(e);
   }
 
   // --- Course Functions ---
@@ -253,15 +277,6 @@ class Settings extends Component {
   cancelCoursesChange = (e) => {
     this.setState({ temp_courses: this.state.courses, added_courses: [], add_course_err: false });
     this.toggleCoursesModal(e);
-  }
-
-  // --- Name Functions ---
-  handleFirstChange = (e) => {
-    this.setState({first_name: e.target.value});
-  }
-
-  handleLastChange = (e) => {
-    this.setState({last_name: e.target.value});
   }
 
   // --- Schedule Availability Functions ---
@@ -462,20 +477,20 @@ class Settings extends Component {
                   <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                 </a>
                 <Modal isOpen={this.state.name_modal} fade={false} toggle={this.toggleNameModal} className="name-modal">
-                  <ModalHeader toggle={this.toggleNameModal}>Edit Name</ModalHeader>
+                  <ModalHeader toggle={this.cancelNameChange}>Edit Name</ModalHeader>
                   <ModalBody>
                     Change your name here.
                     <hr/>
                     <InputGroup>
-                      First Name:<Input id="first-name" value={this.state.first_name} onChange={this.handleFirstChange}/>
+                      First Name:<Input id="first-name" value={this.state.temp_firstn} onChange={this.handleFirstChange}/>
                     </InputGroup>
                     <InputGroup>
-                      Last Name:<Input id="last-name" value={this.state.last_name} onChange={this.handleLastChange} />
+                      Last Name:<Input id="last-name" value={this.state.temp_lastn} onChange={this.handleLastChange} />
                     </InputGroup>
                   </ModalBody>
                   <ModalFooter>
                     <Button className="btn-red" onClick={this.saveNameChange}>Save</Button>{' '}
-                    <Button color="secondary" onClick={this.toggleNameModal}>Cancel</Button>
+                    <Button color="secondary" onClick={this.cancelNameChange}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
 
@@ -484,7 +499,7 @@ class Settings extends Component {
                   <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                 </a>
                 <Modal isOpen={this.state.price_modal} fade={false} toggle={this.togglePriceModal} className="price-modal">
-                  <ModalHeader toggle={this.togglePriceModal}>Edit Price</ModalHeader>
+                  <ModalHeader toggle={this.cancelPriceChange}>Edit Price</ModalHeader>
                   <ModalBody>
                     Change your hourly tutoring price rate.
                     <hr/>
@@ -512,7 +527,7 @@ class Settings extends Component {
                   <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                 </a>
                 <Modal isOpen={this.state.interval_modal} fade={false} toggle={this.toggleIntervalModal} className="interval-modal">
-                  <ModalHeader toggle={this.toggleIntervalModal}>Edit Meeting Interval</ModalHeader>
+                  <ModalHeader toggle={this.cancelIntervalChange}>Edit Meeting Interval</ModalHeader>
                   <ModalBody>
                     Change the length of your tutor sessions.
                     <hr/>
@@ -540,17 +555,17 @@ class Settings extends Component {
                   <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                 </a>
                 <Modal isOpen={this.state.desc_modal} fade={false} toggle={this.toggleDescModal} className="desc-modal">
-                  <ModalHeader toggle={this.toggleDescModal}>Edit Description</ModalHeader>
+                  <ModalHeader toggle={this.cancelDescChange}>Edit Description</ModalHeader>
                   <ModalBody>
                     Change your description here.
                     <hr/>
                     <InputGroup>
-                      <Input id="description-name" value={this.state.description} type="textarea" onChange={this.handleDescChange} rows="10"/>
+                      <Input id="description-name" value={this.state.temp_description} type="textarea" onChange={this.handleDescChange} rows="10"/>
                     </InputGroup>
                   </ModalBody>
                   <ModalFooter>
                     <Button className="btn-red" onClick={this.saveDescChange}>Save</Button>{' '}
-                    <Button color="secondary" onClick={this.toggleDescModal}>Cancel</Button>
+                    <Button color="secondary" onClick={this.cancelDescChange}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
                 <hr></hr>
@@ -573,7 +588,7 @@ class Settings extends Component {
                   )}
                 </ListGroup>
                 <Modal isOpen={this.state.schedule_modal} fade={false} toggle={this.toggleScheduleModal} className="schedule-modal">
-                  <ModalHeader toggle={this.toggleScheduleModal}>Edit Availability</ModalHeader>
+                  <ModalHeader toggle={this.cancelScheduleChange}>Edit Availability</ModalHeader>
                   <ModalBody>
                     <Nav tabs>
                       {schedule_days.map((day, i) =>
@@ -665,7 +680,7 @@ class Settings extends Component {
                     )}
                   </ListGroup>
                   <Modal isOpen={this.state.courses_modal} fade={false} toggle={this.toggleCoursesModal} className="courses-modal">
-                    <ModalHeader toggle={this.toggleCoursesModal}>Edit Courses</ModalHeader>
+                    <ModalHeader toggle={this.cancelCoursesChange}>Edit Courses</ModalHeader>
                     <ModalBody>
                       Change your courses offered.
                       { this.state.add_course_err ?
