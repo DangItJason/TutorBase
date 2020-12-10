@@ -10,7 +10,7 @@ import moment from 'moment';
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
 import 'rc-time-picker/assets/index.css';
-const rambda = require('ramda');
+const rambda = require('rambda');
 
 class Settings extends Component {
   constructor(props) {
