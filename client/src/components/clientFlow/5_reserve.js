@@ -49,17 +49,20 @@ class Step5 extends Component {
         notes: this.props.flowData.notes,
       };
 
-      //console.log("RESERVE POST BODY: ", body);
+      console.log("RESERVE POST BODY: ", body);
 
       fetch(url, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(body),
       }).then((res) => {
-        //console.log(res);
+        console.log(res);
       });
 
       // TODO: Verify appointment creation and send email to client and tutor for confirmation
+      
+      // Notify user that everything was created in the system.
+      confirmSubmit();
     };
 
     // Only render this step if currentStep matches
@@ -84,7 +87,7 @@ class Step5 extends Component {
         <button
           className="btn btn-danger"
           onClick={() => {
-            confirmSubmit();
+            // confirmSubmit();
             handleSubmit();
           }}
         >
