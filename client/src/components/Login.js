@@ -18,12 +18,6 @@ class login extends Component {
     // return null;
   }
 
-  redirect() {
-    window.location.href = 'http://localhost:9000/login';
-    // // maybe can add spinner while loading
-    // return null;
-  }
-
   handleChange = (event) => {
     if (event.target.name === "email") {
       this.props.setEmail(event.target.value);
@@ -94,12 +88,12 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   const { loginState } = state;
-  return {    
-      email: loginState.email, 
-      password: loginState.password,
-      login: loginState.login,
+  return {
+    email: loginState.email,
+    password: loginState.password,
+    login: loginState.login,
   };
 }
 

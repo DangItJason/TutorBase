@@ -26,6 +26,7 @@ module.exports = new CasStrategy(
       console.log("Success");
 
       user.attributes = profile.attributes;
+
       return done(null, user);
     });
   }
