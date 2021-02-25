@@ -7,9 +7,11 @@ body {
 }
 
 .loginContainer {
-    height: 500px;
-    width: 500px;
-    display: flex;
+    /*height: 500px;*/
+    /*width: 500px;*/
+    /*height: 500px; !*might not need*!*/
+    width: 100%;
+    /*display: flex;*/
     margin: auto;
     border-style: solid;
     border-width: 2px;
@@ -49,4 +51,5 @@ body {
 
 .logoText {
     font-size: 50px;
+    /*vertical-align: middle;*/
 }

@@ -62,55 +62,53 @@ class login extends Component {
 
   render() {
     return (
-        <div className="loginContainer">
-          <Container>
+        <Container fluid="lg" >
+          <div className="loginContainer">
             <Row>
-              <Col xs="3"/>
-              <Col xs="6">
-                <Label className="logoText">
+              <Col style={{textAlign:"center"}}>
+                <Label className="logoText" >
                   TutorBase
                 </Label>
               </Col>
-              <Col xs="3"/>
             </Row>
             <Row>
-              <Col xs="1"/>
-              <Col xs="10">A better system to connect students and tutors at RPI.</Col>
-              <Col xs="1"/>
+              <Col style={{textAlign:"center"}}>
+                A better system to connect students and tutors at RPI.
+              </Col>
             </Row>
             <Row>
               <Col xs="4"/>
               <Col xs="4">
-                <Button onClick={this.redirect} color="danger" size="lg" className="signInButton">Sign In</Button>
+                <Button onClick={this.redirect} color="danger" size="lg" className="signInButton">Login</Button>
               </Col>
               <Col xs="4"/>
             </Row>
             <Row>
-              <Col xs="3"/>
-              <Col xs="9">
+              <Col style={{textAlign:"center"}}>
                 <div className="signUpDiv">
                   Don't have an account? <Link to="/signup">
                   &nbsp;Sign up</Link>
                 </div>
               </Col>
             </Row>
-            <Row style={{paddingTop: "180px"}}>
-              <Col xs="4"/>
-              <Col xs="8">
-                  An <a href="https://rcos.io/"> RCOS</a> project. &nbsp;
+            <Row style={{marginTop: "150px"}}>
+              <Col style={{textAlign:"center"}}>
+                An <a href="https://rcos.io/"> RCOS</a> project. &nbsp;
                 <a href="https://github.com/DangItJason/TutorBase">
                   <img style={{width:"32px", height:"32px"}} src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub"/>
                 </a>
               </Col>
 
 
-                {/*<Media object src={'/'} alt="GitHub" />*/}
-                {/*<img src="login_images/GitHub-Mark-32px.png" alt="GitHub"/>*/}
-            </Row>
-          </Container>
-        </div>
+              {/*<Media object src={'/'} alt="GitHub" />*/}
+              {/*<img src="login_images/GitHub-Mark-32px.png" alt="GitHub"/>*/}
+          </Row>
+          </div>
+        </Container>
     );
   }
 }
+
+//style={{background:"#000000"}}
 
 export default login;
