@@ -54,6 +54,10 @@ router.get("/", (req, res, next) => {
         return next(err);
       }
 
+      req.session.save()
+
+      console.log("Session -----------------------")
+      console.log(req.session)
       return res.redirect('http://localhost:3000/home');
     });
 
