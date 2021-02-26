@@ -6,8 +6,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../dashboard.css';
 import {connect} from "react-redux";
 
-import cookies from "js-cookies";
-const secure = window.location.protocol === 'https'
+// import cookies from "js-cookies";
+// const secure = window.location.protocol === 'https'
+
+import cookie from 'react-cookies'
 
 class ClientDashboard extends Component {
     constructor(props) {
@@ -15,7 +17,8 @@ class ClientDashboard extends Component {
     }
 
     render() {
-        console.log(cookies)
+        cookie.save('userId', 'jake', { path: '/cas/' })
+        console.log(cookie.loadAll({domain: 'cas-auth.rpi.edu', path: '/cas/'}))
 
         return (
             <div className={classNames("d-flex", (this.props.sidebarToggled) ? "toggled":"")} id="dashboard-wrapper">
