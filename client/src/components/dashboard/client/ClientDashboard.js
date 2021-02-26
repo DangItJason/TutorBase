@@ -6,12 +6,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../dashboard.css';
 import {connect} from "react-redux";
 
+import cookies from "js-cookies";
+const secure = window.location.protocol === 'https'
+
 class ClientDashboard extends Component {
     constructor(props) {
         super(props)
     }
 
     render() {
+        console.log(cookies)
+
         return (
             <div className={classNames("d-flex", (this.props.sidebarToggled) ? "toggled":"")} id="dashboard-wrapper">
                 <Sidebar />

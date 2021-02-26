@@ -15,6 +15,8 @@
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.6",
     "i": "^0.3.6",
+    "js-cookie": "^2.2.1",
+    "js-cookies": "^1.0.4",
     "light-toast": "^0.3.0",
     "moment": "^2.29.1",
     "prettier": "^2.2.1",
