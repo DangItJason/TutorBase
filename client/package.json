@@ -26,6 +26,8 @@
     "react": "^16.14.0",
     "react-autocomplete": "^1.8.1",
     "react-available-times": "^1.4.0",
+    "react-cookie": "^4.0.3",
+    "react-cookies": "^0.1.1",
     "react-device-detect": "^1.14.0",
     "react-dom": "^16.14.0",
     "react-icons": "^3.11.0",
