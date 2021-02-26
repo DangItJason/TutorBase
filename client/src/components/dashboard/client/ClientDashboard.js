@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 // import cookies from "js-cookies";
 // const secure = window.location.protocol === 'https'
 
-import cookie from 'react-cookies'
+// import cookie from 'react-cookies'
 
 class ClientDashboard extends Component {
     constructor(props) {
@@ -17,9 +17,6 @@ class ClientDashboard extends Component {
     }
 
     render() {
-        cookie.save('userId', 'jake', { path: '/cas/' })
-        console.log(cookie.loadAll({domain: 'cas-auth.rpi.edu', path: '/cas/'}))
-
         return (
             <div className={classNames("d-flex", (this.props.sidebarToggled) ? "toggled":"")} id="dashboard-wrapper">
                 <Sidebar />
