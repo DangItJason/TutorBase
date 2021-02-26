@@ -52,9 +52,16 @@ class signup extends Component {
   };
 
   submitUser() {
+    let newstate = {
+      email: this.props.auth.email,
+      password: this.props.auth.password,
+      first_name: this.props.auth.first_name,
+      last_name: this.props.auth.last_name,
+    } 
+    // console.log(JSON.stringify(newstate))
     fetch("http://localhost:9000/signup", {
       method: "post",
-      body: JSON.stringify(this.state),
+      body: JSON.stringify(newstate),
       headers: {
         //Make sure your header content type you specify and body type match.
         "Content-Type": "application/json",
