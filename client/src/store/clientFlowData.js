@@ -31,6 +31,10 @@ const clientFlowSlice = createSlice({
     toggleSidebar(state) {
       state.sidebarToggled = !state.sidebarToggled;
     },
+    setNotes(state, action) {
+      console.log("== SET NOTES ACTION:", action.payload, "==");
+      state.apptNotes = action.payload;
+    },
     setAppt(state, action) {
       console.log("== SET APPT ACTION:", action, "==");
       state.apptDate = action.payload[0];
