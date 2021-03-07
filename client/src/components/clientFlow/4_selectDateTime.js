@@ -43,6 +43,34 @@ class Step4 extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    // Get tutor's interval times to put on calendar
+    let url = "http://localhost:9000/tutor-operations/schedule/" + "test"; // Get tutor email and replace here!
+    let headers = {
+      "Content-Type": "application/json",
+    };
+
+    let tutorSchedules;
+    fetch(url, {
+      method: "GET",
+      headers: headers,
+    }).then((res) => {
+      console.log(res);
+
+      for (let i = 0; i < res.intervals.count; i++) {
+        tutorSchedules.push({
+          id: i + Math.random(),
+          calendarId: "0",
+          title: "Tutor Blocked",
+          category: "time",
+          dueDateClass: "",
+          start: new Date(),
+          end: new Date(),
+          bgColor: "lightblue",
+          location: "",
+        });
+      }
+    });
+
     // console.log("Step 4 MOUNTING");
     // console.log("Prev State", prevState);
     // console.log("Curr State", this.state);
@@ -56,6 +84,7 @@ class Step4 extends Component {
       // console.log("end", new Date(this.props.flowData.apptEndTime));
       this.setState({
         prevSchedule: [
+          ...tutorSchedules, // Add already created tutor appointments!
           {
             id: "1",
             calendarId: "0",
