@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { actions } from "../../store/clientFlowData";
 
 class Step5 extends Component {
   render() {
@@ -39,27 +40,30 @@ class Step5 extends Component {
 
       let body = {
         course_id: this.props.flowData.courseId,
+        date: this.props.flowData.date,
         start: startHour + ":" + startMin,
         end: endHour + ":" + endMin,
         loc: this.props.flowData.apptLoc,
         tutor_id: this.props.flowData.tutorId,
         client_id: this.props.flowData.clientId,
         price: "temp",
-        date: this.props.flowData.data,
         notes: this.props.flowData.notes,
       };
 
-      //console.log("RESERVE POST BODY: ", body);
+      console.log("RESERVE POST BODY: ", body);
 
       fetch(url, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(body),
       }).then((res) => {
-        //console.log(res);
+        console.log(res);
       });
 
       // TODO: Verify appointment creation and send email to client and tutor for confirmation
+
+      // Notify user that everything was created in the system.
+      confirmSubmit();
     };
 
     // Only render this step if currentStep matches
@@ -76,15 +80,17 @@ class Step5 extends Component {
           className="form-input"
           name="notes"
           id="notes"
+          value={this.props.notes}
+          onChange={(value) => this.props.setNotes(value.target.value)}
           placeholder="Have a preferred location? Need help on a specific homework or project? Let the tutor know here!"
         >
-          {this.props.notes}
+          {/*{this.props.notes}*/}
         </textarea>
         <br />
         <button
           className="btn btn-danger"
           onClick={() => {
-            confirmSubmit();
+            // confirmSubmit();
             handleSubmit();
           }}
         >
@@ -96,15 +102,21 @@ class Step5 extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setNotes: (state, action) => dispatch(actions.setNotes(state, action)),
+  };
+};
+
 function mapStateToProps(state) {
   const { clientFlow } = state;
   return {
-    date: clientFlow.date,
-    startTime: clientFlow.startTime,
-    endTime: clientFlow.endTime,
-    notes: clientFlow.notes,
+    date: clientFlow.apptDate,
+    startTime: clientFlow.apptStartTime,
+    endTime: clientFlow.apptEndTime,
+    notes: clientFlow.apptNotes,
     flowData: clientFlow,
   };
 }
 
-export default connect(mapStateToProps)(Step5);
+export default connect(mapStateToProps, mapDispatchToProps)(Step5);

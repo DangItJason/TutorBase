@@ -119,18 +119,18 @@ class Step4 extends Component {
 
       const schedule = {
         id: id,
-        title: scheduleData.title,
+        title: "Tutor Time!",
         isAllDay: scheduleData.isAllDay,
         start: scheduleData.start,
         end: scheduleData.end,
         category: scheduleData.isAllDay ? "allday" : "time",
         dueDateClass: "",
         bgColor: "lightblue",
-        location: scheduleData.location,
-        raw: {
-          class: scheduleData.raw["class"],
-        },
-        state: scheduleData.state,
+        // location: scheduleData.location,
+        // raw: {
+        //   class: scheduleData.raw["class"],
+        // },
+        // state: scheduleData.state,
       };
 
       this.cal.current.calendarInst.createSchedules([schedule]);
@@ -233,7 +233,7 @@ class Step4 extends Component {
             week={this.mobile ? mobileWeekOptions : weekOptions}
             taskView={false}
             scheduleView={["time"]}
-            useCreationPopup={true}
+            // useCreationPopup={true}
             useDetailPopup={true}
             schedules={this.state.prevSchedule}
             onClickSchedule={onClickSchedule}
