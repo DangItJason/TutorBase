@@ -127,18 +127,35 @@ router.post("/appointment", (req, res) => {
   // TODO: Check that both object ids exist before pushing appointment
 
   // Add appointment to client
-  User.updateOne(
-    { _id: req.body.client_id },
-    { $push: { client: { appts: newAppt } } }
-  ).catch((err) => res.status(400).json({ msg: err.message }));
+  try {
+    User.updateOne(
+      { _id: req.body.client_id },
+      { $push: { client: { appts: newAppt } } }
+    );
+  } catch (e) {
+    print(e)
+  }
+
+  // User.updateOne(
+  //   { _id: req.body.client_id },
+  //   { $push: { client: { appts: newAppt } } }
+  // ).catch((err) => res.status(400).json({ msg: err.message }));
 
   console.log("DEBUG: ADDED APPOINTMENT TO CLIENT!");
 
   // Add appointment to tutor
-  User.updateOne(
-    { _id: req.body.client_id },
-    { $push: { tutor: { appts: newAppt } } }
-  ).catch((err) => res.status(400).json({ msg: err.message }));
+  try {
+    User.updateOne(
+      { _id: req.body.tutor_id },
+      { $push: { client: { appts: newAppt } } }
+    );
+  } catch (e) {
+    print(e)
+  }
+  // User.updateOne(
+  //   { _id: req.body.tutor_id },
+  //   { $push: { tutor: { appts: newAppt } } }
+  // ).catch((err) => res.status(400).json({ msg: err.message }));
 
   console.log("DEBUG: ADDED APPOINTMENT TO TUTOR!");
 
