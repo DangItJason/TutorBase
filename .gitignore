@@ -28,3 +28,5 @@ yarn-error.log*
 
 # Ignore webstorm auotgen files
 .idea/*
+
+server/lib/configIGNORE.js
