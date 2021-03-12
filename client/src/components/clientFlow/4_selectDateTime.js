@@ -49,14 +49,15 @@ class Step4 extends Component {
       "Content-Type": "application/json",
     };
 
-    let tutorSchedules;
+    let tutorSchedules = [];
     fetch(url, {
       method: "GET",
       headers: headers,
     }).then((res) => {
       console.log(res);
 
-      for (let i = 0; i < res.intervals.count; i++) {
+      for (let i = 0; i < 3; i++) {
+      // for (let i = 0; i < res.intervals.count; i++) {
         tutorSchedules.push({
           id: i + Math.random(),
           calendarId: "0",

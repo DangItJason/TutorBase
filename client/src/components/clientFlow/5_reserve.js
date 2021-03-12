@@ -66,6 +66,10 @@ class Step5 extends Component {
       confirmSubmit();
     };
 
+    // const convertDate = () => {
+    //
+    //   }
+
     // Only render this step if currentStep matches
     if (this.props.flowData.currentStep !== 5) return null;
 
@@ -73,7 +77,7 @@ class Step5 extends Component {
       <div class="form-group text-center">
         <h3 class="hr mt-1">Reserve</h3>
         <h3>
-          {this.props.date}, {this.props.startTime} - {this.props.endTime}
+          {this.props.date}, {new Intl.DateTimeFormat('en-US', {timeStyle: 'long' }).format(this.props.startTime)} - {new Intl.DateTimeFormat('en-US', {timeStyle: 'long' }).format(this.props.endTime)}
         </h3>
         <h4>Notes</h4>
         <textarea
