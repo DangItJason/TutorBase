@@ -1,5 +1,6 @@
 const CasStrategy = require("passport-cas").Strategy;
 
+// Setting up the redirection to cas and the strategy for authentication
 module.exports = new CasStrategy(
   {
     version: 'CAS3.0',
