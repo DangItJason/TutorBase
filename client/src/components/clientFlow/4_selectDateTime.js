@@ -44,10 +44,26 @@ class Step4 extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     // Get tutor's interval times to put on calendar
-    let url = "http://localhost:9000/tutor-operations/schedule/" + "test"; // Get tutor email and replace here!
+
     let headers = {
       "Content-Type": "application/json",
     };
+
+    let body = {
+      tutor_ids: this.props.flowData.tutorId
+    }
+    let tutor_url = "http://localhost:9000/catalog/tutors"
+    fetch(tutor_url, {
+      method: "POST",
+      headers: headers,
+      body: body
+    }).then((res) => {
+      console.log("tutorid:" + this.props.flowData.tutorId);
+      console.log(res);
+    });
+
+    //let email =
+    let url = "http://localhost:9000/tutor-operations/schedule/" + "test"; // Get tutor email and replace here!
 
     let tutorSchedules = [];
     fetch(url, {
@@ -55,11 +71,12 @@ class Step4 extends Component {
       headers: headers,
     }).then((res) => {
       console.log(res);
+      console.log("epeepep");
 
       for (let i = 0; i < 3; i++) {
       // for (let i = 0; i < res.intervals.count; i++) {
         tutorSchedules.push({
-          id: i + Math.random(),
+          id: i += 2, //i + Math.random(),
           calendarId: "0",
           title: "Tutor Blocked",
           category: "time",

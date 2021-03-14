@@ -10,6 +10,7 @@ class Step5 extends Component {
       toast.success(
         "Appointment Submitted! We'll let you know when the tutor confirms the appointment!!",
         {
+          fontFamily: "Open Sans",
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -77,7 +78,8 @@ class Step5 extends Component {
       <div class="form-group text-center">
         <h3 class="hr mt-1">Reserve</h3>
         <h3>
-          {this.props.date}, {new Intl.DateTimeFormat('en-US', {timeStyle: 'long' }).format(this.props.startTime)} - {new Intl.DateTimeFormat('en-US', {timeStyle: 'long' }).format(this.props.endTime)}
+          {new Intl.DateTimeFormat('en-US').format(this.props.startTime)}, {new Intl.DateTimeFormat('en-US', {timeStyle: 'medium' }).format(this.props.startTime)}
+            { } - {new Intl.DateTimeFormat('en-US', {timeStyle: 'long' }).format(this.props.endTime)}
         </h3>
         <h4>Notes</h4>
         <textarea
