@@ -50,9 +50,11 @@ app.use(express.static(path.join(__dirname, "public")));
 passport.use(cas);
 
 app.use(session({
-    secret: 'djskfjalkjsadlkf',
-    resave: false,
-    saveUninitialized: false
+  secret: 'djskfjalkjsadlkf',
+  resave: false,
+  saveUninitialized: false,
+  // Cookie Set to One Day
+  cookie: { maxAge: 86400000 }
 }));
 
 app.use(passport.initialize());

@@ -1,3 +1,5 @@
+// Checks if User is logged in otherwise redirects the user
+
 isLoggedIn = function (req, res, next) {
     console.log(req.user)
     if (req.isAuthenticated()) {
