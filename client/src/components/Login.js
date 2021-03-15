@@ -7,24 +7,7 @@ import { connect } from "react-redux";
 import { ApiBaseAddress } from "../utils/Environment";
 
 class login extends Component {
-  // state = {
-  //   email: "",
-  //   password: "",
-  //   login: null,
-  // };
-
-  redirect() {
-    window.location.href = "http://localhost:9000/login";
-    // // maybe can add spinner while loading
-    // return null;
-  }
-
-  redirect() {
-    window.location.href = "http://localhost:9000/login";
-    // // maybe can add spinner while loading
-    // return null;
-  }
-
+  // Input handler
   handleChange = (event) => {
     if (event.target.name === "email") {
       this.props.setEmail(event.target.value);
@@ -35,23 +18,27 @@ class login extends Component {
     }
   };
 
+  // CAS Authentication Handler
   handleAuthentication = (event) => {
-    console.log("searching");
+    if (process.env.NODE_ENV === "development")
+      console.log("Searching for CAS!");
+
     event.preventDefault();
     fetch("/login/cas", {
       method: "get",
       headers: {
         "Content-Type": "application/json",
       },
-      // body: JSON.stringify(this.state),
     })
       .then((res) => res.json())
       .then((data) => {
-        //Callback function after states been updated.
-        console.log(data.message);
+        // Callback function after states been updated.
+        if (process.env.NODE_ENV === "development") console.log(data.message);
 
         if (data.message === "success") {
-          console.log("success");
+          if (process.env.NODE_ENV === "development")
+            if (process.env.NODE_ENV === "development")
+              console.log("Success connecting to CAS");
 
           //Pass properties to next application
           //NOTE: Re-write this. Not safe
@@ -60,8 +47,9 @@ class login extends Component {
             email: this.state.email,
           });
         } else if (data.message === "failure") {
-          console.log("failure");
-          console.log("Incorrect credentials");
+          if (process.env.NODE_ENV === "development") {
+            console.log("Failure connecting to CAS, Incorrect credentials");
+          }
         }
       })
       .catch((error) => alert(error.message));
