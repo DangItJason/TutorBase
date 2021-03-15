@@ -42,7 +42,9 @@ const signUpSlice = createSlice({
     },
     setEmailValid(state) {
       state.emailValid = !!(
-        state.email.includes("@") && state.email.includes(".")
+        state.email.includes("@") &&
+        state.email.includes(".") &&
+        state.email.includes("rpi.edu")
       );
     },
     setPasswordValid(state) {

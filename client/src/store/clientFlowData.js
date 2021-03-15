@@ -59,6 +59,10 @@ const clientFlowSlice = createSlice({
       state.tutorName = action.payload[0];
       state.tutorId = action.payload[1];
     },
+    setClient(state, action) {
+      console.log("== SET CLIENT ACTION:", action, "==");
+      state.clientId = action.payload;
+    },
     decrementStep(state) {
       console.log("== Decrementing Step ==");
       state.currentStep = state.currentStep <= 1 ? 1 : state.currentStep - 1;

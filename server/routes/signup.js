@@ -17,7 +17,6 @@ const express = require("express");
  */
 const router = express.Router();
 
-
 var User = require("../models/User");
 var bcryptjs = require("bcryptjs");
 
@@ -32,13 +31,17 @@ var bcryptjs = require("bcryptjs");
  * @param {callback} middleware - Express middleware.
  */
 router.post("/", function (req, res, next) {
-  User.findOne(
-    {
-      email: req.body.email,
-    },
-    function (err, user) {
-      if (err) return next(err);
-      if (user) return next(console.log("User exists: " + user));
+  console.log("Signing up user!");
+
+  User.findOne({ email: req.body.email }, function (err, user) {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ msg: "Internal Server Error" });
+    } else {
+      if (user !== null) {
+        console.log("Found user : ", user);
+        return res.status(409).json({ msg: "User already exists!" });
+      }
 
       console.log("Creating new user");
       let newUser = new User({
@@ -48,10 +51,9 @@ router.post("/", function (req, res, next) {
         password: bcryptjs.hashSync(req.body.password, 12),
       });
       newUser.save();
-    }
-  ).then(data => {
-    if (data) {
-      res.redirect("http://localhost:3000/home"); //Broken
+
+      console.log("New user created!");
+      return res.status(200).json({ msg: "success!" });
     }
   });
 });
