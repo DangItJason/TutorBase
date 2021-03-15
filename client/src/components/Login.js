@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 import { actions } from "../store/loginData";
 import { connect } from "react-redux";
+import { ApiBaseAddress } from "../utils/Environment";
 
 class login extends Component {
   // state = {
@@ -13,13 +14,13 @@ class login extends Component {
   // };
 
   redirect() {
-    window.location.href = 'http://localhost:9000/login';
+    window.location.href = "http://localhost:9000/login";
     // // maybe can add spinner while loading
     // return null;
   }
 
   redirect() {
-    window.location.href = 'http://localhost:9000/login';
+    window.location.href = "http://localhost:9000/login";
     // // maybe can add spinner while loading
     // return null;
   }
@@ -51,6 +52,7 @@ class login extends Component {
 
         if (data.message === "success") {
           console.log("success");
+
           //Pass properties to next application
           //NOTE: Re-write this. Not safe
           this.props.history.push({
@@ -66,6 +68,8 @@ class login extends Component {
   };
 
   render() {
+    console.log("Logging API Base Address: ", ApiBaseAddress);
+
     return (
       <Container className="loginContainer" fluid="sm">
         <Row>
@@ -73,7 +77,9 @@ class login extends Component {
         </Row>
         <Row>
           {/* <a href="http://localhost:9000/login"> */}
-          <Button onClick={this.redirect} color="danger">Sign In</Button>
+          <Button onClick={this.redirect} color="danger">
+            Sign In
+          </Button>
           {/* </a> */}
         </Row>
         <Row>
@@ -86,20 +92,20 @@ class login extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     setEmail: (state, event) => dispatch(actions.setEmail(state, event)),
     setPassword: (state, event) => dispatch(actions.setPassword(state, event)),
     setLogin: (state, event) => dispatch(actions.setLogin(state, event)),
-  }
-}
+  };
+};
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   const { loginState } = state;
-  return {    
-      email: loginState.email, 
-      password: loginState.password,
-      login: loginState.login,
+  return {
+    email: loginState.email,
+    password: loginState.password,
+    login: loginState.login,
   };
 }
 
