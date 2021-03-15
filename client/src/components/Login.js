@@ -7,6 +7,10 @@ import { connect } from "react-redux";
 import { ApiBaseAddress } from "../utils/Environment";
 
 class login extends Component {
+  redirectToLogin = () => {
+    window.location.href = ApiBaseAddress + "login";
+  };
+
   // Input handler
   handleChange = (event) => {
     if (event.target.name === "email") {
@@ -18,43 +22,6 @@ class login extends Component {
     }
   };
 
-  // CAS Authentication Handler
-  handleAuthentication = (event) => {
-    if (process.env.NODE_ENV === "development")
-      console.log("Searching for CAS!");
-
-    event.preventDefault();
-    fetch("/login/cas", {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // Callback function after states been updated.
-        if (process.env.NODE_ENV === "development") console.log(data.message);
-
-        if (data.message === "success") {
-          if (process.env.NODE_ENV === "development")
-            if (process.env.NODE_ENV === "development")
-              console.log("Success connecting to CAS");
-
-          //Pass properties to next application
-          //NOTE: Re-write this. Not safe
-          this.props.history.push({
-            pathname: "/home", //---Change path as desired.
-            email: this.state.email,
-          });
-        } else if (data.message === "failure") {
-          if (process.env.NODE_ENV === "development") {
-            console.log("Failure connecting to CAS, Incorrect credentials");
-          }
-        }
-      })
-      .catch((error) => alert(error.message));
-  };
-
   render() {
     console.log("Logging API Base Address: ", ApiBaseAddress);
 
@@ -64,11 +31,9 @@ class login extends Component {
           <Label className="loginText">Login</Label>
         </Row>
         <Row>
-          {/* <a href="http://localhost:9000/login"> */}
-          <Button onClick={this.redirect} color="danger">
+          <Button onClick={this.redirectToLogin} color="danger">
             Sign In
           </Button>
-          {/* </a> */}
         </Row>
         <Row>
           <div>
