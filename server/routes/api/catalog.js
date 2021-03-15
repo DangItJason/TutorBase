@@ -109,18 +109,30 @@ router.post("/tutors", (req, res) => {
 // POST api/catalog/appointment
 // Create a new Appointment
 router.post("/appointment", (req, res) => {
-  const newAppt = new Appointment({
+  // let newAppt = new Appointment({
+  //   appt_id: new mongoose.mongo.ObjectId(),
+  //   course_id: req.body.course_id,
+  //   date: new Date(req.body.date),
+  //   start_time: req.body.start,
+  //   end_time: req.body.end,
+  //   location: req.body.loc,
+  //   tutor_id: req.body.tutor_id,
+  //   client_id: req.body.client_id,
+  //   price: req.body.price,
+  //   notes: req.body.notes,
+  // });
+  let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),
     course_id: req.body.course_id,
-    date: new Date(req.body.date),
-    start_time: req.body.start,
-    end_time: req.body.end,
-    location: req.body.loc,
+    start_time: req.body.date ? req.body.date : new Date(),
+    duration: parseInt(req.body.end),
+    location: req.body.loc ? req.body.loc : "test",
     tutor_id: req.body.tutor_id,
     client_id: req.body.client_id,
     price: req.body.price,
     notes: req.body.notes,
   });
+  newAppt.save();
 
   console.log("DEBUG: Printing newAppt =>", newAppt);
 
@@ -132,6 +144,7 @@ router.post("/appointment", (req, res) => {
       { _id: req.body.client_id },
       { $push: { client: { appts: newAppt } } }
     );
+    User.save();
   } catch (e) {
     print(e)
   }
@@ -149,6 +162,7 @@ router.post("/appointment", (req, res) => {
       { _id: req.body.tutor_id },
       { $push: { client: { appts: newAppt } } }
     );
+    User.save();
   } catch (e) {
     print(e)
   }
