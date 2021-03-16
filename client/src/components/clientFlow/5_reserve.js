@@ -35,26 +35,14 @@ class Step5 extends Component {
       let startHour = ("0" + start.getHours()).slice(-2);
 
       let end = new Date(this.props.flowData.apptEndTime);
-      let endMin = ("0" + start.getMinutes()).slice(-2);
-      let endHour = ("0" + start.getHours()).slice(-2);
-
-      // let body = {
-      //   course_id: this.props.flowData.courseId,
-      //   date: this.props.flowData.date,
-      //   start: startHour + ":" + startMin,
-      //   end: endHour + ":" + endMin,
-      //   loc: this.props.flowData.apptLoc,
-      //   tutor_id: this.props.flowData.tutorId,
-      //   client_id: this.props.flowData.clientId,
-      //   price: 50,
-      //   notes: this.props.flowData.notes,
-      // };
+      let endMin = ("0" + end.getMinutes()).slice(-2);
+      let endHour = ("0" + end.getHours()).slice(-2);
 
       let body = {
         course_id: this.props.flowData.courseId,
         date: this.props.flowData.date,
         start: startHour + ":" + startMin,
-        end: endHour,
+        end: endHour + ":" + endMin,
         loc: this.props.flowData.apptLoc,
         tutor_id: this.props.flowData.tutorId,
         client_id: this.props.flowData.clientId,

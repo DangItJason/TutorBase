@@ -109,69 +109,22 @@ router.post("/tutors", (req, res) => {
 // POST api/catalog/appointment
 // Create a new Appointment
 router.post("/appointment", (req, res) => {
-  // let newAppt = new Appointment({
-  //   appt_id: new mongoose.mongo.ObjectId(),
-  //   course_id: req.body.course_id,
-  //   date: new Date(req.body.date),
-  //   start_time: req.body.start,
-  //   end_time: req.body.end,
-  //   location: req.body.loc,
-  //   tutor_id: req.body.tutor_id,
-  //   client_id: req.body.client_id,
-  //   price: req.body.price,
-  //   notes: req.body.notes,
-  // });
   let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),
     course_id: req.body.course_id,
-    start_time: req.body.date ? req.body.date : new Date(),
-    duration: parseInt(req.body.end),
-    location: req.body.loc ? req.body.loc : "test",
+    appt_date: req.body.date ? req.body.date : new Date(),
+    start_time: req.body.start,
+    end_time: req.body.end,
+    location: req.body.loc ? req.body.loc : "n/a",
     tutor_id: req.body.tutor_id,
     client_id: req.body.client_id,
-    price: req.body.price,
-    notes: req.body.notes,
+    price: req.body.price ? req.body.price : 0,
+    notes: req.body.notes ? req.body.notes : "",
   });
   newAppt.save();
 
   console.log("DEBUG: Printing newAppt =>", newAppt);
-
-  // TODO: Check that both object ids exist before pushing appointment
-
-  // Add appointment to client
-  try {
-    User.updateOne(
-      { _id: req.body.client_id },
-      { $push: { client: { appts: newAppt } } }
-    );
-    User.save();
-  } catch (e) {
-    print(e)
-  }
-
-  // User.updateOne(
-  //   { _id: req.body.client_id },
-  //   { $push: { client: { appts: newAppt } } }
-  // ).catch((err) => res.status(400).json({ msg: err.message }));
-
-  console.log("DEBUG: ADDED APPOINTMENT TO CLIENT!");
-
-  // Add appointment to tutor
-  try {
-    User.updateOne(
-      { _id: req.body.tutor_id },
-      { $push: { client: { appts: newAppt } } }
-    );
-    User.save();
-  } catch (e) {
-    print(e)
-  }
-  // User.updateOne(
-  //   { _id: req.body.tutor_id },
-  //   { $push: { tutor: { appts: newAppt } } }
-  // ).catch((err) => res.status(400).json({ msg: err.message }));
-
-  console.log("DEBUG: ADDED APPOINTMENT TO TUTOR!");
+  console.log("DEBUG: ADDED APPOINTMENT TO DATABASE!");
 
   res.json(newAppt);
 });
