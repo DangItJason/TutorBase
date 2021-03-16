@@ -1,79 +1,74 @@
 var express = require("express");
 var router = express.Router();
-const sgMail = require("@sendgrid/mail");
+
+var emailsender = require("../lib/emailsender.js");
+var textsender = require("../lib/textsender.js");
+
 var fs = require("fs");
 
 router.post("/client", function (req, res) {
-  //Make sure to source the .env file before running this endpoint. If that doesn't work just copy/paste the the key from .env into here
-  sgMail.setApiKey(
-    process.env.SEND_GRID_API
-  );
-  sgMail.setSubstitutionWrappers('{{', '}}');
+  var phoneNumber = null; // Should be client.phone, model needs to be updated
 
+  if (phoneNumber !== null) {
 
-  //Implement spam protection???
-  console.log("Preparing client-email confirmatin message");
-  
-  const msg = {
-    to: req.body.clientEmail,
-    from: "tutorbaserpi@gmail.com",
-    templateId: "7ea79e53-32fb-4127-8e60-4b260cb79648",
-    substitutions: {
-      clientName: req.body.clientName,
-    },
-  };
+    // Max 160 chars
+    var txtmsg = "Your TutorBase appointment request has been received!\nWe're just waiting on the tutor to confirm the request and we'll send you an email if it's confirmed!";
+    var resul = textsender.send(txtmsg, phoneNumber, null, "us");
+  }
+  const html = fs.readFileSync(__dirname + '/email_client_confirmation.txt').toString();
 
-  sgMail.send(msg, (error, result) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email send success");
-    }
-  });
+  var clientEmail = req.body.clientEmail;
+
+  var emailresul = emailsender.send(clientEmail, html, "TutorBase Appointment Confirmation");
 
   res.send("Client Email Send Complete");
 
 });
 
 router.post("/tutor", function (req, res) {
-  //Make sure to source the .env file before running this endpoint. If that doesn't work just copy/paste the the key from .env into here
-  sgMail.setApiKey(
-    process.env.SEND_GRID_API
-  );
-  //Set substitution wrappers
-  sgMail.setSubstitutionWrappers('{{', '}}');
-  //Implement spam protection???
-  console.log("Submitted a confirmation email to tutor");
   
-  const msg = {
-    //replace with to: req.body.tutor_email
-    to: req.body.tutorEmail,
-    from: "tutorbaserpi@gmail.com",
-    templateId: "86fadcab-b74f-4ba8-a0dc-f7c1c9a19919",
-    substitutions: {
-      //Replace with req.body.xxx
-      clientName: req.body.clientName,
-      tutorName: req.body.tutorName,
-      date: req.body.date,
-      time: req.body.startTime.concat(" - ", req.body.endTime),
-      class: req.body.course,
-      notes: req.body.notes,
-    },
-  };
+  var clientName = req.body.clientName;
+  var tutorName = req.body.tutorName;
+  var date = req.body.date;
+  var time = req.body.startTime.concat(" - ", req.body.endTime);
+  var course = req.body.course;
+  var notes = req.body.notes;
+  var location = "Folsom Library";
 
-  sgMail.send(msg, (error, result) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email send success");
-    }
-  });
+  var phoneNumber = null; // Should be tutor.phone, model needs to be updated
+
+  if (phoneNumber !== null) {
+    // Max 160 chars
+    var txtmsg = "Someone is requesting your services on TutorBase. Check to your email to confirm the appointment."; 
+    var resul = textsender.send(txtmsg, phoneNumber, null, "us");
+    console.log(resul);
+  }
+
+  var htmlOrig = fs.readFileSync(__dirname + '/email_tutor_confirmation.txt').toString();
+
+  var html = htmlOrig.replace("{{tutor-name}}", tutorName)
+              .replace("{{client-name}}", clientName)
+              .replace("{{date}}", date)
+              .replace("{{time}}", time)
+              .replace("{{course}}", course)
+              .replace("{{location}}", location)
+              .replace("{{notes}}", notes);
+
+  var tutorEmail = req.body.tutorEmail;
+
+  var emailresul = emailsender.send(tutorEmail, html, "TutorBase Appointment Request");
 
   res.send("Tutor Email Send Complete");
+
 });
+
+
+
 
 router.get('/confirmation', function(req, res) {
   console.log("email confirmed - hello world");
 });
 
 module.exports = router;
+
+// TODO: add client email/text when tutor confirms appointment, add signup confirm email/texts

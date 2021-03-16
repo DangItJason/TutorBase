@@ -137,21 +137,23 @@
             height="100%"
             valign="top"
             bgcolor="">
-            <div>Hey&nbsp;(tutor-name)!</div>
+            <div>Hey&nbsp;{{tutor-name}}!</div>
 
 <div>&nbsp;</div>
 
 <div>Here are your appointment details:</div>
 
-<div>Date: (date)</div>
+<div>Client: {{client-name}}</div>
 
-<div>Time: (time)</div>
+<div>Date: {{date}}</div>
 
-<div>Class: (class)</div>
+<div>Time: {{time}}</div>
 
-<div>Location: (location)</div>
+<div>Class: {{course}}</div>
 
-<div>Notes: (notes)</div>
+<div>Location: {{location}}</div>
+
+<div>Notes: {{notes}}</div>
         </td>
       </tr>
     </table>
