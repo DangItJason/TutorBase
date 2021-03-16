@@ -5,6 +5,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { actions } from "../../store/clientFlowData";
 
 class Step5 extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled : false
+    };
+  }
+
   render() {
     const confirmSubmit = () => {
       toast.success(
@@ -60,6 +67,7 @@ class Step5 extends Component {
         console.log(res);
       });
 
+      this.setState({disabled: true});
       // TODO: Verify appointment creation and send email to client and tutor for confirmation
 
       // Notify user that everything was created in the system.
@@ -89,6 +97,7 @@ class Step5 extends Component {
         <br />
         <button
           className="btn btn-danger"
+          disabled={this.state.disabled}
           onClick={() => {
             // confirmSubmit();
             handleSubmit();
