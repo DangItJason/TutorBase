@@ -1,46 +1,11 @@
 const express = require("express");
-var router = express.Router();
 const mongoose = require("mongoose");
 const Subject = require("../../models/Subject");
 const Course = require("../../models/Course");
 const Appointment = require("../../models/Appointment");
 const User = require("../../models/User");
 
-// GET api/catalog
-// Get all subjects
-router.get("/", (req, res) => {
-  console.log("Searching for all subject codes");
-  Subject.find()
-    .sort({ name: 1 })
-    .then((subjects) => res.json(subjects))
-    .catch((err) => res.status(400).json({ msg: err.message }));
-});
-
-// GET api/catalog/courses
-// Get all courses
-router.get("/courses", (req, res) => {
-  Course.find()
-    .sort({ name: 1 })
-    .then((courses) => res.json(courses))
-    .catch((err) => res.status(400).json({ msg: err.message }));
-});
-
-// GET /api/catalog/courses/subject_id
-// Get all courses with a specific subject ID
-router.get("/courses/:subject_id", (req, res) => {
-  Course.find({ id: { $regex: req.params.subject_id, $options: "i" } })
-    .sort({ name: 1 })
-    .then((courses) => res.json(courses))
-    .catch((err) => res.status(400).json({ msg: err.message }));
-});
-
-// GET api/catalog/course
-// Get course with a specific course id
-router.get("/course", (req, res) => {
-  Course.find({ id: req.body.course_id })
-    .then((course) => res.json(course))
-    .catch((err) => res.status(400).json({ msg: err.message }));
-});
+const router = express.Router();
 
 // GET api/catalog/tutor/hours/tutor_id
 // Get a specific tutor's availability (hours)
@@ -56,59 +21,6 @@ router.get('/tutor/appointments/:tutor_id', (req, res) => {
     User.findById(req.params.tutor_id, 'tutor.appts')
     .then(appointments => res.json(appointments))
     .catch(err => res.status(400).json({ msg: err.message }));
-});
-
-// POST api/catalog
-// Create a new Subject object
-router.post("/", (req, res) => {
-  const newSubject = new Subject({
-    id: req.body.subject_id,
-  });
-  newSubject.save().then((subject) => res.json(subject));
-});
-
-// POST api/catalog/update
-// Update an existing Subject object with a new course
-router.post("/update", (req, res) => {
-  Subject.updateOne(
-    { id: req.body.subject_id },
-    { $push: { courses: req.body.course_id } }
-  )
-    .then((subject) => res.json(subject))
-    .catch((err) => res.status(400).json({ msg: err.message }));
-});
-
-// POST api/catalog/course
-// Create a new Course object
-router.post("/course", (req, res) => {
-  const newCourse = new Course({
-    id: req.body.course_id,
-    name: req.body.name,
-  });
-  newCourse.save().then((course) => res.json(course));
-});
-
-// POST api/catalog/course/add_tutor
-// Add tutor to an existing Course object
-// If tutor already exists, nothing is added
-router.post("/course/add-tutor", (req, res) => {
-  Course.updateOne(
-    { name: req.body.course_name },
-    { $addToSet: { tutors: req.body.tutor_id } }
-  )
-    .then((course) => res.json(course))
-    .catch((err) => res.status(400).json({ msg: err.message }));
-});
-
-// POST api/catalog/course/remove_tutor
-// Remove tutor from an existing Course object
-router.post("/course/remove-tutor", (req, res) => {
-  Course.updateOne(
-    { name: req.body.course_name },
-    { $pull: { tutors: req.body.tutor_id } }
-  )
-    .then((course) => res.json(course))
-    .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
 // POST api/catalog/tutors

@@ -20,10 +20,10 @@ var router = express.Router();
 
 //Models
 const mongoose = require('mongoose');
-const Subject = require('../models/Subject');
-const Course = require('../models/Course');
-const Appointment = require('../models/Appointment');
-const User = require('../models/User');
+const Subject = require('../../models/Subject');
+const Course = require('../../models/Course');
+const Appointment = require('../../models/Appointment');
+const User = require('../../models/User');
 
 mongoose.set('useFindAndModify', false);
 
