@@ -1,5 +1,6 @@
 const express = require("express");
 var router = express.Router();
+var apptconfirm = require("../../lib/apptconfirm.js");
 const mongoose = require("mongoose");
 const Subject = require("../../models/Subject");
 const Course = require("../../models/Course");
@@ -124,7 +125,7 @@ router.post("/tutors", (req, res) => {
 
 // POST api/catalog/appointment
 // Create a new Appointment
-router.post("/appointment", (req, res) => {
+router.post("/appointment", async function(req, res) {
   // let newAppt = new Appointment({
   //   appt_id: new mongoose.mongo.ObjectId(),
   //   course_id: req.body.course_id,
@@ -137,11 +138,14 @@ router.post("/appointment", (req, res) => {
   //   price: req.body.price,
   //   notes: req.body.notes,
   // });
+
+  var startTime = req.body.date ? req.body.date : new Date();
+  var dur = parseInt(req.body.end);
   let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),
     course_id: req.body.course_id,
-    start_time: req.body.date ? req.body.date : new Date(),
-    duration: parseInt(req.body.end),
+    start_time: startTime,
+    duration: dur,
     location: req.body.loc ? req.body.loc : "test",
     tutor_id: req.body.tutor_id,
     client_id: req.body.client_id,
@@ -149,6 +153,27 @@ router.post("/appointment", (req, res) => {
     notes: req.body.notes,
   });
   newAppt.save();
+  var client, tutor, course;
+  try {
+    client = await User.findOne(
+      { _id: req.body.client_id }
+    );
+    tutor = await User.findOne(
+      { _id: req.body.tutor_id }
+    );
+    course = await Course.findOne(
+      { _id: req.body.course_id }
+    );
+  } catch (e) {
+    console.log(e);
+    return;
+  }
+
+  // Send confirmation email and texts
+  console.log(apptconfirm.tutor(tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name, 
+    client.first_name + ' ' + client.last_name, req.body.date, startTime, startTime + dur, course.name,
+    req.body.notes, req.body.loc ? req.body.loc : "test"));
+  console.log(apptconfirm.client(client.phone, client.email));
 
   console.log("DEBUG: Printing newAppt =>", newAppt);
 
@@ -160,9 +185,9 @@ router.post("/appointment", (req, res) => {
       { _id: req.body.client_id },
       { $push: { client: { appts: newAppt } } }
     );
-    User.save();
+    User.save(client);
   } catch (e) {
-    print(e)
+    console.log(e)
   }
 
   // User.updateOne(
@@ -178,9 +203,9 @@ router.post("/appointment", (req, res) => {
       { _id: req.body.tutor_id },
       { $push: { client: { appts: newAppt } } }
     );
-    User.save();
+    User.save(tutor);
   } catch (e) {
-    print(e)
+    console.log(e)
   }
   // User.updateOne(
   //   { _id: req.body.tutor_id },

@@ -13,7 +13,7 @@ function sendEmail(to, message, subject) {
     };
 
     return new Promise((resolve, reject) => transporter.sendMail(mailOptions, (err, info) => {
-      if (err) return reject(err);
+      if (err) return resolve(err);
       return resolve(info);
     }));
 

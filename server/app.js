@@ -30,7 +30,6 @@ var usersRouter = require("./routes/users");
 var signupRouter = require("./routes/signup");
 var loginRouter = require("./routes/login");
 var catalogRouter = require("./routes/api/catalog");
-var emailClientRouter = require("./routes/email-user");
 var tutorOperations = require("./routes/tutor-operations")
 
 //Allowing Cors Usage
@@ -75,7 +74,6 @@ app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 app.use("/catalog", catalogRouter);
-app.use("/email-user", emailClientRouter);
 app.use("/tutor-operations", tutorOperations);
 app.get('/checkLogin', isLoggedIn, function (req, res) {
   res.sendStatus(200);

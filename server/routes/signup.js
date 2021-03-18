@@ -19,28 +19,9 @@ const router = express.Router();
 
 var User = require("../models/User");
 var bcryptjs = require("bcryptjs");
-var emailsender = require("../lib/emailsender.js");
-var textsender = require("../lib/textsender.js");
-var fs = require("fs");
+var apptconfirm = require("../lib/apptconfirm.js");
 
-function signupNotify(name, email, phoneNumber) {
 
-  if (phoneNumber !== null && phoneNumber.length === 10) {
-    // Max 160 chars
-    var txtmsg = "Your TutorBase account has been created."; 
-    var resul = textsender.send(txtmsg, phoneNumber, null, "us");
-    console.log(resul);
-  }
-
-  var htmlOrig = fs.readFileSync(__dirname + '/email_signup.txt').toString();
-
-  var html = htmlOrig.replace("{{name}}", name);
-
-  var emailresul = emailsender.send(email, html, "TutorBase Account Created");
-
-  console.log("Signup Email Send Complete");
-
-}
 
 //Localhost:3000/signup
 /**
@@ -56,7 +37,7 @@ function signupNotify(name, email, phoneNumber) {
 router.post("/", function (req, res, next) {
   console.log("Signing up user!");
 
-      console.log("Creating new user\n" + req.body.first_name,req.body.last_name,req.body.email,req.body.phone, req.body.password);
+  console.log("Creating new user\n" + req.body.first_name,req.body.last_name,req.body.email,req.body.phone, req.body.password);
   User.findOne({ email: req.body.email }, function (err, user) {
     if (err) {
       console.log(err);
@@ -78,7 +59,8 @@ router.post("/", function (req, res, next) {
         phone: req.body.phone
       });
       newUser.save();
-      signupNotify(req.body.first_name + ' ' + req.body.last_name, req.body.email, req.body.phone);
+
+      apptconfirm.signupNotify(req.body.first_name + ' ' + req.body.last_name, req.body.email, req.body.phone);
 
       console.log("New user created!");
       return res.status(200).json({ msg: "success!" });
