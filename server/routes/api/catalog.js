@@ -185,7 +185,7 @@ router.post("/appointment", async function(req, res) {
       { _id: req.body.client_id },
       { $push: { client: { appts: newAppt } } }
     );
-    User.save(client);
+    User.save();
   } catch (e) {
     console.log(e)
   }
@@ -203,7 +203,7 @@ router.post("/appointment", async function(req, res) {
       { _id: req.body.tutor_id },
       { $push: { client: { appts: newAppt } } }
     );
-    User.save(tutor);
+    User.save();
   } catch (e) {
     console.log(e)
   }
