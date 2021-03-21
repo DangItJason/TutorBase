@@ -9,8 +9,47 @@ let router = express.Router();
 router.get("/", (req, res) => {
   User.find()
       .sort({ name: 1 })
-      .then((courses) => res.json(courses))
+      .then((users) => res.json(users))
       .catch((err) => res.status(400).json({ msg: err.message }));
 });
+
+// GET /api/users/:id
+// Get user by id
+router.get("/:id", (req, res) => {
+  User.find({ _id: req.params.id })
+      .sort({ name: 1 })
+      .then((users) => res.json(users))
+      .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
+// POST /api/users
+// Create a user
+router.post("/", (req, res) => {
+  const newUser = new User({
+    email: req.body.email,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+  });
+
+  newUser.save().then((user) => res.json(user));
+});
+
+// PUT /api/users
+// Update a user
+router.put("/:id", (req, res) => {
+  const entries = Object.keys(req.body)
+  const updates = {}
+
+  for(let i = 0; i < entries.length; i++)
+    updates[entries[i]] = Object.values(req.body)[i]
+
+  User.update(
+      {_id: req.params.id},
+      {$set: updates}
+  )
+      .then((user) => res.json('User updated!'))
+      .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
 
 module.exports = router;
