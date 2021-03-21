@@ -25,12 +25,12 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true});
 // Routers
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/api/users");
-const signupRouter = require("./routes/api/signup");
 const loginRouter = require("./routes/api/login");
 const catalogRouter = require("./routes/api/catalog");
 const coursesRouter = require("./routes/api/courses");
+const subjectsRouter = require("./routes/api/subjects");
 const emailClientRouter = require("./routes/api/email-user");
-const tutorOperations = require("./routes/api/tutor-operations");
+const tutorsRouter = require("./routes/api/tutors");
 
 // Allowing Cors Usage
 // app.use(cors());
@@ -71,11 +71,11 @@ passport.deserializeUser(function (user, done) {
 app.use("/api", indexRouter)
 app.use("/api/users", usersRouter);
 app.use("/api/courses", coursesRouter);
+app.use("/api/subjects", subjectsRouter);
 app.use("/api/login", loginRouter);
-app.use("/api/signup", signupRouter);
 app.use("/api/catalog", catalogRouter);
 app.use("/api/email-user", emailClientRouter);
-app.use("/api/tutor-operations", tutorOperations);
+app.use("/api/tutors", tutorsRouter);
 app.get('/api/checkLogin', isLoggedIn, function (req, res) {
     res.sendStatus(200);
 })

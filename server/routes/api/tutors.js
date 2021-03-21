@@ -1,5 +1,5 @@
 /** Express router providing user related routes
- * @module routes/tutor-operations
+ * @module routes/tutors
  * @requires express
  */
 
@@ -16,18 +16,46 @@ const express = require('express');
  * @const
  * @namespace tutorOperationsRouter
  */
-var router = express.Router();
+let router = express.Router();
 
 //Models
 const mongoose = require('mongoose');
 const Subject = require('../../models/Subject');
 const Course = require('../../models/Course');
 const Appointment = require('../../models/Appointment');
-const User = require('../../models/User');
+const Tutor = require('../../models/Tutor');
 
 mongoose.set('useFindAndModify', false);
 
-// GET tutor-operations/price
+// GET /api/tutors
+// Get all tutors
+router.get("/", (req, res) => {
+    Tutor.find()
+        .sort({ name: 1 })
+        .then((courses) => res.json(courses))
+        .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
+// POST /api/tutors
+// Create a tutor
+router.post("/", (req, res) => {
+    const newTutor = new Tutor({
+        email: req.body.email,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+
+        // Time they can tutor
+        // times: req.body.times,
+
+        // price: {type: Number, default: 30},
+        // interval: {type: Number, default: 30},
+    });
+
+    newTutor.save().then((course) => res.json(course));
+});
+
+
+// GET tutors/price
 // Get a tutor's price
 /**
  * Route serving tutor-operations
