@@ -25,13 +25,13 @@ router.post("/", (req, res) => {
 
 // POST api/subject/update
 // Update an existing Subject object with a new course
-router.post("/update", (req, res) => {
-    Subject.updateOne(
-        { id: req.body.subject_id },
-        { $push: { courses: req.body.course_id } }
-    )
-        .then((subject) => res.json(subject))
-        .catch((err) => res.status(400).json({ msg: err.message }));
-});
+// router.post("/:id", (req, res) => {
+//     Subject.updateOne(
+//         { _id: req.params.id },
+//         { $push: { courses: req.body.course_id } }
+//     )
+//         .then((subject) => res.json(subject))
+//         .catch((err) => res.status(400).json({ msg: err.message }));
+// });
 
 module.exports = router;
