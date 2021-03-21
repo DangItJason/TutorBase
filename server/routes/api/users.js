@@ -22,6 +22,15 @@ router.get("/:id", (req, res) => {
       .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+// GET /api/users?email=test@test.com
+// Get user by email
+router.get("/", (req, res) => {
+  User.find({ email: req.query.email })
+      .sort({ name: 1 })
+      .then((tutors) => res.json(tutors))
+      .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
 // POST /api/users
 // Create a user
 router.post("/", (req, res) => {

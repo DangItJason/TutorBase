@@ -45,6 +45,15 @@ router.get("/:id", (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+// GET /api/tutors?email=test@test.com
+// Get tutor by email
+router.get("/", (req, res) => {
+    Tutor.find({ email: req.query.email })
+        .sort({ name: 1 })
+        .then((tutors) => res.json(tutors))
+        .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
 // POST /api/tutors
 // Create a tutor
 router.post("/", (req, res) => {
