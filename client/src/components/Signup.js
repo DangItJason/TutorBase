@@ -31,6 +31,9 @@ class signup extends Component {
     } else if (event.target.name === "last_name") {
       this.props.setLastName(event.target.value);
       this.props.setLastNameValid();
+    } else if (event.target.name === "phone") {
+      this.props.setPhone(event.target.value);
+      this.props.setPhoneValid();
     }
   };
 
@@ -44,7 +47,8 @@ class signup extends Component {
       this.props.auth.emailValid &&
       this.props.auth.passwordValid &&
       this.props.auth.firstNameValid &&
-      this.props.auth.lastNameValid
+      this.props.auth.lastNameValid &&
+      this.props.auth.phoneValid
     ) {
       this.submitUser();
     } else {
@@ -58,6 +62,7 @@ class signup extends Component {
       password: this.props.auth.password,
       first_name: this.props.auth.first_name,
       last_name: this.props.auth.last_name,
+      phone: this.props.auth.phone
     };
 
     if (process.env.NODE_ENV === "development")
@@ -210,6 +215,32 @@ class signup extends Component {
               </Row>
             </Container>
           </FormGroup>
+          <FormGroup row>
+            <Container fluid>
+              <Row>
+                <Col xs="auto">
+                  <Input
+                    type="number"
+                    className="form-control"
+                    name="phone"
+                    placeholder="Cell Number (optional)"
+                    value={this.props.auth.phone}
+                    onChange={this.handleChange}
+                    autoComplete="off"
+                  ></Input>
+                </Col>
+                <Col xs="auto">
+                  <div>
+                    {this.props.auth.phoneValid ? (
+                      <MdCheck size="30px" color="green"></MdCheck>
+                    ) : (
+                      <VscError size="30px" color="red"></VscError>
+                    )}
+                  </div>
+                </Col>
+              </Row>
+            </Container>
+          </FormGroup>
           <div>{this.props.auth.loginValid ? "" : "Invalid Fields"}</div>
           <Button color="danger" type="submit">
             Create Account
@@ -237,7 +268,10 @@ const mapDispatchToProps = (dispatch) => {
     setEmail: (state, action) => dispatch(actions.setEmail(state, action)),
     setPassword: (state, action) =>
       dispatch(actions.setPassword(state, action)),
+    setPhone: (state, action) =>
+      dispatch(actions.setPhone(state, action)),
     setLoginValid: (state) => dispatch(actions.setLoginValid(state)),
+    setPhoneValid: (state) => dispatch(actions.setPhoneValid(state)),
     setLastNameValid: (state) => dispatch(actions.setLastNameValid(state)),
     setFirstNameValid: (state) => dispatch(actions.setFirstNameValid(state)),
     setEmailValid: (state) => dispatch(actions.setEmailValid(state)),
