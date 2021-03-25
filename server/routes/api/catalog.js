@@ -37,24 +37,12 @@ router.post("/tutors", (req, res) => {
 // POST api/catalog/appointment
 // Create a new Appointment
 router.post("/appointment", (req, res) => {
-  // let newAppt = new Appointment({
-  //   appt_id: new mongoose.mongo.ObjectId(),
-  //   course_id: req.body.course_id,
-  //   date: new Date(req.body.date),
-  //   start_time: req.body.start,
-  //   end_time: req.body.end,
-  //   location: req.body.loc,
-  //   tutor_id: req.body.tutor_id,
-  //   client_id: req.body.client_id,
-  //   price: req.body.price,
-  //   notes: req.body.notes,
-  // });
   let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),
     course_id: req.body.course_id,
-    start_time: req.body.date ? req.body.date : new Date(),
-    duration: parseInt(req.body.end),
-    location: req.body.loc ? req.body.loc : "test",
+    start_time: req.body.start ? req.body.start : new Date(),
+    end_time: parseInt(req.body.end),
+    location: req.body.loc ? req.body.loc : "none",
     tutor_id: req.body.tutor_id,
     client_id: req.body.client_id,
     price: req.body.price,
@@ -63,45 +51,23 @@ router.post("/appointment", (req, res) => {
   newAppt.save();
 
   console.log("DEBUG: Printing newAppt =>", newAppt);
-
-  // TODO: Check that both object ids exist before pushing appointment
-
-  // Add appointment to client
-  try {
-    User.updateOne(
-      { _id: req.body.client_id },
-      { $push: { client: { appts: newAppt } } }
-    );
-    User.save();
-  } catch (e) {
-    print(e)
-  }
-
-  // User.updateOne(
-  //   { _id: req.body.client_id },
-  //   { $push: { client: { appts: newAppt } } }
-  // ).catch((err) => res.status(400).json({ msg: err.message }));
-
-  console.log("DEBUG: ADDED APPOINTMENT TO CLIENT!");
-
-  // Add appointment to tutor
-  try {
-    User.updateOne(
-      { _id: req.body.tutor_id },
-      { $push: { client: { appts: newAppt } } }
-    );
-    User.save();
-  } catch (e) {
-    print(e)
-  }
-  // User.updateOne(
-  //   { _id: req.body.tutor_id },
-  //   { $push: { tutor: { appts: newAppt } } }
-  // ).catch((err) => res.status(400).json({ msg: err.message }));
-
-  console.log("DEBUG: ADDED APPOINTMENT TO TUTOR!");
-
   res.json(newAppt);
+});
+
+// GET api/catalog/appointments/tutor_id
+// Get a specific tutor's already scheduled appointments
+router.get('/appointments/:tutor_id', (req, res) => {
+  Appointment.find( { tutor_id: req.params.tutor_id } )
+  .then(appointments => res.json(appointments))
+  .catch(err => res.status(400).json({ msg: err.message }));
+});
+
+// GET api/catalog/appointments/client_id
+// Get a specific users's already scheduled appointments
+router.get('/appointments/:client_id', (req, res) => {
+  Appointment.find( { client_id: req.params.client_id } )
+  .then(appointments => res.json(appointments))
+  .catch(err => res.status(400).json({ msg: err.message }));
 });
 
 module.exports = router;
