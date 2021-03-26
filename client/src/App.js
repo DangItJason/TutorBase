@@ -1,8 +1,8 @@
 import React from "react";
-import login from "./components/Login";
-import signup from "./components/Signup";
-import ClientDashboard from "./components/dashboard/client/ClientDashboard";
-import TutorDashboard from "./components/dashboard/tutor/TutorDashboard";
+import login from "./containers/LogInPage/Login";
+import signup from "./containers/SignUpPage/Signup";
+import ClientDashboard from "./containers/DashboardPage/client/ClientDashboard";
+import TutorDashboard from "./containers/DashboardPage/tutor/TutorDashboard";
 import { ToastProvider, useToasts } from "react-toast-notifications";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import withAuth from "./components/withAuth";

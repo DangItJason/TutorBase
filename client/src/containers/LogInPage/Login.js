@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { Button, Container, Label, Row } from "reactstrap";
 import { Link } from "react-router-dom";
-import "./Login.css";
-import { actions } from "../store/loginData";
+import "../../components/Login.css";
+import { actions } from "../../store/loginData";
 import { connect } from "react-redux";
-import { ApiBaseAddress } from "../utils/Environment";
+import { ApiBaseAddress } from "../../utils/Environment";
 
 class login extends Component {
   redirectToLogin = () => {
-    window.location.href = ApiBaseAddress + "login";
+    window.location.href = ApiBaseAddress + "api/login";
   };
 
   // Input handler
@@ -32,13 +32,8 @@ class login extends Component {
         </Row>
         <Row>
           <Button onClick={this.redirectToLogin} color="danger">
-            Sign In
+            Sign In with RPI Email
           </Button>
-        </Row>
-        <Row>
-          <div>
-            Don't have an account? Click <Link to="/signup">here</Link>
-          </div>
         </Row>
       </Container>
     );
