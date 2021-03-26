@@ -10,7 +10,7 @@ const TutorSchema = new Schema({
     phone: {type: String, default: ""},
 
     // Time they can tutor
-    // times: [[Number, Number], [Number, Number], [Number, Number], [Number, Number], [Number, Number], [Number, Number], [Date]],
+    times: {"Sunday": [[Number, Number]], "Monday": [[Number, Number]], "Tuesday": [[Number, Number]], "Wednesday": [[Number, Number]], "Thursday": [[Number, Number]], "Friday": [[Number, Number]], "Saturday": [[Number, Number]]},
 
     price: {type: Number, default: 30},
     interval: {type: Number, default: 30},
