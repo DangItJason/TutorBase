@@ -1,11 +1,10 @@
 import React from "react";
-import login from "./containers/LogInPage/Login";
-import signup from "./containers/SignUpPage/Signup";
+import {SignupPage} from "./containers/SignUpPage/SignupPage";
 import ClientDashboard from "./containers/DashboardPage/client/ClientDashboard";
 import TutorDashboard from "./containers/DashboardPage/tutor/TutorDashboard";
 import {ToastProvider} from "react-toast-notifications";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import landingPage from "./containers/LandingPage/LandingPage";
+import {LoginPage} from "./containers/LoginPage/LoginPage";
 
 function App() {
     return (
@@ -16,9 +15,15 @@ function App() {
         >
             <Router>
                 <Switch>
-                    <Route exact path="/" component={login}/>
-                    <Route exact path="/login" component={login}/>
-                    <Route exact path="/signup" component={signup}/>
+                    <Route exact path="/">
+                        <LoginPage/>
+                    </Route>
+                    <Route exact path="/login">
+                        <LoginPage/>
+                    </Route>
+                    <Route exact path="/signup">
+                        <SignupPage />
+                    </Route>
                     <Route exact path="/home" component={ClientDashboard}/>
                     <Route exact path="/tutor" component={TutorDashboard}/>
                     <Route
