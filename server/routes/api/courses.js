@@ -13,18 +13,18 @@ router.get("/", (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
-// GET api/courses/:id
-// Get course with a specific course id
-router.get("/:id", (req, res) => {
-    Course.find({ _id: req.params.id })
-        .then((course) => res.json(course))
-        .catch((err) => res.status(400).json({ msg: err.message }));
-});
+// // GET api/courses/:id
+// // Get course with a specific course id
+// router.get("/:id", (req, res) => {
+//     Course.find({ _id: req.params.id })
+//         .then((course) => res.json(course))
+//         .catch((err) => res.status(400).json({ msg: err.message }));
+// });
 
 // GET /api/courses/subject_id
 // Get all courses with a specific subject ID
 router.get("/:subject_id", (req, res) => {
-    Course.find({ id: { $regex: req.params.subject_id, $options: "i" } })
+    Course.find({ subject: { $regex: req.params.subject_id, $options: "i" } })
         .sort({ name: 1 })
         .then((courses) => res.json(courses))
         .catch((err) => res.status(400).json({ msg: err.message }));
@@ -35,6 +35,7 @@ router.get("/:subject_id", (req, res) => {
 router.post("/", (req, res) => {
     const newCourse = new Course({
         id: req.body.course_id,
+        subject: req.body.subject,
         name: req.body.name,
     });
 

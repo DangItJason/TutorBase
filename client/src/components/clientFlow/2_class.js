@@ -13,7 +13,7 @@ class Step2 extends Component {
     if (this.state.subjectId !== this.props.flowData.subjectId) {
       this.setState({ subjectId: this.props.flowData.subjectId, courses: [] });
       fetch(
-        "http://localhost:9000/catalog/courses/" + this.props.flowData.subjectId
+        "http://localhost:9000/api/courses/" + this.props.flowData.subjectId
       )
         .then((res) => {
           //console.log(res);

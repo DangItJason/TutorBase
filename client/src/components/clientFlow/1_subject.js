@@ -11,7 +11,7 @@ class Step1 extends Component {
   componentDidMount() {
     // Load subjects if they have not yet been loaded in
     if (!this.state.subjectIds.length) {
-      let url = "http://localhost:9000/catalog";
+      let url = "http://localhost:9000/api/subjects";
       let headers = {
         "Content-Type": "application/json",
       };

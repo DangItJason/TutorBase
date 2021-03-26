@@ -31,9 +31,10 @@ const coursesRouter = require("./routes/api/courses");
 const subjectsRouter = require("./routes/api/subjects");
 const emailClientRouter = require("./routes/api/email-user");
 const tutorsRouter = require("./routes/api/tutors");
+const appointmentsRouter = require("./routes/api/appointment");
 
 // Allowing Cors Usage
-// app.use(cors());
+app.use(cors());
 
 // View engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -76,6 +77,7 @@ app.use("/api/login", loginRouter);
 app.use("/api/catalog", catalogRouter);
 app.use("/api/email-user", emailClientRouter);
 app.use("/api/tutors", tutorsRouter);
+app.use("/api/appointment", appointmentsRouter);
 app.get('/api/checkLogin', isLoggedIn, function (req, res) {
     res.sendStatus(200);
 })

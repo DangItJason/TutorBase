@@ -25,7 +25,7 @@ class Step5 extends Component {
       console.log("Submitting");
 
       // Create Appointment
-      let url = "http://localhost:9000/catalog/appointment";
+      let url = "http://localhost:9000/api/appointment";
       let headers = {
         "Content-Type": "application/json",
       };
