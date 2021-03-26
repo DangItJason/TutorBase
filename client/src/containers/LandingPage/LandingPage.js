@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import "./landing.css";
+import "./styles.css";
 import intro_mobile from "./assets/img/logo3.png";
 import logo from "./assets/img/logo2.png"
 
-class landing extends Component {
+class landingPage extends Component {
   render() {
     return (
       <div>
@@ -484,7 +484,7 @@ class landing extends Component {
               </div>
             </div>
           </section>
-          
+
           {/* Footer Section Start */}
           <footer id="footer" className="footer-area section-padding">
             <div className="container">
@@ -598,4 +598,4 @@ class landing extends Component {
   }
 }
 
-export default landing;
+export default landingPage;
