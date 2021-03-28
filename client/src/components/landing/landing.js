@@ -171,7 +171,7 @@ class landing extends Component {
             </div>
           </div>
         </section>
-        ;{/* Services Section End */}
+        {/* Services Section End */}
         <div>
           {/* About Section start */}
           <div className="about-area section-padding bg-gray">
@@ -228,7 +228,7 @@ class landing extends Component {
                   className="section-title wow fadeInDown"
                   data-wow-delay="0.3s"
                 >
-                  Awesome Features
+                  Application Features
                 </h2>
                 <div className="shape wow fadeInDown" data-wow-delay="0.3s" />
               </div>
@@ -243,10 +243,9 @@ class landing extends Component {
                         <i className="lni-rocket" />
                       </span>
                       <div className="text">
-                        <h4>Bootstrap 4 Based</h4>
+                        <h4>Verified Tutors</h4>
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry.
+                          Each tutor is verified by it's department or ALAC. You can ensure each tutor knows their stuff!
                         </p>
                       </div>
                     </div>
@@ -258,10 +257,9 @@ class landing extends Component {
                         <i className="lni-laptop-phone" />
                       </span>
                       <div className="text">
-                        <h4>Fully Responsive</h4>
+                        <h4>Full Meeting History</h4>
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry.
+                          Past, present and current appointments are visible in a easy to read format
                         </p>
                       </div>
                     </div>
@@ -273,10 +271,9 @@ class landing extends Component {
                         <i className="lni-cog" />
                       </span>
                       <div className="text">
-                        <h4>HTML5, CSS3 &amp; SASS</h4>
+                        <h4>Data Analytics</h4>
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry
+                          Visualize your engagements over many unique metrics to evaluate your performance.
                         </p>
                       </div>
                     </div>
@@ -297,10 +294,9 @@ class landing extends Component {
                         <i className="lni-leaf" />
                       </span>
                       <div className="text">
-                        <h4>Modern Design</h4>
+                        <h4>Intuitive Scheduling</h4>
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry
+                          Find your needed tutor in under 5 simple steps.
                         </p>
                       </div>
                     </div>
@@ -312,25 +308,9 @@ class landing extends Component {
                         <i className="lni-layers" />
                       </span>
                       <div className="text">
-                        <h4>Multi-purpose Template</h4>
+                        <h4>Fast Notifications</h4>
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry.
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      className="box-item wow fadeInRight"
-                      data-wow-delay="0.9s"
-                    >
-                      <span className="icon">
-                        <i className="lni-leaf" />
-                      </span>
-                      <div className="text">
-                        <h4>Working Contact Form</h4>
-                        <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry.
+                          Recieve reminders to your email for new and upcoming appointments.    
                         </p>
                       </div>
                     </div>
@@ -497,7 +477,7 @@ class landing extends Component {
                       </h3>
                       <div className="textwidget">
                         <p>
-                          We don't have much yet in our footer. I guess this goes here.
+                          Made it down this far? 
                         </p>
                       </div>
                       <div className="social-icon">
@@ -516,7 +496,7 @@ class landing extends Component {
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                  {/* <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                     <h3 className="footer-titel">Products</h3>
                     <ul className="footer-link">
                       <li>
@@ -555,19 +535,18 @@ class landing extends Component {
                         <a href="#">Card Verification</a>
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
                   <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                     <h3 className="footer-titel">Contact</h3>
                     <ul className="address">
                       <li>
                         <a href="#">
-                          <i className="lni-map-marker" /> 105 Madison Avenue -{" "}
-                          <br /> Third Floor New York, NY 10016
+                          <i className="lni-map-marker" /> DCC 308{" "}
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <i className="lni-phone-handset" /> P: +84 846 250 592
+                          <i className="lni-phone-handset" /> P: +1 111 111-1111
                         </a>
                       </li>
                       <li>

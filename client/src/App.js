@@ -3,6 +3,7 @@ import login from "./components/Login";
 import signup from "./components/Signup";
 import ClientDashboard from "./components/dashboard/client/ClientDashboard";
 import TutorDashboard from "./components/dashboard/tutor/TutorDashboard";
+import landing from "./components/landing/landing.js"
 import { ToastProvider, useToasts } from "react-toast-notifications";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import withAuth from "./components/withAuth";
@@ -16,11 +17,13 @@ function App() {
     >
       <Router>
         <Switch>
+          
           <Route exact path="/" component={login} />
           <Route exact path="/login" component={login} />
           <Route exact path="/signup" component={signup} />
           <Route exact path="/home" component={ClientDashboard} />
           <Route exact path="/tutor" component={TutorDashboard}></Route>
+          <Route exact path="/landing" component={landing}></Route>
           <Route
             exact
             path="/tutor/preferences"
