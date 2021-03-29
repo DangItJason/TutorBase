@@ -8,7 +8,7 @@ import {ApiBaseAddress} from "../../utils/Environment";
 
 export function LoginPage() {
     const CASRedirect = () => {
-        window.location.href = ApiBaseAddress + '/api/login';
+        window.location.href = ApiBaseAddress + 'api/login';
     }
 
     return (
@@ -33,14 +33,6 @@ export function LoginPage() {
                     </Col>
                     <Col xs="4"/>
                 </Row>
-                {/*<Row>*/}
-                {/*    <Col style={{textAlign: "center"}}>*/}
-                {/*        <div className="signUpDiv">*/}
-                {/*            Don't have an account? <Link to="/signup">*/}
-                {/*            &nbsp;Sign up</Link>*/}
-                {/*        </div>*/}
-                {/*    </Col>*/}
-                {/*</Row>*/}
                 <Row style={{marginTop: "150px"}}>
                     <Col style={{textAlign: "center"}}>
                         An <a href="https://rcos.io/"> RCOS</a> project. &nbsp;

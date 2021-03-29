@@ -35,6 +35,11 @@ router.get("/", (req, res) => {
 // POST /api/users
 // Create a user
 router.post("/", (req, res) => {
+  User.find({ email: req.body.email })
+      .sort({ name: 1 })
+      .then((users) => res.status(409).json({msg: "User already exists!"}))
+      .catch((err) => res.status(400).json({ msg: err.message }));
+
   const newUser = new User({
     email: req.body.email,
     first_name: req.body.first_name,

@@ -1,4 +1,5 @@
 const CasStrategy = require("passport-cas").Strategy;
+const User = require("../models/User");
 
 module.exports = new CasStrategy(
   {
@@ -12,16 +13,18 @@ module.exports = new CasStrategy(
 
     console.log("Login: " + login);
     console.log("Query: " + query);
+
     User.findOne({ email: query }, function (err, user) {
       if (err) {
         console.log("Err");
         return done(err);
-
       }
+
       if (!user) {
         console.log("Unknown User");
-        return done(null, false, { message: "Unknown user" });
+        return done(null, false, { message: "Unknown user", email: query });
       }
+
       //Success
       console.log("Success");
 

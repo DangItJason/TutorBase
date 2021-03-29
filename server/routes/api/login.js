@@ -8,6 +8,7 @@
  * @const
  */
 var express = require("express");
+var session = require('express-session')
 
 /**
  * Express router to mount user related functions on.
@@ -43,8 +44,12 @@ router.get("/", (req, res, next) => {
       return next(err);
     }
 
+    console.log("Error: ", err);
+    console.log("User: ", user);
+    console.log("Info: ", info);
+
     if (!user) {
-      req.session.messages = info.message;
+      req.session.messages = "TEST";
       return res.redirect("http://localhost:3000/signup");
     }
 
