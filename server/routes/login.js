@@ -55,6 +55,7 @@ router.get("/", (req, res, next) => {
       }
 
       req.session.save()
+      console.log(req)
 
       // console.log("Session -----------------------")
       // console.log(req.session)

@@ -24,6 +24,7 @@
     "light-toast": "^0.3.0",
     "moment": "^2.29.1",
     "prettier": "^2.2.1",
+    "query-string": "^7.0.0",
     "rambda": "^6.7.0",
     "ramda": "^0.27.1",
     "rc-time-picker": "^3.7.3",
