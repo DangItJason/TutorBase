@@ -1,5 +1,5 @@
 import React from "react";
-import {SignupPage} from "./containers/SignUpPage/SignupPage";
+import {SignUpPage} from "./containers/SignUpPage/SignupPage";
 import ClientDashboard from "./containers/DashboardPage/client/ClientDashboard";
 import TutorDashboard from "./containers/DashboardPage/tutor/TutorDashboard";
 import {ToastProvider} from "react-toast-notifications";
@@ -22,7 +22,7 @@ function App() {
                         <LoginPage/>
                     </Route>
                     <Route exact path="/signup">
-                        <SignupPage />
+                        <SignUpPage />
                     </Route>
                     <Route exact path="/home" component={ClientDashboard}/>
                     <Route exact path="/tutor" component={TutorDashboard}/>
