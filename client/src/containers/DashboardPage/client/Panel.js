@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { Navbar, Button } from "reactstrap";
-import FormParent from "../../clientFlow/FormParent";
+import FormParent from "../../../components/clientFlow/FormParent";
 import {connect} from "react-redux";
 import {actions} from "../../../store/clientFlowData";
 

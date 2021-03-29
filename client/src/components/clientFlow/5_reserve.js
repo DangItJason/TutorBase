@@ -25,7 +25,7 @@ class Step5 extends Component {
       console.log("Submitting");
 
       // Create Appointment
-      let url = "http://localhost:9000/catalog/appointment";
+      let url = "http://localhost:9000/api/appointment";
       let headers = {
         "Content-Type": "application/json",
       };
@@ -38,23 +38,10 @@ class Step5 extends Component {
       let endMin = ("0" + start.getMinutes()).slice(-2);
       let endHour = ("0" + start.getHours()).slice(-2);
 
-      // let body = {
-      //   course_id: this.props.flowData.courseId,
-      //   date: this.props.flowData.date,
-      //   start: startHour + ":" + startMin,
-      //   end: endHour + ":" + endMin,
-      //   loc: this.props.flowData.apptLoc,
-      //   tutor_id: this.props.flowData.tutorId,
-      //   client_id: this.props.flowData.clientId,
-      //   price: 50,
-      //   notes: this.props.flowData.notes,
-      // };
-
       let body = {
         course_id: this.props.flowData.courseId,
-        date: this.props.flowData.date,
-        start: startHour + ":" + startMin,
-        end: endHour,
+        start: start,
+        end: endHour + endMin,
         loc: this.props.flowData.apptLoc,
         tutor_id: this.props.flowData.tutorId,
         client_id: this.props.flowData.clientId,
