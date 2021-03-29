@@ -119,6 +119,8 @@ class signup extends Component {
   render() {
     const passwordValid = this.state.passwordValid;
     return (
+      <div className="flexBox">
+       
       <Container className="signupContainer" fluid="xs">
         <Row>
           <Col xs="1"/>
@@ -240,8 +242,8 @@ class signup extends Component {
 
           </Col>
         </Row>
-
       </Container>
+      </div>
     );
   }
 }
