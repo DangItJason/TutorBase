@@ -6,4 +6,4 @@ const Token = new Schema({
     uid: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 })
 
-module.exports = User = mongoose.model('Token', Token);
+module.exports = mongoose.model('Token', Token);
