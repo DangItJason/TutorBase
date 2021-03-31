@@ -20,7 +20,6 @@ const router = express.Router();
 
 var User = require("../../models.js");
 var bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 /**
  * passport module
@@ -28,6 +27,9 @@ const jwt = require("jsonwebtoken");
  * @type {object}
  */
 const passport = require("passport");
+const jwt = require('jsonwebtoken');
+const { use } = require("passport");
+const Token = require('../../models/Tokens');
 
 /**
  * Route serving login form.
@@ -39,18 +41,14 @@ const passport = require("passport");
  * @param {callback} middleware - Express middleware.
  */
 router.get("/", (req, res, next) => {
-  passport.authenticate("cas", function (err, user, info) {
+  passport.authenticate('cas', function (err, user, info) {
     if (err) {
       return next(err);
     }
 
-    console.log("Error: ", err);
-    console.log("User: ", user);
-    console.log("Info: ", info);
-
     if (!user) {
-      req.session.messages = "TEST";
-      return res.redirect("http://localhost:3000/signup");
+      req.session.messages = info.message;
+      return res.redirect('http://localhost:3000/signup');
     }
 
     req.logIn(user, function (err) {
@@ -58,9 +56,18 @@ router.get("/", (req, res, next) => {
         return next(err);
       }
 
-      req.session.messages = "";
-      return res.redirect("http://localhost:3000/home");
+      var tok = jwt.sign({ userid: user._id }, "sadfadf")
+
+      var tokenModel = new Token({ token: tok, uid: user._id })
+      tokenModel.save(function (err) {
+        if (err) return handleError(err);
+        // saved!
+      });
+
+      res.cookie("token", tok)
+      return res.redirect('http://localhost:3000/home');
     });
+
   })(req, res, next);
 });
 
