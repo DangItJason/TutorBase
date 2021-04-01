@@ -8,7 +8,6 @@
  * @const
  */
 var express = require("express");
-var session = require('express-session')
 
 /**
  * Express router to mount user related functions on.
@@ -29,7 +28,17 @@ var bcrypt = require("bcryptjs");
 const passport = require("passport");
 const jwt = require('jsonwebtoken');
 const { use } = require("passport");
-const Token = require('../../models/Tokens');
+const { token } = require("morgan");
+// const Token = require('../../models/Tokens');
+
+// Cookie Parser Function
+function parseCookies(str) {
+  let rx = /([^;=\s]*)=([^;]*)/g;
+  let obj = {};
+  for (let m; m = rx.exec(str);)
+    obj[m[1]] = decodeURIComponent(m[2]);
+  return obj;
+}
 
 /**
  * Route serving login form.
@@ -58,17 +67,32 @@ router.get("/", (req, res, next) => {
 
       var tok = jwt.sign({ userid: user._id }, "sadfadf")
 
-      var tokenModel = new Token({ token: tok, uid: user._id })
-      tokenModel.save(function (err) {
-        if (err) return handleError(err);
-        // saved!
-      });
+      // Token Storage can be used if necessary later on
+      // var tokenModel = new Token({ token: tok, uid: user._id })
+      // tokenModel.save(function (err) {
+      //   if (err) return handleError(err);
+      //   // saved!
+      // });
 
-      res.cookie("token", tok)
+      res.cookie("token", tok, { httpOnly: true, maxAge: 86400000, secure: true })
       return res.redirect('http://localhost:3000/home');
     });
 
   })(req, res, next);
+});
+
+router.get('/auth', (req, res, next) => {
+  tok = parseCookies(req.headers.cookie).token
+  try {
+    payload = jwt.verify(tok, "sadfadf")
+  } catch (err) {
+    res.status(401)
+    return res.send("Failure")
+  }
+
+  res.status(200)
+  return res.send(payload)
+
 });
 
 module.exports = router;
