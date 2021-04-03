@@ -32,13 +32,13 @@ const { token } = require("morgan");
 // const Token = require('../../models/Tokens');
 
 // Cookie Parser Function
-function parseCookies(str) {
-  let rx = /([^;=\s]*)=([^;]*)/g;
-  let obj = {};
-  for (let m; m = rx.exec(str);)
-    obj[m[1]] = decodeURIComponent(m[2]);
-  return obj;
-}
+var parseCookies = require("../../lib/parseCookies");
+
+/*
+Secret for token generation
+Move this when moving to prod.
+*/
+const secret = "elonmuskismydaddy"
 
 /**
  * Route serving login form.
@@ -64,8 +64,7 @@ router.get("/", (req, res, next) => {
       if (err) {
         return next(err);
       }
-
-      var tok = jwt.sign({ userid: user._id }, "sadfadf")
+      var tok = jwt.sign({ userid: user._id }, secret);
 
       // Token Storage can be used if necessary later on
       // var tokenModel = new Token({ token: tok, uid: user._id })
@@ -73,7 +72,8 @@ router.get("/", (req, res, next) => {
       //   if (err) return handleError(err);
       //   // saved!
       // });
-
+      
+      //MaxAge: 24 Hours
       res.cookie("token", tok, { httpOnly: true, maxAge: 86400000, secure: true })
       return res.redirect('http://localhost:3000/home');
     });
@@ -81,10 +81,18 @@ router.get("/", (req, res, next) => {
   })(req, res, next);
 });
 
+/**
+ * Route serving client side authentication.
+ * Client side token is passed and verfied by us through jwt based on the secret.
+ * @name get/auth/loginRouter
+ * @memberof module:routes/loginRouter
+ * 
+ * 
+ */
 router.get('/auth', (req, res, next) => {
   tok = parseCookies(req.headers.cookie).token
   try {
-    payload = jwt.verify(tok, "sadfadf")
+    payload = jwt.verify(tok, secret)
   } catch (err) {
     res.status(401)
     return res.send("Failure")

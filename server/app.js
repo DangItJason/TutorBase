@@ -9,9 +9,6 @@ const app = express();
 const bcrypt = require('bcryptjs');
 const fs = require("fs");
 
-// Middleware
-const isLoggedIn = require('./middleware/authentication');
-
 // Authentication Packages
 const cas = require("./config/casStrategy");
 const session = require("express-session");
@@ -50,7 +47,7 @@ app.use(express.static(path.join(__dirname, "public")));
 passport.use(cas);
 
 app.use(session({
-  secret: 'djskfjalkjsadlkf',
+  secret: 'elonmuskismydaddy',
   resave: false,
   saveUninitialized: false,
   // Cookie Set to One Day
@@ -82,9 +79,6 @@ app.use("/api/catalog", catalogRouter);
 app.use("/api/email-user", emailClientRouter);
 app.use("/api/tutors", tutorsRouter);
 app.use("/api/appointment", appointmentsRouter);
-app.get('/api/checkLogin', isLoggedIn, function (req, res) {
-  res.sendStatus(200);
-})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
