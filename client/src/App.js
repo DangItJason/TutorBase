@@ -26,7 +26,7 @@ function App() {
                         <SignUpPage />
                     </Route>
                     <Route exact path="/landing" component={landing}/>
-                    <Route exact path="/home" component={ClientDashboard}/>
+                    <Route exact path="/home/:meetings?" component={ClientDashboard}/>
                     <Route exact path="/tutor" component={TutorDashboard}/>
                     <Route
                         exact

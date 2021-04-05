@@ -44,9 +44,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
-//app.use(express.bodyParser());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Authentication Middleware
@@ -101,31 +98,4 @@ app.use(function (err, req, res, next) {
     res.render("error");
 });
 
-const User = require('./models/User');
-
-//Goes through all documents of users and looks for any upcoming meetings that are older than the current time and moves to completed
-//NOTE: THIS FUNCTION DOES NOT WORK WHEN DB DOES NOT FOLLOW MODELS
-//Commented out for now until db follows model
-/*async function updateDB() {
-  let date = new Date();
-  var count = 0;
-  for await (var document of User.find()) {
-    for(var i = 0; i < document.client.upcoming.length; i++){
-      if(document.client.upcoming[i].date < date){
-        User.updateOne({'_id': document._id, 'client.upcoming': {$elemMatch: document.client.upcoming[i]}}, {$addToSet: { 'client.completed': toAdd },  $pull: { 'client.upcoming': document.client.upcoming[i] }  });
-        count++;
-      }
-    }
-  }
-  console.log('Moved ' + count + ' appointments to completed');
-}*/
-
-//Cronjob to call updateDB every 15 min
-//var CronJob = require('cron').CronJob;
-//var job = new CronJob('*/15 * * * *', function() {
-//  updateDB();
-//}, null, true, 'America/New_York');
-//job.start();
-
 module.exports = app;
-

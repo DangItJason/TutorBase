@@ -9,7 +9,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import "./meetings.css";
-import MeetingCard from "../../meetingCard/MeetingCard";
+import MeetingCard from "../../../components/meetingCard/MeetingCard";
 
 class Meetings extends Component {
   constructor(props) {
