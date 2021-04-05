@@ -6,11 +6,9 @@ body {
 }
 
 .loginBody {
-    /*border: 2em solid #E66064;*/
-    /*border-radius: 0.28571429rem;*/
     margin: 20px;
     border-radius: 20px;
-    box-shadow: 0 0 0 30px #E66064;
+    box-shadow: 0 0 0 50px #E66064;
 }
 
 .loginContainer {
@@ -50,13 +48,6 @@ body {
 }
 
 .loginText {
-    font-size: 50px;
-}
-
-.signInButton {
-    margin-top: 50px;
-    height: 70px;
-    width: 100%;
     font-size: 50px;
 }
 

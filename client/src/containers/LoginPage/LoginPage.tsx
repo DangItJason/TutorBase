@@ -3,6 +3,7 @@ import {Button, Col, Container, Row,} from "reactstrap";
 import {Link} from "react-router-dom";
 import rpi_logo from "./login_images/rpi_logo.png"
 import tb_logo from "./login_images/tutorbase_logo.png"
+import git_logo from "./login_images/GitHub-Mark-32px.png"
 import '../../styles/Login.css';
 import {ApiBaseAddress} from "../../utils/Environment";
 
@@ -25,11 +26,10 @@ export function LoginPage() {
                         A better system to connect students and tutors at RPI.
                     </Col>
                 </Row>
-                <Row>
+                <Row style={{textAlign: "center"}}>
                     <Col xs="4"/>
                     <Col xs="4">
-                        <Button onClick={() => CASRedirect()} color="danger" size="lg"
-                                className="signInButton">Login</Button>
+                        <Button onClick={() => CASRedirect()} color="danger" size="lg" style={{marginTop: "2em"}}>Login</Button>
                     </Col>
                     <Col xs="4"/>
                 </Row>
@@ -37,8 +37,8 @@ export function LoginPage() {
                     <Col style={{textAlign: "center"}}>
                         An <a href="https://rcos.io/"> RCOS</a> project. &nbsp;
                         <a href="https://github.com/DangItJason/TutorBase">
-                            <img style={{width: "32px", height: "32px"}}
-                                 src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                            <img style={{maxWidth: "80%", maxHeight: "80%"}}
+                                 src={git_logo}
                                  alt="GitHub"/>
                         </a>
                     </Col>
