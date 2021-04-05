@@ -23,7 +23,7 @@ class Meetings extends Component {
   }
 
   componentDidMount() {
-    var url = "http://localhost:9000/meetings/appointments";
+    var url = "http://localhost:9000/api/appointments";
     const requestOptions = {
       method: 'POST',
       body: JSON.stringify({'user_id' : '5f89d834aa18dfd7e932967d'}),
