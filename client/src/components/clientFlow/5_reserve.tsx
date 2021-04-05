@@ -24,44 +24,6 @@ export function Step5() {
       );
     };
 
-    // Gather the currently schedule appointments from tutor and block off times
-    const generateTutorTimes = () => {
-        // Create Appointment
-        let url = ApiBaseAddress + "api/appointment/" + clientFlowData.tutorId;
-        let headers = {
-            "Content-Type": "application/json",
-        };
-
-        let start = new Date(clientFlowData.apptStartTime);
-        let startMin = ("0" + start.getMinutes()).slice(-2);
-        let startHour = ("0" + start.getHours()).slice(-2);
-
-        let end = new Date(clientFlowData.apptEndTime);
-        let endMin = ("0" + start.getMinutes()).slice(-2);
-        let endHour = ("0" + start.getHours()).slice(-2);
-
-        let body = {
-            course_id: clientFlowData.courseId,
-            start: start,
-            end: endHour + endMin,
-            loc: clientFlowData.apptLoc,
-            tutor_id: clientFlowData.tutorId,
-            client_id: clientFlowData.clientId,
-            price: clientFlowData.tutorPrice,
-            // notes: clientFlowData.notes,
-        };
-
-        console.log("RESERVE POST BODY: ", body);
-
-        fetch(url, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(body),
-        }).then((res) => {
-            console.log(res);
-        });
-    }
-
     const handleSubmit = () => {
       console.log("Submitting");
 

@@ -3,10 +3,11 @@ import Step1 from "./1_subject";
 import Step2 from "./2_class";
 import Step3 from "./3_selectTutor";
 import Step4 from "./4_selectDateTime";
-import Step5 from "./5_reserve";
+import { Step5 } from "./5_reserve";
 import "./clientflow.css";
 import { connect } from "react-redux";
 import { actions } from "../../store/ClientFlowData/slice";
+
 
 class FormParent extends Component {
   constructor(props) {

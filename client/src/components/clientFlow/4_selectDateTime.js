@@ -1,6 +1,6 @@
 import React, { Component, createRef } from "react";
-import { connect } from "react-redux";
-import { actions } from "../../store/ClientFlowData/slice";
+import {connect, useDispatch, useSelector} from "react-redux";
+import {actions, initialState as clientFlowData} from "../../store/ClientFlowData/slice";
 import { isMobile } from "react-device-detect";
 import {
   Button,
@@ -13,6 +13,9 @@ import Calendar from "@toast-ui/react-calendar";
 import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
 import "tui-calendar/dist/tui-calendar.css";
+import {ApiBaseAddress} from "../../utils/Environment";
+import {actions as clientFlowActions} from '../../store/ClientFlowData/slice';
+import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
 
 // Calendar Default Options //
 const mobileWeekOptions = {
@@ -135,6 +138,45 @@ class Step4 extends Component {
 
       this.cal.current.calendarInst.createSchedules([schedule]);
     };
+
+    // Gather the currently schedule appointments from tutor and block off times
+    const generateTutorTimes = () => {
+      // Create Appointment
+      let url = ApiBaseAddress + "api/appointment/" + clientFlowData.tutorId;
+      let headers = {
+        "Content-Type": "application/json",
+      };
+
+      let start = new Date(clientFlowData.apptStartTime);
+      let startMin = ("0" + start.getMinutes()).slice(-2);
+      let startHour = ("0" + start.getHours()).slice(-2);
+
+      let end = new Date(clientFlowData.apptEndTime);
+      let endMin = ("0" + start.getMinutes()).slice(-2);
+      let endHour = ("0" + start.getHours()).slice(-2);
+
+      let body = {
+        course_id: clientFlowData.courseId,
+        start: start,
+        end: endHour + endMin,
+        loc: clientFlowData.apptLoc,
+        tutor_id: clientFlowData.tutorId,
+        client_id: clientFlowData.clientId,
+        price: clientFlowData.tutorPrice,
+        // notes: clientFlowData.notes,
+      };
+
+      console.log("RESERVE POST BODY: ", body);
+
+      fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }).then((res) => {
+        console.log(res);
+      });
+    }
+
 
     const onBeforeDeleteSchedule = (res) => {
       const { id, calendarId } = res.schedule;
