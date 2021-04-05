@@ -7,10 +7,12 @@ export const initialState = {
   login: null,
   first_name: "",
   last_name: "",
+  phone: "",
   visible: false,
   passwordValid: false,
   emailValid: false,
   firstNameValid: false,
+  phoneValid: true,
   lastNameValid: false,
   loginValid: true,
 };
@@ -31,6 +33,9 @@ const signUpSlice = createSlice({
     setPassword(state, action) {
       state.password = action.payload;
     },
+    setPhone(state, action) {
+      state.phone = action.payload;
+    },
     setLoginValid(state, action) {
       state.loginValid = action.payload;
     },
@@ -40,9 +45,14 @@ const signUpSlice = createSlice({
     setFirstNameValid(state) {
       state.firstNameValid = state.first_name.length > 0;
     },
+    setPhoneValid(state) {
+      state.phoneValid = state.phone.length === 0 || (state.phone.length === 10 && state.phone.match(/^[0-9]+$/) != null);
+    },
     setEmailValid(state) {
       state.emailValid = !!(
-        state.email.includes("@") && state.email.includes(".")
+        state.email.includes("@") &&
+        state.email.includes(".") &&
+        state.email.includes("rpi.edu")
       );
     },
     setPasswordValid(state) {

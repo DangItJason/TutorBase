@@ -21,10 +21,14 @@ client/package-lock.json
 .env.test.local
 .env.production.local
 
+debug.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 #api keys
 
-# Remove Webstorm InteliJ files
+
+# Ignore webstorm auotgen files
 .idea/*
+
+server/lib/configIGNORE.js

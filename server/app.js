@@ -1,93 +1,104 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var bodyParser = require('body-parser')
-var logger = require("morgan");
-var mongoose = require("mongoose");
-var cors = require("cors");
-var app = express();
-var bcrypt = require('bcryptjs');
-var fs = require("fs");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const app = express();
+const bcrypt = require('bcryptjs');
+const fs = require("fs");
 
-//Authentication Packages
-var cas = require("./config/casStrategy")
-var session = require("express-session");
-var passport = require("passport");
+// Middleware
+const isLoggedIn = require('./middleware/authentication');
 
+// Authentication Packages
+const cas = require("./config/casStrategy");
+const session = require("express-session");
+const passport = require("passport");
+
+// Connect to database
 const uri =
-  "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
-mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+    "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
+mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true});
 
+// Routers
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/api/users");
+const loginRouter = require("./routes/api/login");
+const catalogRouter = require("./routes/api/catalog");
+const coursesRouter = require("./routes/api/courses");
+const subjectsRouter = require("./routes/api/subjects");
+const emailClientRouter = require("./routes/api/email-user");
+const tutorsRouter = require("./routes/api/tutors");
+const appointmentsRouter = require("./routes/api/appointment");
 
-//Routes
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var signupRouter = require("./routes/signup");
-var loginRouter = require("./routes/login");
-var catalogRouter = require("./routes/api/catalog");
-var emailClientRouter = require("./routes/email-user");
-var meetingsRouters = require("./routes/api/meetings");
+// Allowing Cors Usage
+app.use(cors());
 
-app.use(cors({
-  origin: "http://localhost:3000",
-}));
-
-// view engine setup
+// View engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-// app.use(cors());
 app.use(logger("dev"));
-//app.use(express.json());
-//app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 //app.use(express.bodyParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-//Authentication Middleware
+// Authentication Middleware
+passport.use(cas);
+
 app.use(session({
-  secret: 'djskfjalkjsadlkf',
-  resave: false,
-  saveUninitialized: false
+    secret: 'djskfjalkjsadlkf',
+    resave: false,
+    saveUninitialized: false
 }));
-// passport.use(cas);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 
 passport.serializeUser(function (user, done) {
-  done(null, user.id);
+    done(null, user);
 });
 
 passport.deserializeUser(function (user, done) {
-  done(err, user);
+    done(err, user);
 });
 
-app.use("/", indexRouter)
-app.use("/users", usersRouter);
-app.use("/login", loginRouter);
-app.use("/signup", signupRouter);
-app.use("/catalog", catalogRouter);
-app.use("/email-user", emailClientRouter);
-app.use("/meetings", meetingsRouters);
+
+// Route REST URL's are set up
+app.use("/api", indexRouter)
+app.use("/api/users", usersRouter);
+app.use("/api/courses", coursesRouter);
+app.use("/api/subjects", subjectsRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/catalog", catalogRouter);
+app.use("/api/email-user", emailClientRouter);
+app.use("/api/tutors", tutorsRouter);
+app.use("/api/appointment", appointmentsRouter);
+app.get('/api/checkLogin', isLoggedIn, function (req, res) {
+    res.sendStatus(200);
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error");
 });
 
 const User = require('./models/User');
