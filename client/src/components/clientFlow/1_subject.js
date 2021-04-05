@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions } from "../../store/clientFlowData";
+import { actions } from "../../store/ClientFlowData/slice";
 
 class Step1 extends Component {
   constructor(props) {

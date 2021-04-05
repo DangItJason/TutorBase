@@ -1,6 +1,6 @@
 import React, { Component, createRef } from "react";
 import { connect } from "react-redux";
-import { actions } from "../../store/clientFlowData";
+import { actions } from "../../store/ClientFlowData/slice";
 import { isMobile } from "react-device-detect";
 import {
   Button,

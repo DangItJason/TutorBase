@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { actions } from "../../store/clientFlowData";
+import { actions } from "../../store/ClientFlowData/slice";
 import { connect } from "react-redux";
 
 class Step2 extends Component {

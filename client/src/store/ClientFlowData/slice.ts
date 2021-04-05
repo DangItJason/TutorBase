@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {ClientFlowSlice} from "./types";
 
 /* clientFlowData slice is the storage medium for
    scheduling an appointment. This will hold all
    information as the user creates an appointment. */
-export const initialState = {
+export const initialState: ClientFlowSlice = {
   sidebarToggled: false, // Should be moved to a more general location
   currentStep: 1,
   furthestStep: 1,
@@ -11,6 +12,7 @@ export const initialState = {
   courseId: "",
   tutorName: "",
   tutorId: "",
+  tutorPrice: "",
   subjectId: "",
   clientId: "60393924e824521048b978f9",//"0123456789",
   tutorIds: [], // Tutor Ids for selecting a subject

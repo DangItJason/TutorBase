@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import TutorCard from "../tutorCard/TutorCard";
 import { connect } from "react-redux";
-import { actions } from "../../store/clientFlowData";
+import { actions } from "../../store/ClientFlowData/slice";
 
 class Step3 extends Component {
   constructor(props) {
