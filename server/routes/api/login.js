@@ -72,7 +72,7 @@ router.get("/", (req, res, next) => {
       //   if (err) return handleError(err);
       //   // saved!
       // });
-      
+
       //MaxAge: 24 Hours
       res.cookie("token", tok, { httpOnly: true, maxAge: 86400000, secure: true })
       return res.redirect('http://localhost:3000/home');
@@ -89,8 +89,9 @@ router.get("/", (req, res, next) => {
  * 
  * 
  */
-router.get('/auth', (req, res, next) => {
+router.get('/auth', (req, res) => {
   tok = parseCookies(req.headers.cookie).token
+  console.log(token)
   try {
     payload = jwt.verify(tok, secret)
   } catch (err) {

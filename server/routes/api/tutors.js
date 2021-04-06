@@ -25,6 +25,9 @@ const Course = require('../../models/Course');
 const Appointment = require('../../models/Appointment');
 const Tutor = require('../../models/Tutor');
 
+// Middleware
+const withAuth = require('../../middleware/token_auth')
+
 mongoose.set('useFindAndModify', false);
 
 // GET /api/tutors
@@ -78,15 +81,15 @@ router.put("/:id", (req, res) => {
     const entries = Object.keys(req.body)
     const updates = {}
 
-    for(let i = 0; i < entries.length; i++)
+    for (let i = 0; i < entries.length; i++)
         updates[entries[i]] = Object.values(req.body)[i]
 
     Tutor.update(
-        {_id: req.params.id},
-        {$set: updates}
+        { _id: req.params.id },
+        { $set: updates }
     )
-    .then((tutor) => res.json(tutor))
-    .catch((err) => res.status(400).json({ msg: err.message }));
+        .then((tutor) => res.json(tutor))
+        .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
 module.exports = router;

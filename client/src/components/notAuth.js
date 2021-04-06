@@ -15,7 +15,7 @@ export default function withAuth(ComponentToProtect) {
                 method: 'get'
             }).then(res => {
                 console.log(res)
-                if (res.status === 200) {
+                if (res.status != 200) {
                     this.setState({ loading: false });
                 } else {
                     const error = new Error(res.error);
@@ -33,7 +33,7 @@ export default function withAuth(ComponentToProtect) {
                 return null;
             }
             if (redirect) {
-                return <Redirect to="/login" />;
+                return <Redirect to="/home" />;
             }
             return <ComponentToProtect {...this.props} />;
         }

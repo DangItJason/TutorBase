@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { LoginPage } from "./containers/LoginPage/LoginPage";
 import landing from "./containers/LandingPage/LandingPage";
 import withAuth from "./components/withAuth"
+import notAuth from "./components/notAuth"
 
 function App() {
     return (
@@ -17,22 +18,15 @@ function App() {
         >
             <Router>
                 <Switch>
-                    <Route exact path="/">
-                        <LoginPage />
-                    </Route>
-                    <Route exact path="/login">
-                        <LoginPage />
-                    </Route>
-                    <Route exact path="/signup">
-                        <SignUpPage />
-                    </Route>
-                    <Route exact path="/landing" component={landing} />
+                    <Route exact path="/" component={landing} />
+                    <Route exact path="/login" component={notAuth(LoginPage)} />
+                    <Route exact path="/signup" component={notAuth(SignUpPage)} />
                     <Route exact path="/home" component={withAuth(ClientDashboard)} />
                     <Route exact path="/tutor" component={withAuth(TutorDashboard)} />
                     <Route
                         exact
                         path="/tutor/preferences"
-                        render={(props) => (
+                        render={(props) => withAuth(
                             <TutorDashboard
                                 {...props}
                                 extension="preferences"
@@ -42,41 +36,41 @@ function App() {
                     <Route
                         exact
                         path="/tutor/settings"
-                        render={(props) => (
+                        render={(props) => withAuth(
                             <TutorDashboard {...props} extension="settings" />
                         )}
                     />
                     <Route
                         exact
                         path="/tutor/history"
-                        render={(props) => (
+                        render={(props) => withAuth(
                             <TutorDashboard {...props} extension="history" />
                         )}
                     />
                     <Route
                         exact
                         path="/tutor/analytics"
-                        render={(props) => (
+                        render={(props) => withAuth(
                             <TutorDashboard {...props} extension="analytics" />
                         )}
                     />
                     <Route
                         exact
                         path="/tutor/meetings"
-                        render={(props) => (
+                        render={(props) => withAuth(
                             <TutorDashboard {...props} extension="meetings" />
                         )}
                     />
                     <Route
                         exact
                         path="/tutor/schedule"
-                        render={(props) => (
+                        render={(props) => withAuth(
                             <TutorDashboard {...props} extension="schedule" />
                         )}
                     />
                 </Switch>
             </Router>
-        </ToastProvider>
+        </ToastProvider >
     );
 }
 
