@@ -6,8 +6,8 @@ import { ToastProvider } from "react-toast-notifications";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { LoginPage } from "./containers/LoginPage/LoginPage";
 import landing from "./containers/LandingPage/LandingPage";
-import withAuth from "./components/withAuth"
-import notAuth from "./components/notAuth"
+import withAuth from "./components/authComponents/withAuth"
+import notAuth from "./components/authComponents/notAuth"
 
 function App() {
     return (
