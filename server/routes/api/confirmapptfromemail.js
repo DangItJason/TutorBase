@@ -4,7 +4,7 @@ var router = express.Router();
 const Appointment = require("../../models/Appointment");
 const ApptConfToken = require("../../models/ApptConfToken");
 
-router.get("/:id/:confToken", function (req, res) {
+router.get("/:id/:confToken", async (req, res) => {
     var appointment;
     var appointmentconftoken;
     try {
