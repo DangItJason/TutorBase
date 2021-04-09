@@ -19,8 +19,14 @@ const express = require('express');
 let router = express.Router();
 
 const mongoose = require("mongoose");
-const Appointment = require("../../models/Appointment");
 const apptconfirm = require("../../lib/apptconfirm");
+
+const Appointment = require("../../models/Appointment");
+const ApptConfToken = require("../../models/ApptConfToken");
+
+const {
+  randomBytes,
+} = await import('crypto');
 
 mongoose.set('useFindAndModify', false);
 
@@ -42,6 +48,19 @@ router.post("/appointment", async (req, res) => {
     notes: req.body.notes,
   });
   newAppt.save();
+  let tok;
+  randomBytes(256, (err, buf) => {
+    if (err) {
+      console.log(err);
+    }
+    tok = buf.toString('hex').substring(0,32);
+  });
+
+  let newAptConfToken = new ApptConfToken({
+    appt_id: newAppt.appt_id,
+    appt_confirmation_token: tok 
+  });
+  newAptConfToken.save();
 
   var client, tutor, course;
   try {
@@ -60,7 +79,7 @@ router.post("/appointment", async (req, res) => {
   }
 
   // Send confirmation email and texts
-  console.log(apptconfirm.tutor(tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,
+  console.log(apptconfirm.tutor(tok, tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,
       client.first_name + ' ' + client.last_name, req.body.date, startTime, endTime, course.name,
       req.body.notes, req.body.loc ? req.body.loc : "test"));
   console.log(apptconfirm.client(client.phone, client.email));

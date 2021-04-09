@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
-var crypto = require('crypto');
+
+const Appointment = require("../../models/Appointment");
+const ApptConfToken = require("../../models/ApptConfToken");
 
 router.get("/:id/:confToken", function (req, res) {
     var appointment;
@@ -11,7 +13,7 @@ router.get("/:id/:confToken", function (req, res) {
                 appt_id: id 
             }
         );
-        appointmentconftoken = await ApptConfTokens.findOne(
+        appointmentconftoken = await ApptConfToken.findOne(
             { 
                 appt_id: id,
                 appt_confirmation_token: req.params.confToken

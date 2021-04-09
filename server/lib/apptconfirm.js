@@ -1,9 +1,13 @@
 var emailsender = require("./emailsender.js");
 var textsender = require("./textsender.js");
 
+
+
 var fs = require("fs");
 
 //TODO: get confirm appointment working and send email upon confirmation
+
+
 
 function clientSend(phoneNumber, clientEmail) {
 
@@ -23,7 +27,7 @@ function clientSend(phoneNumber, clientEmail) {
 
 }
 
-function tutorSend(phoneNumber, tutorEmail, tutorName, clientName, date, startTime, endTime, course, notes, location) {
+function tutorSend(apptconfirmtoken, phoneNumber, tutorEmail, tutorName, clientName, date, startTime, endTime, course, notes, location) {
   
   var time = startTime.concat(" - ", endTime);
 
