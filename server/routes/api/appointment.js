@@ -23,6 +23,7 @@ const mongoose = require("mongoose");
 const apptconfirm = require("../../lib/apptconfirm");
 
 const Appointment = require("../../models/Appointment");
+const User = require("../../models/User");
 const ApptConfToken = require("../../models/ApptConfToken");
 
 const { promisify } = require('util')
@@ -70,7 +71,7 @@ router.post("/appointment", async (req, res) => {
     );
     course = await Course.findOne(
         { _id: req.body.course_id }
-    );console.log(tutor + '\n');
+    );
   } catch (e) {
     console.log(e);
     return;

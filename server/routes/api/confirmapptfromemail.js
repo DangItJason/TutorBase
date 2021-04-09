@@ -7,19 +7,19 @@ const ApptConfToken = require("../../models/ApptConfToken");
 
 // This endpoint allows external confirmations of appointments (from email sent to tutor)
 // GET: /api/confirmappt/?id={appointment id}&confToken={confirmation token}
-router.get("/:id/:confToken", async (req, res) => {
+router.get("/", async (req, res) => {
     var appointment;
     var appointmentconftoken;
     try {
         appointment = await Appointment.findOne(
             { 
-                appt_id: req.params.id 
+                appt_id: req.query.id 
             }
         );
         appointmentconftoken = await ApptConfToken.findOne(
             { 
-                appt_id: req.params.id,
-                appt_confirmation_token: req.params.confToken
+                appt_id: req.query.id,
+                appt_confirmation_token: req.query.confToken
             }
         );
       } catch (e) {
@@ -39,7 +39,7 @@ router.get("/:id/:confToken", async (req, res) => {
       }
     appointment.confirmed = true;
     appointment.save();
-
+    res.send("Appointment successfully confirmed.");
 });
 
 
