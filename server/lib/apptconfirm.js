@@ -19,7 +19,7 @@ function clientSend(phoneNumber, clientEmail) {
   }
 
   //TODO: add more fields in this email
-  const html = fs.readFileSync(__dirname + '/email_client_confirmation.txt').toString();
+  const html = fs.readFileSync(__dirname + '/email_client_confirmation.html').toString();
 
   var emailresult = emailsender.send(clientEmail, html, "TutorBase Appointment Confirmation");
 
@@ -37,7 +37,7 @@ function tutorSend(apptconfirmtoken, phoneNumber, tutorEmail, tutorName, clientN
     var resul = textsender.send(txtmsg, phoneNumber, null, "us");
   }
 
-  var htmlOrig = fs.readFileSync(__dirname + '/email_tutor_confirmation.txt').toString();
+  var htmlOrig = fs.readFileSync(__dirname + '/email_tutor_confirmation.html').toString();
 
   var html = htmlOrig.replace("{{tutor-name}}", tutorName)
               .replace("{{client-name}}", clientName)
@@ -62,7 +62,7 @@ function signupNotify(name, email, phoneNumber) {
     console.log(resul);
   }
 
-  var htmlOrig = fs.readFileSync(__dirname + '/email_signup.txt').toString();
+  var htmlOrig = fs.readFileSync(__dirname + '/email_signup.html').toString();
 
   var html = htmlOrig.replace("{{name}}", name);
 

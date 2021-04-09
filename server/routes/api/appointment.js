@@ -19,14 +19,13 @@ const express = require('express');
 let router = express.Router();
 
 const mongoose = require("mongoose");
+
 const apptconfirm = require("../../lib/apptconfirm");
 
 const Appointment = require("../../models/Appointment");
 const ApptConfToken = require("../../models/ApptConfToken");
 
-const {
-  randomBytes,
-} = await import('crypto');
+const { randomBytes } = require('crypto');
 
 mongoose.set('useFindAndModify', false);
 
