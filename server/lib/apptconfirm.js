@@ -27,7 +27,7 @@ function clientSend(phoneNumber, clientEmail) {
 
 }
 
-function tutorSend(apptconfirmtoken, phoneNumber, tutorEmail, tutorName, clientName, date, startTime, endTime, course, notes, location) {
+function tutorSend(apptId, confToken, phoneNumber, tutorEmail, tutorName, clientName, date, startTime, endTime, course, notes, location) {
   
   var time = startTime.concat(" - ", endTime);
 
@@ -45,7 +45,10 @@ function tutorSend(apptconfirmtoken, phoneNumber, tutorEmail, tutorName, clientN
               .replace("{{time}}", time)
               .replace("{{course}}", course)
               .replace("{{location}}", location)
-              .replace("{{notes}}", notes);
+              .replace("{{notes}}", notes)
+              .replace("{{id}}", apptId)
+              .replace("{{confToken}}", confToken)
+              ;
 
   var emailresult = emailsender.send(tutorEmail, html, "TutorBase Appointment Request");
 
@@ -55,7 +58,7 @@ function tutorSend(apptconfirmtoken, phoneNumber, tutorEmail, tutorName, clientN
 
 function signupNotify(name, email, phoneNumber) {
 
-  if (phoneNumber !== null && phoneNumber.length === 10) {
+  if (phoneNumber != null && phoneNumber.length === 10) {
     // Max 160 chars
     var txtmsg = "Your TutorBase account has been created."; 
     var resul = textsender.send(txtmsg, phoneNumber, null, "us");
