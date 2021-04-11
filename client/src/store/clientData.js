@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // The initial state of the UserData container
 export const initialState = {
+  clientId: "606b344247aec641c8b74b42",
   appointments: []
 };
 

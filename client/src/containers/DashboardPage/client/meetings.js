@@ -23,23 +23,20 @@ class Meetings extends Component {
   }
 
   componentDidMount() {
-    var url = "http://localhost:9000/api/appointments";
+    var url = "http://localhost:9000/api/appointments/clients/" + this.props.data.clientId;
     const requestOptions = {
-      method: 'POST',
-      body: JSON.stringify({'user_id' : '5f89d834aa18dfd7e932967d'}),
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     };
 
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((obj) => {
-        this.props.setAppointments([
-          ...obj.client.pending,
-          ...obj.client.upcoming,
-          ...obj.client.completed,
-          ...obj.client.denied,
-        ]);
-      });
+    .then((res) => res.json())
+    .then((appointments) => {
+      //console.log(courses);
+      appointments.map((appointment) =>
+        console.log(appointment)
+      );
+    });
   }
 
   toggle = () => {
