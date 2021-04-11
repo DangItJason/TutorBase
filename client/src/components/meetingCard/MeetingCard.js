@@ -58,8 +58,33 @@ class MeetingCard extends Component {
       this.setState({cardType: "pending-card", cardSet: true});
     }
 
-    let card = (
-      <div className={"compressed-card " + this.state.cardType} onClick={this.toggleCard}>
+    let cardTag = (
+      <>
+        <div className={"card-container-end"}>
+          <div className={"card-status"}>{this.state.aptColor}</div>
+        </div>
+      </>
+    )
+    if (this.state.cardType === "pending-card") {
+      cardTag = (
+        <div className={"card-container-end"}>
+          <div className={"card-icon"}>
+            <Button onClick={this.acceptPendingCard}>
+              <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+            </Button>
+          </div>
+          <div className={"card-icon"}>
+            <Button onClick={this.rejectPendingCard}>
+              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+            </Button>
+          </div>
+          <div className={"card-status"}>{this.state.aptColor}</div>
+        </div>
+      )
+    }
+
+    let upperCardContent = (
+      <>
         <div className={"card-container-start"}>
           <div className={"card-name"}>{this.props.appointment.name}</div>
           <div className={"card-location"}>
@@ -67,40 +92,13 @@ class MeetingCard extends Component {
           </div>
           <div className={"card-time"}>{this.props.appointment.time}</div>
         </div>
+        {cardTag}
+      </>
+    )
 
-        {this.state.cardType === "pending-card" && (
-          <div className={"card-container-end"}>
-            <div className={"card-icon"}>
-              <Button onClick={this.acceptPendingCard}>
-                <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
-              </Button>
-            </div>
-            <div className={"card-icon"}>
-              <Button onClick={this.rejectPendingCard}>
-                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
-              </Button>
-            </div>
-            <div className={"card-status"}>{this.state.aptColor}</div>
-          </div>
-        )}
-
-        {this.state.cardType === "denied-card" && (
-          <div className={"card-container-end"}>
-            <div className={"card-status"}>{this.state.aptColor}</div>
-          </div>
-        )}
-
-        {this.state.cardType === "upcoming-card" && (
-          <div className={"card-container-end"}>
-            <div className={"card-status"}>{this.state.aptColor}</div>
-          </div>
-        )}
-
-        {this.state.cardType === "completed-card" && (
-          <div className={"card-container-end"}>
-            <div className={"card-status"}>{this.state.aptColor}</div>
-          </div>
-        )}
+    let card = (
+      <div className={"compressed-card " + this.state.cardType} onClick={this.toggleCard}>
+        {upperCardContent}
       </div>
     );
     if (this.state.cardExpanded) {

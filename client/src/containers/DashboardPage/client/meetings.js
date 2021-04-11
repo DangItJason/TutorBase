@@ -32,7 +32,6 @@ class Meetings extends Component {
     fetch(url, requestOptions)
     .then((res) => res.json())
     .then((appointments) => {
-      //console.log(courses);
       appointments.map((appointment) =>
         console.log(appointment)
       );
@@ -49,7 +48,7 @@ class Meetings extends Component {
     this.setState(
       {
         dropdownValue: e.target.innerText,
-        dropdownOpen: !this.state.dropdownOpen,
+        dropdownOpen: false,
       },
       () => console.log("DropDownValue: " + this.state.dropdownValue)
     );
@@ -66,14 +65,14 @@ class Meetings extends Component {
 
     return (
       <Container fluid>
-        <Row className="title">
+        <Row className="title" style={{ marginTop: '25px'}}>
           <div class="profile-text">Meetings</div>
         </Row>
 
         <hr></hr>
 
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-          <DropdownToggle caret color="secondary" outline>
+          <DropdownToggle caret >
             {this.state.dropdownValue}
           </DropdownToggle>
           <DropdownMenu>
