@@ -12,40 +12,39 @@ class Step3 extends Component {
 
   componentDidUpdate() {
     // Load tutors if they have not yet been loaded in
-    if (this.state.courseId !== this.props.flowData.courseId) {
-      this.setState({ courseId: this.props.flowData.courseId, tutors: [] });
+    // if (this.state.courseId !== this.props.flowData.courseId) {
+    //   this.setState({ courseId: this.props.flowData.courseId, tutors: [] });
+    // }
 
-      if (this.props.flowData.tutorIds[0] !== "") {
-        console.log("RUNNING API CALL");
-        // Retrieve all User objects with IDs in this.props.tutor_ids
-        fetch("http://localhost:9000/catalog/tutors", {
-          method: "POST",
-          body: JSON.stringify({ tutor_ids: this.props.flowData.tutorIds }),
-          headers: { "Content-Type": "application/json" },
-        })
-          .then((res) => {
-            //console.log(res);
-            return res.json();
-          })
-          .then((users) => {
-            //console.log(users);
-            users.map((user) =>
-              this.setState((prevState) => ({
-                tutors: [
-                  ...prevState.tutors,
-                  {
-                    id: user._id,
-                    email: user.email,
-                    name: user.first_name + " " + user.last_name,
-                    info: user.tutor,
-                    next_avail: "",
-                  },
-                ],
-              }))
-            );
-          });
-      }
+    var url = "http://localhost:9000/api/tutors/";
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    };
+    let tutorIds = this.props.flowData.tutorIds
+
+    if (this.state.tutors.length === 0) {
+      tutorIds.map((id) => {
+        fetch(url + id, requestOptions)
+        .then((res) => { return res.json(); })
+        .then((tutor) => { 
+          console.log(tutor)
+          this.setState((prevState) => ({
+            tutors: [
+              ...prevState.tutors,
+              {
+                id: tutor._id,
+                email: tutor.email,
+                name: tutor.first_name + " " + tutor.last_name,
+                info: "",
+                next_avail: "",
+              },
+            ],
+          }))
+        });
+      })
     }
+    console.log(this.props.flowData.tutorIds)
   }
 
   render() {
@@ -89,6 +88,7 @@ class Step3 extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     setTutor: (state, name) => dispatch(actions.setTutor(state, name)),
+    setTutorIds: (state, ids) => dispatch(actions.setTutorIds(state, ids)),
     incrementStep: (state) => dispatch(actions.incrementStep(state)),
   };
 };

@@ -59,6 +59,10 @@ const clientFlowSlice = createSlice({
       state.tutorName = action.payload[0];
       state.tutorId = action.payload[1];
     },
+    setTutorIds(state,action) {
+      console.log("== SET TUTOR IDS ACTION:", action, "==");
+      state.tutorIds = action.payload;
+    },
     setClient(state, action) {
       console.log("== SET CLIENT ACTION:", action, "==");
       state.clientId = action.payload;
