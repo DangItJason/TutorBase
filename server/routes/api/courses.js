@@ -1,12 +1,13 @@
 const express = require("express");
 const Subject = require("../../models/Subject");
 const Course = require("../../models/Course");
+const withAuth = require("../../middleware/token_auth");
 
 const router = express.Router();
 
 // GET /api/courses
 // Get all courses
-router.get("/", (req, res) => {
+router.get("/", withAuth, (req, res) => {
     Course.find()
         .sort({ name: 1 })
         .then((courses) => res.json(courses))
@@ -23,7 +24,7 @@ router.get("/", (req, res) => {
 
 // GET /api/courses/subject_id
 // Get all courses with a specific subject ID
-router.get("/:subject_id", (req, res) => {
+router.get("/:subject_id", withAuth, (req, res) => {
     Course.find({ subject: { $regex: req.params.subject_id, $options: "i" } })
         .sort({ name: 1 })
         .then((courses) => res.json(courses))
@@ -32,7 +33,7 @@ router.get("/:subject_id", (req, res) => {
 
 // POST api/courses
 // Create a new Course object
-router.post("/", (req, res) => {
+router.post("/", withAuth, (req, res) => {
     const newCourse = new Course({
         id: req.body.course_id,
         subject: req.body.subject,
@@ -45,7 +46,7 @@ router.post("/", (req, res) => {
 // POST api/courses/:id/add_tutor
 // Add tutor to an existing Course object
 // If tutor already exists, nothing is added
-router.post("/:id/add-tutor", (req, res) => {
+router.post("/:id/add-tutor", withAuth, (req, res) => {
     Course.updateOne(
         { _id: req.params.id },
         { $addToSet: { tutors: req.body.tutor_id } }
@@ -56,7 +57,7 @@ router.post("/:id/add-tutor", (req, res) => {
 
 // POST api/courses/:id/remove_tutor
 // Remove tutor from an existing Course object
-router.post("/:id/remove-tutor", (req, res) => {
+router.post("/:id/remove-tutor", withAuth, (req, res) => {
     Course.updateOne(
         { _id: req.params.id },
         { $pull: { tutors: req.body.tutor_id } }

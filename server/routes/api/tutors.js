@@ -32,17 +32,17 @@ mongoose.set('useFindAndModify', false);
 
 // GET /api/tutors
 // Get all tutors
-router.get("/", (req, res) => {
+router.get("/", withAuth, (req, res) => {
     Tutor.find()
         .sort({ name: 1 })
         .then((tutors) => res.json(tutors))
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
-// GET /api/tutors/:id
+// GET /api/tutors/tutor
 // Get tutor by id
-router.get("/:id", (req, res) => {
-    Tutor.find({ _id: req.params.id })
+router.get("/tutor", withAuth, (req, res) => {
+    Tutor.find({ _id: req.userid })
         .sort({ name: 1 })
         .then((tutors) => res.json(tutors))
         .catch((err) => res.status(400).json({ msg: err.message }));
@@ -59,7 +59,7 @@ router.get("/", (req, res) => {
 
 // POST /api/tutors
 // Create a tutor
-router.post("/", (req, res) => {
+router.post("/", withAuth, (req, res) => {
     const newTutor = new Tutor({
         email: req.body.email,
         first_name: req.body.first_name,
@@ -75,9 +75,9 @@ router.post("/", (req, res) => {
     newTutor.save().then((course) => res.json(course));
 });
 
-// PUT /api/tutors
+// PUT /api/tutors/tutor
 // Update a tutor
-router.put("/:id", (req, res) => {
+router.put("/tutor", withAuth, (req, res) => {
     const entries = Object.keys(req.body)
     const updates = {}
 
@@ -85,7 +85,7 @@ router.put("/:id", (req, res) => {
         updates[entries[i]] = Object.values(req.body)[i]
 
     Tutor.update(
-        { _id: req.params.id },
+        { _id: req.userid },
         { $set: updates }
     )
         .then((tutor) => res.json(tutor))

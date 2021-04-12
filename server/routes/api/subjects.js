@@ -1,12 +1,13 @@
 const express = require("express");
 const Subject = require("../../models/Subject");
 const Course = require("../../models/Course");
+const withAuth = require("../../middleware/token_auth");
 
 const router = express.Router();
 
 // GET /api/subjects
 // Get all subjects
-router.get("/", (req, res) => {
+router.get("/", withAuth, (req, res) => {
     Subject.find()
         .sort({ name: 1 })
         .then((subjects) => res.json(subjects))
@@ -16,7 +17,7 @@ router.get("/", (req, res) => {
 
 // POST api/subjects
 // Create a new Subject object
-router.post("/", (req, res) => {
+router.post("/", withAuth, (req, res) => {
     const newSubject = new Subject({
         id: req.body.subject_id,
     });
