@@ -20,6 +20,12 @@ const clientDataSlice = createSlice({
   reducers: {
     setAppointments(state, action) {
       state.appointments = action.payload;
+    },
+    clearAppointments(state) {
+      state.appointments = [];
+    },
+    addAppointments(state, action) {
+      state.appointments.push(action.payload);
     }
   }
 });

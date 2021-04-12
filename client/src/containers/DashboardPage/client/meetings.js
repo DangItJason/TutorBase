@@ -19,11 +19,13 @@ class Meetings extends Component {
     this.state = {
       dropdownOpen: false,
       dropdownValue: "All",
+      appointments: [],
     };
   }
 
   componentDidMount() {
-    var url = "http://localhost:9000/api/appointments/clients/" + this.props.data.clientId;
+    this.props.clearAppointments()
+    var url = "http://localhost:9000/api/appointment/clients/" + this.props.data.clientId;
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
@@ -33,7 +35,7 @@ class Meetings extends Component {
     .then((res) => res.json())
     .then((appointments) => {
       appointments.map((appointment) =>
-        console.log(appointment)
+        this.props.addAppointments(appointment)
       );
     });
   }
@@ -58,10 +60,10 @@ class Meetings extends Component {
     const appointments = this.props.data.appointments;
     const dropDownValue = this.state.dropdownValue;
 
-    const filteredDropdown = appointments.filter(
-      (appointment) =>
-        appointment.color === dropDownValue || dropDownValue === "All"
-    );
+    // const filteredDropdown = appointments.filter(
+    //   (appointment) =>
+    //     appointment.color === dropDownValue || dropDownValue === "All"
+    // );
 
     return (
       <Container fluid>
@@ -84,11 +86,11 @@ class Meetings extends Component {
           </DropdownMenu>
         </Dropdown>
 
-        <Container fluid className="card-container">
+        {/* <Container fluid className="card-container">
           {filteredDropdown.map((appointment, index) => (
             <MeetingCard key={index} appointment={appointment} />
           ))}
-        </Container>
+        </Container> */}
       </Container>
     );
   }
@@ -101,8 +103,9 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAppointments: (state, action) =>
-      dispatch(actions.setAppointments(state, action)),
+    setAppointments: (state, action) => dispatch(actions.setAppointments(state, action)),
+    clearAppointments: (state) => dispatch(actions.clearAppointments(state)),
+    addAppointments: (state, action) => dispatch(actions.addAppointments(state, action)),
   };
 };
 
