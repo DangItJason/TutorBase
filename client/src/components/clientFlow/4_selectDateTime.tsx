@@ -40,23 +40,36 @@ export function Step4() {
     const clientFlowData = useSelector(selectClientFlowData);
 
     useEffect(() => {
-        if (clientFlowData.apptSubj !== "" && prevSchedule === []) {
-            setPreviousSchedule(
-                [
-                    {
-                        id: "1",
-                        calendarId: "0",
-                        title: clientFlowData.apptSubj,
-                        category: "time",
-                        dueDateClass: "",
-                        start: new Date(clientFlowData.apptStartTime),
-                        end: new Date(clientFlowData.apptEndTime),
-                        bgColor: "lightblue",
-                        location: clientFlowData.apptLoc,
-                    },
-                ],
-            );
-        }
+        // Get a tutors already scheduled appointments
+        let headers = {
+            "Content-Type": "application/json",
+        };
+
+        // Add previously schedule meeting to array
+        let previousAppts = [{
+            id: "1",
+            calendarId: "0",
+            title: clientFlowData.apptSubj,
+            category: "time",
+            dueDateClass: "",
+            start: new Date(clientFlowData.apptStartTime),
+            end: new Date(clientFlowData.apptEndTime),
+            bgColor: "lightblue",
+            location: clientFlowData.apptLoc,
+        },];
+
+        fetch(ApiBaseAddress + "api/appointments/tutor_id", {
+            method: "GET",
+            headers: headers,
+        }).then((res) => {
+            // TODO: Loop through the response data and add to previousAppts
+
+            if (clientFlowData.apptSubj !== "" && prevSchedule === []) {
+                setPreviousSchedule(
+                    previousAppts
+                );
+            }
+        });
     });
 
     /* This currently only supports saving one schedule appointment at a time. */
