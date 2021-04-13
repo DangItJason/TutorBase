@@ -103,12 +103,12 @@ export function SignUpPage() {
     return (
         <div className="flexBox">
 
-            <Container className="signupContainer" fluid="xs">
+            <Container className="signupContainer" fluid="xs" style={{padding: "3%", margin: "10em"}}>
                 <Row>
                     <Col xs="1"/>
                     <Col xs="11">
                         <Form onSubmit={event => SubmitEvent(event)}>
-                            <Label className="loginText">Sign Up</Label>
+                            <Label className="signupText">Sign Up</Label>
                             <FormGroup row>
                                 <Container>
                                     <Row>
@@ -117,7 +117,7 @@ export function SignUpPage() {
                                                 type="text"
                                                 className="form-control"
                                                 name="first_name"
-                                                placeholder="first name"
+                                                placeholder="First Name"
                                                 value={signUpData.first_name}
                                                 onChange={event => HandleChange(event)}
                                                 autoComplete="off"
@@ -141,7 +141,7 @@ export function SignUpPage() {
                                                 type="text"
                                                 className="form-control"
                                                 name="last_name"
-                                                placeholder="last name"
+                                                placeholder="Last Name"
                                                 value={signUpData.last_name}
                                                 onChange={event => HandleChange(event)}
                                                 autoComplete="off"
@@ -199,4 +199,3 @@ export function SignUpPage() {
         </div>
     );
 }
-
