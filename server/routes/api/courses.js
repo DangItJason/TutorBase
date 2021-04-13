@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
-// // GET api/courses/:id
+// GET api/courses/:id
 // Get course with a specific course id
 router.get("/:id", (req, res) => {
     Course.find({ _id: req.params.id })
@@ -21,14 +21,14 @@ router.get("/:id", (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
-// GET /api/courses/subject_id
+// GET /api/courses/subject/subject_id
 // Get all courses with a specific subject ID
-// router.get("/:subject_id", (req, res) => {
-//     Course.find({ subject: { $regex: req.params.subject_id, $options: "i" } })
-//         .sort({ name: 1 })
-//         .then((courses) => res.json(courses))
-//         .catch((err) => res.status(400).json({ msg: err.message }));
-// });
+router.get("/subject/:subject_id", (req, res) => {
+    Course.find({ subject: { $regex: req.params.subject_id, $options: "i" } })
+        .sort({ name: 1 })
+        .then((courses) => res.json(courses))
+        .catch((err) => res.status(400).json({ msg: err.message }));
+});
 
 // POST api/courses
 // Create a new Course object

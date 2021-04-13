@@ -32,16 +32,16 @@ const randomBytesAsync = promisify(require('crypto').randomBytes)
 
 mongoose.set('useFindAndModify', false);
 
-// POST api/catalog/appointment
+// POST api/appointment
 // Create a new Appointment
-router.post("/appointment", async (req, res) => {
+router.post("/", async (req, res) => {
   var startTime = req.body.date ? req.body.date : new Date();
   var endTime =  new Date(parseInt(req.body.end) * 1000);
 
   let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),
     course_id: req.body.course_id,
-    start_time:startTime,
+    start_time: startTime,
     end_time: endTime,
     location: req.body.loc ? req.body.loc : "none",
     tutor_id: req.body.tutor_id,
@@ -86,17 +86,17 @@ router.post("/appointment", async (req, res) => {
   res.json(newAppt);
 });
 
-// GET api/appointments/tutor_id
+// GET api/appointments/tutors/tutor_id
 // Get a specific tutor's already scheduled appointments
-router.get('/appointments/:tutor_id', (req, res) => {
+router.get('/tutors/:tutor_id', (req, res) => {
   Appointment.find( { tutor_id: req.params.tutor_id } )
   .then(appointments => res.json(appointments))
   .catch(err => res.status(400).json({ msg: err.message }));
 });
 
-// GET api/catalog/appointments/client_id
+// GET api/appointments/clients/client_id
 // Get a specific users's already scheduled appointments
-router.get('/appointments/:client_id', (req, res) => {
+router.get('/clients/:client_id', (req, res) => {
   Appointment.find( { client_id: req.params.client_id } )
   .then(appointments => res.json(appointments))
   .catch(err => res.status(400).json({ msg: err.message }));
