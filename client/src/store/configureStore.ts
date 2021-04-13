@@ -9,6 +9,6 @@ export default configureStore({
 });
 
 export interface RootState {
-  ClientFlowSlice: ClientFlowSlice;
+  clientFlow: ClientFlowSlice;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

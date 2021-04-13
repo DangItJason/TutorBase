@@ -39,8 +39,9 @@ const clientFlowSlice = createSlice({
     initialState,
     reducers: {
         // TODO: Move toggle sidebar to some other general slice
-        toggleSidebar(state: ClientFlowSlice, action: PayloadAction<boolean>) {
-            state.sidebarToggled = action.payload;
+        toggleSidebar(state: ClientFlowSlice) {
+            console.log("Updated sidebar state")
+            state.sidebarToggled = !state.sidebarToggled;
         },
         // TODO Move set client ID to some authentication slice
         setClientId(state: ClientFlowSlice, action: PayloadAction<string>) {

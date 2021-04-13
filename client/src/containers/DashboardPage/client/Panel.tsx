@@ -14,7 +14,7 @@ export const Panel = () => {
         <div id="panel-wrapper">
             <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom", "shadow")}>
                 <Button className="btn-red" id="menu-toggle" onClick={() => {
-                    dispatch(actions.toggleSidebar(!sidebarToggled));
+                    dispatch(actions.toggleSidebar());
                 }}>☰</Button>
             </Navbar>
             <div className="container-fluid">

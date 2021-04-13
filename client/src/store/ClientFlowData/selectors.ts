@@ -3,7 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import {RootState} from "../configureStore";
 import {initialState} from "./slice";
 
-const selectDomain = (state: RootState) => state.ClientFlowSlice || initialState;
+const selectDomain = (state: RootState) => state.clientFlow || initialState;
 
 export const selectClientFlowData = createSelector(
     [selectDomain],
