@@ -1,10 +1,36 @@
+/** Express router providing user related routes
+ * @module routes/api/login
+ * @requires express
+ */
+
+/**
+ * express module
+ * @const
+ */
 const express = require("express");
+
 const Subject = require("../../models/Subject");
 const Course = require("../../models/Course");
 const withAuth = require("../../middleware/token_auth");
 
+/**
+ * Express router to mount user related functions on.
+ * @type {object}
+ * @const
+ * @namespace subjectsRouter
+ */
 const router = express.Router();
 
+
+/**
+ * Route serving subjects form.
+ * @name get/api/subjects
+ * @function
+ * @memberof module:routes/api/subjects~subjectsRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
 // GET /api/subjects
 // Get all subjects
 router.get("/", withAuth, (req, res) => {
@@ -15,6 +41,15 @@ router.get("/", withAuth, (req, res) => {
 });
 
 
+/**
+ * Route serving subjects form.
+ * @name post/api/subjects
+ * @function
+ * @memberof module:routes/api/subjects~subjectsRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
 // POST api/subjects
 // Create a new Subject object
 router.post("/", withAuth, (req, res) => {

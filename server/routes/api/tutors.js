@@ -1,5 +1,5 @@
 /** Express router providing user related routes
- * @module routes/tutors
+ * @module routes/api/tutors
  * @requires express
  */
 
@@ -14,7 +14,7 @@ const express = require('express');
  * Express router to mount user related functions on.
  * @type {object}
  * @const
- * @namespace tutorOperationsRouter
+ * @namespace tutorRouter
  */
 let router = express.Router();
 
@@ -30,6 +30,15 @@ const withAuth = require('../../middleware/token_auth')
 
 mongoose.set('useFindAndModify', false);
 
+/**
+ * Route serving tutor actions.
+ * @name get/api/tutors
+ * @function
+ * @memberof module:routes/api/tutors~tutorRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
 // GET /api/tutors
 // Get all tutors
 router.get("/", withAuth, (req, res) => {
@@ -39,6 +48,15 @@ router.get("/", withAuth, (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving tutor actions.
+ * @name get/api/tutors/tutor
+ * @function
+ * @memberof module:routes/api/tutors~tutorRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
 // GET /api/tutors/tutor
 // Get tutor by id
 router.get("/tutor", withAuth, (req, res) => {
@@ -48,6 +66,15 @@ router.get("/tutor", withAuth, (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving tutor actions.
+ * @name get/api/tutors
+ * @function
+ * @memberof module:routes/api/tutors~tutorRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
 // GET /api/tutors?email=test@test.com
 // Get tutor by email
 router.get("/", (req, res) => {
@@ -57,6 +84,15 @@ router.get("/", (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving tutor actions.
+ * @name post/api/tutors
+ * @function
+ * @memberof module:routes/api/tutors~tutorRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
 // POST /api/tutors
 // Create a tutor
 router.post("/", withAuth, (req, res) => {
@@ -75,6 +111,15 @@ router.post("/", withAuth, (req, res) => {
     newTutor.save().then((course) => res.json(course));
 });
 
+/**
+ * Route serving tutor actions.
+ * @name put/api/tutors/tutor
+ * @function
+ * @memberof module:routes/api/tutors~tutorRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
 // PUT /api/tutors/tutor
 // Update a tutor
 router.put("/tutor", withAuth, (req, res) => {

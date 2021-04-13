@@ -1,5 +1,5 @@
 /** Express router providing user related routes
- * @module routes/login
+ * @module routes/api/login
  * @requires express
  */
 
@@ -87,11 +87,10 @@ router.get("/", (req, res, next) => {
  * @name get/auth/loginRouter
  * @memberof module:routes/loginRouter
  * 
- * 
  */
 router.get('/auth', (req, res) => {
   tok = parseCookies(req.headers.cookie).token
-  console.log(token)
+
   try {
     payload = jwt.verify(tok, secret)
   } catch (err) {
