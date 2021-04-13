@@ -58,6 +58,7 @@ router.get("/", (req, res) => {
 // Create a tutor
 router.post("/", (req, res) => {
     const newTutor = new Tutor({
+        userId: req.body.userId,
         email: req.body.email,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
