@@ -19,8 +19,16 @@ const express = require('express');
 let router = express.Router();
 
 const mongoose = require("mongoose");
-const Appointment = require("../../models/Appointment");
+
 const apptconfirm = require("../../lib/apptconfirm");
+
+const Appointment = require("../../models/Appointment");
+const User = require("../../models/User");
+const ApptConfToken = require("../../models/ApptConfToken");
+
+const { promisify } = require('util')
+
+const randomBytesAsync = promisify(require('crypto').randomBytes)
 
 mongoose.set('useFindAndModify', false);
 
@@ -28,7 +36,7 @@ mongoose.set('useFindAndModify', false);
 // Create a new Appointment
 router.post("/appointment", async (req, res) => {
   var startTime = req.body.date ? req.body.date : new Date();
-  var endTime =  parseInt(req.body.end);
+  var endTime =  new Date(parseInt(req.body.end) * 1000);
 
   let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),
@@ -42,6 +50,16 @@ router.post("/appointment", async (req, res) => {
     notes: req.body.notes,
   });
   newAppt.save();
+  let tokBytes, tok;
+  tokBytes = await randomBytesAsync(256);
+  tok = tokBytes.toString('hex').substring(0,32);
+  
+  
+  let newAptConfToken = new ApptConfToken({
+    appt_id: newAppt.appt_id,
+    appt_confirmation_token: tok 
+  });
+  newAptConfToken.save();
 
   var client, tutor, course;
   try {
@@ -58,9 +76,8 @@ router.post("/appointment", async (req, res) => {
     console.log(e);
     return;
   }
-
   // Send confirmation email and texts
-  console.log(apptconfirm.tutor(tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,
+  console.log(apptconfirm.tutor(newAppt.appt_id, tok, tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,
       client.first_name + ' ' + client.last_name, req.body.date, startTime, endTime, course.name,
       req.body.notes, req.body.loc ? req.body.loc : "test"));
   console.log(apptconfirm.client(client.phone, client.email));
