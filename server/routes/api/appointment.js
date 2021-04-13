@@ -86,7 +86,7 @@ router.post("/appointment", async (req, res) => {
   res.json(newAppt);
 });
 
-// GET api/catalog/appointments/tutor_id
+// GET api/appointments/tutor_id
 // Get a specific tutor's already scheduled appointments
 router.get('/appointments/:tutor_id', (req, res) => {
   Appointment.find( { tutor_id: req.params.tutor_id } )

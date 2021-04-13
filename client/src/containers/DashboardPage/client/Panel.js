@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Navbar, Button } from "reactstrap";
 import FormParent from "../../../components/clientFlow/FormParent";
 import {connect} from "react-redux";
-import {actions} from "../../../store/clientFlowData";
+import {actions} from "../../../store/ClientFlowData/slice";
 
 class Panel extends Component {
     render() {
