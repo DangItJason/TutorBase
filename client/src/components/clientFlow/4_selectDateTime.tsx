@@ -39,38 +39,38 @@ export function Step4() {
     const dispatch = useDispatch();
     const clientFlowData = useSelector(selectClientFlowData);
 
-    useEffect(() => {
-        // Get a tutors already scheduled appointments
-        let headers = {
-            "Content-Type": "application/json",
-        };
-
-        // Add previously schedule meeting to array
-        let previousAppts = [{
-            id: "1",
-            calendarId: "0",
-            title: clientFlowData.apptSubj,
-            category: "time",
-            dueDateClass: "",
-            start: new Date(clientFlowData.apptStartTime),
-            end: new Date(clientFlowData.apptEndTime),
-            bgColor: "lightblue",
-            location: clientFlowData.apptLoc,
-        },];
-
-        fetch(ApiBaseAddress + "api/appointments/tutor_id", {
-            method: "GET",
-            headers: headers,
-        }).then((res) => {
-            // TODO: Loop through the response data and add to previousAppts
-
-            if (clientFlowData.apptSubj !== "" && prevSchedule === []) {
-                setPreviousSchedule(
-                    previousAppts
-                );
-            }
-        });
-    });
+    // useEffect(() => {
+    //     // Get a tutors already scheduled appointments
+    //     let headers = {
+    //         "Content-Type": "application/json",
+    //     };
+    //
+    //     // Add previously schedule meeting to array
+    //     let previousAppts = [{
+    //         id: "1",
+    //         calendarId: "0",
+    //         title: clientFlowData.apptSubj,
+    //         category: "time",
+    //         dueDateClass: "",
+    //         start: new Date(clientFlowData.apptStartTime),
+    //         end: new Date(clientFlowData.apptEndTime),
+    //         bgColor: "lightblue",
+    //         location: clientFlowData.apptLoc,
+    //     },];
+    //
+    //     fetch(ApiBaseAddress + "api/appointments/tutor_id", {
+    //         method: "GET",
+    //         headers: headers,
+    //     }).then((res) => {
+    //         // TODO: Loop through the response data and add to previousAppts
+    //
+    //         if (clientFlowData.apptSubj !== "" && prevSchedule === []) {
+    //             setPreviousSchedule(
+    //                 previousAppts
+    //             );
+    //         }
+    //     });
+    // });
 
     /* This currently only supports saving one schedule appointment at a time. */
     if (clientFlowData.currentStep !== 4) return null;
@@ -107,7 +107,7 @@ export function Step4() {
         let apptStart = startDay.getTime();
         let apptEnd = endDay.getTime();
 
-        dispatch(clientFlowActions.setAppt([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
+        // dispatch(clientFlowActions.setAppt([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
     };
 
     const onBeforeCreateSchedule = (scheduleData: any) => {
@@ -134,42 +134,42 @@ export function Step4() {
     };
 
     // Gather the currently schedule appointments from tutor and block off times
-    const generateTutorTimes = () => {
-        // Create Appointment
-        let url = ApiBaseAddress + "api/appointment/" + clientFlowData.tutorId;
-        let headers = {
-            "Content-Type": "application/json",
-        };
-
-        let start = new Date(clientFlowData.apptStartTime);
-        let startMin = ("0" + start.getMinutes()).slice(-2);
-        let startHour = ("0" + start.getHours()).slice(-2);
-
-        let end = new Date(clientFlowData.apptEndTime);
-        let endMin = ("0" + start.getMinutes()).slice(-2);
-        let endHour = ("0" + start.getHours()).slice(-2);
-
-        let body = {
-            course_id: clientFlowData.courseId,
-            start: start,
-            end: endHour + endMin,
-            loc: clientFlowData.apptLoc,
-            tutor_id: clientFlowData.tutorId,
-            client_id: clientFlowData.clientId,
-            price: clientFlowData.tutorPrice,
-            // notes: clientFlowData.notes,
-        };
-
-        console.log("RESERVE POST BODY: ", body);
-
-        fetch(url, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(body),
-        }).then((res) => {
-            console.log(res);
-        });
-    }
+    // const generateTutorTimes = () => {
+    //     // Create Appointment
+    //     let url = ApiBaseAddress + "api/appointment/" + clientFlowData.tutorId;
+    //     let headers = {
+    //         "Content-Type": "application/json",
+    //     };
+    //
+    //     let start = new Date(clientFlowData.apptStartTime);
+    //     let startMin = ("0" + start.getMinutes()).slice(-2);
+    //     let startHour = ("0" + start.getHours()).slice(-2);
+    //
+    //     let end = new Date(clientFlowData.apptEndTime);
+    //     let endMin = ("0" + start.getMinutes()).slice(-2);
+    //     let endHour = ("0" + start.getHours()).slice(-2);
+    //
+    //     let body = {
+    //         course_id: clientFlowData.courseId,
+    //         start: start,
+    //         end: endHour + endMin,
+    //         loc: clientFlowData.apptLoc,
+    //         tutor_id: clientFlowData.tutorId,
+    //         client_id: clientFlowData.clientId,
+    //         price: clientFlowData.tutorPrice,
+    //         // notes: clientFlowData.notes,
+    //     };
+    //
+    //     console.log("RESERVE POST BODY: ", body);
+    //
+    //     fetch(url, {
+    //         method: "POST",
+    //         headers: headers,
+    //         body: JSON.stringify(body),
+    //     }).then((res) => {
+    //         console.log(res);
+    //     });
+    // }
 
 
     const onBeforeDeleteSchedule = (res: any) => {
