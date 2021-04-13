@@ -1,20 +1,31 @@
 export interface ClientFlowSlice {
-    sidebarToggled: boolean;
+    sidebarToggled: boolean; // TODO: Move to some other slice
+    clientId: string; // TODO: Move to some authentication slice
+
     currentStep: number;
     furthestStep: number;
-    courseName: string;
-    courseId: string;
-    tutorName: string;
-    tutorId: string;
-    tutorPrice: string;
-    subjectId: string;
-    clientId: string;
-    tutorIds: Array<string>;
-    apptDate: string;
-    apptStartTime: string;
-    apptEndTime: string;
-    apptNotes: string;
-    apptConfirm: boolean;
-    apptLoc: string;
-    apptSubj: string;
+
+    selectedCourse: Course;
+    selectedTutor: Tutor;
+
+    availableTutorIds: Array<string>;
+    availableSubjectIds: Array<string>;
+
+    appointmentDate: string;
+    appointmentStartTime: string;
+    appointmentEndTime: string;
+    appointmentNotes: string;
+    appointmentConfirmed: boolean;
+    appointmentLocation: string;
+    appointmentSubjectId: string;
+}
+
+export interface Course {
+    name: string;
+    id: string;
+}
+
+export interface Tutor {
+    name: string;
+    id: string;
 }
