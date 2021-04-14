@@ -5,10 +5,19 @@ import {FormParent} from "../../../components/clientFlow/FormParent";
 import {useDispatch, useSelector} from "react-redux";
 import {actions} from "../../../store/ClientFlowData/slice";
 import {selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
+import { useParams } from "react-router-dom";
+import Meetings from "./meetings";
 
 export const Panel = () => {
     let dispatch = useDispatch();
     let sidebarToggled = useSelector(selectSidebarToggled);
+
+    // let { panelContent } = useParams();
+
+    // let body = <FormParent />;
+    // if (panelContent) {
+    //     body = <Meetings />;
+    // }
 
     return (
         <div id="panel-wrapper">
@@ -18,7 +27,7 @@ export const Panel = () => {
                 }}>☰</Button>
             </Navbar>
             <div className="container-fluid">
-                <FormParent/>
+                <FormParent />
             </div>
         </div>
     );
