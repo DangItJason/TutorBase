@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TutorCard from "../tutorCard/TutorCard";
 import {useDispatch, useSelector} from "react-redux";
 import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
 import {actions as clientFlowActions } from '../../store/ClientFlowData/slice';
+import { Tutor } from "../../services/api.types";
+import { api } from "../../services/api";
 
 export function Step3() {
     let clientFlowData = useSelector(selectClientFlowData);
+    let [tutors, setTutors] = useState<Array<Tutor>>([]);
     let dispatch = useDispatch();
 
-    // Only render this step if currentStep matches
-    // if (clientFlowData.currentStep !== 3) return null;
+    useEffect(() => {
+        const getTutor = async (id: String) => {
+            return (await api.GetTutorById(id)).data;
+        }
+
+        clientFlowData.availableTutorIds.map((id) => {
+            getTutor(id).then(value => {
+                let nextState = tutors;
+                nextState.push(value[0])
+                setTutors(nextState)
+            }
+        )
+        });
+    }, [clientFlowData.availableTutorIds, dispatch, tutors])
 
     let tutorList;
     // if (clientFlowData.tutorIds.length !== 0) {
