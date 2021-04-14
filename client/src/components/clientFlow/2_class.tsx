@@ -1,17 +1,29 @@
-import React, {Component} from "react";
+import React, {Component, useEffect, useState} from "react";
 import {actions} from "../../store/ClientFlowData/slice";
 import {connect} from "react-redux";
 import {useDispatch, useSelector} from "react-redux";
 import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
 import {actions as clientFlowActions} from '../../store/ClientFlowData/slice';
 import {api} from "../../services/api";
+import { Course } from "../../services/api.types";
 
 export function Step2() {
     let clientFlowData = useSelector(selectClientFlowData);
+    let [courses, setCourses] = useState<Array<Course>>([]);
     let dispatch = useDispatch();
 
-    // Only render this step if currentStep matches
-    // if (clientFlowData.currentStep !== 2) return null;
+    let subjectId = clientFlowData.selectedSubject.id;
+
+    useEffect(() => {
+        const getCourses = async () => {
+            return (await api.GetCourses(subjectId)).data;
+        }
+
+        getCourses().then(value => {
+                setCourses(value);
+            }
+        )
+    }, [dispatch, subjectId])
 
     return (
         <div>TEST</div>
