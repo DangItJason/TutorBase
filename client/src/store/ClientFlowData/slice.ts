@@ -32,6 +32,8 @@ export const initialState: ClientFlowSlice = {
     appointmentConfirmed: false,
     appointmentLocation: "",
     appointmentSubjectId: "",
+
+    isLoading: false,
 };
 
 const clientFlowSlice = createSlice({
@@ -100,6 +102,9 @@ const clientFlowSlice = createSlice({
         incrementFurthestStep(state) {
             console.log("== Incrementing Furthest Step ==");
             state.furthestStep = state.furthestStep + 1;
+        },
+        setLoading(state: ClientFlowSlice, action: PayloadAction<boolean>) {
+            state.isLoading = action.payload;
         },
     },
 });

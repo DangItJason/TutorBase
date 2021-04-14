@@ -21,6 +21,8 @@ export interface ClientFlowSlice {
     appointmentConfirmed: boolean;
     appointmentLocation: string;
     appointmentSubjectId: string;
+
+    isLoading: boolean;
 }
 
 export interface Course {
