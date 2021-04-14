@@ -1,9 +1,7 @@
 import React, {Component, useEffect, useState} from "react";
 import {actions} from "../../store/ClientFlowData/slice";
-import {connect} from "react-redux";
 import {useDispatch, useSelector} from "react-redux";
 import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
-import {actions as clientFlowActions} from '../../store/ClientFlowData/slice';
 import {api} from "../../services/api";
 import { Course } from "../../services/api.types";
 
@@ -26,37 +24,38 @@ export function Step2() {
     }, [dispatch, subjectId])
 
     return (
-        <div>TEST</div>
-        // <div className="form-group text-center">
-        //     <h3 className="hr mt-1">Select a Course</h3>
-        //     {clientFlowData.availableSubjects.map((subject, i) => (
-        //         <div className="radio-option" key={i}>
-        //             <label>
-        //                 <input
-        //                     className="form-input"
-        //                     type="radio"
-        //                     name="course"
-        //                     value={course.name + "{}[]" + course.id}
-        //                     data-tutors={course.tutors}
-        //                     onChange={(event) => {
-        //                         // console.log(event.target.dataset);
-        //                         // console.log(event.target.value);
-        //                         let course = event.target.value.split("{}[]");
-        //                         this.props.setCourse([
-        //                             course[0],
-        //                             course[1],
-        //                             event.target.dataset.tutors.split(","),
-        //                         ]);
-        //                         this.props.incrementStep();
-        //                     }}
-        //                     checked={this.props.flowData.courseName === course.id}
-        //                 ></input>
-        //                 <p className="form-label">
-        //                     {course.id} - {course.name}
-        //                 </p>
-        //             </label>
-        //         </div>
-        //     ))}
-        // </div>
+        <div className="form-group text-center">
+          <h3 className="hr mt-1">Select a Course</h3>
+          {courses.map((course, i) => (
+            <div className="radio-option" key={i}>
+              <label>
+                <input
+                  className="form-input"
+                  type="radio"
+                  name="course"
+                  value={course.name + "{}[]" + course.id}
+                  data-tutors={course.tutors}
+                  onChange={(event) => {
+                    console.log(event.target.dataset);
+                    let courseData = event.target.value.split("{}[]");
+                    let courseObj = {
+                        name: courseData[0],
+                        id: courseData[1],
+                    }
+                    let tutors = event.target.dataset.tutors ? event.target.dataset.tutors.split(",") : [];
+                    console.log(courseObj)
+                    dispatch(actions.setSelectedCourse(courseObj))
+                    dispatch(actions.setAvailableTutorIds(tutors))
+                    dispatch(actions.incrementStep())
+                  }}
+                  checked={clientFlowData.selectedCourse.id === course.id}
+                ></input>
+                <p className="form-label">
+                  {course.id} - {course.name}
+                </p>
+              </label>
+            </div>
+          ))}
+        </div>
     );
 }

@@ -39,7 +39,7 @@ export function Step3() {
     return (
         <div className="form-group text-center">
             <h3 className="hr mt-1">Select a Tutor</h3>
-            <div className="row justify-content-md-center">{tutorList}</div>
+            {/* <div className="row justify-content-md-center">{tutorList}</div> */}
         </div>
     );
 }
