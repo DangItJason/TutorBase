@@ -1,15 +1,13 @@
-import React, {createRef, useEffect, useRef, useState} from "react";
-import {initialState as clientFlowData} from "../../store/ClientFlowData/slice";
+import React, {useEffect, useRef, useState} from "react";
 import {isMobile} from "react-device-detect";
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle,} from "reactstrap";
 import Calendar from "@toast-ui/react-calendar";
 import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
 import "tui-calendar/dist/tui-calendar.css";
-import {ApiBaseAddress} from "../../utils/Environment";
 import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
 import {useDispatch, useSelector} from "react-redux";
-import {actions as clientFlowActions} from '../../store/ClientFlowData/slice'
+import {api} from "../../services/api";
 
 // Calendar Default Options //
 const mobileWeekOptions = {
@@ -29,7 +27,7 @@ Date.prototype.addHours = function (h) {
 
 ///////////////////////////
 
-export function Step4() {
+export const  Step4 = () => {
     const cal: any = useRef(null);
     const [mobile, setMobile] = useState(isMobile);
     const [currentView, setCurrentView] = useState("week");
@@ -39,41 +37,42 @@ export function Step4() {
     const dispatch = useDispatch();
     const clientFlowData = useSelector(selectClientFlowData);
 
-    // useEffect(() => {
-    //     // Get a tutors already scheduled appointments
-    //     let headers = {
-    //         "Content-Type": "application/json",
-    //     };
-    //
-    //     // Add previously schedule meeting to array
-    //     let previousAppts = [{
-    //         id: "1",
-    //         calendarId: "0",
-    //         title: clientFlowData.apptSubj,
-    //         category: "time",
-    //         dueDateClass: "",
-    //         start: new Date(clientFlowData.apptStartTime),
-    //         end: new Date(clientFlowData.apptEndTime),
-    //         bgColor: "lightblue",
-    //         location: clientFlowData.apptLoc,
-    //     },];
-    //
-    //     fetch(ApiBaseAddress + "api/appointments/tutor_id", {
-    //         method: "GET",
-    //         headers: headers,
-    //     }).then((res) => {
-    //         // TODO: Loop through the response data and add to previousAppts
-    //
-    //         if (clientFlowData.apptSubj !== "" && prevSchedule === []) {
-    //             setPreviousSchedule(
-    //                 previousAppts
-    //             );
-    //         }
-    //     });
-    // });
+    useEffect(() => {
+        // Gather the currently schedule appointments from tutor and block off times
+        const generateTutorTimes = async () => {
+            // Add previously schedule meeting to array
+            let previousAppts = [{
+                id: "1",
+                calendarId: "0",
+                title: clientFlowData.appointmentSubjectId,
+                category: "time",
+                dueDateClass: "",
+                start: new Date(clientFlowData.appointmentStartTime),
+                end: new Date(clientFlowData.appointmentEndTime),
+                bgColor: "lightblue",
+                location: clientFlowData.appointmentLocation,
+            },];
 
-    /* This currently only supports saving one schedule appointment at a time. */
-    if (clientFlowData.currentStep !== 4) return null;
+            let appts = await api.GetTutorAppointments(clientFlowData.selectedTutor._id);
+
+            if (appts !== null)
+                appts.data.forEach(appt => {
+                    previousAppts.push({
+                        id: Math.random().toString(),
+                        calendarId: "0",
+                        title: "Blocked Time",
+                        category: "time",
+                        dueDateClass: "",
+                        start: new Date(appt.start_time),
+                        end: new Date(appt.end_time),
+                        bgColor: "red",
+                        location: "Blocked",
+                    })
+                })
+        }
+
+        generateTutorTimes().then(value => console.log(value));
+    });
 
     const toggleCalType = () => {
         setCalTypeOpen(!calTypeOpen);
@@ -132,45 +131,6 @@ export function Step4() {
 
         cal.current.calendarInst.createSchedules([schedule]);
     };
-
-    // Gather the currently schedule appointments from tutor and block off times
-    // const generateTutorTimes = () => {
-    //     // Create Appointment
-    //     let url = ApiBaseAddress + "api/appointment/" + clientFlowData.tutorId;
-    //     let headers = {
-    //         "Content-Type": "application/json",
-    //     };
-    //
-    //     let start = new Date(clientFlowData.apptStartTime);
-    //     let startMin = ("0" + start.getMinutes()).slice(-2);
-    //     let startHour = ("0" + start.getHours()).slice(-2);
-    //
-    //     let end = new Date(clientFlowData.apptEndTime);
-    //     let endMin = ("0" + start.getMinutes()).slice(-2);
-    //     let endHour = ("0" + start.getHours()).slice(-2);
-    //
-    //     let body = {
-    //         course_id: clientFlowData.courseId,
-    //         start: start,
-    //         end: endHour + endMin,
-    //         loc: clientFlowData.apptLoc,
-    //         tutor_id: clientFlowData.tutorId,
-    //         client_id: clientFlowData.clientId,
-    //         price: clientFlowData.tutorPrice,
-    //         // notes: clientFlowData.notes,
-    //     };
-    //
-    //     console.log("RESERVE POST BODY: ", body);
-    //
-    //     fetch(url, {
-    //         method: "POST",
-    //         headers: headers,
-    //         body: JSON.stringify(body),
-    //     }).then((res) => {
-    //         console.log(res);
-    //     });
-    // }
-
 
     const onBeforeDeleteSchedule = (res: any) => {
         const {id, calendarId} = res.schedule;

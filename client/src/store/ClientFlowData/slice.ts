@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ClientFlowSlice, Course, Tutor} from "./types";
-import {Subject} from "../../services/api.types";
+import {ClientFlowSlice, Course} from "./types";
+import {Subject, Tutor} from "../../services/api.types";
 
 /* clientFlowData slice is the storage medium for
    everything to do with creating a tutor appointment,
@@ -17,11 +17,19 @@ export const initialState: ClientFlowSlice = {
         id: "",
     },
     selectedTutor: {
-        name: "",
-        id: ""
+        email: "",
+        _id: "",
+        first_name: "",
+        interval: "",
+        phone: "",
+        price: "",
+        last_name: "",
+        profile_img: "",
+        times: {Friday: [], Monday: [], Saturday: [], Sunday: [], Tuesday: [], Thursday: [], Wednesday: []}
     },
     selectedSubject: {id: "", _id: "", courses: []},
 
+    availableTutors: [],
     availableTutorIds: [],
     availableSubjects: [],
 
@@ -56,10 +64,17 @@ const clientFlowSlice = createSlice({
         setSelectedSubject(state: ClientFlowSlice, action: PayloadAction<Subject>) {
             state.selectedSubject = action.payload;
         },
-        setSelectedTutor(state: ClientFlowSlice, action: PayloadAction<Tutor>) {
-            state.selectedTutor = action.payload;
+        setSelectedTutor(state: ClientFlowSlice, action: PayloadAction<string>) {
+            let tutor = state.availableTutors.filter((value, index) => {
+                if (value._id === action.payload) return value
+            });
+
+            state.selectedTutor = tutor[0];
         },
 
+        setAvailableTutors(state: ClientFlowSlice, action: PayloadAction<Array<Tutor>>) {
+            state.availableTutors = action.payload;
+        },
         setAvailableTutorIds(state: ClientFlowSlice, action: PayloadAction<Array<string>>) {
             state.availableTutorIds = action.payload;
         },

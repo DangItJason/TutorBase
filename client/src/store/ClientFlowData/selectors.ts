@@ -29,3 +29,8 @@ export const selectSidebarToggled = createSelector(
     [selectDomain],
     selectDomain => selectDomain.sidebarToggled,
 );
+
+export const selectAvailableTutors = createSelector(
+    [selectDomain],
+    selectDomain => selectDomain.availableTutors,
+);

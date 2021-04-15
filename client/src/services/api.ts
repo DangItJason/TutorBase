@@ -1,9 +1,10 @@
 import {ApiBaseAddress} from "../utils/Environment";
 import axios from "axios";
-import { SubjectsResponse, CoursesResponse, TutorsResponse } from "./api.types";
+import {SubjectsResponse, CoursesResponse, TutorsResponse, AppointmentsResponse} from "./api.types";
 
 export class ApiService {
     private usersEndpoint = ApiBaseAddress + "api/users/";
+    private appointmentsEndpoint = ApiBaseAddress + "api/appointment/";
     private tutorsEndpoint = ApiBaseAddress + "api/tutors/";
     private coursesEndpoint = ApiBaseAddress + "api/courses/";
     private subjectsEndpoint = ApiBaseAddress + "api/subjects/";
@@ -35,6 +36,15 @@ export class ApiService {
         tutor.data = response.data;
         console.log("Tutor", tutor.data);
         return tutor;
+    }
+
+    public async GetTutorAppointments(id: String) {
+        let url = this.appointmentsEndpoint + "tutors/" + id;
+        let response = await axios.get(url);
+        if(response.status != 200) return null;
+        let appt: AppointmentsResponse = {data: []}
+        appt.data = response.data;
+        return appt;
     }
 }
 

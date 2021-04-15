@@ -1,4 +1,4 @@
-import {Subject} from "../../services/api.types";
+import {Subject, Tutor} from "../../services/api.types";
 
 export interface ClientFlowSlice {
     sidebarToggled: boolean; // TODO: Move to some other slice
@@ -11,6 +11,7 @@ export interface ClientFlowSlice {
     selectedTutor: Tutor;
     selectedSubject: Subject;
 
+    availableTutors: Array<Tutor>;
     availableTutorIds: Array<string>;
     availableSubjects: Array<Subject>;
 
@@ -30,7 +31,7 @@ export interface Course {
     id: string;
 }
 
-export interface Tutor {
-    name: string;
-    id: string;
-}
+// export interface Tutor {
+//     name: string;
+//     id: string;
+// }

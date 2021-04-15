@@ -24,6 +24,10 @@ export interface TutorsResponse {
     data: Array<Tutor>;
 }
 
+export interface AppointmentsResponse {
+    data: Array<Appointment>;
+}
+
 export interface Tutor {
     _id: string;
     times: TutorTimes,
@@ -35,6 +39,20 @@ export interface Tutor {
     first_name: string,
     last_name: string,
 }
+
+export interface Appointment {
+    appt_id: string;
+    course_id: string,
+    start_time: string,
+    end_time: string,
+    location: string,
+    tutor_id: string,
+    client_id: string, // User email (ID)
+    price: number,
+    notes: string,
+    confirmed: boolean
+}
+
 
 export interface TutorTimes {
     Sunday: Array<number>,
