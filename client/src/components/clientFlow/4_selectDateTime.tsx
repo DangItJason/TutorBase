@@ -8,6 +8,7 @@ import "tui-calendar/dist/tui-calendar.css";
 import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
 import {useDispatch, useSelector} from "react-redux";
 import {api} from "../../services/api";
+import {actions} from "../../store/ClientFlowData/slice";
 
 // Calendar Default Options //
 const mobileWeekOptions = {
@@ -106,7 +107,7 @@ export const  Step4 = () => {
         let apptStart = startDay.getTime();
         let apptEnd = endDay.getTime();
 
-        // dispatch(clientFlowActions.setAppt([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
+        dispatch(actions.setAppointment([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
     };
 
     const onBeforeCreateSchedule = (scheduleData: any) => {

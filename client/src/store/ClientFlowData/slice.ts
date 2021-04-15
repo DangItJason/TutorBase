@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ClientFlowSlice, Course} from "./types";
-import {Subject, Tutor} from "../../services/api.types";
+import {Appointment, Subject, Tutor} from "../../services/api.types";
 
 /* clientFlowData slice is the storage medium for
    everything to do with creating a tutor appointment,
@@ -102,6 +102,14 @@ const clientFlowSlice = createSlice({
         },
         setAppointmentSubjectId(state: ClientFlowSlice, action: PayloadAction<string>) {
             state.appointmentSubjectId = action.payload;
+        },
+        setAppointment(state: ClientFlowSlice, action){
+            state.appointmentDate = action.payload[0];
+            state.appointmentStartTime = action.payload[1];
+            state.appointmentEndTime = action.payload[2];
+            state.appointmentLocation = action.payload[3];
+            state.appointmentLocation = action.payload[4];
+            state.appointmentSubjectId = action.payload[5];
         },
 
         decrementStep(state) {

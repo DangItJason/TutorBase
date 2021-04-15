@@ -46,6 +46,10 @@ export class ApiService {
         appt.data = response.data;
         return appt;
     }
+
+    public async CreateAppointment() {
+        //TODO: Create appointment
+    }
 }
 
 export const api = new ApiService();
