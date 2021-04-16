@@ -48,7 +48,7 @@ export interface Appointment {
     location: string,
     tutor_id: string,
     client_id: string, // User email (ID)
-    price: number,
+    price: string,
     notes: string,
     confirmed: boolean
 }

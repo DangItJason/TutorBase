@@ -4,6 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 import {useDispatch, useSelector} from "react-redux";
 import {actions as clientFlowActions} from '../../store/ClientFlowData/slice';
 import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
+import {api} from "../../services/api";
+import {Appointment} from "../../services/api.types";
 
 export function Step5() {
     const dispatch = useDispatch();
@@ -23,11 +25,24 @@ export function Step5() {
         );
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log("Submitting");
-
-        // Notify user that everything was created in the system.
+        let appointment: Appointment = {
+            notes: clientFlowData.appointmentNotes,
+            price: clientFlowData.selectedTutor.price,
+            client_id: clientFlowData.clientId,
+            tutor_id: clientFlowData.selectedTutor._id,
+            location: clientFlowData.appointmentLocation,
+            end_time: clientFlowData.appointmentEndTime,
+            start_time: clientFlowData.appointmentStartTime,
+            course_id: clientFlowData.selectedCourse.id,
+            appt_id: "null",
+            confirmed: false,
+        }
+        await api.CreateAppointment(appointment);
         confirmSubmit();
+
+        // TODO: Return to home page
     };
 
     return (
