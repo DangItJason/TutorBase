@@ -28,8 +28,8 @@ function clientSend(phoneNumber, clientEmail) {
 }
 
 function tutorSend(apptId, confToken, phoneNumber, tutorEmail, tutorName, clientName, date, startTime, endTime, course, notes, location) {
-  
-  var time = startTime.concat(" - ", endTime);
+  var start = new Date(parseInt(startTime) * 1000).toUTCString();
+  var time = start.concat(" - ", endTime);
 
   if (phoneNumber !== null) {
     // Max 160 chars
@@ -41,7 +41,7 @@ function tutorSend(apptId, confToken, phoneNumber, tutorEmail, tutorName, client
 
   var html = htmlOrig.replace("{{tutor-name}}", tutorName)
               .replace("{{client-name}}", clientName)
-              .replace("{{date}}", date)
+              .replace("{{date}}", time)
               .replace("{{time}}", time)
               .replace("{{course}}", course)
               .replace("{{location}}", location)
