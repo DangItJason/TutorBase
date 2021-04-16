@@ -26,12 +26,17 @@ export function LoginPage() {
                         A better system to connect students and tutors at RPI.
                     </Col>
                 </Row>
-                <Row style={{textAlign: "center"}}>
-                    <Col xs="4"/>
-                    <Col xs="4">
-                        <Button onClick={() => CASRedirect()} color="danger" size="lg" style={{marginTop: "2em"}}>Login</Button>
+                <Row noGutters={true} style={{textAlign: "center", alignContent: 'center'}}>
+                    <Col xs="1" />
+                    <Col xs="10">
+                        <Button 
+                            onClick={() => CASRedirect()} 
+                            color="danger" 
+                            size="lg" 
+                            style={{marginTop: '4em'}}>
+                                Login
+                        </Button>
                     </Col>
-                    <Col xs="4"/>
                 </Row>
                 <Row style={{marginTop: "150px"}}>
                     <Col style={{textAlign: "center"}}>
