@@ -9,9 +9,6 @@ const app = express();
 const bcrypt = require('bcryptjs');
 const fs = require("fs");
 
-// Middleware
-const isLoggedIn = require('./middleware/authentication');
-
 // Authentication Packages
 const cas = require("./config/casStrategy");
 const session = require("express-session");
@@ -19,8 +16,8 @@ const passport = require("passport");
 
 // Connect to database
 const uri =
-    "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
-mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true});
+  "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
+mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
 
 // Routers
 const indexRouter = require("./routes/index");
@@ -43,7 +40,7 @@ app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -51,9 +48,11 @@ app.use(express.static(path.join(__dirname, "public")));
 passport.use(cas);
 
 app.use(session({
-    secret: 'djskfjalkjsadlkf',
-    resave: false,
-    saveUninitialized: false
+  secret: 'elonmuskismydaddy',
+  resave: false,
+  saveUninitialized: false,
+  // Cookie Set to One Day
+  cookie: { maxAge: 86400000 }
 }));
 
 app.use(passport.initialize());
@@ -61,11 +60,13 @@ app.use(passport.session());
 
 
 passport.serializeUser(function (user, done) {
-    done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser(function (user, done) {
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
     done(err, user);
+  });
 });
 
 
@@ -86,18 +87,18 @@ app.get('/api/checkLogin', isLoggedIn, function (req, res) {
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    next(createError(404));
+  next(createError(404));
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-    // render the error page
-    res.status(err.status || 500);
-    res.render("error");
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
 });
 
 module.exports = app;

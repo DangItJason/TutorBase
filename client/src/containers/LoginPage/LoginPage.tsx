@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Col, Container, Row,} from "reactstrap";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import rpi_logo from "./login_images/rpi_logo.png"
 import tb_logo from "./login_images/tutorbase_logo.png"
 import git_logo from "./login_images/GitHub-Mark-32px.png"
@@ -8,9 +8,42 @@ import '../../styles/Login.css';
 import {ApiBaseAddress} from "../../utils/Environment";
 
 export function LoginPage() {
+    const history = useHistory();
     const CASRedirect = () => {
         window.location.href = ApiBaseAddress + 'api/login';
     }
+
+    const handleAuthentication = (event: any) => {
+        console.log("searching");
+        event.preventDefault();
+        fetch("/login/cas", {
+            method: "get",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // body: JSON.stringify(this.state),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                //Callback function after states been updated.
+                console.log(data.message);
+
+                if (data.message === "success") {
+                    console.log("success");
+                    //Pass properties to next application
+                    //NOTE: Re-write this. Not safe
+                    // history.push({
+                    //     pathname: "/home", //---Change path as desired.
+                    //     email: this.state.email,
+                    // });
+                    history.push("/home")
+                } else if (data.message === "failure") {
+                    console.log("failure");
+                    console.log("Incorrect credentials");
+                }
+            })
+            .catch((error) => alert(error.message));
+    };
 
     return (
         <body className={"loginBody"}>

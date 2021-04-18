@@ -1,6 +1,7 @@
 const CasStrategy = require("passport-cas").Strategy;
 const User = require("../models/User");
 
+// Setting up the redirection to cas and the strategy for authentication
 module.exports = new CasStrategy(
   {
     version: 'CAS3.0',
@@ -29,6 +30,7 @@ module.exports = new CasStrategy(
       console.log("Success");
 
       user.attributes = profile.attributes;
+
       return done(null, user);
     });
   }

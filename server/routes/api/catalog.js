@@ -4,23 +4,24 @@ const Subject = require("../../models/Subject");
 const Course = require("../../models/Course");
 const Appointment = require("../../models/Appointment");
 const User = require("../../models/User");
+const withAuth = require("../../middleware/token_auth");
 
 const router = express.Router();
 
 // GET api/catalog/tutor/hours/tutor_id
 // Get a specific tutor's availability (hours)
-router.get('/tutor/hours/:tutor_id', (req, res) => {
+router.get('/tutor/hours/:tutor_id', withAuth, (req, res) => {
   User.findById(req.params.tutor_id, 'tutor.times')
-      .then(hours => res.json(hours))
-      .catch(err => res.status(400).json({ msg: err.message }));
+    .then(hours => res.json(hours))
+    .catch(err => res.status(400).json({ msg: err.message }));
 });
 
 // GET api/catalog/tutor/appointments/tutor_id
 // Get a specific tutor's already scheduled appointments
-router.get('/tutor/appointments/:tutor_id', (req, res) => {
+router.get('/tutor/appointments/:tutor_id', withAuth, (req, res) => {
   User.findById(req.params.tutor_id, 'tutor.appts')
-      .then(appointments => res.json(appointments))
-      .catch(err => res.status(400).json({ msg: err.message }));
+    .then(appointments => res.json(appointments))
+    .catch(err => res.status(400).json({ msg: err.message }));
 });
 
 // POST api/catalog/tutors
@@ -29,14 +30,14 @@ router.post("/tutors", (req, res) => {
   User.find({ _id: { $in: req.body.tutor_ids } }, "-password -client", {
     lean: true,
   })
-      .sort({ first_name: 1 })
-      .then((users) => res.json(users))
-      .catch((err) => res.status(400).json({ msg: err.message }));
+    .sort({ first_name: 1 })
+    .then((users) => res.json(users))
+    .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
 // POST api/catalog/appointment
 // Create a new Appointment
-router.post("/appointment", (req, res) => {
+router.post("/appointment", withAuth, (req, res) => {
   let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),
     course_id: req.body.course_id,
@@ -56,18 +57,18 @@ router.post("/appointment", (req, res) => {
 
 // GET api/catalog/appointments/tutor_id
 // Get a specific tutor's already scheduled appointments
-router.get('/appointments/:tutor_id', (req, res) => {
-  Appointment.find( { tutor_id: req.params.tutor_id } )
-      .then(appointments => res.json(appointments))
-      .catch(err => res.status(400).json({ msg: err.message }));
+router.get('/appointments/:tutor_id', withAuth, (req, res) => {
+  Appointment.find({ tutor_id: req.params.tutor_id })
+    .then(appointments => res.json(appointments))
+    .catch(err => res.status(400).json({ msg: err.message }));
 });
 
 // GET api/catalog/appointments/client_id
 // Get a specific users's already scheduled appointments
-router.get('/appointments/:client_id', (req, res) => {
-  Appointment.find( { client_id: req.params.client_id } )
-      .then(appointments => res.json(appointments))
-      .catch(err => res.status(400).json({ msg: err.message }));
+router.get('/appointments/:client_id', withAuth, (req, res) => {
+  Appointment.find({ client_id: req.params.client_id })
+    .then(appointments => res.json(appointments))
+    .catch(err => res.status(400).json({ msg: err.message }));
 });
 
 module.exports = router;
