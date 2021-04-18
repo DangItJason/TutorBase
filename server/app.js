@@ -29,10 +29,10 @@ const loginRouter = require("./routes/api/login");
 const catalogRouter = require("./routes/api/catalog");
 const coursesRouter = require("./routes/api/courses");
 const subjectsRouter = require("./routes/api/subjects");
-const emailClientRouter = require("./routes/api/email-user");
+// const emailClientRouter = require("./routes/api/email-user");
 const tutorsRouter = require("./routes/api/tutors");
 const appointmentsRouter = require("./routes/api/appointment");
-const confirmapptfromemailRouter = require("./routes/api/confirmapptfromemail");
+const confirmApptFromEmailRouter = require("./routes/api/confirmapptfromemail");
 
 // Allowing Cors Usage
 app.use(cors());
@@ -76,10 +76,10 @@ app.use("/api/courses", coursesRouter);
 app.use("/api/subjects", subjectsRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/catalog", catalogRouter);
-app.use("/api/email-user", emailClientRouter);
+// app.use("/api/email-user", emailClientRouter);
 app.use("/api/tutors", tutorsRouter);
 app.use("/api/appointment", appointmentsRouter);
-app.use("/api/confirmappt", confirmapptfromemailRouter);
+app.use("/api/confirmappt", confirmApptFromEmailRouter);
 app.get('/api/checkLogin', isLoggedIn, function (req, res) {
     res.sendStatus(200);
 })
