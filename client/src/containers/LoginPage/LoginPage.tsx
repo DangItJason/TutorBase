@@ -46,50 +46,52 @@ export function LoginPage() {
     };
 
     return (
+        // Login body contains only center object on the page
+        // TODO: Change this to use CSS Flexbox in the future
         <body className={"loginBody"}>
-        <Container style={{maxWidth: "45em", paddingTop: "5em"}}>
-            <div className="loginContainer">
-                <Row>
-                    <Col style={{textAlign: "center", paddingTop: "3em"}}>
-                        <img src={tb_logo} style={{maxWidth: "100%"}} alt="Rensselaer"/>
-                    </Col>
-                </Row>
-                <Row>
+            <Container style={{maxWidth: "45em", paddingTop: "5em"}}>
+                <div className="loginContainer">
+                    <Row>
+                        <Col style={{textAlign: "center", paddingTop: "3em"}}>
+                            <img src={tb_logo} style={{maxWidth: "100%"}} alt="Rensselaer"/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col style={{textAlign: "center"}}>
+                            A better system to connect students and tutors at RPI.
+                        </Col>
+                    </Row>
+                    <Row noGutters={true} style={{textAlign: "center", alignContent: 'center'}}>
+                        <Col xs="1" />
+                        <Col xs="10">
+                            <Button
+                                onClick={() => CASRedirect()}
+                                color="danger"
+                                size="lg"
+                                style={{marginTop: '4em'}}>
+                                    Login
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row style={{marginTop: "150px"}}>
+                        <Col style={{textAlign: "center"}}>
+                            An <a href="https://rcos.io/"> RCOS</a> project. &nbsp;
+                            <a href="https://github.com/DangItJason/TutorBase">
+                                <img style={{maxWidth: "80%", maxHeight: "80%"}}
+                                     src={git_logo}
+                                     alt="GitHub"/>
+                            </a>
+                        </Col>
+                    </Row>
+                </div>
+                <Row style={{paddingTop: "10%", paddingBottom: "30%"}}>
                     <Col style={{textAlign: "center"}}>
-                        A better system to connect students and tutors at RPI.
-                    </Col>
-                </Row>
-                <Row noGutters={true} style={{textAlign: "center", alignContent: 'center'}}>
-                    <Col xs="1" />
-                    <Col xs="10">
-                        <Button 
-                            onClick={() => CASRedirect()} 
-                            color="danger" 
-                            size="lg" 
-                            style={{marginTop: '4em'}}>
-                                Login
-                        </Button>
-                    </Col>
-                </Row>
-                <Row style={{marginTop: "150px"}}>
-                    <Col style={{textAlign: "center"}}>
-                        An <a href="https://rcos.io/"> RCOS</a> project. &nbsp;
-                        <a href="https://github.com/DangItJason/TutorBase">
-                            <img style={{maxWidth: "80%", maxHeight: "80%"}}
-                                 src={git_logo}
-                                 alt="GitHub"/>
+                        <a href="https://www.rpi.edu">
+                            <img src={rpi_logo} style={{maxWidth: "100%"}} alt="Rensselaer"/>
                         </a>
                     </Col>
                 </Row>
-            </div>
-            <Row style={{paddingTop: "10%", paddingBottom: "30%"}}>
-                <Col style={{textAlign: "center"}}>
-                    <a href="https://www.rpi.edu">
-                        <img src={rpi_logo} style={{maxWidth: "100%"}} alt="Rensselaer"/>
-                    </a>
-                </Col>
-            </Row>
-        </Container>
+            </Container>
         </body>
     );
 }
