@@ -27,6 +27,32 @@ function clientSend(phoneNumber, clientEmail) {
 
 }
 
+function clientSendConfirmed(phoneNumber, clientEmail, tutorName, startTime, endTime, course, location, notes) {
+  var start = new Date(parseInt(startTime) * 1000).toUTCString();
+  var time = start.concat(" - ", endTime);
+  if (phoneNumber !== null) {
+
+    // Max 160 chars
+    var txtmsg = "Your TutorBase appointment request has been confirmed by the tutor!";
+    var resul = textsender.send(txtmsg, phoneNumber, null, "us");
+  }
+
+  //TODO: add more fields in this email
+  var htmlOrig = fs.readFileSync(__dirname + '/email_client_confirmed.html').toString();
+
+  var html = htmlOrig.replace("{{tutor-name}}", tutorName)
+              .replace("{{date}}", time)
+              .replace("{{course}}", course)
+              .replace("{{location}}", location)
+              .replace("{{notes}}", notes)
+              ;
+
+  var emailresult = emailsender.send(clientEmail, html, "TutorBase Appointment Confirmed");
+
+  return emailresult;
+
+}
+
 function tutorSend(apptId, confToken, phoneNumber, tutorEmail, tutorName, clientName, date, startTime, endTime, course, notes, location) {
   var start = new Date(parseInt(startTime) * 1000).toUTCString();
   var time = start.concat(" - ", endTime);
@@ -76,6 +102,7 @@ function signupNotify(name, email, phoneNumber) {
 
 
 module.exports = {
+  clientSendConfirmed: clientSendConfirmed,
   client: clientSend,
   tutor: tutorSend,
   signupNotify: signupNotify
