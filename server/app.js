@@ -81,9 +81,9 @@ app.use("/api/catalog", catalogRouter);
 app.use("/api/tutors", tutorsRouter);
 app.use("/api/appointment", appointmentsRouter);
 app.use("/api/confirmappt", confirmApptFromEmailRouter);
-app.get('/api/checkLogin', isLoggedIn, function (req, res) {
-    res.sendStatus(200);
-})
+// app.get('/api/checkLogin', isLoggedIn, function (req, res) {
+//     res.sendStatus(200);
+// })
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
