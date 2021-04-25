@@ -30,7 +30,7 @@ export class ApiService {
 
     public async GetTutorById(id: String) {
         console.log("Fetching Tutor");
-        let url = this.tutorsEndpoint + id;
+        let url = this.tutorsEndpoint + 'tutor/' + id;
         let response = await axios.get(url);
         let tutor: TutorsResponse = {data: []}
         tutor.data = response.data;

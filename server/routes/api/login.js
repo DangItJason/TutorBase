@@ -38,7 +38,7 @@ var parseCookies = require("../../lib/parseCookies");
 Secret for token generation
 Move this when moving to prod.
 */
-const secret = "elonmuskismydaddy"
+const secret = require("../../config/secret");
 
 /**
  * Route serving login form.
@@ -90,6 +90,7 @@ router.get("/", (req, res, next) => {
  */
 router.get('/auth', (req, res) => {
   tok = parseCookies(req.headers.cookie).token
+  // console.log(tok)
 
   try {
     payload = jwt.verify(tok, secret)

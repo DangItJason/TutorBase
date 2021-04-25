@@ -33,7 +33,7 @@ const router = express.Router();
  */
 // GET /api/subjects
 // Get all subjects
-router.get("/", withAuth, (req, res) => {
+router.get("/",  (req, res) => {
     Subject.find()
         .sort({ name: 1 })
         .then((subjects) => res.json(subjects))

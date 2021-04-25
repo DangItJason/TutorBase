@@ -25,12 +25,8 @@ module.exports = new CasStrategy(
         console.log("Unknown User");
         return done(null, false, { message: "Unknown user", email: query });
       }
-
-      //Success
       console.log("Success");
-
       user.attributes = profile.attributes;
-
       return done(null, user);
     });
   }

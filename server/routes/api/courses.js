@@ -7,7 +7,7 @@ const router = express.Router();
 
 // GET /api/courses
 // Get all courses
-router.get("/", withAuth, (req, res) => {
+router.get("/",  (req, res) => {
     Course.find()
         .sort({ name: 1 })
         .then((courses) => res.json(courses))
@@ -17,6 +17,7 @@ router.get("/", withAuth, (req, res) => {
 // GET api/courses/:id
 // Get course with a specific course id
 router.get("/:id", (req, res) => {
+    console.log("Searching for a subject w/ specific ID");
     Course.find({ _id: req.params.id })
         .then((course) => res.json(course))
         .catch((err) => res.status(400).json({ msg: err.message }));
@@ -24,7 +25,8 @@ router.get("/:id", (req, res) => {
 
 // GET /api/courses/subject/subject_id
 // Get all courses with a specific subject ID
-router.get("/:subject_id", withAuth, (req, res) => {
+router.get("/subject/:subject_id", (req, res) => {
+    console.log("Searching for subjects w/ specific ID");
     Course.find({ subject: { $regex: req.params.subject_id, $options: "i" } })
         .sort({ name: 1 })
         .then((courses) => res.json(courses))

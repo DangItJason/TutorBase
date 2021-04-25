@@ -31,6 +31,10 @@ const tutorsRouter = require("./routes/api/tutors");
 const appointmentsRouter = require("./routes/api/appointment");
 const confirmApptFromEmailRouter = require("./routes/api/confirmapptfromemail");
 
+//Secret
+const secret = require("./config/secret");
+
+
 // Allowing Cors Usage
 app.use(cors());
 
@@ -48,7 +52,7 @@ app.use(express.static(path.join(__dirname, "public")));
 passport.use(cas);
 
 app.use(session({
-  secret: 'elonmuskismydaddy',
+  secret: secret,
   resave: false,
   saveUninitialized: false,
   // Cookie Set to One Day
