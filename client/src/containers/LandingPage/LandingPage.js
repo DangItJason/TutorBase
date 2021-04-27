@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import "./styles.css";
 import intro_mobile from "./assets/img/logo3.png";
-import logo from "./assets/img/logo2.png"
+import logo from "./assets/img/logo1.png"
+import git_logo from "./assets/img/GitHub-Mark-32px.png"
+import rpi_logo from "../LoginPage/login_images/rpi_logo.png";
 
 class landing extends Component {
   render() {
@@ -548,12 +550,22 @@ class landing extends Component {
                       <li>
                         <a href="#">
                           <i className="lni-phone-handset" /> P: +1 111 111-1111
-                          </a>
+                        </a>
                       </li>
                       <li>
                         <a href="#">
                           <i className="lni-envelope" /> E: tutorbaserpi@gmail.com
-                          </a>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://github.com/DangItJason/TutorBase">
+                          <img src={git_logo} style={{maxWidth: "10%"}} alt="GitHub"/>
+                        </a>
+                        &nbsp; An
+                        <a href="https://rcos.io/">
+                          &nbsp;RCOS&nbsp;
+                        </a>
+                        project
                       </li>
                     </ul>
                   </div>
