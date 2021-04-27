@@ -1,3 +1,8 @@
+/** Express router providing user related routes
+ * @module routes/api/catalog
+ * @requires express
+ */
+
 const express = require("express");
 const mongoose = require("mongoose");
 const Subject = require("../../models/Subject");
@@ -6,8 +11,23 @@ const Appointment = require("../../models/Appointment");
 const User = require("../../models/User");
 const withAuth = require("../../middleware/token_auth");
 
+/**
+ * Express router to mount user related functions on.
+ * @type {object}
+ * @const
+ * @namespace catalogRouter
+ */
 const router = express.Router();
 
+/**
+ * Route serving courses form.
+ * @name get/api/catalog/tutor/hours/:tutor_id
+ * @function
+ * @memberof module:routes/api/catalog~catalogRouter
+ * @inner
+ * @param {string} tutor_id - Express Path
+ * @param {callback} withAuth - Express Middleware
+ */
 // GET api/catalog/tutor/hours/tutor_id
 // Get a specific tutor's availability (hours)
 router.get('/tutor/hours/:tutor_id', withAuth, (req, res) => {
@@ -16,6 +36,15 @@ router.get('/tutor/hours/:tutor_id', withAuth, (req, res) => {
     .catch(err => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving courses form.
+ * @name get/api/catalog/tutor/appointments/:tutor_id
+ * @function
+ * @memberof module:routes/api/catalog~catalogRouter
+ * @inner
+ * @param {string} tutor_id - Express Path
+ * @param {callback} withAuth - Express Middleware
+ */
 // GET api/catalog/tutor/appointments/tutor_id
 // Get a specific tutor's already scheduled appointments
 router.get('/tutor/appointments/:tutor_id', withAuth, (req, res) => {
@@ -24,6 +53,13 @@ router.get('/tutor/appointments/:tutor_id', withAuth, (req, res) => {
     .catch(err => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving courses form.
+ * @name post/api/catalog/tutors
+ * @function
+ * @memberof module:routes/api/catalog~catalogRouter
+ * @inner
+ */
 // POST api/catalog/tutors
 // Get tutors (Users) from a list of Object IDs
 router.post("/tutors", (req, res) => {
@@ -35,6 +71,14 @@ router.post("/tutors", (req, res) => {
     .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving courses form.
+ * @name post/api/catalog/appointment
+ * @function
+ * @memberof module:routes/api/catalog~catalogRouter
+ * @inner
+ * @param {callback} withAuth - Express Middleware
+ */
 // POST api/catalog/appointment
 // Create a new Appointment
 router.post("/appointment", withAuth, (req, res) => {
@@ -55,6 +99,15 @@ router.post("/appointment", withAuth, (req, res) => {
   res.json(newAppt);
 });
 
+/**
+ * Route serving courses form.
+ * @name get/api/catalog/appointments/:tutor_id
+ * @function
+ * @memberof module:routes/api/catalog~catalogRouter
+ * @inner
+ * @param {string} tutor_id - Express Path
+ * @param {callback} withAuth - Express Middleware
+ */
 // GET api/catalog/appointments/tutor_id
 // Get a specific tutor's already scheduled appointments
 router.get('/appointments/:tutor_id', withAuth, (req, res) => {
@@ -63,6 +116,15 @@ router.get('/appointments/:tutor_id', withAuth, (req, res) => {
     .catch(err => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving courses form.
+ * @name get/api/catalog/appointments/:client_id
+ * @function
+ * @memberof module:routes/api/catalog~catalogRouter
+ * @inner
+ * @param {string} client_id - Express Path
+ * @param {callback} withAuth - Express Middleware
+ */
 // GET api/catalog/appointments/client_id
 // Get a specific users's already scheduled appointments
 router.get('/appointments/:client_id', withAuth, (req, res) => {
