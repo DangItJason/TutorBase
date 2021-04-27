@@ -10,7 +10,7 @@ class landing extends Component {
         <header id="header-wrap">
           {/* Navbar Start */}
           <nav className="navbar navbar-expand-md bg-inverse fixed-top scrolling-navbar">
-            <div className="container">
+            <div className="container" style={{backgroundColor: "#FFFFFF", boxShadow: "5px 5px 5px 5px",  borderRadius: "10px", padding: "0.5em"}}>
               {/* Brand and toggle get grouped for better mobile display */}
               <a href="index.html" className="navbar-brand">
                 <img src={logo} alt />
@@ -69,7 +69,8 @@ class landing extends Component {
               <div className="row">
                 <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12">
                   <div className="contents">
-                    <h2 className="head-title">In-demand RPI tutors on demand.</h2>
+                    <h2 className="head-title">In-demand RPI tutors.</h2>
+                    <h2>On-demand.</h2>
                     <p>Find the help you need with confidence for any offered class on RPI's very first remote, hiring platform for students.</p>
                     <div className="header-button">
                       <a
