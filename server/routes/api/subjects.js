@@ -28,12 +28,11 @@ const router = express.Router();
  * @function
  * @memberof module:routes/api/subjects~subjectsRouter
  * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
+ * @param {callback} withAuth - Express middleware.
  */
 // GET /api/subjects
 // Get all subjects
-router.get("/",  (req, res) => {
+router.get("/", (req, res) => {
     Subject.find()
         .sort({ name: 1 })
         .then((subjects) => res.json(subjects))
@@ -47,8 +46,7 @@ router.get("/",  (req, res) => {
  * @function
  * @memberof module:routes/api/subjects~subjectsRouter
  * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
+ * @param {callback} withAuth - Express middleware.
  */
 // POST api/subjects
 // Create a new Subject object

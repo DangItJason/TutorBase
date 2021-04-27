@@ -1,19 +1,45 @@
+/** Express router providing user related routes
+ * @module routes/api/courses
+ * @requires express
+ */
+
 const express = require("express");
 const Subject = require("../../models/Subject");
 const Course = require("../../models/Course");
 const withAuth = require("../../middleware/token_auth");
 
+/**
+ * Express router to mount user related functions on.
+ * @type {object}
+ * @const
+ * @namespace coursesRouter
+ */
 const router = express.Router();
 
+/**
+ * Route serving courses form.
+ * @name get/api/courses
+ * @function
+ * @memberof module:routes/api/courses~coursesRouter
+ * @inner
+ */
 // GET /api/courses
 // Get all courses
-router.get("/",  (req, res) => {
+router.get("/", (req, res) => {
     Course.find()
         .sort({ name: 1 })
         .then((courses) => res.json(courses))
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving courses form.
+ * @name get/api/courses/:id
+ * @function
+ * @memberof module:routes/api/courses~coursesRouter
+ * @inner
+ * @param {string} id - Express path
+ */
 // GET api/courses/:id
 // Get course with a specific course id
 router.get("/:id", (req, res) => {
@@ -23,6 +49,14 @@ router.get("/:id", (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving courses form.
+ * @name get/api/courses/subject/:subjectid
+ * @function
+ * @memberof module:routes/api/courses~coursesRouter
+ * @inner
+ * @param {string} subjectid - Express path
+ */
 // GET /api/courses/subject/subject_id
 // Get all courses with a specific subject ID
 router.get("/subject/:subject_id", (req, res) => {
@@ -33,6 +67,14 @@ router.get("/subject/:subject_id", (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving courses form.
+ * @name post/api/courses
+ * @function
+ * @memberof module:routes/api/courses~coursesRouter
+ * @inner
+ * @param {callback} withAuth - Express middleware
+ */
 // POST api/courses
 // Create a new Course object
 router.post("/", withAuth, (req, res) => {
