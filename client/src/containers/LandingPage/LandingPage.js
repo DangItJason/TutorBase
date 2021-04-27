@@ -10,7 +10,7 @@ class landing extends Component {
         <header id="header-wrap">
           {/* Navbar Start */}
           <nav className="navbar navbar-expand-md bg-inverse fixed-top scrolling-navbar">
-            <div className="container" style={{backgroundColor: "#FFFFFF", boxShadow: "5px 5px 5px 5px",  borderRadius: "10px", padding: "0.5em"}}>
+            <div className="container navbar-style">
               {/* Brand and toggle get grouped for better mobile display */}
               <a href="index.html" className="navbar-brand">
                 <img src={logo} alt />
