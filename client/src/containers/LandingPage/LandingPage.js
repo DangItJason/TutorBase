@@ -3,7 +3,7 @@ import "./styles.css";
 import intro_mobile from "./assets/img/logo3.png";
 import logo from "./assets/img/logo1.png"
 import git_logo from "./assets/img/GitHub-Mark-32px.png"
-import rpi_logo from "../LoginPage/login_images/rpi_logo.png";
+import rpi_logo from "./assets/img/rpi_logo.png"
 
 class landing extends Component {
   render() {
@@ -43,11 +43,6 @@ class landing extends Component {
                   <li className="nav-item">
                     <a className="nav-link" href="#team">
                       Team
-                      </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#pricing">
-                      Pricing
                       </a>
                   </li>
                   <li className="nav-item">
@@ -476,7 +471,9 @@ class landing extends Component {
                   <div className="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
                     <div className="widget">
                       <h3 className="footer-logo">
-                        <img src="assets/img/logo.png" alt />
+                        <a href="https://rpi.edu/">
+                          <img src={rpi_logo} alt />
+                        </a>
                       </h3>
                       <div className="textwidget">
                         <p>
