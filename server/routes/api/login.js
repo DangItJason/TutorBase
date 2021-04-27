@@ -46,8 +46,6 @@ const secret = require("../../config/secret");
  * @function
  * @memberof module:routes/login~loginRouter
  * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
  */
 router.get("/", (req, res, next) => {
   passport.authenticate('cas', function (err, user, info) {
@@ -84,9 +82,8 @@ router.get("/", (req, res, next) => {
 /**
  * Route serving client side authentication.
  * Client side token is passed and verfied by us through jwt based on the secret.
- * @name get/auth/loginRouter
- * @memberof module:routes/loginRouter
- * 
+ * @name get/auth/login/auth
+ * @memberof module:routes/loginRouter~loginRouter
  */
 router.get('/auth', (req, res) => {
   tok = parseCookies(req.headers.cookie).token

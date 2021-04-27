@@ -87,6 +87,15 @@ router.post("/", withAuth, (req, res) => {
     newCourse.save().then((course) => res.json(course));
 });
 
+/**
+ * Route serving courses form.
+ * @name post/api/courses/:id/add-tutor
+ * @function
+ * @memberof module:routes/api/courses~coursesRouter
+ * @inner
+ * @param {string} id - Express path
+ * @param {callback} withAuth - Express middleware
+ */
 // POST api/courses/:id/add_tutor
 // Add tutor to an existing Course object
 // If tutor already exists, nothing is added
@@ -99,6 +108,15 @@ router.post("/:id/add-tutor", withAuth, (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving courses form.
+ * @name post/api/courses/:id/remove-tutor
+ * @function
+ * @memberof module:routes/api/courses~coursesRouter
+ * @inner
+ * @param {string} id - Express path
+ * @param {callback} withAuth - Express middleware
+ */
 // POST api/courses/:id/remove_tutor
 // Remove tutor from an existing Course object
 router.post("/:id/remove-tutor", withAuth, (req, res) => {
