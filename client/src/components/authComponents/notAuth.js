@@ -11,10 +11,11 @@ export default function withAuth(ComponentToProtect) {
             };
         }
         componentDidMount() {
-            fetch('/checkLogin', {
-                method: 'get',
+            fetch('api/login/auth', {
+                method: 'get'
             }).then(res => {
-                if (res.status === 200) {
+                console.log(res)
+                if (res.status != 200) {
                     this.setState({ loading: false });
                 } else {
                     const error = new Error(res.error);
@@ -32,7 +33,7 @@ export default function withAuth(ComponentToProtect) {
                 return null;
             }
             if (redirect) {
-                return <Redirect to="/loginPage" />;
+                return <Redirect to="/home" />;
             }
             return <ComponentToProtect {...this.props} />;
         }

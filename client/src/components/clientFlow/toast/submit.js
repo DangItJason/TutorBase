@@ -1,7 +1,7 @@
 import { useToasts } from "react-toast-notifications";
 import React from "react";
 
-//You can change the position/orientation of the submit in App.js
+//You can change the position/orientation of the submit in App.tsx
 const ToastSubmit = ({ props }) => {
   const { addToast } = useToasts();
   return (

@@ -5,6 +5,10 @@ import Panel from "./Panel";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../dashboard.css';
 import {connect} from "react-redux";
+import Cookies from "js-cookie";
+// const secure = window.location.protocol === 'https'
+
+// import cookie from 'react-cookies'
 
 class ClientDashboard extends Component {
     constructor(props) {

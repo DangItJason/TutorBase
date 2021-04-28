@@ -16,12 +16,16 @@
     "@types/node": "^14.14.36",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "classnames": "^2.2.6",
     "i": "^0.3.6",
+    "js-cookie": "^2.2.1",
+    "js-cookies": "^1.0.4",
     "light-toast": "^0.3.0",
     "moment": "^2.29.1",
     "prettier": "^2.2.1",
+    "query-string": "^7.0.0",
     "rambda": "^6.7.0",
     "ramda": "^0.27.1",
     "rc-time-picker": "^3.7.3",
@@ -32,6 +36,8 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
     "react-loader-spinner": "^4.0.0",
+    "react-cookie": "^4.0.3",
+    "react-cookies": "^0.1.1",
     "react-rangeslider": "^2.2.0",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
@@ -42,7 +48,7 @@
     "reactstrap": "^8.9.0",
     "styled-components": "^5.2.1",
     "tui-calendar": "^1.13.0",
-    "typescript": "^4.2.3",
+    "typescript": "^4.2.4",
     "use-state-with-callback": "^2.0.3"
   },
   "scripts": {
@@ -67,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.11",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.9"
   }

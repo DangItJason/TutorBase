@@ -1415,3 +1415,10 @@ textarea {
 .social-icon .google:hover {
   background: #CE332A;
 }
+
+.navbar-style {
+  background-color: #FFFFFF;
+  box-shadow: 5px 5px 5px 5px;
+  border-radius: 10px;
+  padding: 0.5em 3em 0.5em 0.5em
+}

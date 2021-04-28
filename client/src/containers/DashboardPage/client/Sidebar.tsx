@@ -4,14 +4,13 @@ import { ListGroup, ListGroupItem } from "reactstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAddressBook, faCalendar, faHistory, faCog, faRandom, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
-class Sidebar extends Component {
-    render() {
+export const  Sidebar =() =>  {
         return (
             <div className={classNames("bg-none", "border-right")} id="sidebar-wrapper">
-                <div class="sidebar-heading">TutorBase</div>
+                <div className="sidebar-heading">TutorBase</div>
                 <ListGroup>
-                    <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none", "tab-active")}><FontAwesomeIcon icon={faAddressBook} />Schedule a Session</ListGroupItem>
-                    <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCalendar} />Upcoming Meetings</ListGroupItem>
+                    <ListGroupItem tag="a" href="/home" className={classNames("list-group-item", "bg-none", "tab-active")}><FontAwesomeIcon icon={faAddressBook} />Schedule a Session</ListGroupItem>
+                    <ListGroupItem tag="a" href="/home/meetings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCalendar} />Upcoming Meetings</ListGroupItem>
                     <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faHistory} />History</ListGroupItem>
                     <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCog} />Settings</ListGroupItem>
                 </ListGroup>
@@ -21,7 +20,6 @@ class Sidebar extends Component {
                 </ListGroup>
             </div>
         );
-    }
 }
 
 export default Sidebar;

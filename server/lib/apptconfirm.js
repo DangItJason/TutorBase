@@ -1,9 +1,13 @@
 var emailsender = require("./emailsender.js");
 var textsender = require("./textsender.js");
 
+
+
 var fs = require("fs");
 
 //TODO: get confirm appointment working and send email upon confirmation
+
+
 
 function clientSend(phoneNumber, clientEmail) {
 
@@ -15,7 +19,7 @@ function clientSend(phoneNumber, clientEmail) {
   }
 
   //TODO: add more fields in this email
-  const html = fs.readFileSync(__dirname + '/email_client_confirmation.txt').toString();
+  const html = fs.readFileSync(__dirname + '/email_client_confirmation.html').toString();
 
   var emailresult = emailsender.send(clientEmail, html, "TutorBase Appointment Confirmation");
 
@@ -23,9 +27,35 @@ function clientSend(phoneNumber, clientEmail) {
 
 }
 
-function tutorSend(phoneNumber, tutorEmail, tutorName, clientName, date, startTime, endTime, course, notes, location) {
-  
-  var time = startTime.concat(" - ", endTime);
+function clientSendConfirmed(phoneNumber, clientEmail, tutorName, startTime, endTime, course, location, notes) {
+  var start = new Date(parseInt(startTime) * 1000).toUTCString();
+  var time = start.concat(" - ", endTime);
+  if (phoneNumber !== null) {
+
+    // Max 160 chars
+    var txtmsg = "Your TutorBase appointment request has been confirmed by the tutor!";
+    var resul = textsender.send(txtmsg, phoneNumber, null, "us");
+  }
+
+  //TODO: add more fields in this email
+  var htmlOrig = fs.readFileSync(__dirname + '/email_client_confirmed.html').toString();
+
+  var html = htmlOrig.replace("{{tutor-name}}", tutorName)
+              .replace("{{date}}", time)
+              .replace("{{course}}", course)
+              .replace("{{location}}", location)
+              .replace("{{notes}}", notes)
+              ;
+
+  var emailresult = emailsender.send(clientEmail, html, "TutorBase Appointment Confirmed");
+
+  return emailresult;
+
+}
+
+function tutorSend(apptId, confToken, phoneNumber, tutorEmail, tutorName, clientName, date, startTime, endTime, course, notes, location) {
+  var start = new Date(parseInt(startTime) * 1000).toUTCString();
+  var time = start.concat(" - ", endTime);
 
   if (phoneNumber !== null) {
     // Max 160 chars
@@ -33,15 +63,18 @@ function tutorSend(phoneNumber, tutorEmail, tutorName, clientName, date, startTi
     var resul = textsender.send(txtmsg, phoneNumber, null, "us");
   }
 
-  var htmlOrig = fs.readFileSync(__dirname + '/email_tutor_confirmation.txt').toString();
+  var htmlOrig = fs.readFileSync(__dirname + '/email_tutor_confirmation.html').toString();
 
   var html = htmlOrig.replace("{{tutor-name}}", tutorName)
               .replace("{{client-name}}", clientName)
-              .replace("{{date}}", date)
+              .replace("{{date}}", time)
               .replace("{{time}}", time)
               .replace("{{course}}", course)
               .replace("{{location}}", location)
-              .replace("{{notes}}", notes);
+              .replace("{{notes}}", notes)
+              .replace("{{id}}", apptId)
+              .replace("{{confToken}}", confToken)
+              ;
 
   var emailresult = emailsender.send(tutorEmail, html, "TutorBase Appointment Request");
 
@@ -51,14 +84,14 @@ function tutorSend(phoneNumber, tutorEmail, tutorName, clientName, date, startTi
 
 function signupNotify(name, email, phoneNumber) {
 
-  if (phoneNumber !== null && phoneNumber.length === 10) {
+  if (phoneNumber != null && phoneNumber.length === 10) {
     // Max 160 chars
     var txtmsg = "Your TutorBase account has been created."; 
     var resul = textsender.send(txtmsg, phoneNumber, null, "us");
     console.log(resul);
   }
 
-  var htmlOrig = fs.readFileSync(__dirname + '/email_signup.txt').toString();
+  var htmlOrig = fs.readFileSync(__dirname + '/email_signup.html').toString();
 
   var html = htmlOrig.replace("{{name}}", name);
 
@@ -69,6 +102,7 @@ function signupNotify(name, email, phoneNumber) {
 
 
 module.exports = {
+  clientSendConfirmed: clientSendConfirmed,
   client: clientSend,
   tutor: tutorSend,
   signupNotify: signupNotify

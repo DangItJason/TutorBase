@@ -1,0 +1,143 @@
+
+.compressed-card {
+    display: flex;
+    /*align-items: flex-start;*/
+    width: 100%;
+    height: 75px;
+    border-radius: 0.28571429rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.075);
+    padding-top: 5px;
+    margin: 15px 0;
+    cursor: pointer;
+    color: black;
+}
+
+
+.expanded-card {
+    display: flex;
+    /*align-items: flex-start;*/
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 200px;
+    border-radius: 0.28571429rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.075);
+    margin: 15px 0;
+    cursor: pointer;
+    color: black;
+}
+
+.card-container-start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+    width: 50%;
+    font-size: 16px;
+}
+
+.card-container-start-expanded {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+    padding-top: 27px;
+    width: 50%;
+    font-size: 16px;
+}
+
+.card-container-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+    width: 50%;
+    font-size: 16px;
+}
+
+.card-container-end {       
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    width: 50%;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.card-container-end-expanded {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    padding-top: 25px;
+    width: 50%;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0px;
+  }
+
+.client-notes {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+    padding-bottom: 150px;
+    width: 50%;
+    font-size: 16px;
+}
+
+.card-location {
+    display: flex;
+    justify-content: flex-start;
+    width: 18%;
+}
+
+.card-time {
+    display: flex;
+    justify-content: flex-start;
+    width: 25%;
+}
+
+.card-name {
+    display: flex;
+    justify-content: flex-start;
+    width: 25%;
+}
+
+.card-icon {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+    margin-right: 10px;
+    width: 5%;
+}
+
+.card-status {
+    display: flex;
+    justify-content: flex-start;
+    width: 15%;
+}
+
+.completed-card {
+    background-color: rgb(195 230 203);
+    border: 1px solid rgb(147, 197, 147);
+}
+
+.denied-card {
+    background-color: rgb(245 198 203);
+    border: 1px solid rgb(234 135 146);
+}
+
+.pending-card {
+    background-color: rgb(246 217 181);
+    border: 1px solid rgb(238 182 112);
+}
+
+.upcoming-card {
+    background-color: rgb(195 214 230);
+    border: 1px solid rgb(147 183 197);
+}

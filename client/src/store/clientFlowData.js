@@ -12,7 +12,7 @@ export const initialState = {
   tutorName: "",
   tutorId: "",
   subjectId: "",
-  clientId: "60393924e824521048b978f9",//"0123456789",
+  clientId: "606b344247aec641c8b74b42",//"0123456789",
   tutorIds: [], // Tutor Ids for selecting a subject
   apptDate: "",
   apptStartTime: "",
@@ -58,6 +58,10 @@ const clientFlowSlice = createSlice({
       console.log("== SET TUTOR ACTION:", action, "==");
       state.tutorName = action.payload[0];
       state.tutorId = action.payload[1];
+    },
+    setTutorIds(state,action) {
+      console.log("== SET TUTOR IDS ACTION:", action, "==");
+      state.tutorIds = action.payload;
     },
     setClient(state, action) {
       console.log("== SET CLIENT ACTION:", action, "==");

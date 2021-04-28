@@ -1,6 +1,31 @@
+![Tutorbase Logo](src/containers/LandingPage/assets/img/logo2.png)
+
+<hr />
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+<hr />
+
+# Getting Started 
+<hr/>
+
+ - Clone the repository
+- run npm install in:
+    * client/
+    * server/
+    
+- npm start in:
+    * client/
+    * server
+    
+- Done!
+
+# Want to know more about the project?
+<hr/>
+Checkout our wiki page on the github: https://github.com/DangItJason/TutorBase/wiki
+
+# Available Scripts
+<hr/>
 
 In the project directory, you can run:
 
@@ -36,6 +61,10 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+# Create React App Documentation:
+
+<hr/>
 
 ## Learn More
 
