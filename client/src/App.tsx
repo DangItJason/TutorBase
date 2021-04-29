@@ -1,6 +1,7 @@
 import React from "react";
 import {SignUpPage} from "./containers/SignUpPage/SignupPage";
 import ClientDashboard from "./containers/DashboardPage/client/ClientDashboard";
+import TutorDashboard from "./containers/DashboardPage/tutor/TutorDashboard";
 import {ToastProvider} from "react-toast-notifications";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {LoginPage} from "./containers/LoginPage/LoginPage";
