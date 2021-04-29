@@ -8,16 +8,21 @@ import {selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
 import { useParams } from "react-router-dom";
 import Meetings from "./meetings";
 
+interface IParams {
+    panelContent: string;
+}
+
 export const Panel = () => {
     let dispatch = useDispatch();
     let sidebarToggled = useSelector(selectSidebarToggled);
 
-    // let { panelContent } = useParams();
+    let params: IParams = useParams();
+    console.log(params.panelContent)
 
-    // let body = <FormParent />;
-    // if (panelContent) {
-    //     body = <Meetings />;
-    // }
+    let body = <FormParent />;
+    if (params.panelContent === 'meetings') {
+        body = <Meetings />;
+    }
 
     return (
         <div id="panel-wrapper">
@@ -26,9 +31,7 @@ export const Panel = () => {
                     dispatch(actions.toggleSidebar());
                 }}>☰</Button>
             </Navbar>
-            <div className="container-fluid">
-                <FormParent />
-            </div>
+            <div className="container-fluid">{body}</div>
         </div>
     );
 }
