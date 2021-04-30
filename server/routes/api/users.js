@@ -1,12 +1,35 @@
+/** Express router providing user related routes
+ * @module routes/api/users
+ * @requires express
+ */
+
+/**
+ * express module
+ * @const
+ */
 const express = require('express');
 const User = require("../../models/User");
 const apptconfirm = require("../../lib/apptconfirm");
 
+/**
+ * Express router to mount user related functions on.
+ * @type {object}
+ * @const
+ * @namespace userRouter
+ */
 let router = express.Router();
 
 // Middleware
 const withAuth = require('../../middleware/token_auth')
 
+/**
+ * Route serving subjects form.
+ * @name get/api/users
+ * @function
+ * @memberof module:routes/api/users~userRouter
+ * @inner
+ * @param {callback} withAuth - Express middleware.
+ */
 // GET /api/users
 // Get all users
 router.get("/", withAuth, (req, res) => {
@@ -16,6 +39,14 @@ router.get("/", withAuth, (req, res) => {
     .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving subjects form.
+ * @name get/api/users/user
+ * @function
+ * @memberof module:routes/api/users~userRouter
+ * @inner
+ * @param {callback} withAuth - Express middleware.
+ */
 // GET /api/users/user
 // Get user by id
 router.get("/user", withAuth, (req, res) => {
@@ -25,6 +56,14 @@ router.get("/user", withAuth, (req, res) => {
     .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving subjects form.
+ * @name get/api/users - email
+ * @function
+ * @memberof module:routes/api/users~userRouter
+ * @inner
+ * @param {callback} withAuth - Express middleware.
+ */
 // GET /api/users?email=test@test.com
 // Get user by email
 router.get("/", withAuth, (req, res) => {
@@ -34,6 +73,14 @@ router.get("/", withAuth, (req, res) => {
     .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+/**
+ * Route serving subjects form.
+ * @name post/api/users
+ * @function
+ * @memberof module:routes/api/users~userRouter
+ * @inner
+ * @param {callback} withAuth - Express middleware.
+ */
 // POST /api/users
 // Create a user
 router.post("/", withAuth, (req, res) => {
@@ -53,6 +100,14 @@ router.post("/", withAuth, (req, res) => {
   newUser.save().then((user) => res.json(user));
 });
 
+/**
+ * Route serving subjects form.
+ * @name put/api/users/user
+ * @function
+ * @memberof module:routes/api/users~userRouter
+ * @inner
+ * @param {callback} withAuth - Express middleware.
+ */
 // PUT /api/users/user
 // Update a user
 router.put("/user", withAuth, (req, res) => {
