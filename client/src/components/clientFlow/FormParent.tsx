@@ -26,7 +26,7 @@ export function FormParent() {
     // Button to move to a previous step
     function prevButton() {
         // First step has no previous step, dont show
-        if (currentStep !== 1) {
+        if (currentStep !== 0) {
             return (
                 <button
                     className="btn btn-secondary"

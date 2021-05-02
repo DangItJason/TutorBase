@@ -114,7 +114,7 @@ const clientFlowSlice = createSlice({
 
         decrementStep(state) {
             console.log("== Decrementing Step ==");
-            state.currentStep = state.currentStep <= 1 ? 1 : state.currentStep - 1;
+            state.currentStep = state.currentStep < 1 ? 1 : state.currentStep - 1;
         },
         incrementStep(state) {
             console.log("== Incrementing Step ==");
