@@ -91,7 +91,9 @@ export const  Step4 = () => {
        to store. */
     const onAfterRenderSchedule = (e: any) => {
         // TODO: This is being called twice for some reason
+        // ^^^^^ This function runs an "extra" time for every Tutor Appt on the calender. ex, if there's 1 Tutor Appt then it  will run twice. ^^^^
         // TODO: Block the user from trying to create another appt, if they do it loops infinitely
+        // ^^^^^ Removing the dispatch seems to temp. fix the infinite loop
         console.log("AFTER RENDER SCHEDULE:", e);
         let startDay = e.schedule.start;
         let endDay = e.schedule.end;
@@ -107,7 +109,7 @@ export const  Step4 = () => {
         let apptStart = startDay.getTime();
         let apptEnd = endDay.getTime();
 
-        dispatch(actions.setAppointment([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
+        // dispatch(actions.setAppointment([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
     };
 
     const onBeforeCreateSchedule = (scheduleData: any) => {
@@ -134,12 +136,15 @@ export const  Step4 = () => {
     };
 
     const onBeforeDeleteSchedule = (res: any) => {
+        console.log("onBeforeDelete");
         const {id, calendarId} = res.schedule;
 
         cal.current.calendarInst.deleteSchedule(id, calendarId);
     };
 
     const onBeforeUpdateSchedule = (e: any) => {
+        console.log("onBeforeDelete");
+
         const {schedule, changes} = e;
 
         cal.current.calendarInst.updateSchedule(
