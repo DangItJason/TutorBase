@@ -27,7 +27,7 @@
     "passport-cas": "^0.1.1",
     "react-available-times": "^1.4.0",
     "request": "^2.88.2",
-    "underscore": "^1.10.2"
+    "underscore": "^1.12.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
