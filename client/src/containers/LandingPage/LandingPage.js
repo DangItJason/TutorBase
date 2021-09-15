@@ -4,11 +4,17 @@ import intro_mobile from "./assets/img/logo3.png";
 import logo from "./assets/img/logo1.png"
 import git_logo from "./assets/img/GitHub-Mark-32px.png"
 import rpi_logo from "./assets/img/rpi_logo.png"
+import {Helmet} from "react-helmet";
 
 class landing extends Component {
   render() {
     return (
       <div>
+        <Helmet>
+                <meta charSet="utf-8" />
+                <title>TutorBase</title>
+        </Helmet>
+
         <header id="header-wrap">
           {/* Navbar Start */}
           <nav className="navbar navbar-expand-md bg-inverse fixed-top scrolling-navbar">

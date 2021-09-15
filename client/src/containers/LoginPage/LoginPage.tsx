@@ -1,11 +1,13 @@
 import React from "react";
-import {Button, Col, Container, Row,} from "reactstrap";
-import {Link, useHistory} from "react-router-dom";
+import { Button, Col, Row, } from "reactstrap";
+import { Link, useHistory } from "react-router-dom";
 import rpi_logo from "./login_images/rpi_logo.png"
 import tb_logo from "./login_images/tutorbase_logo.png"
 import git_logo from "./login_images/GitHub-Mark-32px.png"
 import '../../styles/Login.css';
-import {ApiBaseAddress} from "../../utils/Environment";
+import { ApiBaseAddress } from "../../utils/Environment";
+import { Helmet } from 'react-helmet';
+import styled from "styled-components";
 
 export function LoginPage() {
     const history = useHistory();
@@ -46,52 +48,97 @@ export function LoginPage() {
     };
 
     return (
-        // Login body contains only center object on the page
-        // TODO: Change this to use CSS Flexbox in the future
-        <body className={"loginBody"}>
-            <Container style={{maxWidth: "45em", paddingTop: "5em"}}>
-                <div className="loginContainer">
+        <Container>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>TutorBase - Login</title>
+            </Helmet>
+
+            <LoginBacking>
+                <LoginPrompt>
                     <Row>
-                        <Col style={{textAlign: "center", paddingTop: "3em"}}>
-                            <img src={tb_logo} style={{maxWidth: "100%"}} alt="Rensselaer"/>
+                        <Col style={{ textAlign: "center", paddingTop: "3em" }}>
+                            <img src={tb_logo} style={{ maxWidth: "100%" }} alt="Rensselaer" />
                         </Col>
                     </Row>
                     <Row>
-                        <Col style={{textAlign: "center"}}>
+                        <Col style={{ textAlign: "center" }}>
                             A better system to connect students and tutors at RPI.
                         </Col>
                     </Row>
-                    <Row noGutters={true} style={{textAlign: "center", alignContent: 'center'}}>
+                    <Row noGutters={true} style={{ textAlign: "center", alignContent: 'center' }}>
                         <Col xs="1" />
                         <Col xs="10">
                             <Button
                                 onClick={() => CASRedirect()}
                                 color="danger"
                                 size="lg"
-                                style={{marginTop: '4em'}}>
-                                    Login
+                                style={{ marginTop: '4em' }}>
+                                Login
                             </Button>
                         </Col>
                     </Row>
-                    <Row style={{marginTop: "150px"}}>
-                        <Col style={{textAlign: "center"}}>
+                    <Row style={{ marginTop: "150px" }}>
+                        <Col style={{ textAlign: "center" }}>
                             An <a href="https://rcos.io/"> RCOS</a> project. &nbsp;
                             <a href="https://github.com/DangItJason/TutorBase">
-                                <img style={{maxWidth: "80%", maxHeight: "80%"}}
-                                     src={git_logo}
-                                     alt="GitHub"/>
+                                <img style={{ maxWidth: "80%", maxHeight: "80%" }}
+                                    src={git_logo}
+                                    alt="GitHub" />
                             </a>
                         </Col>
                     </Row>
-                </div>
-                <Row style={{paddingTop: "10%", paddingBottom: "30%"}}>
+                </LoginPrompt>
+
+                <Row>
                     <Col style={{textAlign: "center"}}>
                         <a href="https://www.rpi.edu">
                             <img src={rpi_logo} style={{maxWidth: "100%"}} alt="Rensselaer"/>
                         </a>
                     </Col>
                 </Row>
-            </Container>
-        </body>
+            </LoginBacking>
+        </Container>
     );
 }
+
+const Container = styled.div`
+    padding: 10px;
+
+    height: 100vh;
+    width: 100vw;
+
+    background-color: #E66064;
+
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+
+    // DEBUG STYLES //
+    // border: red solid 5px;
+`;
+
+const LoginBacking = styled.div`
+    height: 100%;
+    width: 100%;
+
+    background-color: white;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    // DEBUG STYLES //
+    // border: red solid 5px;
+`;
+
+const LoginPrompt = styled.div`
+    margin: 2em;
+    max-width: 1000px;
+    
+    border: solid 2px #6c757d;
+    border-radius: 0.28571429rem;
+    box-shadow: 5px 5px 5px #ccc;
+`;
