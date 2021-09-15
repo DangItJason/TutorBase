@@ -1,14 +1,16 @@
 ![Tutorbase Logo](client/src/containers/LandingPage/assets/img/logo2.png)
 
-<hr />
+---
 
 Creating a better system to connect students and tutors.
 
-<hr />
+---
 
 ## Links
 - [https://rcos.io/projects/dangitjason/tutorbase/profile](https://rcos.io/projects/dangitjason/tutorbase/profile) (RCOS Project Page)
 - Want to learn more, checkout: https://github.com/DangItJason/TutorBase/wiki
+
+---
 
 ### Overview
 TutorBase is a free, open-source platform that connects RPI students and RPI tutors. TutorBase provides two key functionalities: control of operations for the tutor and ability to connect with tutors easily for the student.
