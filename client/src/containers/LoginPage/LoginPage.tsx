@@ -66,25 +66,26 @@ export function LoginPage() {
                             A better system to connect students and tutors at RPI.
                         </Col>
                     </Row>
-                    <Row noGutters={true} style={{ textAlign: "center", alignContent: 'center' }}>
-                        <Col xs="1" />
-                        <Col xs="10">
+
+                    <Row>
+                        <Col style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <Button
                                 onClick={() => CASRedirect()}
                                 color="danger"
                                 size="lg"
-                                style={{ marginTop: '4em' }}>
+                                style={{margin: '1em'}}>
                                 Login
                             </Button>
                         </Col>
                     </Row>
-                    <Row style={{ marginTop: "150px" }}>
-                        <Col style={{ textAlign: "center" }}>
+
+                    <Row>
+                        <Col style={{textAlign: 'center'}}>
                             An <a href="https://rcos.io/"> RCOS</a> project. &nbsp;
                             <a href="https://github.com/DangItJason/TutorBase">
                                 <img style={{ maxWidth: "80%", maxHeight: "80%" }}
-                                    src={git_logo}
-                                    alt="GitHub" />
+                                     src={git_logo}
+                                     alt="GitHub" />
                             </a>
                         </Col>
                     </Row>
