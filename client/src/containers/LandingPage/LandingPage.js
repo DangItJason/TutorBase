@@ -15,7 +15,7 @@ class landing extends Component {
             <div className="container navbar-style">
               {/* Brand and toggle get grouped for better mobile display */}
               <a href="index.html" className="navbar-brand">
-                <img src={logo} alt />
+                <img src={logo} alt="" />
               </a>
               <button
                 className="navbar-toggler"
@@ -30,7 +30,7 @@ class landing extends Component {
               </button>
               <div className="collapse navbar-collapse" id="navbarCollapse">
                 <ul className="navbar-nav mr-auto w-100 justify-content-end clearfix">
-                  <li className="nav-item active">
+                  <li className="nav-item">
                     <a className="nav-link" href="#hero-area">
                       Home
                       </a>
@@ -45,11 +45,11 @@ class landing extends Component {
                       Team
                       </a>
                   </li>
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <a className="nav-link" href="#testimonial">
                       Testimonial
                       </a>
-                  </li>
+                  </li> */}
                   <li className="nav-item">
                     <a className="nav-link" href="#contact">
                       Contact
@@ -88,7 +88,7 @@ class landing extends Component {
                 </div>
                 <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12">
                   <div className="intro-img">
-                    <img className="img-fluid" src={intro_mobile} alt />
+                    <img className="img-fluid" src={intro_mobile} alt="" />
                   </div>
                 </div>
               </div>
@@ -211,7 +211,7 @@ class landing extends Component {
                   <img
                     className="img-fluid"
                     src="assets/img/about/img-1.png"
-                    alt
+                    alt=""
                   />
                 </div>
               </div>
@@ -279,7 +279,7 @@ class landing extends Component {
                 </div>
                 <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                   <div className="show-box wow fadeInUp" data-wow-delay="0.3s">
-                    <img src="assets/img/feature/intro-mobile.png" alt />
+                    <img src="assets/img/feature/intro-mobile.png" alt="" />
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
@@ -360,7 +360,7 @@ class landing extends Component {
                       <img
                         className="img-fluid"
                         src="assets/img/team/team-01.png"
-                        alt
+                        alt=""
                       />
                     </div>
                     <div className="contetn">
@@ -417,7 +417,7 @@ class landing extends Component {
                       <img
                         className="img-fluid"
                         src="assets/img/team/team-02.png"
-                        alt
+                        alt=""
                       />
                     </div>
                     <div className="contetn">
@@ -472,7 +472,7 @@ class landing extends Component {
                     <div className="widget">
                       <h3 className="footer-logo">
                         <a href="https://rpi.edu/">
-                          <img src={rpi_logo} alt />
+                          <img src={rpi_logo} alt="" />
                         </a>
                       </h3>
                       <div className="textwidget">
