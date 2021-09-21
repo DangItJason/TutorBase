@@ -19,8 +19,9 @@ export function Step3() {
 
         const getAllTutors = (ids: Array<string>) => {
             let tutor_array: Array<Tutor> = []
+            tutors = []; // Re-populate tutor aval tutors
             ids.forEach(async id => {
-                let tutor =await getTutor(id);
+                let tutor = await getTutor(id);
                 console.log("Getted Tutor: ", tutor);
                 tutor_array = Object.assign([], tutor_array);
                 tutor_array.push(tutor);
