@@ -111,7 +111,7 @@ router.get('/tutors/:tutor_id', (req, res) => {
 
 /**
  * Route serving subjects form.
- * @name post/api/appointment/tutors/:client_id
+ * @name post/api/appointment/clients/:client_id
  * @function
  * @memberof module:routes/api/appointment~appointmentOperationsRouter
  * @inner
