@@ -34,6 +34,22 @@ mongoose.set('useFindAndModify', false);
 
 /**
  * Route serving subjects form.
+ * @name get/api/appointment
+ * @function
+ * @memberof module:routes/api/users~userRouter
+ * @inner
+ * @param {callback} withAuth - Express middleware.
+ */
+// GET /api/appointment
+// Get all appointment
+router.get("/", (req, res) => {
+  Appointment.find()
+    .then((users) => res.json(users))
+    .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
+/**
+ * Route serving subjects form.
  * @name post/api/appointment
  * @function
  * @memberof module:routes/api/appointment~appointmentOperationsRouter
@@ -111,7 +127,7 @@ router.get('/tutors/:tutor_id', (req, res) => {
 
 /**
  * Route serving subjects form.
- * @name post/api/appointment/tutors/:client_id
+ * @name post/api/appointment/clients/:client_id
  * @function
  * @memberof module:routes/api/appointment~appointmentOperationsRouter
  * @inner

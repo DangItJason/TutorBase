@@ -7,7 +7,7 @@ import {actions} from "../../../store/ClientFlowData/slice";
 import {selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
 import { useParams } from "react-router-dom";
 import Meetings from "./meetings";
-import MeetingHistory from "./meeting-history";
+import MeetingHistory from "./MeetingHistory";
 
 interface IParams {
     panelContent: string;
