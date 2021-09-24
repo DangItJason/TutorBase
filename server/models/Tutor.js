@@ -7,7 +7,7 @@ const TutorSchema = new Schema({
     first_name: {type: String, required: true},
     last_name: {type: String, required: true},
 
-    profile_img: {type: String, default: ""},
+    profile_img: {type: Buffer, default: ""},
     phone: {type: String, default: ""},
 
     // Time they can tutor

@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const Photo = require('../model/Photo');
+const Tutor = require("../../models/Tutor");
 const Router = express.Router();
 
 const upload = multer({
@@ -20,15 +20,21 @@ const upload = multer({
     upload.single('photo'),
     async (req, res) => {
       try {
-        const photo = new Photo(req.body);
+
         const file = req.file.buffer;
-        photo.photo = file;
+        Tutor.update(
+            { _id: req.params.userid },
+            { $set: {photo: file} }
+        )
+        .then((tutor) => res.json(tutor))
+        .catch((err) => res.status(400).json({ msg: err.message }));
+
   
-        await photo.save();
+        await Tutor.save();
         res.status(201).send({ _id: photo._id });
       } catch (error) {
         res.status(500).send({
-          upload_error: 'Error while uploading file...Try again later.'
+          upload_error: 'Error while uploading file.'
         });
       }
     },
@@ -43,9 +49,9 @@ const upload = multer({
   
   Router.get('/photos', async (req, res) => {
     try {
-      const photos = await Photo.find({});
-      res.send(photos);
+      const tutor = await Tutor.find({_id: req.params.tutor_id});
+      res.send(tutor.photo);
     } catch (error) {
-      res.status(500).send({ get_error: 'Error while getting list of photos.' });
+      res.status(500).send({ get_error: 'Error while getting tutor photo.' });
     }
   });
