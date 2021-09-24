@@ -6,6 +6,7 @@ import {Appointment, Subject, Tutor} from "../../services/api.types";
    everything to do with creating a tutor appointment,
     and anything needed inside the "clientFlow" components */
 export const initialState: ClientDataSlice = {
+    clientId: "606b344247aec641c8b74b42",
     appointments: [],
 };
 

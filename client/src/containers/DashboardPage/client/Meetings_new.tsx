@@ -1,6 +1,5 @@
-import React, { Component, useEffect, useState } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { actions } from "../../../store/clientData";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, ListGroup, ListGroupItem } from "reactstrap";
 import {
   Dropdown,
@@ -10,14 +9,12 @@ import {
 } from "reactstrap";
 import "./meetings.css";
 import MeetingCard from "../../../components/meetingCard/MeetingCard";
-import { selectClientFlowData } from "../../../store/ClientFlowData/selectors";
 import {actions as clientDataActions} from "../../../store/ClientData/slice";
 import { Appointment } from "../../../services/api.types";
 import { api } from "../../../services/api";
 import { selectClientData } from "../../../store/ClientData/selectors";
 
 export const Meetings = () => {
-    let clientFlowData = useSelector(selectClientFlowData);
     let clientData = useSelector(selectClientData);
     let [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
     let [dropdownValue, setDropdownValue] = useState<String>("All");
@@ -26,7 +23,7 @@ export const Meetings = () => {
 
     useEffect(() => {
         const getAppointments = async () => {
-            return (await api.GetClientAppointments(clientFlowData.clientId)).data;
+            return (await api.GetClientAppointments(clientData.clientId)).data;
         }
 
         getAppointments().then(value => {
@@ -34,9 +31,28 @@ export const Meetings = () => {
                 dispatch(clientDataActions.setAppointment(value));
             }
         )
-    }, [dispatch])
+    }, [clientData.clientId, dispatch])
 
-    console.log(appointments)
+    return (
+        <Container fluid>
+            <Row className="title" style={{ marginTop: '25px'}}>
+            <div className="profile-text">Meetings</div>
+            </Row>
 
-    return <></>;
+            <hr></hr>
+
+            <Dropdown isOpen={dropdownOpen} toggle={() => {setDropdownOpen(!dropdownOpen)}}>
+            <DropdownToggle caret >
+                {dropdownValue}
+            </DropdownToggle>
+            <DropdownMenu>
+                <DropdownItem onClick={(event) => {}}>All</DropdownItem>
+                <DropdownItem onClick={(event) => {}}>Completed</DropdownItem>
+                <DropdownItem onClick={(event) => {}}>Pending</DropdownItem>
+                <DropdownItem onClick={(event) => {}}>Upcoming</DropdownItem>
+                <DropdownItem onClick={(event) => {}}>Denied</DropdownItem>
+            </DropdownMenu>
+            </Dropdown>
+        </Container>
+    );
 }
