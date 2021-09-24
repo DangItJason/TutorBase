@@ -45,7 +45,8 @@ export const  Step4 = () => {
             let previousAppts = [{
                 id: "1",
                 calendarId: "0",
-                title: clientFlowData.appointmentSubjectId,
+                // title: clientFlowData.appointmentSubjectId,
+                title: "Tutor Time!",
                 category: "time",
                 dueDateClass: "",
                 start: new Date(clientFlowData.appointmentStartTime),
@@ -70,10 +71,12 @@ export const  Step4 = () => {
                         location: "Blocked",
                     })
                 })
+
+            setPreviousSchedule(previousAppts);
         }
 
         generateTutorTimes().then(value => console.log(value));
-    });
+    }, []);
 
     const toggleCalType = () => {
         setCalTypeOpen(!calTypeOpen);
@@ -94,21 +97,21 @@ export const  Step4 = () => {
         // ^^^^^ This function runs an "extra" time for every Tutor Appt on the calender. ex, if there's 1 Tutor Appt then it  will run twice. ^^^^
         // TODO: Block the user from trying to create another appt, if they do it loops infinitely
         // ^^^^^ Removing the dispatch seems to temp. fix the infinite loop
-        console.log("AFTER RENDER SCHEDULE:", e);
-        let startDay = e.schedule.start;
-        let endDay = e.schedule.end;
-        let apptLoc = e.schedule.location;
-        let apptSubj = e.schedule.title;
-
-        let apptDate = new Date(
-            startDay.getFullYear(),
-            startDay.getMonth(),
-            startDay.getDay()
-        ).toDateString();
-
-        let apptStart = startDay.getTime();
-        let apptEnd = endDay.getTime();
-
+        // console.log("AFTER RENDER SCHEDULE:", e);
+        // let startDay = e.schedule.start;
+        // let endDay = e.schedule.end;
+        // let apptLoc = e.schedule.location;
+        // let apptSubj = e.schedule.title;
+        //
+        // let apptDate = new Date(
+        //     startDay.getFullYear(),
+        //     startDay.getMonth(),
+        //     startDay.getDay()
+        // ).toDateString();
+        //
+        // let apptStart = startDay.getTime();
+        // let apptEnd = endDay.getTime();
+        //
         // dispatch(actions.setAppointment([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
     };
 
@@ -133,12 +136,28 @@ export const  Step4 = () => {
         };
 
         cal.current.calendarInst.createSchedules([schedule]);
+
+        let startDay = scheduleData.start;
+        let endDay = scheduleData.end;
+        let apptLoc = scheduleData.location;
+        let apptSubj = scheduleData.title;
+
+        let apptDate = new Date(
+            startDay.getFullYear(),
+            startDay.getMonth(),
+            startDay.getDay()
+        ).toDateString();
+
+        let apptStart = startDay.getTime();
+        let apptEnd = endDay.getTime();
+
+        dispatch(actions.setAppointment([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
+        dispatch(actions.incrementStep());
     };
 
     const onBeforeDeleteSchedule = (res: any) => {
         console.log("onBeforeDelete");
         const {id, calendarId} = res.schedule;
-
         cal.current.calendarInst.deleteSchedule(id, calendarId);
     };
 
@@ -152,6 +171,22 @@ export const  Step4 = () => {
             schedule.calendarId,
             changes
         );
+
+        let startDay = schedule.start;
+        let endDay = schedule.end;
+        let apptLoc = schedule.location;
+        let apptSubj = schedule.title;
+
+        let apptDate = new Date(
+            startDay.getFullYear(),
+            startDay.getMonth(),
+            startDay.getDay()
+        ).toDateString();
+
+        let apptStart = startDay.getTime();
+        let apptEnd = endDay.getTime();
+
+        dispatch(actions.setAppointment([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
     };
     ////////////////////////
 

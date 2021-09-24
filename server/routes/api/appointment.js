@@ -77,17 +77,20 @@ router.post("/", async (req, res) => {
       { _id: req.body.tutor_id }
     );
     course = await Course.findOne(
-      { _id: req.body.course_id }
+      { id: req.body.course_id }
     );
   } catch (e) {
     console.log(e);
     return;
   }
   // Send confirmation email and texts
-  console.log(apptconfirm.tutor(newAppt.appt_id, tok, tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,
-    client.first_name + ' ' + client.last_name, req.body.date, startTime, endTime, course.name,
-    req.body.notes, req.body.loc ? req.body.loc : "test"));
-  console.log(apptconfirm.client(client.phone, client.email));
+  if(tutor.phone || tutor.email !== null)
+    console.log(apptconfirm.tutor(newAppt.appt_id, tok, tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,
+      client.first_name + ' ' + client.last_name, req.body.date, startTime, endTime, course.name,
+      req.body.notes, req.body.loc ? req.body.loc : "test"));
+
+  if(client.phone || client.email !== null)
+    console.log(apptconfirm.client(client.phone, client.email));
 
   console.log("DEBUG: Printing newAppt =>", newAppt);
   res.json(newAppt);

@@ -85,9 +85,9 @@ export function FormParent() {
 
     return (
         <Fragment>
-            <h2 className="text-center mt-4 fragment-title">
+            {/* <h2 className="text-center mt-4 fragment-title">
                 Schedule a Tutoring Session
-            </h2>
+            </h2> */}
 
             <div className="text-center mt-3 mb-2">
                 <div className="ml-1 mr-1 nav-btn">{prevButton()}</div>

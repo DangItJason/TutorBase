@@ -7,7 +7,7 @@ import {Appointment, Subject, Tutor} from "../../services/api.types";
     and anything needed inside the "clientFlow" components */
 export const initialState: ClientFlowSlice = {
     sidebarToggled: false,
-    clientId: "12345",
+    clientId: "6070beb7dad06e015b73a107",
 
     currentStep: 0,
     furthestStep: 0,

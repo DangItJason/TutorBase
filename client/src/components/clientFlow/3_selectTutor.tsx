@@ -6,6 +6,7 @@ import {actions} from '../../store/ClientFlowData/slice';
 import { Tutor } from "../../services/api.types";
 import { api } from "../../services/api";
 import { Spinner } from 'reactstrap';
+import styled from "styled-components";
 
 export function Step3() {
     let clientFlowData = useSelector(selectClientFlowData);
@@ -13,21 +14,22 @@ export function Step3() {
     let dispatch = useDispatch();
 
     useEffect(() => {
+        // Get a tutor by ID from the API
         const getTutor = async (id: String) => {
             return (await api.GetTutorById(id)).data[0];
         }
 
+        // Get all tutors given their IDs
         const getAllTutors = (ids: Array<string>) => {
             let tutor_array: Array<Tutor> = []
-            tutors = []; // Re-populate tutor aval tutors
+            tutors = []; // Reset aval tutors array
+
             ids.forEach(async id => {
                 let tutor = await getTutor(id);
-                console.log("Getted Tutor: ", tutor);
                 tutor_array = Object.assign([], tutor_array);
                 tutor_array.push(tutor);
                 tutor_array.push(...tutors)
                 dispatch(actions.setAvailableTutors(tutor_array));
-                console.log("Tutor Array: ", tutor_array)
             })
         }
 
@@ -35,11 +37,13 @@ export function Step3() {
     }, [clientFlowData.availableTutorIds])
 
     const decideRender = () => {
-        console.log('Decide',tutors);
-        console.log('Decide',tutors.length);
+        // console.log('Decide',tutors);
+        // console.log('Decide',tutors.length);
+        // console.log('FLOW DATA: ', clientFlowData.selectedTutor)
+
         if (tutors.length !== 0) {
             return tutors.map((tutor, i) => (
-                <div className="radio-option col-md-3 mb-4 ml-3 mr-3" key={i}>
+                <TutorContainer $checked={clientFlowData.selectedTutor._id === tutor._id} className="radio-option col-md-3 mb-4 ml-3 mr-3" key={i}>
                     <label>
                         <input
                             className="form-input"
@@ -61,7 +65,7 @@ export function Step3() {
                             <TutorCard data={tutor}/>
                         </div>
                     </label>
-                </div>
+                </TutorContainer>
             ));
         } else {
             return <p>No Tutors Found!</p>;
@@ -79,3 +83,15 @@ export function Step3() {
         </div>
     );
 }
+
+interface ITutorContainerProps {
+    $checked: boolean;
+}
+
+const TutorContainer = styled.div<ITutorContainerProps>`
+  &:hover {
+    border: ${props => props.$checked ? "" : ""}
+  }
+  
+  border: ${props => props.$checked ? "red solid 3px" : ""}
+`;

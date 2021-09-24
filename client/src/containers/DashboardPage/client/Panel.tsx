@@ -7,6 +7,7 @@ import {actions} from "../../../store/ClientFlowData/slice";
 import {selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
 import { useParams } from "react-router-dom";
 import Meetings from "./meetings";
+import {Helmet} from 'react-helmet';
 
 interface IParams {
     panelContent: string;
@@ -26,11 +27,27 @@ export const Panel = () => {
 
     return (
         <div id="panel-wrapper">
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>TutorBase - Dashboard</title>
+            </Helmet>
+
             <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom", "shadow")}>
                 <Button className="btn-red" id="menu-toggle" onClick={() => {
                     dispatch(actions.toggleSidebar());
-                }}>☰</Button>
+                }} style={{marginLeft: '0.5em'}}>
+                    ☰
+                </Button>
+
+                {params.panelContent !== "meetings" && (
+                    <div style={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <h2 className="text-center mt-4 fragment-title">
+                            Schedule a Tutoring Session
+                        </h2>
+                    </div>
+                )}
             </Navbar>
+
             <div className="container-fluid">{body}</div>
         </div>
     );
