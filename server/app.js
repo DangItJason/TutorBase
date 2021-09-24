@@ -30,6 +30,7 @@ const subjectsRouter = require("./routes/api/subjects");
 const tutorsRouter = require("./routes/api/tutors");
 const appointmentsRouter = require("./routes/api/appointment");
 const confirmApptFromEmailRouter = require("./routes/api/confirmapptfromemail");
+const photosRouter = require("./routes/api/photos");
 
 //Secret
 const secret = require("./config/secret");
@@ -88,6 +89,7 @@ app.use("/api/confirmappt", confirmApptFromEmailRouter);
 // app.get('/api/checkLogin', isLoggedIn, function (req, res) {
 //     res.sendStatus(200);
 // })
+app.use("/api/photos", photosRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

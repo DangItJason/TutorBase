@@ -5,7 +5,7 @@ const UserSchema = new Schema({
     email: {type: String, required: true}, // User email (ID)
     first_name: {type: String, required: true},
     last_name: {type: String, required: true},
-    profile_img: {type: String, default: ""},
+    profile_img: {type: Buffer},
     phone: {type: String, default: ""},
 });
 
