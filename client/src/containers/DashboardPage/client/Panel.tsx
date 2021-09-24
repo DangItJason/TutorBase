@@ -7,6 +7,7 @@ import {actions} from "../../../store/ClientFlowData/slice";
 import {selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
 import { useParams } from "react-router-dom";
 import Meetings from "./meetings";
+import MeetingHistory from "./meeting-history";
 
 interface IParams {
     panelContent: string;
@@ -22,6 +23,10 @@ export const Panel = () => {
     let body = <FormParent />;
     if (params.panelContent === 'meetings') {
         body = <Meetings />;
+    }
+
+    if (params.panelContent === 'history') {
+        body = <MeetingHistory />;
     }
 
     return (
