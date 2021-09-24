@@ -31,7 +31,7 @@ export const Meetings = () => {
                 dispatch(clientDataActions.setAppointment(value));
             }
         )
-    }, [clientData.clientId, dispatch])
+    }, [clientData.clientId, dispatch]);
 
     return (
         <Container fluid>
@@ -46,11 +46,31 @@ export const Meetings = () => {
                 {dropdownValue}
             </DropdownToggle>
             <DropdownMenu>
-                <DropdownItem onClick={(event) => {}}>All</DropdownItem>
-                <DropdownItem onClick={(event) => {}}>Completed</DropdownItem>
-                <DropdownItem onClick={(event) => {}}>Pending</DropdownItem>
-                <DropdownItem onClick={(event) => {}}>Upcoming</DropdownItem>
-                <DropdownItem onClick={(event) => {}}>Denied</DropdownItem>
+                <DropdownItem 
+                    onClick={(event) => {
+                        setDropdownValue("All");
+                        setDropdownOpen(false);
+                    }}>All</DropdownItem>
+                <DropdownItem 
+                    onClick={(event) => {
+                        setDropdownValue("Completed");
+                        setDropdownOpen(false);
+                    }}>Completed</DropdownItem>
+                <DropdownItem 
+                    onClick={(event) => {
+                        setDropdownValue("Pending");
+                        setDropdownOpen(false);
+                    }}>Pending</DropdownItem>
+                <DropdownItem 
+                    onClick={(event) => {
+                        setDropdownValue("Upcoming");
+                        setDropdownOpen(false);
+                    }}>Upcoming</DropdownItem>
+                <DropdownItem 
+                    onClick={(event) => {
+                        setDropdownValue("Denied");
+                        setDropdownOpen(false);
+                    }}>Denied</DropdownItem>
             </DropdownMenu>
             </Dropdown>
         </Container>
