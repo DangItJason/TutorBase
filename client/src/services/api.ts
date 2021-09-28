@@ -52,7 +52,7 @@ export class ApiService {
         let url = this.appointmentsEndpoint + "tutors/" + id;
         let appt: AppointmentsResponse = {data: []}
         let response = await axios.get(url);
-        if(response.status != 200) return appt;
+        if(response.status !== 200) return appt;
         appt.data = response.data;
         return appt;
     }
