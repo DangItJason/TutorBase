@@ -33,34 +33,34 @@ export const  Step4 = () => {
     const [mobile, setMobile] = useState(isMobile);
     const [currentView, setCurrentView] = useState("week");
     const [calTypeOpen, setCalTypeOpen] = useState(false);
-    const [prevSchedule, setPreviousSchedule] = useState([{}]);
+    const [prevSchedule, setPreviousSchedule] = useState<any>();
 
     const dispatch = useDispatch();
     const clientFlowData = useSelector(selectClientFlowData);
+    let previousAppts = [{
+        id: "1",
+        calendarId: "0",
+        // title: clientFlowData.appointmentSubjectId,
+        title: "Tutor Time!",
+        category: "time",
+        dueDateClass: "",
+        start: new Date(clientFlowData.appointmentStartTime),
+        end: new Date(clientFlowData.appointmentEndTime),
+        bgColor: "lightblue",
+        location: clientFlowData.appointmentLocation,
+    },];
 
     useEffect(() => {
         // Gather the currently schedule appointments from tutor and block off times
         const generateTutorTimes = async () => {
             // Add previously schedule meeting to array
-            let previousAppts = [{
-                id: "1",
-                calendarId: "0",
-                // title: clientFlowData.appointmentSubjectId,
-                title: "Tutor Time!",
-                category: "time",
-                dueDateClass: "",
-                start: new Date(clientFlowData.appointmentStartTime),
-                end: new Date(clientFlowData.appointmentEndTime),
-                bgColor: "lightblue",
-                location: clientFlowData.appointmentLocation,
-            },];
 
             let appts = await api.GetTutorAppointments(clientFlowData.selectedTutor._id);
 
-            if (appts !== null)
+            if (appts !== null) {
                 appts.data.forEach(appt => {
                     previousAppts.push({
-                        id: Math.random().toString(),
+                        id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(),
                         calendarId: "0",
                         title: "Blocked Time",
                         category: "time",
@@ -71,12 +71,47 @@ export const  Step4 = () => {
                         location: "Blocked",
                     })
                 })
-
-            setPreviousSchedule(previousAppts);
+            }
         }
 
-        generateTutorTimes().then(value => console.log(value));
+        generateTutorTimes();
     }, []);
+
+    const generateTutorTimes = async () => {
+        // Add previously schedule meeting to array
+        let previousAppts = [{
+            id: "1",
+            calendarId: "0",
+            // title: clientFlowData.appointmentSubjectId,
+            title: "Tutor Time!",
+            category: "time",
+            dueDateClass: "",
+            start: new Date(clientFlowData.appointmentStartTime),
+            end: new Date(clientFlowData.appointmentEndTime),
+            bgColor: "lightblue",
+            location: clientFlowData.appointmentLocation,
+        },];
+
+        let appts = await api.GetTutorAppointments(clientFlowData.selectedTutor._id);
+
+        if (appts !== null) {
+            appts.data.forEach(appt => {
+                previousAppts.push({
+                    id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(),
+                    calendarId: "0",
+                    title: "Blocked Time",
+                    category: "time",
+                    dueDateClass: "",
+                    start: new Date(appt.start_time),
+                    end: new Date(appt.end_time),
+                    bgColor: "red",
+                    location: "Blocked",
+                })
+            })
+        }
+
+        return previousAppts;
+    }
 
     const toggleCalType = () => {
         setCalTypeOpen(!calTypeOpen);
@@ -152,7 +187,6 @@ export const  Step4 = () => {
         let apptEnd = endDay.getTime();
 
         dispatch(actions.setAppointment([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
-        dispatch(actions.incrementStep());
     };
 
     const onBeforeDeleteSchedule = (res: any) => {
@@ -272,7 +306,7 @@ export const  Step4 = () => {
                     scheduleView={["time"]}
                     // useCreationPopup={true}
                     useDetailPopup={true}
-                    schedules={prevSchedule}
+                    schedules={previousAppts}
                     onClickSchedule={onClickSchedule}
                     onBeforeCreateSchedule={onBeforeCreateSchedule}
                     onBeforeDeleteSchedule={onBeforeDeleteSchedule}

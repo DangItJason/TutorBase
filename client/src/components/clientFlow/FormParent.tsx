@@ -45,7 +45,7 @@ export function FormParent() {
     function nextButton() {
         /* Moving to the next step is only possible
            if it already has been visited */
-        if (currentStep < furthestStep) {
+        if ((currentStep < furthestStep) || (currentStep !== 4 && clientFlowData.appointmentStartTime !== "")) {
             return (
                 <button
                     className="btn btn-danger"

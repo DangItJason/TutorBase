@@ -24,6 +24,7 @@ const apptconfirm = require("../../lib/apptconfirm");
 
 const Appointment = require("../../models/Appointment");
 const User = require("../../models/User");
+const Tutor = require("../../models/Tutor");
 const ApptConfToken = require("../../models/ApptConfToken");
 
 const { promisify } = require('util')
@@ -73,7 +74,7 @@ router.post("/", async (req, res) => {
     client = await User.findOne(
       { _id: req.body.client_id }
     );
-    tutor = await User.findOne(
+    tutor = await Tutor.findOne(
       { _id: req.body.tutor_id }
     );
     course = await Course.findOne(
