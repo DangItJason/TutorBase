@@ -53,11 +53,6 @@ export const Meetings = () => {
                     }}>All</DropdownItem>
                 <DropdownItem 
                     onClick={(event) => {
-                        setDropdownValue("Completed");
-                        setDropdownOpen(false);
-                    }}>Completed</DropdownItem>
-                <DropdownItem 
-                    onClick={(event) => {
                         setDropdownValue("Pending");
                         setDropdownOpen(false);
                     }}>Pending</DropdownItem>
@@ -66,11 +61,6 @@ export const Meetings = () => {
                         setDropdownValue("Upcoming");
                         setDropdownOpen(false);
                     }}>Upcoming</DropdownItem>
-                <DropdownItem 
-                    onClick={(event) => {
-                        setDropdownValue("Denied");
-                        setDropdownOpen(false);
-                    }}>Denied</DropdownItem>
             </DropdownMenu>
             </Dropdown>
         </Container>
