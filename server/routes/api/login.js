@@ -43,7 +43,7 @@ const secret = require("../../config/secret");
 /*
 developer mode
 */
-const developer = true;
+const developer = process.env.NODE_ENV !== 'production';
 
 /**
  * Route serving login form.
