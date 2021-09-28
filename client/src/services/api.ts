@@ -1,6 +1,6 @@
 import {ApiBaseAddress} from "../utils/Environment";
 import axios from "axios";
-import {Appointment, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse} from "./api.types";
+import {Appointment, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse, UserResponse} from "./api.types";
 
 export class ApiService {
     private usersEndpoint = ApiBaseAddress + "api/users/";
@@ -36,6 +36,16 @@ export class ApiService {
         tutor.data = response.data;
         console.log("Tutor", tutor.data);
         return tutor;
+    }
+
+    public async GetUserById(id: String) {
+        console.log("Fetching User");
+        let url = this.usersEndpoint + 'user?userid=' + id;
+        let response = await axios.get(url);
+        let user: UserResponse = {data: []}
+        user.data = response.data;
+        console.log("User", user.data);
+        return user;
     }
 
     public async GetTutorAppointments(id: String) {
