@@ -8,6 +8,7 @@ import {selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
 import { useParams } from "react-router-dom";
 import Meetings from "./meetings";
 import {Helmet} from 'react-helmet';
+import DataVisualization from "../../../components/tutorComponents/DataVisualization";
 
 interface IParams {
     panelContent: string;
@@ -24,6 +25,9 @@ export const Panel = () => {
     if (params.panelContent === 'meetings') {
         body = <Meetings />;
     }
+    else if (params.panelContent === 'datavisualization') {
+        body = <DataVisualization />;
+    }
 
     return (
         <div id="panel-wrapper">
@@ -39,7 +43,7 @@ export const Panel = () => {
                     ☰
                 </Button>
 
-                {params.panelContent !== "meetings" && (
+                {params.panelContent !== "meetings" && params.panelContent != "datavisualization" && (
                     <div style={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                         <h2 className="text-center mt-4 fragment-title">
                             Schedule a Tutoring Session
