@@ -1,0 +1,10 @@
+.card {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 200px;
+    border-radius: 0.28571429rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.075);
+    margin: 15px 0;
+    color: black;
+}
