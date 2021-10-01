@@ -21,7 +21,7 @@ export const DataVisualization = () => {
             for (let d = 0; d < 7; d++)
             {
                 heatmapData.push({
-                    date: "2021-01-01",
+                    date: "2021-1-1",
                     week: w,
                     day: d,
                     month: m,
@@ -36,7 +36,7 @@ export const DataVisualization = () => {
         xField: 'week',
         yField: 'day',
         colorField: 'hours',
-        reflect: 'y',
+        reflect: 'y' as 'y',
         shape: 'boundary-polygon',
         meta: {
           day: {
@@ -54,7 +54,7 @@ export const DataVisualization = () => {
         },
         interactions: [{ type: 'element-active' }],
         xAxis: {
-          position: 'top',
+          position: 'top' as 'top',
           tickLine: null,
           line: null,
           label: {
@@ -62,14 +62,14 @@ export const DataVisualization = () => {
             style: {
               fontSize: 12,
               fill: '#666',
-              textBaseline: 'top',
+              textBaseline: 'top' as 'top',
             },
-            formatter: function formatter(val:number) {
-              if (val === 0) {
+            formatter: function formatter(val:string) {
+              if (val === '0') {
                 return 'JAN';
-              } else if (val === 6) {
+              } else if (val === '6') {
                 return 'JUN';
-              } else if (val === 12) {
+              } else if (val === '12') {
                 return 'DEC';
               } 
               return '';
