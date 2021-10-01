@@ -6,7 +6,55 @@ import { Button } from "reactstrap";
 import { Appointment, User } from "../../services/api.types";
 import { api } from "../../services/api";
 
-export function MeetingCard(appt: Appointment) {
+interface IProps {
+    appt: Appointment,
+}
+
+const monthMap = new Map([
+    [1, "January"],
+    [2, "February"],
+    [3, "March"],
+    [4, "April"],
+    [5, "May"],
+    [6, "June"],
+    [7, "July"],
+    [8, "August"],
+    [9, "September"],
+    [10, "October"],
+    [11, "November"],
+    [12, "December"],
+])
+
+function BreakDownTime(standard_time: String): Array<String> {
+    let date_time = standard_time.split("T")
+
+    let date_arr = date_time[0].split("-")
+    let month = monthMap.get(Number(date_arr[1])) ? monthMap.get(Number(date_arr[1])) : " ";
+    let date = month + " " + date_arr[2] + ", " + date_arr[0]
+
+    let time_arr = date_time[1].split(":");
+    let meridian = " AM"
+    let hour = Number(time_arr[0])
+    if (hour > 12) {
+        hour -= 12
+        meridian = " PM"
+    }
+    let time = String(hour) + ":" + time_arr[1] + meridian;
+    console.log(time)
+    return [date,time];
+}
+
+function CapitalizeFirstLetter(str:String): String {
+    let string_arr = str.split(" ");
+    let new_arr:string[] = []
+    for (const word of string_arr) {
+        new_arr.push(word.charAt(0).toUpperCase() + word.slice(1))
+    }
+    return new_arr.join(" ");
+}
+
+export function MeetingCard(props: IProps) {
+    let { appt } = props;
     let [cardType, setCardType] = useState<String>(appt.confirmed ? "upcoming-card" : "pending-card");
     let [cardStatus, setcardStatus] = useState<String>(appt.confirmed ? "Upcoming" : "Pending");
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
@@ -20,11 +68,15 @@ export function MeetingCard(appt: Appointment) {
     });
 
     useEffect(() => {
-        const getAppointments = async () => {
+        const getUser = async () => {
             return (await api.GetUserById(appt.client_id)).data;
         }
-        getAppointments().then(value => {setClientData(value[0]);})
-    }); 
+        getUser().then(value => {setClientData(value[0]);})
+    }, [appt.client_id]);
+
+    let name = CapitalizeFirstLetter(clientData.first_name + " " + clientData.last_name);
+    let location = CapitalizeFirstLetter(appt.location);
+    let date_time = BreakDownTime(appt.start_time);
     
     let cardTag = (
         <div className={"card-container-end"}>
@@ -34,11 +86,9 @@ export function MeetingCard(appt: Appointment) {
     let upperCardContent = (
         <>
           <div className={"card-container-start"}>
-            <div className={"card-name"}>{clientData.first_name + " " + clientData.last_name}</div>
-            <div className={"card-location"}>
-              {appt.location}
-            </div>
-            <div className={"card-time"}>{appt.start_time}</div>
+            <div className={"card-name"}>{name}</div>
+            <div className={"card-location"}>{location}</div>
+            <div className={"card-time"}>{date_time[0] + " at " + date_time[1]}</div>
           </div>
           {cardTag}
         </>

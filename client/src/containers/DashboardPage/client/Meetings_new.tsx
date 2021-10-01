@@ -8,7 +8,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import "./meetings.css";
-import MeetingCard from "../../../components/meetingCard/MeetingCard";
+import { MeetingCard } from "../../../components/meetingCard/MeetingCard_new";
 import {actions as clientDataActions} from "../../../store/ClientData/slice";
 import { Appointment } from "../../../services/api.types";
 import { api } from "../../../services/api";
@@ -32,6 +32,10 @@ export const Meetings = () => {
             }
         )
     }, [clientData.clientId, dispatch]);
+
+    let meetingCards = appointments.map(appointment => (
+        <MeetingCard appt={appointment}/>
+    ));
 
     return (
         <Container fluid>
@@ -63,6 +67,8 @@ export const Meetings = () => {
                     }}>Upcoming</DropdownItem>
             </DropdownMenu>
             </Dropdown>
+
+            {meetingCards}
         </Container>
     );
 }
