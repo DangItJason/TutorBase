@@ -40,6 +40,7 @@ const Container = styled.div<IContainerProps>`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   
   cursor: pointer;
   

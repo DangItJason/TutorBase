@@ -9,6 +9,7 @@ import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
 import {useDispatch, useSelector} from "react-redux";
 import {api} from "../../services/api";
 import {actions} from "../../store/ClientFlowData/slice";
+import styled from "styled-components";
 
 // Calendar Default Options //
 const mobileWeekOptions = {
@@ -260,60 +261,67 @@ export const  Step4 = () => {
     ////////////////////////
 
     return (
-        <div className="form-group text-center">
-            <h3 className="hr mt-1">Select a Time</h3>
+        <Container>
+            <Calendar
+                height={"0px"}
+                ref={cal}
+                calendars={[
+                    {
+                        id: "0",
+                        name: "Schedule",
+                        bgColor: "#9e5fff",
+                        borderColor: "#9e5fff",
+                    },
+                ]}
+                view={currentView}
+                week={mobile ? mobileWeekOptions : weekOptions}
+                taskView={false}
+                scheduleView={["time"]}
+                useDetailPopup={true}
+                schedules={previousAppts}
+                onClickSchedule={onClickSchedule}
+                onBeforeCreateSchedule={onBeforeCreateSchedule}
+                onBeforeDeleteSchedule={onBeforeDeleteSchedule}
+                onBeforeUpdateSchedule={onBeforeUpdateSchedule}
+                onAfterRenderSchedule={onAfterRenderSchedule}
+            />
 
-            <div>
-                <div style={{display: "flex", alignSelf: "left"}}>
-                    <Button style={{margin: "0.2em"}} onClick={calBack}>
-                        Back
-                    </Button>
-                    <Button style={{margin: "0.2em"}} onClick={calReturn}>
-                        Today
-                    </Button>
-                    <Button style={{margin: "0.2em"}} onClick={calNext}>
-                        Next
-                    </Button>
-                    <Dropdown
-                        style={{margin: "0.2em"}}
-                        isOpen={calTypeOpen}
-                        toggle={() => {
-                            toggleCalType();
-                        }}
-                    >
-                        <DropdownToggle caret>{currentView}</DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem onClick={setDayView}>Day</DropdownItem>
-                            <DropdownItem onClick={setWeekView}>Week</DropdownItem>
-                            <DropdownItem onClick={setMonthView}>Month</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                </div>
-                <Calendar
-                    ref={cal}
-                    calendars={[
-                        {
-                            id: "0",
-                            name: "Schedule",
-                            bgColor: "#9e5fff",
-                            borderColor: "#9e5fff",
-                        },
-                    ]}
-                    height={"100%"}
-                    view={currentView}
-                    week={mobile ? mobileWeekOptions : weekOptions}
-                    taskView={false}
-                    scheduleView={["time"]}
-                    // useCreationPopup={true}
-                    useDetailPopup={true}
-                    schedules={previousAppts}
-                    onClickSchedule={onClickSchedule}
-                    onBeforeCreateSchedule={onBeforeCreateSchedule}
-                    onBeforeDeleteSchedule={onBeforeDeleteSchedule}
-                    onBeforeUpdateSchedule={onBeforeUpdateSchedule}
-                    onAfterRenderSchedule={onAfterRenderSchedule}
-                />
-            </div>
-        </div>
+            {/*<h3 className="hr mt-1">Select a Time</h3>*/}
+
+            {/*<>*/}
+            {/*    <div style={{display: "flex", alignSelf: "left"}}>*/}
+            {/*        <Button style={{margin: "0.2em"}} onClick={calBack}>*/}
+            {/*            Back*/}
+            {/*        </Button>*/}
+            {/*        <Button style={{margin: "0.2em"}} onClick={calReturn}>*/}
+            {/*            Today*/}
+            {/*        </Button>*/}
+            {/*        <Button style={{margin: "0.2em"}} onClick={calNext}>*/}
+            {/*            Next*/}
+            {/*        </Button>*/}
+            {/*        <Dropdown*/}
+            {/*            style={{margin: "0.2em"}}*/}
+            {/*            isOpen={calTypeOpen}*/}
+            {/*            toggle={() => {*/}
+            {/*                toggleCalType();*/}
+            {/*            }}*/}
+            {/*        >*/}
+            {/*            <DropdownToggle caret>{currentView}</DropdownToggle>*/}
+            {/*            <DropdownMenu>*/}
+            {/*                <DropdownItem onClick={setDayView}>Day</DropdownItem>*/}
+            {/*                <DropdownItem onClick={setWeekView}>Week</DropdownItem>*/}
+            {/*                <DropdownItem onClick={setMonthView}>Month</DropdownItem>*/}
+            {/*            </DropdownMenu>*/}
+            {/*        </Dropdown>*/}
+            {/*    </div>*/}
+            {/*</>*/}
+        </Container>
     );
 }
+
+const Container = styled.div`
+  width: 100%;
+  height: 75%;
+
+  border: orange solid 5px;
+`;

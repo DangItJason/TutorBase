@@ -31,6 +31,7 @@ export function Step1() {
         <Container>
             <h3 className="hr mt-1">Select a Subject</h3>
             <Cards>
+                {subjects.length === 0 ? <div>No subjects found!</div> : <></>}
                 {subjects.map((subject, index) => {
                     return <ClientFlowCard
                         onClick={() => {
