@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "reactstrap";
 import { Appointment, User } from "../../services/api.types";
 import { api } from "../../services/api";
@@ -55,8 +55,8 @@ function CapitalizeFirstLetter(str:String): String {
 
 export function MeetingCard(props: IProps) {
     let { appt } = props;
-    let [cardType, setCardType] = useState<String>(appt.confirmed ? "upcoming-card" : "pending-card");
-    let [cardStatus, setcardStatus] = useState<String>(appt.confirmed ? "Upcoming" : "Pending");
+    let [cardType] = useState<String>(appt.confirmed ? "upcoming-card" : "pending-card");
+    let [cardStatus] = useState<String>(appt.confirmed ? "Upcoming" : "Pending");
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
     let [clientData, setClientData] = useState<User>({
         _id: "",
@@ -78,21 +78,29 @@ export function MeetingCard(props: IProps) {
     let location = CapitalizeFirstLetter(appt.location);
     let date_time = BreakDownTime(appt.start_time);
     
-    let cardTag = (
-        <div className={"card-container-end"}>
-            <div className={"card-status"}>{cardStatus}</div>
-        </div>
-    )
+    let cardTag = <div className={"card-status"}>{cardStatus}</div>;
+    if (cardStatus === "Pending") {
+        cardTag = (
+            <>
+                <div className={"card-icon"}>
+                    <Button color="success">
+                        <FontAwesomeIcon icon={faCheck} />
+                    </Button>
+                </div>
+                <div className={"card-status"}>
+                    {cardStatus}
+                </div>
+            </>
+        );
+    }
+
     let upperCardContent = (
         <>
-          <div className={"card-container-start"}>
             <div className={"card-name"}>{name}</div>
             <div className={"card-location"}>{location}</div>
             <div className={"card-time"}>{date_time[0] + " at " + date_time[1]}</div>
-          </div>
-          {cardTag}
         </>
-    )
+    );
     let card = (
         <div 
             className={"compressed-card " + cardType} 
@@ -100,8 +108,27 @@ export function MeetingCard(props: IProps) {
                 toggleCardExpansion(!cardExpanded)
             }}
         >
-            {upperCardContent}
+            <div className={"card-container-start"}>{upperCardContent}</div>
+            <div className={"card-container-end"}>{cardTag}</div>
         </div>
     );
+
+    if(cardExpanded) {
+        card = (
+            <div 
+                className={"expanded-card " + cardType} 
+                onClick={(e) => {
+                    toggleCardExpansion(!cardExpanded)
+                }}
+            >
+                <div className={"card-container-start-expanded"}>{upperCardContent}</div>
+                <div className={"card-container-end-expanded"}>{cardTag}</div>
+
+                <div className={"card-container-item "}>Client Notes:</div>
+                <div className={"break"}></div> 
+                <div className={"client-notes"}>{appt.notes}</div>
+            </div>
+        );
+    }
     return <>{card}</>;
 }
