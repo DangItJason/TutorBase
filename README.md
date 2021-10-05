@@ -11,7 +11,7 @@ Creating a better system to connect students and tutors.
 - Want to learn more, checkout: https://github.com/DangItJason/TutorBase/wiki
 
 ### Overview
-TutorBase is a free, open-source platform that connects RPI students and RPI tutors. TutorBase provides two key functionalities: control of operations for the tutor and ability to connect with tutors easily for the student.
+TutorBase is a free, open-source platform that connects RPI students and RPI tutors. TutorBase provides two key functionalities: control of operations for the tutor and ability to connect with tutors easily for the student. 
 
 ## Development Environment Setup
 Make sure you have NodeJS (and npm) installed.
