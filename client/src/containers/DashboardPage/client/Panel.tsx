@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {actions} from "../../../store/ClientFlowData/slice";
 import {selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
 import { useParams } from "react-router-dom";
-import { Meetings } from "./Meetings_new";
+import { Meetings } from "./Meetings";
 
 interface IParams {
     panelContent: string;

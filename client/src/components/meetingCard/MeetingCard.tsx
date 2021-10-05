@@ -8,6 +8,7 @@ import { api } from "../../services/api";
 
 interface IProps {
     appt: Appointment,
+    isTutor: boolean,
 }
 
 const monthMap = new Map([
@@ -40,7 +41,6 @@ function BreakDownTime(standard_time: String): Array<String> {
         meridian = " PM"
     }
     let time = String(hour) + ":" + time_arr[1] + meridian;
-    console.log(time)
     return [date,time];
 }
 
@@ -79,7 +79,8 @@ export function MeetingCard(props: IProps) {
     let date_time = BreakDownTime(appt.start_time);
     
     let cardTag = <div className={"card-status"}>{cardStatus}</div>;
-    if (cardStatus === "Pending") {
+    // Only Tutors can accept 'pending' meetings
+    if (cardStatus === "Pending" && props.isTutor) {
         cardTag = (
             <>
                 <div className={"card-icon"}>
