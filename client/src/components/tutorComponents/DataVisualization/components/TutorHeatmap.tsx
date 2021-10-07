@@ -3,16 +3,18 @@ import { Container,Card, Button, CardTitle, CardText, Row, Col } from 'reactstra
 import CountUp from 'react-countup';
 import { Heatmap } from "@ant-design/charts";
 import { ListItem } from "@antv/component";
+
+// Represents one day in heatmap calendar
 export interface IHeatmapData {
     date:string;
     week: number;
     day: number;
     month: number;
     hours: number;
-
 }
 
-export const DataVisualization = () => {
+
+export const TutorHeatmap = () => {
     const secondsPerDay = 60*60*24;
     let heatmapData:Array<IHeatmapData> = [];
     let currentYear:Date = new Date();
@@ -116,57 +118,8 @@ export const DataVisualization = () => {
           },
         },
       };
-    return (
-        <Container fluid className="background" style={{marginBottom:'10em'}}>
-        <Row className="title" >
-          <div className="profile-text" style={{marginTop:'0.5em'}}>Profile Data</div>
-        </Row>
-        <hr></hr>
-        <Row xs="2" className="parent">
-
-        </Row>
-        <div style={{display:'flex', flexDirection:'row'}}>
-                <div style={{display:'flex', flexDirection:'column', flex:'1 1 0px'}}>
-                    <Card body>
-                    <CardTitle tag="h5">Hours Tutored</CardTitle>
-                    <CardText>
-                        <h1>
-                        <CountUp 
-                            end={68} 
-                            useEasing={true}
-                            duration={4}
-                            />
-                            </h1>
-                        </CardText>
-                    
-                    </Card>
-                </div>
-                
-                <div style={{display:'flex', flexDirection:'column', flex:'1 1 0px'}}>
-                <Card body>
-                    <CardTitle tag="h5">Earnings</CardTitle>
-                    <CardText>
-                        <h1>
-                        <CountUp 
-                            decimals={2}
-                            prefix="$"
-                            end={1426.25} 
-                            useEasing={true}
-                            
-
-                            duration={4}/>
-                            </h1>
-                        </CardText>
-                    
-                    </Card>
-                </div>
-            </div>
-        
-            <div style={{display:'flex', flexDirection:'row'}}>
-            <Heatmap {...heatmapConfig} />
-            </div>
-            </Container>
-    );
+      return (
+        <Heatmap {...heatmapConfig} />
+      );
 }
-
-export default DataVisualization;
+export default TutorHeatmap;
