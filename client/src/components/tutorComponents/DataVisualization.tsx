@@ -2,6 +2,7 @@ import React from "react";
 import { Container,Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import CountUp from 'react-countup';
 import { Heatmap } from "@ant-design/charts";
+import { ListItem } from "@antv/component";
 export interface IHeatmapData {
     date:string;
     week: number;
@@ -12,27 +13,29 @@ export interface IHeatmapData {
 }
 
 export const DataVisualization = () => {
-
+    const secondsPerDay = 60*60*24;
     let heatmapData:Array<IHeatmapData> = [];
-    for (let m = 0; m < 12; m++)
-    {
-        for (let w = 0; w < 4; w++)
-        {
-            for (let d = 0; d < 7; d++)
-            {
-                heatmapData.push({
-                    date: "2021-1-1",
-                    week: w,
-                    day: d,
-                    month: m,
-                    hours: Math.floor(Math.random() * 8)
-                });
-            }
-        }
+    let currentYear:Date = new Date();
+    let date:Date = new Date(currentYear)
+    date.setFullYear(currentYear.getFullYear()-1);
+    let week = 0;
+    while (date.getTime() <= currentYear.getTime()) {
+      heatmapData.push({
+        date: date.toDateString(),
+        week: week,
+        day: date.getDay(),
+        month: date.getMonth(),
+        hours: Math.floor(Math.random()*8)
+    });
+    if (date.getDay() == 6)
+      week++;
+    date.setDate(date.getDate() + 1);
     }
     let heatmapConfig = {
+      width : 1080, 
+        height : 500, 
         data: heatmapData,
-        autoFit: true,
+        autoFit: false,
         xField: 'week',
         yField: 'day',
         colorField: 'hours',
@@ -43,6 +46,7 @@ export const DataVisualization = () => {
             type: 'cat',
             values: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday', 'Saturday'],
           },
+
           week: { type: 'cat' },
           hours: { sync: true },
           date: { type: 'cat' },
@@ -50,7 +54,8 @@ export const DataVisualization = () => {
         yAxis: { grid: null },
         tooltip: {
           title: 'date',
-          showMarkers: false,
+          fields: ['hours'],
+          showMarkers: true,
         },
         interactions: [{ type: 'element-active' }],
         xAxis: {
@@ -64,15 +69,49 @@ export const DataVisualization = () => {
               fill: '#666',
               textBaseline: 'top' as 'top',
             },
-            formatter: function formatter(val:string) {
-              if (val === '0') {
-                return 'JAN';
-              } else if (val === '6') {
-                return 'JUN';
-              } else if (val === '12') {
-                return 'DEC';
-              } 
-              return '';
+            formatter: function formatter(val:string, item:ListItem, index:number) {
+              let startMonth = new Date();
+              startMonth.setFullYear(startMonth.getFullYear()-1);
+              let newUNIX = startMonth.getTime()/1000 + parseInt(val) * 7 * secondsPerDay;
+              let thisTime = new Date(newUNIX * 1000);
+              let month = thisTime.getMonth();
+              if (month === 0) {
+                return "JAN";
+              }
+              else if (month === 1) {
+                return "FEB";
+              }
+              else if (month === 2) {
+                return "MAR";
+              }
+              else if (month === 3) {
+                return "APR";
+              }
+              else if (month === 4) {
+                return "MAY";
+              }
+              else if (month === 5) {
+                return "JUN";
+              }
+              else if (month === 6) {
+                return "JUL";
+              }
+              else if (month === 7) {
+                return "AUG";
+              }
+              else if (month === 8) {
+                return "SEP";
+              }
+              else if (month === 9) {
+                return "OCT";
+              }
+              else if (month === 10) {
+                return "NOV";
+              }
+              else if (month === 11) {
+                return "DEC";
+              }
+              return "";
             },
           },
         },
@@ -93,9 +132,10 @@ export const DataVisualization = () => {
                     <CardText>
                         <h1>
                         <CountUp 
-                            end={100} 
+                            end={68} 
                             useEasing={true}
-                            duration={2.75}/>
+                            duration={4}
+                            />
                             </h1>
                         </CardText>
                     
@@ -103,9 +143,21 @@ export const DataVisualization = () => {
                 </div>
                 
                 <div style={{display:'flex', flexDirection:'column', flex:'1 1 0px'}}>
-                    <Card body>
-                    <CardTitle tag="h5">Special Title Treatment</CardTitle>
-                    <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+                <Card body>
+                    <CardTitle tag="h5">Earnings</CardTitle>
+                    <CardText>
+                        <h1>
+                        <CountUp 
+                            decimals={2}
+                            prefix="$"
+                            end={1426.25} 
+                            useEasing={true}
+                            
+
+                            duration={4}/>
+                            </h1>
+                        </CardText>
+                    
                     </Card>
                 </div>
             </div>
