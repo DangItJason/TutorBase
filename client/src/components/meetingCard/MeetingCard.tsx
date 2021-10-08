@@ -5,7 +5,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "reactstrap";
 import { Appointment, User } from "../../services/api.types";
 import { api } from "../../services/api";
-import { BreakDownTime, CapitalizeFirstLetter } from "../../services/tools";
+import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
 
 interface IProps {
     appt: Appointment,
@@ -15,8 +15,8 @@ interface IProps {
 
 export function MeetingCard(props: IProps) {
     let { appt } = props;
-    let [cardType] = useState<String>(appt.confirmed ? "upcoming-card" : "pending-card");
-    let [cardStatus] = useState<String>(appt.confirmed ? "Upcoming" : "Pending");
+    let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
+    let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
     let [clientData, setClientData] = useState<User>({
         _id: "",
@@ -27,12 +27,29 @@ export function MeetingCard(props: IProps) {
         last_name: "",
     });
 
+    if (!IsFutureDate(appt.start_time) && appt.confirmed){
+        cardType = "completed-card";
+        cardStatus = "Completed";
+    }
+    if (!IsFutureDate(appt.start_time) && !appt.confirmed){
+        cardType = "denied-card";
+        cardStatus = "Denied";
+    }
+    console.log(IsFutureDate(appt.start_time));
+
     useEffect(() => {
         const getUser = async () => {
             return (await api.GetUserById(appt.client_id)).data;
         }
         getUser().then(value => {setClientData(value[0]);})
     }, [appt.client_id]);
+
+    if (IsFutureDate(appt.start_time) && props.includePrevious) {
+        return <></>
+    }
+    if (!IsFutureDate(appt.start_time) && !props.includePrevious) {
+        return <></>
+    }
 
     let name = CapitalizeFirstLetter(clientData.first_name + " " + clientData.last_name);
     let location = CapitalizeFirstLetter(appt.location);

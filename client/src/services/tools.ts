@@ -40,3 +40,30 @@ export function CapitalizeFirstLetter(str: String): String {
     }
     return new_arr.join(" ");
 }
+
+export function IsFutureDate(standard_time: String): boolean {
+    let check_date_str = standard_time.split("T")[0].split("-")
+    let check_date = [Number(check_date_str[1]),Number(check_date_str[2]),Number(check_date_str[0])]
+    // let curr_date = new Date();
+    let curr_date = new Date('August 19, 1975 23:15:30');
+
+    if (check_date[2] > curr_date.getFullYear()) {
+        return true
+    } else if (check_date[2] < curr_date.getFullYear()) {
+        return false
+    } 
+
+    if (check_date[0] > (curr_date.getMonth() + 1)) {
+        return true
+    } else if (check_date[0] < (curr_date.getMonth() + 1)) {
+        return false
+    } 
+
+    if (check_date[1] > curr_date.getDate()) {
+        return true
+    } else if (check_date[1] < curr_date.getDate()) {
+        return false
+    } 
+
+    return true;
+}
