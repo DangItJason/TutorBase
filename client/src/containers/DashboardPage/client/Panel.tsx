@@ -19,16 +19,17 @@ export const Panel = () => {
     let sidebarToggled = useSelector(selectSidebarToggled);
 
     let params: IParams = useParams();
-    console.log(params.panelContent)
+    let headerText = "Schedule a Tutoring Session";
 
     let body = <FormParent />;
     if (params.panelContent === 'meetings') {
         body = <Meetings />;
+        headerText = "Meetings";
     }
     else if (params.panelContent === 'datavisualization') {
         body = <DataVisualization />;
+        headerText = "Profile Data";
     }
-
     return (
         <div id="panel-wrapper">
             <Helmet>
@@ -42,14 +43,11 @@ export const Panel = () => {
                 }} style={{marginLeft: '0.5em'}}>
                     ☰
                 </Button>
-
-                {params.panelContent !== "meetings" && params.panelContent != "datavisualization" && (
                     <div style={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                         <h2 className="text-center mt-4 fragment-title">
-                            Schedule a Tutoring Session
+                            {headerText}
                         </h2>
                     </div>
-                )}
             </Navbar>
 
             <div className="container-fluid">{body}</div>

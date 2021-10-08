@@ -21,13 +21,27 @@ export const Panel = (props: IProps) => {
 
     const params: IParams = useParams();
     const extension: string = params.panelContent;
-
+    let headerText = "Schedule";
+    if (extension === "meetings")
+        headerText = "Meetings";
+    else if (extension === "history")
+        headerText = "History";
+    else if (extension === "analytics")
+        headerText = "Analytics";
+    else if (extension === "settings")
+        headerText = "Settings";
+    
     return (
         <div id="panel-wrapper">
             <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom", "shadow")}>
                 <Button className="btn-red" id="menu-toggle" onClick={() => {
                     dispatch(actions.toggleSidebar());
                 }}>☰</Button>
+                <div style={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <h2 className="text-center mt-4 fragment-title">
+                            {headerText}
+                        </h2>
+                    </div>
             </Navbar>
             {/* <div class="container-fluid">
                 <h2 className={classNames("mt-4", "hr")}>Tutor Dashboard</h2>

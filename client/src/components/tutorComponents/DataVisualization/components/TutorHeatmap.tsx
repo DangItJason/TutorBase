@@ -12,22 +12,32 @@ export interface IHeatmapData {
     month: number;
     hours: number;
 }
-
-
-export const TutorHeatmap = () => {
+export interface IParams {
+    dateMap : Map<number, number>;
+}
+export const TutorHeatmap = (params: IParams) => {
     const secondsPerDay = 60*60*24;
     let heatmapData:Array<IHeatmapData> = [];
     let currentYear:Date = new Date();
-    let date:Date = new Date(currentYear)
+    currentYear.setHours(0);
+    currentYear.setMinutes(0);
+    currentYear.setSeconds(0);
+    currentYear.setMilliseconds(0);
+    console.log(currentYear);
+    let date:Date = new Date(currentYear);
     date.setFullYear(currentYear.getFullYear()-1);
     let week = 0;
+    console.log(params.dateMap);
     while (date.getTime() <= currentYear.getTime()) {
+        let hours = 0;
+        if (params.dateMap.has(date.getTime()))
+            hours = (params.dateMap.get(date.getTime()))!;
       heatmapData.push({
         date: date.toDateString(),
         week: week,
         day: date.getDay(),
         month: date.getMonth(),
-        hours: Math.floor(Math.random()*8)
+        hours: hours
     });
     if (date.getDay() == 6)
       week++;
@@ -35,6 +45,7 @@ export const TutorHeatmap = () => {
     }
     let heatmapConfig = {
       width : 1080, 
+      color: ['#ffffff', '#3cab52'], 
         height : 500, 
         data: heatmapData,
         autoFit: false,
@@ -119,7 +130,7 @@ export const TutorHeatmap = () => {
         },
       };
       return (
-        <Heatmap {...heatmapConfig} />
+        <Heatmap {...heatmapConfig}  />
       );
 }
 export default TutorHeatmap;
