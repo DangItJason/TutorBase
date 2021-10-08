@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row } from "reactstrap";
-import { actions as clientDataActions } from "../../../store/ClientData/slice";
+import { actions as tutorDataActions } from "../../../store/TutorData/slice";
 import { Appointment } from "../../../services/api.types";
 import { api } from "../../../services/api";
-import { selectClientData } from "../../../store/ClientData/selectors";
+import { selectTutorData } from "../../../store/TutorData/selectors";
 import ApptCard from "../../../components/apptCard/ApptCard";
 import "./meeting-history.css";
 
 export const MeetingHistory = () => {
-    let clientData = useSelector(selectClientData);
+    let tutorData = useSelector(selectTutorData);
     let [pastAppointments, setPastAppointments] = useState<Array<Appointment>>([]);
 
     useEffect(() => {
         const getAppointments = async () => {
-            return (await api.GetClientAppointments(clientData.clientId)).data;
+            return (await api.GetTutorAppointments(tutorData.tutorId)).data;
         }
 
         getAppointments().then(value => {
@@ -24,7 +24,7 @@ export const MeetingHistory = () => {
             });
             setPastAppointments(value);
         })
-    }, [clientData.clientId]);
+    }, [tutorData.tutorId]);
 
     return (
         <Container fluid>
