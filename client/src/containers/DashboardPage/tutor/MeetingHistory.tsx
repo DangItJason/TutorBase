@@ -11,6 +11,7 @@ import "./meeting-history.css";
 export const MeetingHistory = () => {
     let tutorData = useSelector(selectTutorData);
     let [pastAppointments, setPastAppointments] = useState<Array<Appointment>>([]);
+    let dispatch = useDispatch();
 
     useEffect(() => {
         const getAppointments = async () => {
@@ -18,7 +19,8 @@ export const MeetingHistory = () => {
         }
 
         getAppointments().then(value => {
-            value.filter(appointment => {
+            dispatch(tutorDataActions.setAppointment(value));
+            value = value.filter(appointment => {
                 const start = new Date(appointment.start_time);
                 return start.getTime() < new Date().getTime();
             });
