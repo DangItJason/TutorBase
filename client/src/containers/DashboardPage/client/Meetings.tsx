@@ -45,7 +45,7 @@ export const Meetings = () => {
     // console.log(filteredAppts)
         
     let meetingCards = appointments.map(appointment => (
-        <MeetingCard appt={appointment} isTutor={false}/>
+        <MeetingCard appt={appointment} isTutor={false} includePrevious={false}/>
     ));
 
     return (
