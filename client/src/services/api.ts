@@ -48,7 +48,6 @@ export class ApiService {
     }
 
     public async CreateAppointment(appointment: Appointment) {
-        //TODO: Create appointment
         let url = this.appointmentsEndpoint;
         let body = {
             course_id: appointment.course_id,

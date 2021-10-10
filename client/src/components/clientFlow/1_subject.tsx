@@ -6,6 +6,7 @@ import {api} from "../../services/api";
 import {Subject} from "../../services/api.types";
 import styled from "styled-components";
 import ClientFlowCard from "../clientFlowCard/ClientFlowCard";
+import { toast } from "react-toastify";
 
 /* Step one of the appointment scheduler is for
    the user to pick their tutor subject */
@@ -31,6 +32,7 @@ export function Step1() {
         <Container>
             <h3 className="hr mt-1">Select a Subject</h3>
             <Cards>
+                {subjects.length === 0 ? <div>No subjects found!</div> : <></>}
                 {subjects.map((subject, index) => {
                     return <ClientFlowCard
                         onClick={() => {

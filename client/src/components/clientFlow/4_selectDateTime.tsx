@@ -9,6 +9,7 @@ import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
 import {useDispatch, useSelector} from "react-redux";
 import {api} from "../../services/api";
 import {actions} from "../../store/ClientFlowData/slice";
+import styled from "styled-components";
 
 // Calendar Default Options //
 const mobileWeekOptions = {
@@ -127,28 +128,7 @@ export const  Step4 = () => {
        on the calendar run this function.
        which saves the schedule details
        to store. */
-    const onAfterRenderSchedule = (e: any) => {
-        // TODO: This is being called twice for some reason
-        // ^^^^^ This function runs an "extra" time for every Tutor Appt on the calender. ex, if there's 1 Tutor Appt then it  will run twice. ^^^^
-        // TODO: Block the user from trying to create another appt, if they do it loops infinitely
-        // ^^^^^ Removing the dispatch seems to temp. fix the infinite loop
-        // console.log("AFTER RENDER SCHEDULE:", e);
-        // let startDay = e.schedule.start;
-        // let endDay = e.schedule.end;
-        // let apptLoc = e.schedule.location;
-        // let apptSubj = e.schedule.title;
-        //
-        // let apptDate = new Date(
-        //     startDay.getFullYear(),
-        //     startDay.getMonth(),
-        //     startDay.getDay()
-        // ).toDateString();
-        //
-        // let apptStart = startDay.getTime();
-        // let apptEnd = endDay.getTime();
-        //
-        // dispatch(actions.setAppointment([apptDate, apptStart, apptEnd, apptLoc, apptSubj]));
-    };
+    const onAfterRenderSchedule = (e: any) => {};
 
     const onBeforeCreateSchedule = (scheduleData: any) => {
         console.log("BEFORE CREATE SCHEDULE:", scheduleData);
@@ -260,36 +240,40 @@ export const  Step4 = () => {
     ////////////////////////
 
     return (
-        <div className="form-group text-center">
-            <h3 className="hr mt-1">Select a Time</h3>
+        <Container>
+            <Title>
+                <h3 className="hr mt-1">Select a Time</h3>
+            </Title>
 
-            <div>
-                <div style={{display: "flex", alignSelf: "left"}}>
-                    <Button style={{margin: "0.2em"}} onClick={calBack}>
-                        Back
-                    </Button>
-                    <Button style={{margin: "0.2em"}} onClick={calReturn}>
-                        Today
-                    </Button>
-                    <Button style={{margin: "0.2em"}} onClick={calNext}>
-                        Next
-                    </Button>
-                    <Dropdown
-                        style={{margin: "0.2em"}}
-                        isOpen={calTypeOpen}
-                        toggle={() => {
-                            toggleCalType();
-                        }}
-                    >
-                        <DropdownToggle caret>{currentView}</DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem onClick={setDayView}>Day</DropdownItem>
-                            <DropdownItem onClick={setWeekView}>Week</DropdownItem>
-                            <DropdownItem onClick={setMonthView}>Month</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                </div>
+            <div style={{display: "flex", alignSelf: "left"}}>
+                <Button style={{margin: "0.2em"}} onClick={calBack}>
+                    Back
+                </Button>
+                <Button style={{margin: "0.2em"}} onClick={calReturn}>
+                    Today
+                </Button>
+                <Button style={{margin: "0.2em"}} onClick={calNext}>
+                    Next
+                </Button>
+                <Dropdown
+                    style={{margin: "0.2em"}}
+                    isOpen={calTypeOpen}
+                    toggle={() => {
+                        toggleCalType();
+                    }}
+                >
+                    <DropdownToggle caret>{currentView}</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem onClick={setDayView}>Day</DropdownItem>
+                        <DropdownItem onClick={setWeekView}>Week</DropdownItem>
+                        <DropdownItem onClick={setMonthView}>Month</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </div>
+
+            <div style={{overflow: 'auto'}}>
                 <Calendar
+                    height={"400px"}
                     ref={cal}
                     calendars={[
                         {
@@ -299,12 +283,10 @@ export const  Step4 = () => {
                             borderColor: "#9e5fff",
                         },
                     ]}
-                    height={"100%"}
                     view={currentView}
                     week={mobile ? mobileWeekOptions : weekOptions}
                     taskView={false}
                     scheduleView={["time"]}
-                    // useCreationPopup={true}
                     useDetailPopup={true}
                     schedules={previousAppts}
                     onClickSchedule={onClickSchedule}
@@ -314,6 +296,21 @@ export const  Step4 = () => {
                     onAfterRenderSchedule={onAfterRenderSchedule}
                 />
             </div>
-        </div>
+        </Container>
     );
 }
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  
+  // DEBUG STYLES //
+  //border: orange solid 5px;
+`;
+
+const Title = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
