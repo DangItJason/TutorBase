@@ -68,9 +68,16 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
+  // DEBUG STYLES //
+  //border: red solid 5px;
 `;
 
 const Cards = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
+
+  // DEBUG STYLES //
+  //border: blue solid 5px;
 `;

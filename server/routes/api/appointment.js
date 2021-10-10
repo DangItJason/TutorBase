@@ -44,7 +44,10 @@ mongoose.set('useFindAndModify', false);
 // Create a new Appointment
 router.post("/", async (req, res) => {
   var startTime = req.body.date ? req.body.date : new Date();
-  var endTime = new Date(parseInt(req.body.end) * 1000);
+  var endTime = req.body.end ? req.body.end : new Date();
+
+  console.log("START TIME: ", startTime)
+  console.log("END TIME: ", endTime)
 
   let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),

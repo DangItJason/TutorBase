@@ -27,7 +27,7 @@ export function FormParent() {
     // Button to move to a previous step
     function prevButton() {
         // First step has no previous step, dont show
-        if (currentStep !== 0) {
+        if (currentStep !== 0 && currentStep != 5) {
             return (
                 <button
                     className="btn btn-secondary"
@@ -46,7 +46,9 @@ export function FormParent() {
     function nextButton() {
         /* Moving to the next step is only possible
            if it already has been visited */
-        if ((currentStep < furthestStep) || (currentStep !== 4 && clientFlowData.appointmentStartTime !== "")) {
+        if (((currentStep < furthestStep)
+            || (currentStep !== 4 && clientFlowData.appointmentStartTime !== ""))
+            && currentStep !== 5) {
             return (
                 <button
                     className="btn btn-danger"
@@ -91,6 +93,7 @@ export function FormParent() {
             {currentStep === 2 && <Step3/>}
             {currentStep === 3 && <Step4/>}
             {currentStep === 4 && <Step5/>}
+            {currentStep === 5 && <Step5/>}
 
             <ButtonBox>
                 <div className="ml-1 mr-1 nav-btn">{prevButton()}</div>

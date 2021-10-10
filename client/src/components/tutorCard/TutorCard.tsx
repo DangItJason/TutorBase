@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import legoDude from "../../assets/lego_dude.jpg";
+import { actions } from "../../store/ClientFlowData/slice";
 
 interface IProps {
     tutor: any;
     checked: boolean;
 }
+
 // this.props.data.profile_img
 // this.props.data.first_name
 // this.props.data.last_name
@@ -21,10 +23,10 @@ export default function TutorCard({tutor, checked}: IProps){
     }
 
     return (
-        <Container $checked={checked} >
+        <Container $checked={checked} onClick={() => selectTutor()}>
             <TutorName>{tutor.first_name} {tutor.last_name}</TutorName>
             <TutorImg>
-                <img src={legoDude} width={200} height={200} alt="Tutor"></img>
+                <img src={legoDude} width={150} height={150} alt="Tutor"></img>
             </TutorImg>
         </Container>
     );
@@ -36,7 +38,7 @@ interface IContainer {
 
 const Container = styled.div<IContainer>`
   &:hover {
-    transform: scale(1.25);
+    transform: scale(1.15);
     transition: all 0.5s;
 
     //filter: brightness(150%);
@@ -48,8 +50,8 @@ const Container = styled.div<IContainer>`
 
   display: flex;
   flex-direction: column;
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   
   margin: 0.5em;
   padding: 0.2em;

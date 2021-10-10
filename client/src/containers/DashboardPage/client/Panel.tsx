@@ -9,12 +9,16 @@ import { useParams } from "react-router-dom";
 import Meetings from "./meetings";
 import {Helmet} from 'react-helmet';
 import styled from "styled-components";
+// @ts-ignore
+import useMediaQuery from 'use-media-query-hook';
 
 interface IParams {
     panelContent: string;
 }
 
 export const Panel = () => {
+    const isMobile = useMediaQuery('(max-width: 1200px)')
+
     let dispatch = useDispatch();
     let sidebarToggled = useSelector(selectSidebarToggled);
     let clientFlowData = useSelector(selectClientFlowData);
@@ -29,13 +33,21 @@ export const Panel = () => {
 
     const renderSteps = () => {
        let flow = [];
-       flow.push(<FlowText>Schedule a tutoring session {"→"} &nbsp;</FlowText>);
+
+       if(!isMobile)
+        flow.push(<FlowText>Schedule a tutoring session {"→"} &nbsp;</FlowText>);
 
        steps.forEach((step, index) => {
            if(clientFlowData.currentStep === index)
-               flow.push(<FlowText><b style={{color: 'black'}}> {step} </b></FlowText>)
+               if(isMobile)
+                   flow.push(<FlowText><b style={{color: 'black'}}> {index + 1} </b></FlowText>)
+               else
+                   flow.push(<FlowText><b style={{color: 'black'}}> {step} </b></FlowText>)
            else
-               flow.push(<FlowText> {step} </FlowText>)
+               if(isMobile)
+                   flow.push(<FlowText>{index + 1}</FlowText>)
+               else
+                   flow.push(<FlowText> {step} </FlowText>)
 
            if(index != 4)
                flow.push(<FlowText> &nbsp; {"→"} &nbsp;</FlowText>)
@@ -77,6 +89,8 @@ export const Panel = () => {
 export default Panel;
 
 const Container = styled.div`
+  margin-left: -50px;
+  
   display: flex;
   flex: 1;
   justify-content: center;
@@ -84,6 +98,9 @@ const Container = styled.div`
 `
 
 const FlowText = styled.p`
-    color: gray;
-    font-size: 20px;
+  color: gray;
+  font-size: 20px;
+  
+  // DEBUG STYLES //
+  //border: red solid 5px;
 `
