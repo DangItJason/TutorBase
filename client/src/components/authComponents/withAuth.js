@@ -2,14 +2,15 @@ import React, {  useState,useEffect    } from 'react';
 import { Redirect } from 'react-router-dom';
 import {setLogin} from '../../store/loginData'
 import {useSelector,useDispatch  } from 'react-redux'
-
+import Cookies from "js-cookie";
 
 
 export default function withAuth(ComponentToProtect) {
 
 
     return () => {
-
+        const token = Cookies.get('token')
+        console.log(token)
 
         const [loading, toggleloading] = useState(true);
         const [redirect, toggleredirect] = useState(false);
@@ -28,6 +29,7 @@ export default function withAuth(ComponentToProtect) {
                 }).then(res => {
                     console.log(res)
                     if (res.status === 200) {
+
                         toggleloading(false);
                         dispatch(setLogin(true));
                         
