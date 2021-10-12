@@ -23,11 +23,9 @@ export const TutorHeatmap = (params: IParams) => {
     currentYear.setMinutes(0);
     currentYear.setSeconds(0);
     currentYear.setMilliseconds(0);
-    console.log(currentYear);
     let date:Date = new Date(currentYear);
     date.setFullYear(currentYear.getFullYear()-1);
     let week = 0;
-    console.log(params.dateMap);
     while (date.getTime() <= currentYear.getTime()) {
         let hours = 0;
         if (params.dateMap.has(date.getTime()))
@@ -78,7 +76,7 @@ export const TutorHeatmap = (params: IParams) => {
           label: {
             offset: 12,
             style: {
-              fontSize: 12,
+              fontSize: 14,
               fill: '#666',
               textBaseline: 'top' as 'top',
             },
@@ -88,43 +86,45 @@ export const TutorHeatmap = (params: IParams) => {
               let newUNIX = startMonth.getTime()/1000 + parseInt(val) * 7 * secondsPerDay;
               let thisTime = new Date(newUNIX * 1000);
               let month = thisTime.getMonth();
+              let ret = "";
+
               if (month === 0) {
-                return "JAN";
+                ret = "JAN";
               }
               else if (month === 1) {
-                return "FEB";
+                ret =  "FEB";
               }
               else if (month === 2) {
-                return "MAR";
+                ret =  "MAR";
               }
               else if (month === 3) {
-                return "APR";
+                ret =  "APR";
               }
               else if (month === 4) {
-                return "MAY";
+                ret =  "MAY";
               }
               else if (month === 5) {
-                return "JUN";
+                ret =  "JUN";
               }
               else if (month === 6) {
-                return "JUL";
+                ret =  "JUL";
               }
               else if (month === 7) {
-                return "AUG";
+                ret =  "AUG";
               }
               else if (month === 8) {
-                return "SEP";
+                ret =  "SEP";
               }
               else if (month === 9) {
-                return "OCT";
+                ret =  "OCT";
               }
               else if (month === 10) {
-                return "NOV";
+                ret =  "NOV";
               }
               else if (month === 11) {
-                return "DEC";
+                ret =  "DEC";
               }
-              return "";
+              return ret + " " + thisTime.getFullYear();
             },
           },
         },
