@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 import styled from "styled-components";
 // @ts-ignore
 import useMediaQuery from 'use-media-query-hook';
-
+ 
 interface IParams {
     panelContent: string;
 }
