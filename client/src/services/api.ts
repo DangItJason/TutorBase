@@ -66,18 +66,19 @@ export class ApiService {
     }
 
     public async CreateAppointment(appointment: Appointment) {
-        //TODO: Create appointment
         let url = this.appointmentsEndpoint;
         let body = {
             course_id: appointment.course_id,
-            startTime: appointment.start_time,
-            endTime: appointment.end_time,
-            location: appointment.location,
+            date: appointment.start_time,
+            end: appointment.end_time,
+            loc: appointment.location,
             tutor_id: appointment.tutor_id,
             client_id: appointment.client_id,
             price: appointment.price,
             notes: appointment.notes
         }
+
+        console.log("== DEBUG == Creating appointment: ", body)
 
         return await axios.post(url, body);
     }
