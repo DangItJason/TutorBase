@@ -3,14 +3,14 @@ import { Redirect } from 'react-router-dom';
 import {setLogin} from '../../store/loginData'
 import {useSelector,useDispatch  } from 'react-redux'
 import Cookies from "js-cookie";
+import { PassThrough } from 'stream';
 
 
 export default function withAuth(ComponentToProtect) {
 
 
     return () => {
-        const token = Cookies.get('token')
-        console.log(token)
+   
 
         const [loading, toggleloading] = useState(true);
         const [redirect, toggleredirect] = useState(false);
@@ -21,9 +21,20 @@ export default function withAuth(ComponentToProtect) {
         
 
         useEffect(() => {
-            console.log(login)
             if(!!!login){
-                console.log('yo')
+
+                const expr_string = Cookies.get('expiration');
+                const expiration = new Date(expr_string);
+                const now = new Date();
+
+
+                if (!!!isNaN(expiration.getTime()) && now < expiration){
+                    toggleloading(false);
+                    dispatch(setLogin(true));
+                    return;
+                } 
+              
+
                 fetch('http://localhost:3000/api/login/auth', {
                     method: 'get'
                 }).then(res => {
@@ -47,7 +58,7 @@ export default function withAuth(ComponentToProtect) {
                 toggleloading(false);
             }
             
-        },[login]);
+        },[login,dispatch]);
  
      
 
