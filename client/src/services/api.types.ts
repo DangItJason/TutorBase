@@ -24,6 +24,10 @@ export interface TutorsResponse {
     data: Array<Tutor>;
 }
 
+export interface UserResponse {
+    data: Array<User>;
+}
+
 export interface AppointmentsResponse {
     data: Array<Appointment>;
 }
@@ -36,6 +40,15 @@ export interface Tutor {
     price: string,
     interval: string,
     email: string, // User email (ID)
+    first_name: string,
+    last_name: string,
+}
+
+export interface User {
+    _id: string,
+    profile_img: string;
+    phone: string,
+    email: string,
     first_name: string,
     last_name: string,
 }
