@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Navbar, Button } from "reactstrap";
 import FormParent from "../../../components/clientFlow/FormParent";
 import { actions } from "../../../store/clientFlowData";
-import Meetings from './meetings';
+import Meetings from './meetings_old';
 
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';

@@ -32,7 +32,7 @@ const withAuth = require('../../middleware/token_auth')
  */
 // GET /api/users
 // Get all users
-router.get("/", withAuth, (req, res) => {
+router.get("/", (req, res) => {
   User.find()
     .sort({ name: 1 })
     .then((users) => res.json(users))
@@ -49,8 +49,8 @@ router.get("/", withAuth, (req, res) => {
  */
 // GET /api/users/user
 // Get user by id
-router.get("/user", withAuth, (req, res) => {
-  User.find({ _id: req.userid })
+router.get("/user", (req, res) => {
+  User.find({ _id: req.query.userid })
     .sort({ name: 1 })
     .then((users) => res.json(users))
     .catch((err) => res.status(400).json({ msg: err.message }));

@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../dashboard.css';
 import { shallowEqual, useSelector } from 'react-redux'
 import {selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
+import { Helmet } from "react-helmet";
 
 const  ClientDashboard = () => {
     let sidebarToggled = useSelector(selectSidebarToggled);
