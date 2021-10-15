@@ -157,11 +157,7 @@ export const  Step4 = () => {
         let apptLoc = scheduleData.location;
         let apptSubj = scheduleData.title;
 
-        let apptDate = new Date(
-            startDay.getFullYear(),
-            startDay.getMonth(),
-            startDay.getDay()
-        ).toDateString();
+        let apptDate = new Date(startDay._date).toDateString();
 
         let apptStart = startDay.getTime();
         let apptEnd = endDay.getTime();
@@ -191,7 +187,7 @@ export const  Step4 = () => {
         let apptLoc = schedule.location;
         let apptSubj = schedule.title;
 
-        let apptDate = new Date(startDay).toDateString();
+        let apptDate = new Date(startDay._date).toDateString();
 
         let apptStart = startDay.getTime();
         let apptEnd = endDay.getTime();
