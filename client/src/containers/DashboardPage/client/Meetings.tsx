@@ -33,20 +33,17 @@ export const Meetings = () => {
         )
     }, [clientData.clientId, dispatch]);
 
-    // const filteredAppts = appointments.filter( (appointment) => {
-    //     if (dropDownValue === "Pending") {
-    //         return !appointment.confirmed
-    //     } else if (dropDownValue === "Upcoming") {
-    //         return appointment.confirmed
-    //     }
-    //     return true
-    // });
+    let filteredAppointments = appointments;
+    if (dropDownValue==="Pending"){
+        filteredAppointments = appointments.filter((appointment) => !appointment.confirmed);
+    } else if (dropDownValue==="Upcoming"){
+        filteredAppointments = appointments.filter((appointment) => appointment.confirmed);
+    }
 
-    // console.log(filteredAppts)
-        
-    let meetingCards = appointments.map(appointment => (
+    let meetingCards = filteredAppointments.map(appointment => (
         <MeetingCard appt={appointment} isTutor={false} includePrevious={false}/>
     ));
+
 
     return (
         <Container fluid>
