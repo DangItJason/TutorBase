@@ -59,8 +59,8 @@ const [earnings, setEarnings] = useState(apiResult[1] * 15); // get hourly rate 
         <Row xs="2" className="parent">
 
         </Row>
-        <div style={{display:'flex', flexDirection:'row'}}>
-                <div style={{display:'flex', flexDirection:'column', flex:'1 1 0px'}}>
+        <div style={{display:'flex', flexDirection:'row', flexWrap:'wrap'}}>
+                <div style={{display:'flex', flexDirection:'column', flex:'1 1 0px', flexWrap:'wrap'}}>
                     <Card body>
                     <CardTitle tag="h5">Appointments</CardTitle>
                     <CardText>
@@ -75,7 +75,7 @@ const [earnings, setEarnings] = useState(apiResult[1] * 15); // get hourly rate 
                     
                     </Card>
                 </div>
-                <div style={{display:'flex', flexDirection:'column', flex:'1 1 0px'}}>
+                <div style={{display:'flex', flexDirection:'column', flex:'1 1 0px', flexWrap:'wrap'}}>
                     <Card body>
                     <CardTitle tag="h5">Hours Tutored</CardTitle>
                     <CardText>
@@ -90,7 +90,7 @@ const [earnings, setEarnings] = useState(apiResult[1] * 15); // get hourly rate 
                     
                     </Card>
                 </div>
-                <div style={{display:'flex', flexDirection:'column', flex:'1 1 0px'}}>
+                <div style={{display:'flex', flexDirection:'column', flex:'1 1 0px', flexWrap:'wrap'}}>
                 <Card body>
                     <CardTitle tag="h5">Earnings</CardTitle>
                     <CardText>

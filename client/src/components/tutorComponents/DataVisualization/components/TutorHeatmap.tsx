@@ -42,7 +42,6 @@ export const TutorHeatmap = (params: IParams) => {
     date.setDate(date.getDate() + 1);
     }
     let heatmapConfig = {
-      width : 1080, 
       color: ['#ffffff', '#3cab52'], 
         height : 500, 
         data: heatmapData,
