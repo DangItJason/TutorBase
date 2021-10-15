@@ -33,18 +33,14 @@ export const History = () => {
         )
     }, [clientData.clientId, dispatch]);
 
-    // const filteredAppts = appointments.filter( (appointment) => {
-    //     if (dropDownValue === "Denied") {
-    //         return !appointment.confirmed
-    //     } else if (dropDownValue === "Completed") {
-    //         return appointment.confirmed
-    //     }
-    //     return true
-    // });
-
-    // console.log(filteredAppts)
-        
-    let meetingCards = appointments.map(appointment => (
+    let filteredAppointments = appointments;
+    if (dropDownValue==="Denied"){
+        filteredAppointments = appointments.filter((appointment) => !appointment.confirmed);
+    } else if (dropDownValue==="Completed"){
+        filteredAppointments = appointments.filter((appointment) => appointment.confirmed);
+    }
+   
+    let meetingCards = filteredAppointments.map(appointment => (
         <MeetingCard appt={appointment} isTutor={false} includePrevious={true}/>
     ));
 
