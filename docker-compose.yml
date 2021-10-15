@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     image: tutorbase-server
     container_name: tutorbase-server
-    command: npm start
+    command: npm run dev
     volumes:
       - ./server/:/usr/src/app
       - /usr/src/app/node_modules
