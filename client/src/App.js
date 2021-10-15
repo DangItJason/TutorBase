@@ -10,8 +10,6 @@ import withAuth from "./components/authComponents/withAuth"
 import notAuth from "./components/authComponents/notAuth"
 
 function App() {
-
-
     return (
         <ToastProvider
             placement="top-right"

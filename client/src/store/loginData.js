@@ -18,8 +18,6 @@ const loginSlice = createSlice({
       state.password = action.payload;
     },
     setLogin(state, action) {
-      console.log(state)
-      console.log(action)
       state.login = action.payload;
     },
   },
