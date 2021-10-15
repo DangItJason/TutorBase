@@ -9,8 +9,8 @@ services:
     container_name: tutorbase-server
     command: npm start
     volumes:
-      - ./server/:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./server/:/usr/src/app/backend
+      - /usr/src/app/backend/node_modules
     ports:
       - "9000:9000"
     environment:
@@ -25,8 +25,8 @@ services:
     container_name: tutorbase-client
     command: npm start
     volumes:
-      - ./client/:/usr/app
-      - /usr/app/node_modules
+      - ./client/:/usr/src/app/frontend
+      - /usr/src/app/frontend/node_modules
     depends_on:
       - server
     ports:
