@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container,Card, Button, CardTitle, CardText, Row, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import CountUp from 'react-countup';
 import TutorHeatmap from "./components/TutorHeatmap";
@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { stringify } from "querystring";
 import HoursLine from "./components/HoursLine";
+import { api } from "../../../services/api";
+import { IAppointmentEndpoint } from "../../../services/api.types";
 
 function getNow() {
   let currentYear:Date = new Date();
@@ -15,43 +17,73 @@ function getNow() {
     currentYear.setMilliseconds(0);
     return currentYear;
 }
-
+async function GetTutoringHours(): Promise<[Map<number,number>, Map<number,number>, number, number, number]> {
+  let meetingsMap : Map<number,number> = new Map<number,number>();
+  let moneyMap : Map<number, number> = new Map<number, number>();
+  let currentYear:Date = getNow();
+  let date = new Date(currentYear);
+  date.setFullYear(2019);
+  date.setDate(0);
+  date.setMonth(0);
+  let hrs = 0;
+  let apts = 0;
+  let earnings = 0;
+  const value = await api.GetTutorAppointments("6074736540e6e45a2dc36f08"); // When tutor store is set up get tutor id here
+    let appointmentsList:Array<IAppointmentEndpoint> = [];
+    if (!value)
+      console.error();
+    else 
+      appointmentsList = value.data;
+    for (let i = 0; i < appointmentsList.length; i++) {
+      let appointment = appointmentsList[i];
+      let start = new Date(appointment.start_time);
+      start.setMinutes(start.getMinutes());
+      let length = (appointment.end_time - start.getTime()) / 1000 / 60 / 60; // Length in hours of session
+      if (length > 24) continue; // improper dates in database
+      hrs += length;
+      apts += 1;
+      earnings += appointment.price;
+      let dateKey = getNow();
+      dateKey.setFullYear(start.getFullYear());
+      dateKey.setMonth(start.getMonth());
+      dateKey.setDate(start.getDate());
+      if (meetingsMap.has(dateKey.getTime())) {
+        meetingsMap.set(dateKey.getTime(), (meetingsMap.get(dateKey.getTime())! + length));
+        moneyMap.set(dateKey.getTime(), (moneyMap.get(dateKey.getTime())! + appointment.price));
+      }
+      else {
+        meetingsMap.set(dateKey.getTime(), length);
+        moneyMap.set(dateKey.getTime(), appointment.price);
+      }
+    }
+    
+  return [meetingsMap, moneyMap, hrs, apts, earnings];
+}
 export const DataVisualization = () => {
   
   const [dropdownLabel2, setDropdownLabel2] = useState("All Time");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen2, setDropdownOpen2] = useState(false);
   const [dateRange, setDateRange] = useState(new Date(2020,0,0));
+  const [appointments, setAppointments] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [earnings, setEarnings] = useState(0); // get hourly rate here instead of 15
+  const [chart, setChart] = useState(0);
+  const [meetingsMap, setMeetingsMap] = useState(new Map<number,number>());
+  const [earningsMap, setEarningsMap] = useState(new Map<number,number>());
   const toggle = () => setDropdownOpen(prevState => !prevState);
   const toggle2 = () => setDropdownOpen2(prevState => !prevState);
-  let apiResult :[Map<number,number>, number, number] = GetTutoringHours() as [Map<number,number>, number, number];
-  
-  let meetingsMap : Map<number,number> = apiResult[0];
-const [appointments, setAppointments] = useState(apiResult[2]);
-const [hours, setHours] = useState(apiResult[1]);
-const [earnings, setEarnings] = useState(apiResult[1] * 15); // get hourly rate here instead of 15
-  const [chart, setChart] = useState(0);
-  
+  useEffect(() => {
+  GetTutoringHours().then( apiResult => {
+  setMeetingsMap(apiResult[0]);
+  setEarningsMap(apiResult[1]);
+  setAppointments(apiResult[3]);
+  setHours(apiResult[2]);
+  setEarnings(apiResult[4]);
+  });
+},[]);
 
-  // Get Tutor history from endpoint and fill map and array of data to visualize
-  function GetTutoringHours() {
-    let meetingsMap : Map<number,number> = new Map<number,number>();
-    let currentYear:Date = getNow();
-    let date = new Date(currentYear);
-    date.setFullYear(2019);
-    date.setDate(0);
-    date.setMonth(0);
-    let hrs = 0;
-    let apts = 0;
-    while (date.getTime() < new Date().getTime()) {
-      let aptlength = Math.round(Math.random()*40)/10; // API call here
-      meetingsMap.set(date.getTime(), aptlength);
-      date.setDate(date.getDate()+Math.ceil(Math.random()*4));
-      apts += 1;
-      hrs += aptlength;
-    }
-    return [meetingsMap, hrs, apts];
-  }
+
 
     return (
         <Container fluid className="background" style={{marginBottom:'10em'}}>
@@ -98,7 +130,7 @@ const [earnings, setEarnings] = useState(apiResult[1] * 15); // get hourly rate 
                         <CountUp 
                             decimals={2}
                             prefix="$"
-                            end={1426.25} 
+                            end={earnings} 
                             useEasing={true}
                             
 

@@ -43,7 +43,7 @@ export class ApiService {
         let response = await axios.get(url);
         if(response.status != 200) return null;
         let appt: AppointmentsResponse = {data: []}
-        appt.data = response.data;
+        appt.data = await response.data;
         return appt;
     }
 

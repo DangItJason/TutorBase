@@ -25,7 +25,7 @@ export interface TutorsResponse {
 }
 
 export interface AppointmentsResponse {
-    data: Array<Appointment>;
+    data: Array<IAppointmentEndpoint>;
 }
 
 export interface Tutor {
@@ -51,6 +51,21 @@ export interface Appointment {
     price: string,
     notes: string,
     confirmed: boolean
+}
+
+export interface IAppointmentEndpoint {
+    appt_id: string;
+    course_id: string;
+    start_time: string;
+    end_time: number;
+    location: string;
+    tutor_id: string;
+    client_id: string; // User email (ID)
+    price: number;
+    notes: string;
+    confirmed: boolean;
+    __v?: number;
+    _id?: string;
 }
 
 

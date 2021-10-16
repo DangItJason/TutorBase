@@ -42,8 +42,7 @@ export const TutorHeatmap = (params: IParams) => {
     date.setDate(date.getDate() + 1);
     }
     let heatmapConfig = {
-      color: ['#ffffff', '#3cab52'], 
-        height : 500, 
+      color: ['#ffffff', '#3cab52'],
         data: heatmapData,
         autoFit: false,
         xField: 'week',
@@ -129,7 +128,7 @@ export const TutorHeatmap = (params: IParams) => {
         },
       };
       return (
-        <Heatmap {...heatmapConfig}  />
+        <Heatmap {...heatmapConfig}  style={{paddingRight:'1em'}}/>
       );
 }
 export default TutorHeatmap;
