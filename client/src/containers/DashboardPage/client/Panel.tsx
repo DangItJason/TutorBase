@@ -7,11 +7,12 @@ import {actions} from "../../../store/ClientFlowData/slice";
 import {selectClientFlowData, selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
 import { useParams } from "react-router-dom";
 import { Meetings } from "./Meetings";
-import {Helmet} from 'react-helmet';
+import { History } from "./MeetingHistory";
+import { Helmet } from 'react-helmet';
 import styled from "styled-components";
 // @ts-ignore
 import useMediaQuery from 'use-media-query-hook';
-
+ 
 interface IParams {
     panelContent: string;
 }
@@ -26,9 +27,13 @@ export const Panel = () => {
 
     let params: IParams = useParams();
 
+    console.log(params.panelContent)
+
     let body = <FormParent />;
     if (params.panelContent === 'meetings') {
         body = <Meetings />;
+    } else if (params.panelContent === 'history') {
+        body = <History />;
     }
 
     const renderSteps = () => {
@@ -70,7 +75,7 @@ export const Panel = () => {
                     ☰
                 </Button>
 
-                {params.panelContent !== "meetings" && (
+                {typeof params.panelContent === "undefined" && (
                     <Container>
                         {renderSteps().map((component, index) => (
                             <React.Fragment key={index}>
