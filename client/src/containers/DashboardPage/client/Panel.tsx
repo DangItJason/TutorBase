@@ -60,7 +60,7 @@ export const Panel = () => {
         <div id="panel-wrapper">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>TutorBase - Dashboard</title>
+                <title>TutorBase - Client Dashboard</title>
             </Helmet>
 
             <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom", "shadow")}>

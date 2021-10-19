@@ -9,11 +9,11 @@ export const  Sidebar =() =>  {
         <div className={classNames("bg-none", "border-right")} id="sidebar-wrapper">
             <div className="sidebar-heading">TutorBase</div>
             <ListGroup>
-                <ListGroupItem tag="a" href="tutor/preferences" className={classNames("list-group-item", "bg-none", "tab-active")}><FontAwesomeIcon icon={faUserClock} />Schedule Preferences</ListGroupItem>
-                <ListGroupItem tag="a" href="tutor/meetings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCalendar} />Upcoming Meetings</ListGroupItem>
-                <ListGroupItem tag="a" href="tutor/history" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faHistory} />History</ListGroupItem>
-                <ListGroupItem tag="a" href="tutor/analytics" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faChartArea} />Analytics</ListGroupItem>
-                <ListGroupItem tag="a" href="tutor/settings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCog} />Settings</ListGroupItem>
+                <ListGroupItem tag="a" href="/tutor/preferences" className={classNames("list-group-item", "bg-none", "tab-active")}><FontAwesomeIcon icon={faUserClock} />Schedule Preferences</ListGroupItem>
+                <ListGroupItem tag="a" href="/tutor/meetings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCalendar} />Upcoming Meetings</ListGroupItem>
+                <ListGroupItem tag="a" href="/tutor/history" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faHistory} />History</ListGroupItem>
+                <ListGroupItem tag="a" href="/tutor/analytics" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faChartArea} />Analytics</ListGroupItem>
+                <ListGroupItem tag="a" href="/tutor/settings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCog} />Settings</ListGroupItem>
             </ListGroup>
             <ListGroup className="list-group-bottom">
                 <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faRandom} />Switch Dashboard</ListGroupItem>

@@ -184,6 +184,7 @@ export const  Step4 = () => {
 
         let startDay = schedule.start;
         let endDay = schedule.end;
+
         let apptLoc = schedule.location;
         let apptSubj = schedule.title;
 
