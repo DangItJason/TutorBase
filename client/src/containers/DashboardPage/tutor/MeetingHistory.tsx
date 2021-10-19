@@ -7,7 +7,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import "./meetings.css";
+import "../meetings.css";
 import { MeetingCard } from "../../../components/meetingCard/MeetingCard";
 import {actions as tutorDataActions} from "../../../store/TutorData/slice";
 import { Appointment } from "../../../services/api.types";
@@ -41,7 +41,7 @@ export const History = () => {
     }
    
     let meetingCards = filteredAppointments.map(appointment => (
-        <MeetingCard appt={appointment} isTutor={false} includePrevious={true}/>
+        <MeetingCard appt={appointment} isTutor={true} includePrevious={true}/>
     ));
 
     return (

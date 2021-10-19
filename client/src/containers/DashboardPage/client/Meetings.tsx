@@ -7,7 +7,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import "./meetings.css";
+import "../meetings.css";
 import { MeetingCard } from "../../../components/meetingCard/MeetingCard";
 import {actions as clientDataActions} from "../../../store/ClientData/slice";
 import { Appointment } from "../../../services/api.types";
