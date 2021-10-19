@@ -5,7 +5,7 @@ import TutorHeatmap from "./components/TutorHeatmap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { stringify } from "querystring";
-import HoursLine from "./components/HoursLine";
+import HoursLine, { LineGraph } from "./components/LineGraph";
 import { api } from "../../../services/api";
 import { IAppointmentEndpoint } from "../../../services/api.types";
 
@@ -22,7 +22,7 @@ async function GetTutoringHours(): Promise<[Map<number,number>, Map<number,numbe
   let moneyMap : Map<number, number> = new Map<number, number>();
   let currentYear:Date = getNow();
   let date = new Date(currentYear);
-  date.setFullYear(2019);
+  date.setFullYear(2020);
   date.setDate(0);
   date.setMonth(0);
   let hrs = 0;
@@ -31,7 +31,7 @@ async function GetTutoringHours(): Promise<[Map<number,number>, Map<number,numbe
   const value = await api.GetTutorAppointments("6074736540e6e45a2dc36f08"); // When tutor store is set up get tutor id here
     let appointmentsList:Array<IAppointmentEndpoint> = [];
     if (!value)
-      console.error();
+      console.error("Error Fetching Past Appointments.");
     else 
       appointmentsList = value.data;
     for (let i = 0; i < appointmentsList.length; i++) {
@@ -67,7 +67,7 @@ export const DataVisualization = () => {
   const [dateRange, setDateRange] = useState(new Date(2020,0,0));
   const [appointments, setAppointments] = useState(0);
   const [hours, setHours] = useState(0);
-  const [earnings, setEarnings] = useState(0); // get hourly rate here instead of 15
+  const [earnings, setEarnings] = useState(0);
   const [chart, setChart] = useState(0);
   const [meetingsMap, setMeetingsMap] = useState(new Map<number,number>());
   const [earningsMap, setEarningsMap] = useState(new Map<number,number>());
@@ -149,7 +149,7 @@ export const DataVisualization = () => {
                   <div style={{display:'flex', flexDirection:'column'}}>
                     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
                       <DropdownToggle caret>
-                        {(chart === 0) ? "Calendar" : (chart === 1 ? "Total Hours" : "")}
+                        {(chart === 0) ? "Calendar" : (chart === 1 ? "Total Hours" : "Total Earnings")}
                         
                         <FontAwesomeIcon icon={faArrowDown} style={{marginLeft:'1em'}}/>
                       </DropdownToggle>
@@ -158,8 +158,7 @@ export const DataVisualization = () => {
                         <DropdownItem onClick={() => setChart(0)}>Calendar</DropdownItem>
                         <DropdownItem onClick={() => setChart(1)}>Total Hours</DropdownItem>
                         <DropdownItem divider />
-                        <DropdownItem divider />
-                        <DropdownItem disabled style={{color:'gray'}}>Total Earnings</DropdownItem>
+                        <DropdownItem onClick={() => setChart(2)}>Total Earnings</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                     </div>
@@ -217,8 +216,13 @@ export const DataVisualization = () => {
                     <CardText>
                       {chart == 0 ?
                         <TutorHeatmap dateMap={meetingsMap} />
-                        : <HoursLine dateMap={meetingsMap}
-                          fromTime={dateRange}/>}
+                        : (chart == 1 ? <LineGraph dateMap={meetingsMap}
+                          fromTime={dateRange}
+                          isHours={true}/>
+                          :<LineGraph dateMap={earningsMap}
+                          fromTime={dateRange}
+                          isHours={false}/>
+                          )}
                       
                       
                     </CardText>

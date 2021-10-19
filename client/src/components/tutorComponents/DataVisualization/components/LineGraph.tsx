@@ -13,8 +13,9 @@ export interface IGraphData {
 export interface IParams {
     dateMap : Map<number, number>;
     fromTime : Date;
+    isHours : boolean; // True if hours graph, false if earnings graph.
 }
-export const HoursLine = (params: IParams) => {
+export const LineGraph = (params: IParams) => {
     let graphData:Array<IGraphData> = [];
     let currentYear:Date = new Date();
     currentYear.setHours(0);
@@ -38,11 +39,11 @@ export const HoursLine = (params: IParams) => {
       week++;
     date.setDate(date.getDate() + 1);
     }
-    const config = { 
+    const config = {
         data : graphData ,
         color: '#3cab52',
         xField : 'time' , 
-        yField : 'hours' ,  
+        yField : 'hours' , 
         tooltip: {
           title: 'date',
           fields: ['hours'],
@@ -50,7 +51,10 @@ export const HoursLine = (params: IParams) => {
           formatter: function formatter(datum:Datum) {
             let val = datum.hours;
             let value = Math.round(val * 100) / 100;
-            return {name: "Total Hours Tutored", value: value.toString()};
+            return {
+              name: (params.isHours ? "Total Hours Tutored" : "Total Earnings"), 
+              value: (!params.isHours ? "$" : "") + value.toString()
+            };
           }
         },
         state : { 
@@ -126,4 +130,4 @@ export const HoursLine = (params: IParams) => {
         <Line { ... config } />
       );
 }
-export default HoursLine;
+export default LineGraph;
