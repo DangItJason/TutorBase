@@ -25,9 +25,11 @@ export interface TutorsResponse {
 }
 
 export interface AppointmentsResponse {
+    data: Array<Appointment>;
+}
+export interface AppointmentsResponseWithData {
     data: Array<IAppointmentEndpoint>;
 }
-
 export interface Tutor {
     _id: string;
     times: TutorTimes,

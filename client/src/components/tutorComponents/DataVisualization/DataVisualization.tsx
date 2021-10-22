@@ -30,7 +30,7 @@ async function GetTutoringHours(course:string): Promise<[Map<number,number>, Map
   let hrs = 0;
   let apts = 0;
   let earnings = 0;
-  const value = await api.GetTutorAppointments("6074736540e6e45a2dc36f08"); // When tutor store is set up get tutor id here
+  const value = await api.GetTutorAppointmentsWithData("6074736540e6e45a2dc36f08"); // When tutor store is set up get tutor id here
     let appointmentsList:Array<IAppointmentEndpoint> = [];
     if (!value)
       console.error("Error Fetching Past Appointments.");
