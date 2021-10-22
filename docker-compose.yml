@@ -31,6 +31,8 @@ services:
       - server
     ports:
       - "3000:3000"
+    environment:
+    - REACT_APP_API_BASE_ADDRESS=http://localhost:9000/
     networks:
       - app-network
   
