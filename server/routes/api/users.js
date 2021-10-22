@@ -112,21 +112,13 @@ router.post('/', async (req, res) => {
 
   const user = await newUser.save();
 
-  // return res.json(user);
-
   req.logIn(user, function (err) {
     if (err) {
       console.log(err);
       return;
     }
-    var tok = jwt.sign({ userid: user._id }, secret);
 
-    // Token Storage can be used if necessary later on
-    // var tokenModel = new Token({ token: tok, uid: user._id })
-    // tokenModel.save(function (err) {
-    //   if (err) return handleError(err);
-    //   // saved!
-    // });
+    let tok = jwt.sign({ userid: user._id }, secret);
 
     //MaxAge: 24 Hours
     res.cookie('token', tok, {
@@ -135,15 +127,8 @@ router.post('/', async (req, res) => {
       secure: true,
       sameSite: false,
     });
-    return (
-      res
-        // .header('Access-Control-Allow-Origin', 'http://localhost:3000')
-        // .header('Access-Control-Allow-Credentials', true)
-        // .header('Access-Control-Allow-Methods', 'POST')
-        // .header('Access-Control-Allow-Headers', 'Content-Type')
-        // .header('Content-Type', 'application/json')
-        .json({ link: 'http://localhost:3000/home' })
-    );
+
+    return res.json({ link: 'http://localhost:3000/home' });
   });
 });
 
