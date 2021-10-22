@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "classnames": "^2.2.6",
+    "email-validator": "^2.0.4",
     "i": "^0.3.6",
     "js-cookie": "^2.2.1",
     "js-cookies": "^1.0.4",

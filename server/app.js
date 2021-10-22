@@ -36,7 +36,12 @@ const secret = require("./config/secret");
 
 
 // Allowing Cors Usage
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  })
+);
 
 // View engine setup
 app.set("views", path.join(__dirname, "views"));
