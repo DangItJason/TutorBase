@@ -66,6 +66,10 @@ router.get("/", (req, res, next) => {
 
       //MaxAge: 24 Hours
       res.cookie("token", tok, { httpOnly: true, maxAge: 86400000, secure: true })
+      const expiration = new Date();
+      expiration.setUTCDate(expiration.getUTCDate() + 1);
+      const expr_string = expiration.toUTCString()
+      res.cookie('expiration', expr_string,  { maxAge: 86400000})
       return res.redirect('http://localhost:3000/home');
   }
   else{
@@ -94,6 +98,10 @@ router.get("/", (req, res, next) => {
 
         //MaxAge: 24 Hours
         res.cookie("token", tok, { httpOnly: true, maxAge: 86400000, secure: true })
+        const expiration = new Date();
+        expiration.setUTCDate(expiration.getUTCDate() + 1);
+        const expr_string = expiration.toUTCString()
+        res.cookie('expiration', expr_string, { maxAge: 86400000})
         return res.redirect('http://localhost:3000/home');
       });
 
