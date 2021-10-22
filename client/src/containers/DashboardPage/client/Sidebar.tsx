@@ -11,7 +11,6 @@ export const  Sidebar =() =>  {
                 <ListGroup>
                     <ListGroupItem tag="a" href="/home" className={classNames("list-group-item", "bg-none", "tab-active")}><FontAwesomeIcon icon={faAddressBook} />Schedule a Session</ListGroupItem>
                     <ListGroupItem tag="a" href="/home/meetings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCalendar} />Upcoming Meetings</ListGroupItem>
-                    <ListGroupItem tag="a" href="/home/datavisualization" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faChartPie} />Data</ListGroupItem>
                     
                     {/* <ListGroupItem tag="a" href="/home/history" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faHistory} />History</ListGroupItem>
                     <ListGroupItem tag="a" href="/home/settings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCog} />Settings</ListGroupItem> */}

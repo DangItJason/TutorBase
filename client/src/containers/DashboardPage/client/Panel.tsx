@@ -8,7 +8,6 @@ import {selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
 import { useParams } from "react-router-dom";
 import Meetings from "./meetings";
 import {Helmet} from 'react-helmet';
-import DataVisualization from "../../../components/tutorComponents/DataVisualization/DataVisualization";
 
 interface IParams {
     panelContent: string;
@@ -25,10 +24,6 @@ export const Panel = () => {
     if (params.panelContent === 'meetings') {
         body = <Meetings />;
         headerText = "Meetings";
-    }
-    else if (params.panelContent === 'datavisualization') {
-        body = <DataVisualization />;
-        headerText = "Profile Data";
     }
     return (
         <div id="panel-wrapper">
