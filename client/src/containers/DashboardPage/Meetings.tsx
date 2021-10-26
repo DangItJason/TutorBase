@@ -8,11 +8,11 @@ import {
   DropdownItem,
 } from "reactstrap";
 import "./meetings.css";
-import { MeetingCard } from "../../../components/meetingCard/MeetingCard";
-import {actions as clientDataActions} from "../../../store/ClientData/slice";
-import { Appointment } from "../../../services/api.types";
-import { api } from "../../../services/api";
-import { selectClientData } from "../../../store/ClientData/selectors";
+import { MeetingCard } from "../../components/meetingCard/MeetingCard";
+import {actions as clientDataActions} from "../../store/ClientData/slice";
+import { Appointment } from "../../services/api.types";
+import { api } from "../../services/api";
+import { selectClientData } from "../../store/ClientData/selectors";
 
 export const Meetings = () => {
     let clientData = useSelector(selectClientData);

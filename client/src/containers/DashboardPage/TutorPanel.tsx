@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { Navbar, Button } from "reactstrap";
-import TutorDashboard from "./TutorDashboard";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSidebarToggled } from "../../../store/ClientFlowData/selectors";
-import { actions } from "../../../store/ClientFlowData/slice";
+import { selectSidebarToggled } from "../../store/ClientFlowData/selectors";
+import { actions } from "../../store/ClientFlowData/slice";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import TutorSettings from "../../../components/tutorComponents/TutorSettings";
+import TutorSettings from "../../components/tutorComponents/TutorSettings";
 
 interface IParams {
     panelContent: string;
 }
 
-export const Panel = () => {
+export const TutorPanel = () => {
     let dispatch = useDispatch();
     let sidebarToggled = useSelector(selectSidebarToggled);
 
@@ -54,4 +53,4 @@ export const Panel = () => {
     );
 }
 
-export default Panel;
+export default TutorPanel;

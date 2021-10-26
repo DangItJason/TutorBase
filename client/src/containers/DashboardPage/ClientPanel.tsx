@@ -1,22 +1,19 @@
 import React from "react";
 import classNames from "classnames";
 import {Button, Navbar} from "reactstrap";
-import {FormParent} from "../../../components/clientFlow/FormParent";
+import {FormParent} from "../../components/clientFlow/FormParent";
 import {useDispatch, useSelector} from "react-redux";
-import {actions} from "../../../store/ClientFlowData/slice";
-import {selectClientFlowData, selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
-import { useParams } from "react-router-dom";
+import {actions} from "../../store/ClientFlowData/slice";
+import {selectClientFlowData, selectSidebarToggled} from "../../store/ClientFlowData/selectors";
+import { useLocation, useParams } from "react-router-dom";
 import { Meetings } from "./Meetings";
 import {Helmet} from 'react-helmet';
 import styled from "styled-components";
 // @ts-ignore
 import useMediaQuery from 'use-media-query-hook';
 
-interface IParams {
-    panelContent: string;
-}
 
-export const Panel = () => {
+export const ClientPanel = () => {
     const isMobile = useMediaQuery('(max-width: 1200px)')
 
     let dispatch = useDispatch();
@@ -24,10 +21,11 @@ export const Panel = () => {
     let clientFlowData = useSelector(selectClientFlowData);
     let steps = ["Subject", "Class", "Tutor", "Time", "Notes"];
 
-    let params: IParams = useParams();
-
+    let params : string = useLocation().pathname;
+    params = params.split('/')[2];
+    console.log(params);
     let body = <FormParent />;
-    if (params.panelContent === 'meetings') {
+    if (params === 'meetings') {
         body = <Meetings />;
     }
 
@@ -70,7 +68,7 @@ export const Panel = () => {
                     ☰
                 </Button>
 
-                {params.panelContent !== "meetings" && (
+                {params !== "meetings" && (
                     <Container>
                         {renderSteps().map((component, index) => (
                             <React.Fragment key={index}>
@@ -86,7 +84,7 @@ export const Panel = () => {
     );
 }
 
-export default Panel;
+export default ClientPanel;
 
 const Container = styled.div`
   margin-left: -50px;
