@@ -20,6 +20,9 @@ function App() {
                 <Route exact path="/tutor/" >
                     <Dashboard mode="Tutor"/>
                 </Route>
+                <Route exact path="/tutor/*" >
+                    <Dashboard mode="Tutor"/>
+                </Route>
                 <Route exact path="/home/" >
                     <Dashboard mode="Client"/>
                 </Route>

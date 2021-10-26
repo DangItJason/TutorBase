@@ -4,19 +4,16 @@ import { Navbar, Button } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSidebarToggled } from "../../store/ClientFlowData/selectors";
 import { actions } from "../../store/ClientFlowData/slice";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import TutorSettings from "../../components/tutorComponents/TutorSettings";
-
-interface IParams {
-    panelContent: string;
-}
 
 export const TutorPanel = () => {
     let dispatch = useDispatch();
     let sidebarToggled = useSelector(selectSidebarToggled);
 
-    const params: IParams = useParams();
+    let params : string = useLocation().pathname;
+    params = params.split('/')[2];
 
     let body = (
         <div className="container-fluid">
@@ -27,10 +24,12 @@ export const TutorPanel = () => {
         </div>
     );
 
-    if (params.panelContent === 'analytics')
+    if (params === 'analytics')
+        body = <div>Insert analytics here</div>
+    else if (params === 'settings')
         body = <TutorSettings />
-    else if (params.panelContent === 'settings')
-        body = <TutorSettings />
+    else if (params === 'history')
+        body = <div>Insert history here</div>  
 
     return (
         <div id="panel-wrapper">

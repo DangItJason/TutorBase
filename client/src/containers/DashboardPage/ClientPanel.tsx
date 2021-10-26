@@ -23,7 +23,6 @@ export const ClientPanel = () => {
 
     let params : string = useLocation().pathname;
     params = params.split('/')[2];
-    console.log(params);
     let body = <FormParent />;
     if (params === 'meetings') {
         body = <Meetings />;
