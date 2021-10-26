@@ -7,13 +7,13 @@ import {actions} from "../../store/ClientFlowData/slice";
 import {selectClientFlowData, selectSidebarToggled} from "../../store/ClientFlowData/selectors";
 import { useLocation, useParams } from "react-router-dom";
 import { Meetings } from "./Meetings";
-import {Helmet} from 'react-helmet';
+import { ClientHistory } from "./ClientHistory";
+import { Helmet } from 'react-helmet';
 import styled from "styled-components";
 // @ts-ignore
 import useMediaQuery from 'use-media-query-hook';
-
-
-export const ClientPanel = () => {
+ 
+export const Panel = () => {
     const isMobile = useMediaQuery('(max-width: 1200px)')
 
     let dispatch = useDispatch();
@@ -23,9 +23,12 @@ export const ClientPanel = () => {
 
     let params : string = useLocation().pathname;
     params = params.split('/')[2];
+
     let body = <FormParent />;
     if (params === 'meetings') {
         body = <Meetings />;
+    } else if (params === 'history') {
+        body = <ClientHistory />;
     }
 
     const renderSteps = () => {
@@ -57,7 +60,7 @@ export const ClientPanel = () => {
         <div id="panel-wrapper">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>TutorBase - Client Dashboard</title>
+                <title>TutorBase - Dashboard</title>
             </Helmet>
 
             <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom", "shadow")}>
@@ -67,7 +70,7 @@ export const ClientPanel = () => {
                     ☰
                 </Button>
 
-                {params !== "meetings" && (
+                {typeof params === "undefined" && (
                     <Container>
                         {renderSteps().map((component, index) => (
                             <React.Fragment key={index}>
@@ -83,7 +86,7 @@ export const ClientPanel = () => {
     );
 }
 
-export default ClientPanel;
+export default Panel;
 
 const Container = styled.div`
   margin-left: -50px;

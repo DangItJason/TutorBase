@@ -19,8 +19,12 @@ export const  Sidebar =(params:IParams) =>  {
                     <ListGroupItem tag="a" href="/tutor/analytics" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faChartArea} />Analytics</ListGroupItem>
                     <ListGroupItem tag="a" href="/tutor/settings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCog} />Settings</ListGroupItem>
                     </div>) :
-                    (<div><ListGroupItem tag="a" href="/home" className={classNames("list-group-item", "bg-none", "tab-active")}><FontAwesomeIcon icon={faAddressBook} />Schedule a Session</ListGroupItem>
+                    (<div>
+                    <ListGroupItem tag="a" href="/home" className={classNames("list-group-item", "bg-none", "tab-active")}><FontAwesomeIcon icon={faAddressBook} />Schedule a Session</ListGroupItem>
                     <ListGroupItem tag="a" href="/home/meetings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCalendar} />Upcoming Meetings</ListGroupItem>
+                    <ListGroupItem tag="a" href="/home/history" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faHistory} />History</ListGroupItem>
+                    {/* <ListGroupItem tag="a" href="/home/settings" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faCog} />Settings</ListGroupItem> */}
+                
                     </div>)}
                 </ListGroup>
                 <ListGroup className="list-group-bottom">
