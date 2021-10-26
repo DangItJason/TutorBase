@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import { ListGroup, ListGroupItem } from "reactstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressBook, faCalendar, faHistory, faCog, faRandom, faSignOutAlt, faUserClock, faChartArea } from '@fortawesome/free-solid-svg-icons'
+import { faAddressBook, faCalendar, faHistory, faCog, faRandom, faSignOutAlt, faUserClock, faChartArea, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons'
 export interface IParams {
     mode: string; // tutor or client
 }
@@ -24,6 +24,12 @@ export const  Sidebar =(params:IParams) =>  {
                     </div>)}
                 </ListGroup>
                 <ListGroup className="list-group-bottom">
+                {params.mode === "Tutor" ? (
+                    <div>
+                    <ListGroupItem tag="a" href="/home" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faToggleOn} />Switch to Client Dashboard</ListGroupItem>
+                </div>) :
+                    (<div>   <ListGroupItem tag="a" href="/tutor" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faToggleOff} />Switch to Tutor Dashboard</ListGroupItem>
+                    </div>)}
                     {/* <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faRandom} />Switch Dashboard</ListGroupItem> */}
                     <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon icon={faSignOutAlt} />Logout</ListGroupItem>
                 </ListGroup>
