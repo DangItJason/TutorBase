@@ -1,0 +1,23 @@
+.row {
+    text-align: center;
+    justify-content: center;
+}
+
+.heading-item {
+    font-size: 20px;
+}
+
+.img-item {
+    position: relative;
+}
+
+.img-item img {
+    border-radius: 50%;
+}
+
+.img-item a {
+    float: left;
+    position: absolute;
+    left: 70%;
+    top: 80%;
+}
