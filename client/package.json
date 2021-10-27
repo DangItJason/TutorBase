@@ -9,6 +9,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@reduxjs/toolkit": "^1.5.1",
     "@toast-ui/react-calendar": "^1.0.5",
+    "@types/ramda": "^0.27.45",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "classnames": "^2.2.6",
@@ -73,9 +74,12 @@
     "@types/classnames": "^2.2.11",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.9.1",
+    "@types/rc-time-picker": "^3.5.0",
     "@types/react": "^17.0.21",
+    "@types/react-autocomplete": "^1.8.6",
     "@types/react-dom": "^17.0.9",
     "@types/react-helmet": "^6.1.2",
+    "@types/react-rangeslider": "^2.2.4",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.9"
   }
