@@ -83,8 +83,15 @@ export class ApiService {
         return await axios.post(url, body);
     }
 
-    public async SetName(name: Name) {
-        return name;
+    public async SetClientName(name: Name, id: String) {
+        let url = this.usersEndpoint + 'user';
+        let body = {
+            userid: id,
+            first_name: name.first_name, 
+            last_name: name.last_name
+        }
+
+        return await axios.put(url, body, {withCredentials: true});
     }
 }
 

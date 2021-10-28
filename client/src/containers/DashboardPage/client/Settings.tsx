@@ -20,13 +20,13 @@ export const Settings = () => {
         phone: "",
         email: "",
         first_name: "",
-        last_name: "",
+        last_name: ""
     });
 
     const saveNameChange = async () => {
         let name: Name = {first_name: tempFirstName, last_name: tempLastName};
         if(!(tempFirstName === clientInfo.first_name && tempLastName === clientInfo.last_name))
-            await api.SetName(name);
+            await api.SetClientName(name, clientInfo._id);
         setNameModalOpen(false);
     }
 
