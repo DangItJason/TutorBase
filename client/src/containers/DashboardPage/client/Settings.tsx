@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { api } from "../../../services/api";
-import { User, Name } from "../../../services/api.types";
+import { Name } from "../../../services/api.types";
 import { selectClientData } from "../../../store/ClientData/selectors";
+import { actions as clientDataActions } from "../../../store/ClientData/slice";
 import { Container, Row, ListGroup, ListGroupItem, Modal, ModalHeader, ModalBody, InputGroup, Input, ModalFooter, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -14,38 +15,40 @@ export const Settings = () => {
     let [nameModalOpen, setNameModalOpen] = useState<boolean>(false);
     let [tempFirstName, setTempFirstName] = useState<string>("");
     let [tempLastName, setTempLastName] = useState<string>("");
-    let [clientInfo, setClientInfo] = useState<User>({
-        _id: "",
-        profile_img: "",
-        phone: "",
-        email: "",
-        first_name: "",
-        last_name: ""
-    });
+    let dispatch = useDispatch();
 
     const saveNameChange = async () => {
         let name: Name = {first_name: tempFirstName, last_name: tempLastName};
-        if(!(tempFirstName === clientInfo.first_name && tempLastName === clientInfo.last_name))
-            await api.SetClientName(name, clientInfo._id);
+        // if(!(tempFirstName === clientData.first_name && tempLastName === clientData.last_name)) {
+        //     await api.SetClientName(name, clientData.clientId);
+        //     dispatch(clientDataActions.setFirstName(tempFirstName));
+        //     dispatch(clientDataActions.setLastName(tempLastName));
+        // }
+        await api.SetClientName(name, clientData.clientId);
+        dispatch(clientDataActions.setFirstName(tempFirstName));
+        dispatch(clientDataActions.setLastName(tempLastName));
         setNameModalOpen(false);
     }
 
     const cancelNameChange = () => {
         setNameModalOpen(false); 
-        setTempFirstName(clientInfo.first_name); 
-        setTempLastName(clientInfo.last_name);
+        setTempFirstName(clientData.first_name); 
+        setTempLastName(clientData.last_name);
     }
 
     useEffect(() => {
         const getUser = async () => {
-            return (await api.GetUserById(clientData.clientId)).data;
+            let res = (await api.GetUserById(clientData.clientId)).data;
+            console.log(res);
+            return res;
         }
         getUser().then(value => {
-            setClientInfo(value[0]); 
+            dispatch(clientDataActions.setFirstName(value[0].first_name));
+            dispatch(clientDataActions.setFirstName(value[0].last_name));
             setTempFirstName(value[0].first_name); 
             setTempLastName(value[0].last_name)
         })
-    }, [clientData.clientId]);
+    }, [clientData.clientId, dispatch]);
 
     return (
         <Container className="settings" fluid>
@@ -64,7 +67,7 @@ export const Settings = () => {
                         </a> */}
                     </ListGroupItem>
                     <ListGroupItem className="name-item">
-                        <span className="heading-item">{clientInfo.first_name} {clientInfo.last_name}</span>
+                        <span className="heading-item">{clientData.first_name} {clientData.last_name}</span>
                         <a href="#" className="modal-link" onClick={() => {setNameModalOpen(true)}}>
                             <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                         </a>
