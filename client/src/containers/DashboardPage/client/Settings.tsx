@@ -15,16 +15,16 @@ export const Settings = () => {
     let [nameModalOpen, setNameModalOpen] = useState<boolean>(false);
     let [tempFirstName, setTempFirstName] = useState<string>("");
     let [tempLastName, setTempLastName] = useState<string>("");
+    let [clientName, setClientName] = useState<Name>({
+        first_name: "",
+        last_name: ""
+    }); 
     let dispatch = useDispatch();
 
     const saveNameChange = async () => {
         let name: Name = {first_name: tempFirstName, last_name: tempLastName};
-        // if(!(tempFirstName === clientData.first_name && tempLastName === clientData.last_name)) {
-        //     await api.SetClientName(name, clientData.clientId);
-        //     dispatch(clientDataActions.setFirstName(tempFirstName));
-        //     dispatch(clientDataActions.setLastName(tempLastName));
-        // }
         await api.SetClientName(name, clientData.clientId);
+        setClientName(name);
         dispatch(clientDataActions.setFirstName(tempFirstName));
         dispatch(clientDataActions.setLastName(tempLastName));
         setNameModalOpen(false);
@@ -38,15 +38,15 @@ export const Settings = () => {
 
     useEffect(() => {
         const getUser = async () => {
-            let res = (await api.GetUserById(clientData.clientId)).data;
-            console.log(res);
-            return res;
+            return (await api.GetUserById(clientData.clientId)).data;
         }
+
         getUser().then(value => {
-            dispatch(clientDataActions.setFirstName(value[0].first_name));
-            dispatch(clientDataActions.setFirstName(value[0].last_name));
             setTempFirstName(value[0].first_name); 
             setTempLastName(value[0].last_name)
+            setClientName({first_name: value[0].first_name, last_name: value[0].last_name})
+            dispatch(clientDataActions.setFirstName(value[0].first_name));
+            dispatch(clientDataActions.setFirstName(value[0].last_name));
         })
     }, [clientData.clientId, dispatch]);
 
@@ -67,7 +67,7 @@ export const Settings = () => {
                         </a> */}
                     </ListGroupItem>
                     <ListGroupItem className="name-item">
-                        <span className="heading-item">{clientData.first_name} {clientData.last_name}</span>
+                        <span className="heading-item">{clientName.first_name} {clientName.last_name}</span>
                         <a href="#" className="modal-link" onClick={() => {setNameModalOpen(true)}}>
                             <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                         </a>
