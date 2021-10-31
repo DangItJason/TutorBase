@@ -13,8 +13,10 @@ import defaultUser from "../../../assets/default_user.png";
 export const Settings = () => {
     let clientData = useSelector(selectClientData);
     let [nameModalOpen, setNameModalOpen] = useState<boolean>(false);
-    let [tempFirstName, setTempFirstName] = useState<string>("");
-    let [tempLastName, setTempLastName] = useState<string>("");
+    let [tempName, setTempName] = useState<Name>({
+        first_name: "", 
+        last_name: ""
+    });
     let [clientName, setClientName] = useState<Name>({
         first_name: "",
         last_name: ""
@@ -22,18 +24,17 @@ export const Settings = () => {
     let dispatch = useDispatch();
 
     const saveNameChange = async () => {
-        let name: Name = {first_name: tempFirstName, last_name: tempLastName};
+        let name: Name = {first_name: tempName.first_name, last_name: tempName.last_name};
         await api.SetClientName(name, clientData.clientId);
         setClientName(name);
-        dispatch(clientDataActions.setFirstName(tempFirstName));
-        dispatch(clientDataActions.setLastName(tempLastName));
+        dispatch(clientDataActions.setFirstName(tempName.first_name));
+        dispatch(clientDataActions.setLastName(tempName.last_name));
         setNameModalOpen(false);
     }
 
     const cancelNameChange = () => {
         setNameModalOpen(false); 
-        setTempFirstName(clientData.first_name); 
-        setTempLastName(clientData.last_name);
+        setTempName({first_name: clientData.first_name, last_name: clientData.last_name});
     }
 
     useEffect(() => {
@@ -42,11 +43,10 @@ export const Settings = () => {
         }
 
         getUser().then(value => {
-            setTempFirstName(value[0].first_name); 
-            setTempLastName(value[0].last_name)
+            setTempName({first_name: value[0].first_name, last_name: value[0].last_name});
             setClientName({first_name: value[0].first_name, last_name: value[0].last_name})
             dispatch(clientDataActions.setFirstName(value[0].first_name));
-            dispatch(clientDataActions.setFirstName(value[0].last_name));
+            dispatch(clientDataActions.setLastName(value[0].last_name));
         })
     }, [clientData.clientId, dispatch]);
 
@@ -77,14 +77,14 @@ export const Settings = () => {
                                 Change your name here.
                                 <hr/>
                                 <InputGroup>
-                                    First Name:<Input id="first-name" value={tempFirstName} onChange={(value) => setTempFirstName(value.target.value)} />
+                                    First Name:<Input id="first-name" value={tempName.first_name} onChange={(value) => setTempName({first_name: value.target.value, last_name: tempName.last_name})} />
                                 </InputGroup>
                                 <InputGroup>
-                                    Last Name:<Input id="last-name" value={tempLastName} onChange={(value) => setTempLastName(value.target.value)} />
+                                    Last Name:<Input id="last-name" value={tempName.last_name} onChange={(value) => setTempName({first_name: tempName.first_name, last_name: value.target.value})} />
                                 </InputGroup>
                             </ModalBody>
                             <ModalFooter>
-                                <Button className="btn-red" onClick={() => {saveNameChange()}}>Save</Button>{' '}
+                                <Button className="btn-red" onClick={() => {saveNameChange()}}>Save</Button>
                                 <Button color="secondary" onClick={() => {cancelNameChange()}}>Cancel</Button>
                             </ModalFooter>
                         </Modal>

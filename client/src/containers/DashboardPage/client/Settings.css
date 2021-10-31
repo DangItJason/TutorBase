@@ -36,3 +36,7 @@
     color: #E66064;
     transition: 0.25s;
 }
+
+#first-name, #last-name {
+    margin-left: 5px;
+}
