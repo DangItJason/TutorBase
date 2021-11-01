@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { api } from "../../../services/api";
-import { Name } from "../../../services/api.types";
-import { selectClientData } from "../../../store/ClientData/selectors";
-import { actions as clientDataActions } from "../../../store/ClientData/slice";
+import { api } from "../../services/api";
+import { Name } from "../../services/api.types";
+import { selectClientData } from "../../store/ClientData/selectors";
+import { actions as clientDataActions } from "../../store/ClientData/slice";
+import { ClientDataSlice } from "../../store/ClientData/types";
 import { Container, Row, ListGroup, ListGroupItem, Modal, ModalHeader, ModalBody, InputGroup, Input, ModalFooter, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import "./Settings.css";
-import defaultUser from "../../../assets/default_user.png";
+import "./ClientSettings.css";
+import defaultUser from "../../assets/default_user.png";
 
-export const Settings = () => {
+export const ClientSettings = () => {
     let clientData = useSelector(selectClientData);
     let [nameModalOpen, setNameModalOpen] = useState<boolean>(false);
     let [tempName, setTempName] = useState<Name>({
@@ -34,7 +35,7 @@ export const Settings = () => {
 
     const cancelNameChange = () => {
         setNameModalOpen(false); 
-        setTempName({first_name: clientData.first_name, last_name: clientData.last_name});
+        setTempName(clientName);
     }
 
     useEffect(() => {

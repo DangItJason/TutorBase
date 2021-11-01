@@ -9,6 +9,7 @@
 
 .list-group li {
     padding-top: 30px;
+    background-color: transparent;
     border: none;
 }
 

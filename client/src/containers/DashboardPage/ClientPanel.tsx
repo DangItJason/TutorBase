@@ -1,23 +1,19 @@
 import React from "react";
 import classNames from "classnames";
 import {Button, Navbar} from "reactstrap";
-import {FormParent} from "../../../components/clientFlow/FormParent";
+import {FormParent} from "../../components/clientFlow/FormParent";
 import {useDispatch, useSelector} from "react-redux";
-import {actions} from "../../../store/ClientFlowData/slice";
-import {selectClientFlowData, selectSidebarToggled} from "../../../store/ClientFlowData/selectors";
-import { useParams } from "react-router-dom";
+import {actions} from "../../store/ClientFlowData/slice";
+import {selectClientFlowData, selectSidebarToggled} from "../../store/ClientFlowData/selectors";
+import { useLocation, useParams } from "react-router-dom";
 import { Meetings } from "./Meetings";
-import { History } from "./MeetingHistory";
-import { Settings } from "./Settings";
+import { ClientHistory } from "./ClientHistory";
+import { ClientSettings } from "./ClientSettings";
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
 // @ts-ignore
 import useMediaQuery from 'use-media-query-hook';
  
-interface IParams {
-    panelContent: string;
-}
-
 export const Panel = () => {
     const isMobile = useMediaQuery('(max-width: 1200px)')
 
@@ -26,17 +22,16 @@ export const Panel = () => {
     let clientFlowData = useSelector(selectClientFlowData);
     let steps = ["Subject", "Class", "Tutor", "Time", "Notes"];
 
-    let params: IParams = useParams();
-
-    console.log(params.panelContent)
+    let params : string = useLocation().pathname;
+    params = params.split('/')[2];
 
     let body = <FormParent />;
-    if (params.panelContent === 'meetings') {
+    if (params === 'meetings') {
         body = <Meetings />;
-    } else if (params.panelContent === 'history') {
-        body = <History />;
-    } else if (params.panelContent === 'settings') {
-        body = <Settings />;
+    } else if (params === 'history') {
+        body = <ClientHistory />;
+    } else if (params === 'settings') {
+        body = <ClientSettings />
     }
 
     const renderSteps = () => {
@@ -78,7 +73,7 @@ export const Panel = () => {
                     ☰
                 </Button>
 
-                {typeof params.panelContent === "undefined" && (
+                {typeof params === "undefined" && (
                     <Container>
                         {renderSteps().map((component, index) => (
                             <React.Fragment key={index}>

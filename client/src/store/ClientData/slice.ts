@@ -11,7 +11,7 @@ export const initialState: ClientDataSlice = {
     phone: "",
     email: "",
     first_name: "",
-    last_name: "",
+    last_name: ""
 };
 
 const clientDataSlice = createSlice({

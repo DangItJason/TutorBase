@@ -7,15 +7,15 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import "../meetings.css";
-import { MeetingCard } from "../../../components/meetingCard/MeetingCard";
-import {actions as clientDataActions} from "../../../store/ClientData/slice";
-import { Appointment } from "../../../services/api.types";
-import { api } from "../../../services/api";
-import { selectClientData } from "../../../store/ClientData/selectors";
+import "./meetings.css";
+import { MeetingCard } from "../../components/meetingCard/MeetingCard";
+import {actions as tutorDataActions} from "../../store/TutorData/slice";
+import { Appointment } from "../../services/api.types";
+import { api } from "../../services/api";
+import { selectTutorData } from "../../store/TutorData/selectors";
 
-export const History = () => {
-    let clientData = useSelector(selectClientData);
+export const TutorHistory = () => {
+    let tutorData = useSelector(selectTutorData);
     let [dropDownOpen, setDropdownOpen] = useState<boolean>(false);
     let [dropDownValue, setDropdownValue] = useState<String>("All");
     let [appointments, setAppointments] = useState<Array<Appointment>>([]);
@@ -23,15 +23,15 @@ export const History = () => {
 
     useEffect(() => {
         const getAppointments = async () => {
-            return (await api.GetClientAppointments(clientData.clientId)).data;
+            return (await api.GetTutorAppointments(tutorData.tutorId)).data;
         }
 
         getAppointments().then(value => {
                 setAppointments(value);
-                dispatch(clientDataActions.setAppointment(value));
+                dispatch(tutorDataActions.setAppointment(value));
             }
         )
-    }, [clientData.clientId, dispatch]);
+    }, [tutorData.tutorId, dispatch]);
 
     let filteredAppointments = appointments;
     if (dropDownValue==="Denied"){
@@ -41,7 +41,7 @@ export const History = () => {
     }
    
     let meetingCards = filteredAppointments.map(appointment => (
-        <MeetingCard appt={appointment} isTutor={false} includePrevious={true}/>
+        <MeetingCard appt={appointment} isTutor={true} includePrevious={true}/>
     ));
 
     return (
