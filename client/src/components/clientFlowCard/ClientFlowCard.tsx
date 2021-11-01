@@ -57,4 +57,5 @@ const Container = styled.div<IContainerProps>`
 
 const Title = styled.p`
   font-size: large;
+  color: white;
 `;
