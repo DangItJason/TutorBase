@@ -6,6 +6,7 @@ import { Button } from "reactstrap";
 import { Appointment, User } from "../../services/api.types";
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
+import FeedbackForm from "../FeedbackForm/FeedbackForm";
 
 interface IProps {
     appt: Appointment,
@@ -54,7 +55,7 @@ export function MeetingCard(props: IProps) {
     let name = CapitalizeFirstLetter(clientData.first_name + " " + clientData.last_name);
     let location = CapitalizeFirstLetter(appt.location);
     let date_time = BreakDownTime(appt.start_time);
-    
+
     let cardTag = <div className={"card-status"}>{cardStatus}</div>;
     // Only Tutors can accept 'pending' meetings
     if (cardStatus === "Pending" && props.isTutor) {
@@ -65,6 +66,7 @@ export function MeetingCard(props: IProps) {
                         <FontAwesomeIcon icon={faCheck} />
                     </Button>
                 </div>
+
                 <div className={"card-status"}>
                     {cardStatus}
                 </div>
@@ -79,22 +81,26 @@ export function MeetingCard(props: IProps) {
             <div className={"card-time"}>{date_time[0] + " at " + date_time[1]}</div>
         </>
     );
+
     let card = (
-        <div 
-            className={"compressed-card " + cardType} 
+        <div
+            className={"compressed-card " + cardType}
             onClick={(e) => {
                 toggleCardExpansion(!cardExpanded)
             }}
         >
             <div className={"card-container-start"}>{upperCardContent}</div>
+
+            {cardStatus === "Completed" ? <FeedbackForm /> : <></>}
+
             <div className={"card-container-end"}>{cardTag}</div>
         </div>
     );
 
     if(cardExpanded) {
         card = (
-            <div 
-                className={"expanded-card " + cardType} 
+            <div
+                className={"expanded-card " + cardType}
                 onClick={(e) => {
                     toggleCardExpansion(!cardExpanded)
                 }}
@@ -103,7 +109,7 @@ export function MeetingCard(props: IProps) {
                 <div className={"card-container-end-expanded"}>{cardTag}</div>
 
                 <div className={"card-container-item "}>Client Notes:</div>
-                <div className={"break"}></div> 
+                <div className={"break"}></div>
                 <div className={"client-notes"}>{appt.notes}</div>
             </div>
         );

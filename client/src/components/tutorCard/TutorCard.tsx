@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import legoDude from "../../assets/lego_dude.jpg";
 import { actions } from "../../store/ClientFlowData/slice";
+import ReactStars from 'react-stars'
 
 interface IProps {
     tutor: any;
@@ -26,8 +27,9 @@ export default function TutorCard({tutor, checked}: IProps){
         <Container $checked={checked} onClick={() => selectTutor()}>
             <TutorName>{tutor.first_name} {tutor.last_name}</TutorName>
             <TutorImg>
-                <img src={legoDude} width={150} height={150} alt="Tutor"></img>
+                <img src={legoDude} width={150} height={150} alt="Tutor" style={{borderRadius: '180px'}}/>
             </TutorImg>
+            <ReactStars count={5} size={24} color2={'#ffd700'} value={tutor.rating} edit={false} />
         </Container>
     );
 }
@@ -50,8 +52,11 @@ const Container = styled.div<IContainer>`
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
   width: 200px;
-  height: 200px;
+  height: 230px;
   
   margin: 0.5em;
   padding: 0.2em;

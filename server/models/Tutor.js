@@ -15,6 +15,8 @@ const TutorSchema = new Schema({
 
     price: {type: Number, default: 30},
     interval: {type: Number, default: 30},
+
+    rating: {type: Number, default: 0},
 });
 
 module.exports = User = mongoose.model('Tutor', TutorSchema);
