@@ -65,6 +65,15 @@ export class ApiService {
         return appt;
     }
 
+    public async GetTutorAppointmentsWithData(id: String) {
+        let url = this.appointmentsEndpoint + "tutors/" + id;
+        let response = await axios.get(url);
+        if(response.status != 200) return null;
+        let appt: AppointmentsResponseWithData = {data: []}
+        appt.data = await response.data;
+        return appt;
+    }
+
     public async CreateAppointment(appointment: Appointment) {
         let url = this.appointmentsEndpoint;
         let body = {

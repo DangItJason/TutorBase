@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectSidebarToggled } from "../../store/ClientFlowData/selectors";
 import { actions } from "../../store/ClientFlowData/slice";
 import { useLocation, useParams } from "react-router-dom";
+import DataVisualization from "../../components/tutorComponents/DataVisualization/DataVisualization";
 
 interface IProps {}
 
@@ -40,7 +41,7 @@ export const Panel = (props: IProps) => {
             {extension === "schedule" ? <Settings></Settings> : null}
             {extension === "meetings" ? <div>Hello World(Meetings)</div> : null}
             {extension === "history" ? <TutorHistory></TutorHistory> : null}
-            {extension === "analytics" ? <Analytics></Analytics> : null}
+            {extension === "analytics" ? <DataVisualization /> : null}
             {extension === "settings" ? <Settings></Settings> : null}
 
         </div>
