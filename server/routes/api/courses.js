@@ -72,6 +72,32 @@ router.get("/subject/:subject_id", (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+
+
+/**
+ * Route serving courses form.
+ * @name get/api/courses/tutor/:id
+ * @function
+ * @memberof module:routes/api/courses~coursesRouter
+ * @inner
+ * @param {string} id - Express path
+ */
+// GET api/courses/tutor/:id
+// Get course with a specific course id
+router.get("/tutor/:id", (req, res) => {
+    console.log("Searching for courses that hold a specific tutor ID");
+    Course.find({ tutors: req.params.id })
+        .then((course) => res.json(course))
+        .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
+
+
+
+
+
+
+
 /**
  * Route serving courses form.
  * @name post/api/courses

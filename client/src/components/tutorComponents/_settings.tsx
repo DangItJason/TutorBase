@@ -8,7 +8,7 @@ import Autocomplete from 'react-autocomplete';
 import TimePicker from 'rc-time-picker';
 import moment from 'moment';
 import * as R from 'ramda';
-import {Tutor,Course,Appointment, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse} from "../../services/api.types";
+import {Tutor,Course,Appointment, TutorTimes, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse} from "../../services/api.types";
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
 import 'rc-time-picker/assets/index.css';
@@ -36,9 +36,9 @@ interface iSettingsState {
     courses:Course[],
     temp_courses:Course[],
     added_courses:Course[],
-    schedule:Appointment[][],
-    temp_schedule:Appointment[][],
-    added_times:Appointment[][],
+    schedule:TutorTimes,
+    temp_schedule:TutorTimes,
+    added_times:TutorTimes,
     schedule_tab:Number,
     price_modal:Boolean,
     name_modal: Boolean,
@@ -76,9 +76,33 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
           courses: [],
           temp_courses: [],
           added_courses: [],
-          schedule: [[], [], [], [], [], [], []],
-          temp_schedule:  [[], [], [], [], [], [], []],
-          added_times: [[], [], [], [], [], [], []],
+          schedule: {
+            Sunday: [],
+            Monday: [],
+            Tuesday: [],
+            Wednesday: [],
+            Thursday: [],
+            Friday: [],
+            Saturday: []
+        },
+          temp_schedule:  {
+            Sunday: [],
+            Monday: [],
+            Tuesday: [],
+            Wednesday: [],
+            Thursday: [],
+            Friday: [],
+            Saturday: []
+        },
+          added_times: {
+            Sunday: [],
+            Monday: [],
+            Tuesday: [],
+            Wednesday: [],
+            Thursday: [],
+            Friday: [],
+            Saturday: []
+        },
           schedule_tab: 0,
           price_modal: false,
           name_modal: false,
@@ -91,6 +115,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
           add_time_err: false,
           add_time_err_msg: ""
         } as iSettingsState;
+       
       }
 
     componentDidMount() {
@@ -102,23 +127,118 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
           return res.json()
         }).then( (tutor: Tutor)  => {
           this.setState({ 
+            obj_id: tutor._id,
             price: parseInt(tutor.price),
-            temp_price: parseInt(tutor.price) })
+            temp_price: parseInt(tutor.price),
+            schedule:tutor.times,
+            temp_schedule:tutor.times,
+            first_name: tutor.first_name,
+            temp_firstn: tutor.first_name,
+            last_name: tutor.last_name,
+            temp_lastn: tutor.last_name,
+            meeting_interval: parseInt(tutor.interval),
+            temp_meeting_interval: parseInt(tutor.interval),
+            profile_pic:tutor.profile_img,
+
+
+          
+          })
         });
+
+
+    
+          fetch("http://localhost:9000/api/courses",  {
+            method: "GET",
+            headers: {"Content-Type": "application/json"}
+          }).then(res => {
+              console.log(res);
+              return res.json()
+            }).then((courses:Course[]) => {
+
+              this.setState({course_catalog: courses.map((course:Course) => course.name) })
+              
+            });
       
-
-      // fetch("http://localhost:9000/tutor-operations/price/" + this.state.email,  {
-      //   method: "GET",
-      //   headers: {"Content-Type": "application/json"},
-      // }).then(res => {
-      //    console.log(res);
-      //     return res.json()
-      //   }).then(price => {
-      //     this.setState({ price: price, temp_price: price })
-      //   });
     }
-    render(): JSX.Element{
 
+    componentDidUpdate(prevProps:iSettingsProps, prevState:iSettingsState){
+
+      if (prevState.obj_id !== this.state.obj_id){
+        fetch(`http://localhost:9000/api/courses/tutor/${this.state.obj_id}`,  {
+          method: "GET",
+          headers: {"Content-Type": "application/json"},
+        }).then(res => {
+            console.log(res);
+            return res.json()
+          }).then(courses => {
+            this.setState({ courses: courses, temp_courses: courses })
+          });
+      }
+
+    }
+
+    handleFirstChange = (e:React.FormEvent<HTMLInputElement>) => {
+      const target = e.target as HTMLInputElement;
+      this.setState({temp_firstn: target.value});
+    };
+
+    handleLastChange = (e:React.FormEvent<HTMLInputElement>) => {
+      const target = e.target as HTMLInputElement;
+      this.setState({temp_lastn: target.value});
+    }
+    saveNameChange = (e:React.FormEvent<HTMLButtonElement>) => {
+      fetch("http://localhost:9000/api/tutors/tutor", {
+        method: "PUT",
+        body: JSON.stringify({userid: this.state.obj_id, first_name: this.state.temp_firstn, last_name: this.state.temp_lastn}),
+        headers: {"Content-Type": "application/json"}
+      }).then(res=>{
+        this.setState({first_name: this.state.temp_firstn, last_name: this.state.temp_lastn})
+      });
+      
+      this.toggleNameModal(e);
+    }
+    
+    toggleNameModal = (e:React.FormEvent<HTMLElement>) => {
+      e.preventDefault();
+      this.setState({ name_modal: !this.state.name_modal })
+    };
+
+    cancelNameChange = (e:React.FormEvent<HTMLElement>) => {
+      this.setState({ temp_firstn: this.state.first_name });
+      this.setState({ temp_lastn: this.state.last_name });
+      this.toggleNameModal(e);
+    }
+    handlePriceChange = (value:Number) => {
+      this.setState({ temp_price: value })
+    }
+
+    savePriceChange = (e:React.FormEvent<HTMLButtonElement>) => {
+      
+      fetch("http://localhost:9000/tutor-operations/price", {
+        method: "PUT",
+        body: JSON.stringify({email: this.state.email, price: this.state.temp_price}),
+        headers: {"Content-Type": "application/json"},
+      }).then(res=>{this.setState({ price: this.state.temp_price })});
+      this.togglePriceModal(e);
+    }
+
+    togglePriceModal = (e:React.FormEvent<HTMLElement>) => {
+      e.preventDefault();
+      this.setState({ price_modal: !this.state.price_modal })
+    };
+
+    toggleCoursesModal = (e:React.FormEvent<HTMLElement>) => {
+      e.preventDefault();
+      this.setState({ courses_modal: !this.state.courses_modal })
+    };
+  
+    toggleScheduleModal = (e:React.FormEvent<HTMLElement>) => {
+      e.preventDefault();
+      this.setState({ schedule_modal: !this.state.schedule_modal })
+    };
+
+    render(): JSX.Element{
+      
         return(<div></div>)
     }
 
