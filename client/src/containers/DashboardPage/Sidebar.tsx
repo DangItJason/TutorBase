@@ -78,7 +78,7 @@ export const Sidebar = (params: IParams) => {
                 }
 
 
-                <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}>
+                <ListGroupItem tag="a" href="/" className={classNames("list-group-item", "bg-none")}>
                     <FontAwesomeIcon icon={faSignOutAlt}/>
                     Logout
                 </ListGroupItem>
