@@ -1,5 +1,5 @@
 /** Express router providing user related routes
- * @module routes/api/login
+ * @module routes/api/logout
  * @requires express
  */
 
@@ -13,7 +13,7 @@ var express = require("express");
  * Express router to mount user related functions on.
  * @type {object}
  * @const
- * @namespace loginRouter
+ * @namespace logoutRouter
  */
 const router = express.Router();
 
@@ -29,7 +29,7 @@ const router = express.Router();
     res.clearCookie("token");
   } catch (err) {
     res.status(401)
-    return res.send("Could not clear token.")
+    return res.send("Failure to clear token.")
   }
 
   res.status(200)
