@@ -7,6 +7,7 @@ import { Appointment, User } from "../../services/api.types";
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
+import styled from "styled-components";
 
 interface IProps {
     appt: Appointment,
@@ -89,11 +90,14 @@ export function MeetingCard(props: IProps) {
                 toggleCardExpansion(!cardExpanded)
             }}
         >
-            <div className={"card-container-start"}>{upperCardContent}</div>
+            <div className={"card-container-start"}>
+                {upperCardContent}
+            </div>
 
-            {cardStatus === "Completed" ? <FeedbackForm /> : <></>}
-
-            <div className={"card-container-end"}>{cardTag}</div>
+            <div className={"card-container-end"}>
+                {cardStatus === "Completed" ? <FeedbackForm /> : <></>}
+                {cardTag}
+            </div>
         </div>
     );
 
@@ -106,7 +110,10 @@ export function MeetingCard(props: IProps) {
                 }}
             >
                 <div className={"card-container-start-expanded"}>{upperCardContent}</div>
-                <div className={"card-container-end-expanded"}>{cardTag}</div>
+                <div className={"card-container-end-expanded"}>
+                    {cardStatus === "Completed" ? <FeedbackForm /> : <></>}
+                    {cardTag}
+                </div>
 
                 <div className={"card-container-item "}>Client Notes:</div>
                 <div className={"break"}></div>
@@ -114,5 +121,6 @@ export function MeetingCard(props: IProps) {
             </div>
         );
     }
+
     return <>{card}</>;
 }
