@@ -67,8 +67,8 @@ export function Step5() {
         }
         await api.CreateAppointment(appointment);
 
+        // dispatch(clientFlowActions.incrementStep());
         setDone(true);
-        dispatch(clientFlowActions.incrementStep());
 
         confirmSubmit();
     };

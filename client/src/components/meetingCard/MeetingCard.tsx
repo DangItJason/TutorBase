@@ -95,7 +95,7 @@ export function MeetingCard(props: IProps) {
             </div>
 
             <div className={"card-container-end"}>
-                {cardStatus === "Completed" ? <FeedbackForm /> : <></>}
+                {cardStatus === "Completed" ? <FeedbackForm apptTutorId={appt.tutor_id} /> : <></>}
                 {cardTag}
             </div>
         </div>
@@ -111,7 +111,7 @@ export function MeetingCard(props: IProps) {
             >
                 <div className={"card-container-start-expanded"}>{upperCardContent}</div>
                 <div className={"card-container-end-expanded"}>
-                    {cardStatus === "Completed" ? <FeedbackForm /> : <></>}
+                    {cardStatus === "Completed" ? <FeedbackForm apptTutorId={appt.tutor_id} /> : <></>}
                     {cardTag}
                 </div>
 

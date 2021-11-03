@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, {Component, useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import legoDude from "../../assets/lego_dude.jpg";
 import { actions } from "../../store/ClientFlowData/slice";
 import ReactStars from 'react-stars'
+import {api} from "../../services/api";
 
 interface IProps {
     tutor: any;
@@ -16,6 +17,7 @@ interface IProps {
 export default function TutorCard({tutor, checked}: IProps){
     console.log("== DEBUG == Tutor Date: ", tutor);
 
+    let [tutorRating, setTutorRating] = useState(0);
     let dispatch = useDispatch();
 
     const selectTutor = () => {
@@ -23,13 +25,22 @@ export default function TutorCard({tutor, checked}: IProps){
         dispatch(actions.incrementStep());
     }
 
+    useEffect(() => {
+        const getTutorRating = async () => {
+            let rate = await api.GetFeedbackByTutor(tutor._id);
+            setTutorRating(rate);
+        }
+
+        getTutorRating();
+    }, [])
+
     return (
         <Container $checked={checked} onClick={() => selectTutor()}>
             <TutorName>{tutor.first_name} {tutor.last_name}</TutorName>
             <TutorImg>
                 <img src={legoDude} width={150} height={150} alt="Tutor" style={{borderRadius: '180px'}}/>
             </TutorImg>
-            <ReactStars count={5} size={24} color2={'#ffd700'} value={tutor.rating} edit={false} />
+            <ReactStars count={5} size={24} color2={'#ffd700'} value={tutorRating} edit={false} />
         </Container>
     );
 }

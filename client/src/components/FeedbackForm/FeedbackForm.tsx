@@ -1,12 +1,39 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Button, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
-import {faCheck, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faStar} from "@fortawesome/free-solid-svg-icons";
 import ReactStars from "react-stars";
+import {useSelector} from "react-redux";
+import {selectClientData} from "../../store/ClientData/selectors";
+import {api} from "../../services/api";
+import {Feedback} from "../../services/api.types";
 
-export default function FeedbackForm() {
+interface IProps {
+    apptTutorId: string;
+}
+
+export default function FeedbackForm({apptTutorId}: IProps) {
     const [formOpen, setFormOpen] = useState(false);
+    const clientData = useSelector(selectClientData);
+    const [feedbackMessage, setFeedbackMessage] = useState("");
+    const [rating, setRating] = useState(0);
+
+    const submitFeedback = async () => {
+        let clientId = clientData.clientId;
+        let tutorId = apptTutorId;
+
+        setFormOpen(false)
+
+        await api.SubmitFeedback({
+            clientId: clientId,
+            tutorId: tutorId,
+            message: feedbackMessage,
+            rating: rating
+        });
+
+        // TODO: Show some Toast UI confirming that the rating was submitted
+    }
 
     return (
         <Container>
@@ -30,19 +57,21 @@ export default function FeedbackForm() {
                         id="exampleText"
                         name="text"
                         type="textarea"
+                        value={feedbackMessage}
+                        onChange={(element) => setFeedbackMessage(element.target.value)}
                     />
 
                     <Label style={{marginTop: '1em'}}>
                         How would you rate your session?
                     </Label>
                     <div style={{lineHeight: '0.75'}}>
-                        <ReactStars size={40}/>
+                        <ReactStars size={40} value={rating} onChange={new_rating => setRating(new_rating)}/>
                     </div>
                 </StyledBody>
                 <ModalFooter>
                     <Button
                         color="primary"
-                        onClick={function noRefCheck(){}}
+                        onClick={() => submitFeedback()}
                     >
                         Submit
                     </Button>
@@ -57,20 +86,20 @@ export default function FeedbackForm() {
 }
 
 const Container = styled.div`
-    //flex: 1;
-    //height: 100%;
-    //width: 100%;
-  
-    margin: 0.5em;
-  
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  
-    // DEBUG STYLES //
-    //border: red solid 5px;
+  //flex: 1;
+  //height: 100%;
+  //width: 100%;
+
+  margin: 0.5em;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  // DEBUG STYLES //
+  //border: red solid 5px;
 `;
 
 const Center = styled.div`
@@ -82,6 +111,6 @@ const Center = styled.div`
 
 const StyledBody = styled(ModalBody)`
 
-    // DEBUG STYLES //
+  // DEBUG STYLES //
   //border: red solid 5px;
 `
