@@ -55,6 +55,11 @@ export interface User {
     last_name: string,
 }
 
+export interface Name {
+    first_name: string,
+    last_name: string
+}
+
 export interface Appointment {
     appt_id: string;
     course_id: string,

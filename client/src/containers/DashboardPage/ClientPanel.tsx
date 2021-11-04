@@ -8,6 +8,7 @@ import {selectClientFlowData, selectSidebarToggled} from "../../store/ClientFlow
 import { useLocation, useParams } from "react-router-dom";
 import { Meetings } from "./Meetings";
 import { ClientHistory } from "./ClientHistory";
+import { ClientSettings } from "./ClientSettings";
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
 // @ts-ignore
@@ -29,6 +30,8 @@ export const Panel = () => {
         body = <Meetings />;
     } else if (params === 'history') {
         body = <ClientHistory />;
+    } else if (params === 'settings') {
+        body = <ClientSettings />
     }
 
     const renderSteps = () => {

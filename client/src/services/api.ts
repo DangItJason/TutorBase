@@ -1,6 +1,6 @@
 import {ApiBaseAddress} from "../utils/Environment";
 import axios from "axios";
-import {Appointment, AppointmentsResponse, CoursesResponse, SubjectsResponse, AppointmentsResponseWithData, TutorsResponse, UserResponse} from "./api.types";
+import {Appointment, Name, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse, UserResponse} from "./api.types";
 
 export class ApiService {
     private usersEndpoint = ApiBaseAddress + "api/users/";
@@ -90,6 +90,17 @@ export class ApiService {
         console.log("== DEBUG == Creating appointment: ", body)
 
         return await axios.post(url, body);
+    }
+
+    public async SetClientName(name: Name, id: String) {
+        let url = this.usersEndpoint + 'user';
+        let body = {
+            userid: id,
+            first_name: name.first_name, 
+            last_name: name.last_name
+        }
+
+        return await axios.put(url, body, {withCredentials: true});
     }
 }
 

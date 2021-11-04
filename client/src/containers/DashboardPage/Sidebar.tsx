@@ -59,6 +59,9 @@ export const Sidebar = (params: IParams) => {
                             <ListGroupItem tag="a" href="/home/history"
                                            className={classNames("list-group-item", "bg-none", extension==='history' ?"tab-active" : null)}><FontAwesomeIcon
                                 icon={faHistory}/>History</ListGroupItem>
+                            <ListGroupItem tag="a" href="/home/settings"
+                                           className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon
+                                icon={faCog}/>History</ListGroupItem>
                         </div>
                     )}
             </ListGroup>
