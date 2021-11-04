@@ -18,6 +18,9 @@ const express = require('express');
  */
 let router = express.Router();
 
+// Middleware
+const withAuth = require('../../middleware/token_auth');
+
 const mongoose = require("mongoose");
 
 const apptconfirm = require("../../lib/apptconfirm");
@@ -114,6 +117,30 @@ router.post("/", async (req, res) => {
 
   console.log("DEBUG: Printing newAppt =>", newAppt);
   res.json(newAppt);
+});
+
+/**
+ * Route serving subjects form.
+ * @name put/api/appointment
+ * @memberof module:routes/api/appointment~appointmentOperationsRouter
+ * @param {callback} withAuth - Express middleware.
+ */
+// PUT api/appointment
+// Update an existing Appointment
+router.put('/', withAuth, (req, res) => {
+  const entries = Object.keys(req.body)
+  const updates = {}
+
+  for (let i = 0; i < entries.length; i++) {
+    updates[entries[i]] = Object.values(req.body)[i]
+  }
+
+  Appointment.updateOne(
+    { $appt_id: req.body.apptid },
+    { $set: updates }
+  )
+  .then((appt) => res.json('Appointment updated!'))
+  .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
 /**
