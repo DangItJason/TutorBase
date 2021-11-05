@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "reactstrap";
+import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { Appointment, User } from "../../services/api.types";
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
@@ -19,6 +19,7 @@ export function MeetingCard(props: IProps) {
     let { appt } = props;
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
+    let [modalOpen, setModalOpen] = useState(true);
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
     let [clientData, setClientData] = useState<User>({
         _id: "",
@@ -118,6 +119,40 @@ export function MeetingCard(props: IProps) {
                 <div className={"card-container-item "}>Client Notes:</div>
                 <div className={"break"}></div>
                 <div className={"client-notes"}>{appt.notes}</div>
+                <div className={"break"}></div>
+                <div className={"card-container-item "}>Client Notes:</div>
+                <div className={"break"}></div>
+                <div className={"client-notes"}>
+                <Button
+      color="danger"
+      onClick={() => setModalOpen(!modalOpen)}
+    >
+      Add Zoom/Webex meeting link
+    </Button>
+                <Modal isOpen={modalOpen}>
+    <ModalHeader toggle={function noRefCheck(){}}>
+      Modal title
+    </ModalHeader>
+    <ModalBody>
+    Link: 
+    <Input>
+    </Input>
+    </ModalBody>
+    <ModalFooter>
+      <Button
+        color="primary"
+        onClick={() => setModalOpen(!modalOpen)}
+      >
+        Save
+      </Button>
+      {' '}
+      <Button onClick={() => setModalOpen(!modalOpen)}>
+        Cancel
+      </Button>
+    </ModalFooter>
+  </Modal>
+                </div>
+
             </div>
         );
     }
