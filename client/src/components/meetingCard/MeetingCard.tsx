@@ -27,6 +27,10 @@ export function MeetingCard(props: IProps) {
         last_name: "",
     });
 
+    const confirmAppt = async () => {
+        await api.ConfirmAppointment(appt.appt_id);
+    }
+
     if (!IsFutureDate(appt.start_time) && appt.confirmed){
         cardType = "completed-card";
         cardStatus = "Completed";
@@ -61,7 +65,7 @@ export function MeetingCard(props: IProps) {
         cardTag = (
             <>
                 <div className={"card-icon"}>
-                    <Button color="success">
+                    <Button color="success" onClick={() => confirmAppt()}>
                         <FontAwesomeIcon icon={faCheck} />
                     </Button>
                 </div>

@@ -136,7 +136,7 @@ router.put('/', withAuth, (req, res) => {
   }
 
   Appointment.updateOne(
-    { $appt_id: req.body.apptid },
+    { appt_id: req.body.apptid },
     { $set: updates }
   )
   .then((appt) => res.json('Appointment updated!'))

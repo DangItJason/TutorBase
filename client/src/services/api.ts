@@ -1,6 +1,6 @@
 import {ApiBaseAddress} from "../utils/Environment";
 import axios from "axios";
-import {Appointment, Name, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse, UserResponse} from "./api.types";
+import {Appointment, Name, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse, UserResponse, AppointmentsResponseWithData} from "./api.types";
 
 export class ApiService {
     private usersEndpoint = ApiBaseAddress + "api/users/";
