@@ -98,3 +98,10 @@ export interface TutorTimes {
     Friday: Array<number>,
     Saturday: Array<number>,
 }
+
+export interface Feedback {
+    message: string,
+    rating: number,
+    clientId: string,
+    tutorId: string,
+}
