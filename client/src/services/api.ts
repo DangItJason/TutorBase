@@ -121,14 +121,13 @@ export class ApiService {
         let url = this.feedbackEndpoint + "/" + id;
         let feedback =  await axios.get(url);
 
-        console.log("TUTOR FEEDBACK DATA: ", feedback)
-
         let rating = 0;
-        feedback.data.forEach((feedback: Feedback) => {
-            rating += feedback.rating;
+        feedback.data.forEach((userFeedback: Feedback) => {
+            rating += userFeedback.rating;
         })
 
-        return (rating / feedback.data.count);
+        if(feedback.data.length === 0) return -1;
+        return (rating / feedback.data.length);
     }
 
     public async SetClientName(name: Name, id: String) {

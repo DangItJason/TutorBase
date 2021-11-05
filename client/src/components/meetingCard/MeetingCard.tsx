@@ -3,7 +3,7 @@ import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "reactstrap";
-import { Appointment, User } from "../../services/api.types";
+import {Appointment, Tutor, TutorsResponse, User} from "../../services/api.types";
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
@@ -20,6 +20,8 @@ export function MeetingCard(props: IProps) {
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
+    let [tutorFirstName, setTutorFirstName] = useState("");
+    let [tutorLastName, setTutorLastName] = useState("");
     let [clientData, setClientData] = useState<User>({
         _id: "",
         profile_img: "",
@@ -33,18 +35,26 @@ export function MeetingCard(props: IProps) {
         cardType = "completed-card";
         cardStatus = "Completed";
     }
+
     if (!IsFutureDate(appt.start_time) && !appt.confirmed){
         cardType = "denied-card";
         cardStatus = "Denied";
     }
-    console.log(IsFutureDate(appt.start_time));
 
     useEffect(() => {
         const getUser = async () => {
             return (await api.GetUserById(appt.client_id)).data;
         }
+
+        const getTutor = async () => {
+            let tutor = (await api.GetTutorById(appt.tutor_id));
+            setTutorFirstName(tutor.data[0]?.first_name ?? "Unknown");
+            setTutorLastName(tutor.data[0]?.last_name ?? "Unknown");
+        }
+
+        getTutor();
         getUser().then(value => {setClientData(value[0]);})
-    }, [appt.client_id]);
+    }, []);
 
     if (IsFutureDate(appt.start_time) && props.includePrevious) {
         return <></>
@@ -53,11 +63,12 @@ export function MeetingCard(props: IProps) {
         return <></>
     }
 
-    let name = CapitalizeFirstLetter(clientData.first_name + " " + clientData.last_name);
+    let name = CapitalizeFirstLetter(tutorFirstName + " " + tutorLastName);
     let location = CapitalizeFirstLetter(appt.location);
     let date_time = BreakDownTime(appt.start_time);
 
     let cardTag = <div className={"card-status"}>{cardStatus}</div>;
+
     // Only Tutors can accept 'pending' meetings
     if (cardStatus === "Pending" && props.isTutor) {
         cardTag = (
