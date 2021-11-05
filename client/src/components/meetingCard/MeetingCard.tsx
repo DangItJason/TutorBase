@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowUp, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { Appointment, User } from "../../services/api.types";
 import { api } from "../../services/api";
@@ -19,7 +19,7 @@ export function MeetingCard(props: IProps) {
     let { appt } = props;
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
-    let [modalOpen, setModalOpen] = useState(true);
+    let [modalOpen, setModalOpen] = useState(false);
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
     let [clientData, setClientData] = useState<User>({
         _id: "",
@@ -89,7 +89,7 @@ export function MeetingCard(props: IProps) {
             className={"compressed-card " + cardType}
             onClick={(e) => {
                 toggleCardExpansion(!cardExpanded)
-            }}
+                }}
         >
             <div className={"card-container-start"}>
                 {upperCardContent}
@@ -98,6 +98,11 @@ export function MeetingCard(props: IProps) {
             <div className={"card-container-end"}>
                 {cardStatus === "Completed" ? <FeedbackForm apptTutorId={appt.tutor_id} /> : <></>}
                 {cardTag}
+                <FontAwesomeIcon
+                    icon={faArrowDown}
+                    onClick={(e) => {
+                    toggleCardExpansion(!cardExpanded)
+                    }} />
             </div>
         </div>
     );
@@ -106,53 +111,54 @@ export function MeetingCard(props: IProps) {
         card = (
             <div
                 className={"expanded-card " + cardType}
-                onClick={(e) => {
-                    toggleCardExpansion(!cardExpanded)
-                }}
             >
                 <div className={"card-container-start-expanded"}>{upperCardContent}</div>
                 <div className={"card-container-end-expanded"}>
                     {cardStatus === "Completed" ? <FeedbackForm apptTutorId={appt.tutor_id} /> : <></>}
                     {cardTag}
+                    <FontAwesomeIcon
+                    icon={faArrowUp}
+                    onClick={(e) => {
+                    toggleCardExpansion(!cardExpanded)
+                    }} />
                 </div>
 
                 <div className={"card-container-item "}>Client Notes:</div>
                 <div className={"break"}></div>
                 <div className={"client-notes"}>{appt.notes}</div>
                 <div className={"break"}></div>
-                <div className={"card-container-item "}>Client Notes:</div>
+                <div className={"card-container-item "}></div>
                 <div className={"break"}></div>
                 <div className={"client-notes"}>
                 <Button
-      color="danger"
-      onClick={() => setModalOpen(!modalOpen)}
-    >
-      Add Zoom/Webex meeting link
-    </Button>
-                <Modal isOpen={modalOpen}>
-    <ModalHeader toggle={function noRefCheck(){}}>
-      Modal title
-    </ModalHeader>
-    <ModalBody>
-    Link: 
-    <Input>
-    </Input>
-    </ModalBody>
-    <ModalFooter>
-      <Button
-        color="primary"
-        onClick={() => setModalOpen(!modalOpen)}
-      >
-        Save
-      </Button>
-      {' '}
-      <Button onClick={() => setModalOpen(!modalOpen)}>
-        Cancel
-      </Button>
-    </ModalFooter>
-  </Modal>
+                    color="danger"
+                    onClick={() => setModalOpen(!modalOpen)}
+                    >
+                    Add Zoom/Webex meeting link
+                    </Button>
+                                <Modal isOpen={modalOpen}>
+                    <ModalHeader toggle={function noRefCheck(){}}>
+                    Modal title
+                    </ModalHeader>
+                    <ModalBody>
+                    Link: 
+                    <Input>
+                    </Input>
+                    </ModalBody>
+                    <ModalFooter>
+                    <Button
+                        color="primary"
+                        onClick={() => setModalOpen(!modalOpen)}
+                    >
+                        Save
+                    </Button>
+                    {' '}
+                    <Button onClick={() => setModalOpen(!modalOpen)}>
+                        Cancel
+                    </Button>
+                    </ModalFooter>
+                </Modal>
                 </div>
-
             </div>
         );
     }
