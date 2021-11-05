@@ -1,13 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ClientDataSlice} from "./types";
-import {Appointment, Subject, Tutor} from "../../services/api.types";
+import {Appointment} from "../../services/api.types";
 
-/* clientFlowData slice is the storage medium for
-   everything to do with creating a tutor appointment,
-    and anything needed inside the "clientFlow" components */
+/* clientData slice is the storage medium for
+   everything to do with client user data */
 export const initialState: ClientDataSlice = {
     clientId: "606b344247aec641c8b74b42",
     appointments: [],
+    profile_img: "",
+    phone: "",
+    email: "",
+    first_name: "",
+    last_name: ""
 };
 
 const clientDataSlice = createSlice({
@@ -23,6 +27,12 @@ const clientDataSlice = createSlice({
         addAppointment(state: ClientDataSlice, action: PayloadAction<Appointment>){
             state.appointments.push(action.payload);
         },
+        setFirstName(state: ClientDataSlice, action: PayloadAction<string>){
+            state.first_name = action.payload;
+        },
+        setLastName(state: ClientDataSlice, action: PayloadAction<string>){
+            state.last_name = action.payload;
+        }
     },
 });
 

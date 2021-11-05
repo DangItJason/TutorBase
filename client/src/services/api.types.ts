@@ -55,6 +55,11 @@ export interface User {
     last_name: string,
 }
 
+export interface Name {
+    first_name: string,
+    last_name: string
+}
+
 export interface Appointment {
     appt_id: string;
     course_id: string,
@@ -92,4 +97,11 @@ export interface TutorTimes {
     Thursday: Array<number>,
     Friday: Array<number>,
     Saturday: Array<number>,
+}
+
+export interface Feedback {
+    message: string,
+    rating: number,
+    clientId: string,
+    tutorId: string,
 }

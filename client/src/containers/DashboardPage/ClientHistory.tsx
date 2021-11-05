@@ -39,7 +39,7 @@ export const ClientHistory = () => {
     } else if (dropDownValue==="Completed"){
         filteredAppointments = appointments.filter((appointment) => appointment.confirmed);
     }
-   
+
     let meetingCards = filteredAppointments.map(appointment => (
         <MeetingCard appt={appointment} isTutor={false} includePrevious={true}/>
     ));
@@ -56,18 +56,19 @@ export const ClientHistory = () => {
                 <DropdownToggle caret >
                     {dropDownValue}
                 </DropdownToggle>
+
                 <DropdownMenu>
-                    <DropdownItem 
+                    <DropdownItem
                         onClick={(event) => {
                             setDropdownValue("All");
                             setDropdownOpen(false);
                         }}>All</DropdownItem>
-                    <DropdownItem 
+                    <DropdownItem
                         onClick={(event) => {
                             setDropdownValue("Completed");
                             setDropdownOpen(false);
                         }}>Completed</DropdownItem>
-                    <DropdownItem 
+                    <DropdownItem
                         onClick={(event) => {
                             setDropdownValue("Denied");
                             setDropdownOpen(false);

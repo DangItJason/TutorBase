@@ -5,7 +5,7 @@ import { reducer as loginState } from "./loginData";
 import {ClientFlowSlice} from "./ClientFlowData/types";
 import { reducer as clientData } from "./clientData";
 import { ClientDataSlice } from "./ClientData/types";
-import { reducer as tutorData } from "./clientData";
+import { reducer as tutorData } from "./TutorData/slice";
 import { TutorDataSlice } from "./TutorData/types";
 
 export default configureStore({

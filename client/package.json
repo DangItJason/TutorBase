@@ -40,6 +40,7 @@
     "react-router-dom": "^5.2.0",
     "react-schedule-selector": "^3.0.0",
     "react-scripts": "4.0.3",
+    "react-stars": "^2.2.5",
     "react-toast-notifications": "^2.4.3",
     "react-toastify": "^7.0.3",
     "reactstrap": "^8.9.0",
@@ -81,6 +82,7 @@
     "@types/react-dom": "^17.0.9",
     "@types/react-helmet": "^6.1.2",
     "@types/react-router-dom": "^5.1.7",
+    "@types/react-stars": "^2.2.1",
     "@types/styled-components": "^5.1.9"
   }
 }

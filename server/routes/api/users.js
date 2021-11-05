@@ -127,7 +127,7 @@ router.post('/', async (req, res) => {
       secure: true,
       sameSite: false,
     });
-
+    
     return res.json({ link: 'http://localhost:3000/home' });
   });
 });
@@ -146,15 +146,16 @@ router.put("/user", withAuth, (req, res) => {
   const entries = Object.keys(req.body)
   const updates = {}
 
-  for (let i = 0; i < entries.length; i++)
+  for (let i = 0; i < entries.length; i++) {
     updates[entries[i]] = Object.values(req.body)[i]
+  }
 
-  User.update(
-    { _id: req.userid },
+  User.updateOne(
+    { _id: req.body.userid },
     { $set: updates }
   )
-    .then((user) => res.json('User updated!'))
-    .catch((err) => res.status(400).json({ msg: err.message }));
+  .then((user) => res.json('User updated!'))
+  .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
 
