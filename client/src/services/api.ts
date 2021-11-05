@@ -102,6 +102,16 @@ export class ApiService {
 
         return await axios.put(url, body, {withCredentials: true});
     }
+    
+    public async ConfirmAppointment(apptId: String) {
+        let url = this.appointmentsEndpoint;
+        let body = {
+            apptid: apptId,
+            confirmed: true
+        }
+        
+        return await axios.put(url, body, {withCredentials: true});
+    }
 }
 
 export const api = new ApiService();
