@@ -3,7 +3,12 @@
  * @requires express
  */
 
+/**
+ * express module
+ * @const
+ */
 const express = require("express");
+
 const Subject = require("../../models/Subject");
 const Course = require("../../models/Course");
 const withAuth = require("../../middleware/token_auth");

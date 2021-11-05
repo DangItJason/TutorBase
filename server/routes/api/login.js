@@ -40,6 +40,11 @@ Move this when moving to prod.
 */
 const secret = require("../../config/secret");
 
+/*
+developer mode
+*/
+const developer = process.env.NODE_ENV !== 'production';
+
 /**
  * Route serving login form.
  * @name get/login
@@ -48,21 +53,9 @@ const secret = require("../../config/secret");
  * @inner
  */
 router.get("/", (req, res, next) => {
-  passport.authenticate('cas', function (err, user, info) {
-    if (err) {
-      return next(err);
-    }
-
-    if (!user) {
-      req.session.messages = info.message;
-      return res.redirect('http://localhost:3000/signup');
-    }
-
-    req.logIn(user, function (err) {
-      if (err) {
-        return next(err);
-      }
-      var tok = jwt.sign({ userid: user._id }, secret);
+  if(developer){
+    
+      var tok = jwt.sign({ userid: "abc" }, secret);
 
       // Token Storage can be used if necessary later on
       // var tokenModel = new Token({ token: tok, uid: user._id })
@@ -73,10 +66,47 @@ router.get("/", (req, res, next) => {
 
       //MaxAge: 24 Hours
       res.cookie("token", tok, { httpOnly: true, maxAge: 86400000, secure: true })
+      const expiration = new Date();
+      expiration.setUTCDate(expiration.getUTCDate() + 1);
+      const expr_string = expiration.toUTCString()
+      res.cookie('expiration', expr_string,  { maxAge: 86400000})
       return res.redirect('http://localhost:3000/home');
-    });
+  }
+  else{
+    passport.authenticate('cas', function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
 
-  })(req, res, next);
+      if (!user) {
+        req.session.messages = info.message;
+        return res.redirect('http://localhost:3000/signup');
+      }
+
+      req.logIn(user, function (err) {
+        if (err) {
+          return next(err);
+        }
+        var tok = jwt.sign({ userid: user._id }, secret);
+
+        // Token Storage can be used if necessary later on
+        // var tokenModel = new Token({ token: tok, uid: user._id })
+        // tokenModel.save(function (err) {
+        //   if (err) return handleError(err);
+        //   // saved!
+        // });
+
+        //MaxAge: 24 Hours
+        res.cookie("token", tok, { httpOnly: true, maxAge: 86400000, secure: true })
+        const expiration = new Date();
+        expiration.setUTCDate(expiration.getUTCDate() + 1);
+        const expr_string = expiration.toUTCString()
+        res.cookie('expiration', expr_string, { maxAge: 86400000})
+        return res.redirect('http://localhost:3000/home');
+      });
+
+    })(req, res, next);
+  }
 });
 
 /**

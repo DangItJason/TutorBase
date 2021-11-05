@@ -1,6 +1,16 @@
 import {ApiBaseAddress} from "../utils/Environment";
 import axios from "axios";
-import {Appointment, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse} from "./api.types";
+import {
+    Appointment,
+    Name,
+    AppointmentsResponse,
+    CoursesResponse,
+    SubjectsResponse,
+    AppointmentsResponseWithData,
+    TutorsResponse,
+    UserResponse,
+    Feedback
+} from "./api.types";
 
 export class ApiService {
     private usersEndpoint = ApiBaseAddress + "api/users/";
@@ -8,6 +18,7 @@ export class ApiService {
     private tutorsEndpoint = ApiBaseAddress + "api/tutors/";
     private coursesEndpoint = ApiBaseAddress + "api/courses/";
     private subjectsEndpoint = ApiBaseAddress + "api/subjects/";
+    private feedbackEndpoint = ApiBaseAddress + "api/feedback";
 
     public async GetSubjects() {
         console.log("Fetching subjects");
@@ -38,30 +49,97 @@ export class ApiService {
         return tutor;
     }
 
+    public async GetUserById(id: String) {
+        console.log("Fetching User");
+        let url = this.usersEndpoint + 'user?userid=' + id;
+        let response = await axios.get(url);
+        let user: UserResponse = {data: []}
+        user.data = response.data;
+        return user;
+    }
+
     public async GetTutorAppointments(id: String) {
         let url = this.appointmentsEndpoint + "tutors/" + id;
-        let response = await axios.get(url);
-        if(response.status != 200) return null;
         let appt: AppointmentsResponse = {data: []}
+        let response = await axios.get(url);
+        if(response.status !== 200) return appt;
         appt.data = response.data;
         return appt;
     }
 
+    public async GetClientAppointments(id: String) {
+        let url = this.appointmentsEndpoint + "clients/" + id;
+        let appt: AppointmentsResponse = {data: []}
+        let response = await axios.get(url);
+        if(response.status !== 200) return appt;
+        appt.data = response.data;
+        return appt;
+    }
+
+    public async GetTutorAppointmentsWithData(id: String) {
+        let url = this.appointmentsEndpoint + "tutors/" + id;
+        let response = await axios.get(url);
+        if(response.status != 200) return null;
+        let appt: AppointmentsResponseWithData = {data: []}
+        appt.data = await response.data;
+        return appt;
+    }
+
     public async CreateAppointment(appointment: Appointment) {
-        //TODO: Create appointment
         let url = this.appointmentsEndpoint;
         let body = {
             course_id: appointment.course_id,
-            startTime: appointment.start_time,
-            endTime: appointment.end_time,
-            location: appointment.location,
+            date: appointment.start_time,
+            end: appointment.end_time,
+            loc: appointment.location,
             tutor_id: appointment.tutor_id,
             client_id: appointment.client_id,
             price: appointment.price,
             notes: appointment.notes
         }
 
+        console.log("== DEBUG == Creating appointment: ", body)
+
         return await axios.post(url, body);
+    }
+
+    public async SubmitFeedback(feedback: Feedback) {
+        let url = this.feedbackEndpoint;
+        let body = {
+            message: feedback.message,
+            rating: feedback.rating,
+            tutorId: feedback.tutorId,
+            clientId: feedback.clientId
+        };
+
+        console.log("== DEBUG == Creating feedback: ", body);
+
+        return await axios.post(url, body)
+    }
+
+    public async GetFeedbackByTutor(id: string){
+        let url = this.feedbackEndpoint + "/" + id;
+        let feedback =  await axios.get(url);
+
+        console.log("TUTOR FEEDBACK DATA: ", feedback)
+
+        let rating = 0;
+        feedback.data.forEach((feedback: Feedback) => {
+            rating += feedback.rating;
+        })
+
+        return (rating / feedback.data.count);
+    }
+
+    public async SetClientName(name: Name, id: String) {
+        let url = this.usersEndpoint + 'user';
+        let body = {
+            userid: id,
+            first_name: name.first_name,
+            last_name: name.last_name
+        }
+
+        return await axios.put(url, body, {withCredentials: true});
     }
 }
 
