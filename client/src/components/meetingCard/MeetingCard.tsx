@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Spinner } from "reactstrap";
 import { Appointment, User } from "../../services/api.types";
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
 import styled from "styled-components";
+
 
 interface IProps {
     appt: Appointment,
@@ -21,6 +22,8 @@ export function MeetingCard(props: IProps) {
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
     let [modalOpen, setModalOpen] = useState(false);
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
+    let [meetingLink, setMeetingLink] = useState(appt.meetingLink !== null ? appt.meetingLink! : "");
+    let [loading, setLoading] = useState(false);
     let [clientData, setClientData] = useState<User>({
         _id: "",
         profile_img: "",
@@ -29,7 +32,15 @@ export function MeetingCard(props: IProps) {
         first_name: "",
         last_name: "",
     });
-
+    function setMeetingLinkChange(link: React.FormEvent<HTMLInputElement>) {
+        setMeetingLink(link.currentTarget.value);
+    }
+    function updateMeetingLink() {
+        setLoading(true);
+        api.SetMeetingLink(appt.appt_id, meetingLink);
+        setLoading(false);
+        //setModalOpen(!modalOpen);
+    }
     if (!IsFutureDate(appt.start_time) && appt.confirmed){
         cardType = "completed-card";
         cardStatus = "Completed";
@@ -138,19 +149,20 @@ export function MeetingCard(props: IProps) {
                     </Button>
                                 <Modal isOpen={modalOpen}>
                     <ModalHeader toggle={function noRefCheck(){}}>
-                    Modal title
+                    Modal title 
                     </ModalHeader>
                     <ModalBody>
                     Link: 
-                    <Input>
+                    <Input onChange={setMeetingLinkChange}>
                     </Input>
                     </ModalBody>
                     <ModalFooter>
                     <Button
                         color="primary"
-                        onClick={() => setModalOpen(!modalOpen)}
+                        
+                        onClick={updateMeetingLink}
                     >
-                        Save
+                    {loading ? (<Spinner />) : "Save"}
                     </Button>
                     {' '}
                     <Button onClick={() => setModalOpen(!modalOpen)}>
