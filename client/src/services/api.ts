@@ -148,9 +148,8 @@ export class ApiService {
             apptid: id,
             link: link
         };
-        console.log(link);
 
-        return await axios.put(url, body, {withCredentials: true});
+        return await axios.post(url, body, {withCredentials: true});
     }
 
 }
