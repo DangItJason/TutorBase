@@ -1,6 +1,16 @@
 import {ApiBaseAddress} from "../utils/Environment";
 import axios from "axios";
-import {Appointment, Name, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse, UserResponse, AppointmentsResponseWithData} from "./api.types";
+import {
+    Appointment,
+    Name,
+    AppointmentsResponse,
+    CoursesResponse,
+    SubjectsResponse,
+    AppointmentsResponseWithData,
+    TutorsResponse,
+    UserResponse,
+    Feedback
+} from "./api.types";
 
 export class ApiService {
     private usersEndpoint = ApiBaseAddress + "api/users/";
@@ -8,6 +18,7 @@ export class ApiService {
     private tutorsEndpoint = ApiBaseAddress + "api/tutors/";
     private coursesEndpoint = ApiBaseAddress + "api/courses/";
     private subjectsEndpoint = ApiBaseAddress + "api/subjects/";
+    private feedbackEndpoint = ApiBaseAddress + "api/feedback";
 
     public async GetSubjects() {
         console.log("Fetching subjects");
@@ -92,11 +103,38 @@ export class ApiService {
         return await axios.post(url, body);
     }
 
+    public async SubmitFeedback(feedback: Feedback) {
+        let url = this.feedbackEndpoint;
+        let body = {
+            message: feedback.message,
+            rating: feedback.rating,
+            tutorId: feedback.tutorId,
+            clientId: feedback.clientId
+        };
+
+        console.log("== DEBUG == Creating feedback: ", body);
+
+        return await axios.post(url, body)
+    }
+
+    public async GetFeedbackByTutor(id: string){
+        let url = this.feedbackEndpoint + "/" + id;
+        let feedback =  await axios.get(url);
+
+        let rating = 0;
+        feedback.data.forEach((userFeedback: Feedback) => {
+            rating += userFeedback.rating;
+        })
+
+        if(feedback.data.length === 0) return -1;
+        return (rating / feedback.data.length);
+    }
+
     public async SetClientName(name: Name, id: String) {
         let url = this.usersEndpoint + 'user';
         let body = {
             userid: id,
-            first_name: name.first_name, 
+            first_name: name.first_name,
             last_name: name.last_name
         }
 
