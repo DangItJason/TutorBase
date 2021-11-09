@@ -27,7 +27,7 @@ export const Panel = () => {
 
     let body = <FormParent />;
     if (params === 'meetings') {
-        body = <Meetings />;
+        body = <Meetings mode="Client" />;
     } else if (params === 'history') {
         body = <ClientHistory />;
     } else if (params === 'settings') {
