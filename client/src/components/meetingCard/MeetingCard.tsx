@@ -138,7 +138,10 @@ export function MeetingCard(props: IProps) {
                 <div className={"break"}></div>
                 <div className={"client-notes"}>{appt.notes}</div>
                 <div className={"break"}></div>
-                <div className={"card-container-item "}></div>
+                
+                
+                { props.isTutor ? 
+                <div>
                 <div className={"break"}></div>
                 <div className={"client-notes"}>
                 <Button
@@ -149,7 +152,7 @@ export function MeetingCard(props: IProps) {
                     </Button>
                                 <Modal isOpen={modalOpen}>
                     <ModalHeader toggle={function noRefCheck(){}}>
-                    Modal title 
+                    Add Tutoring Meeting Link
                     </ModalHeader>
                     <ModalBody>
                     Link: 
@@ -171,6 +174,14 @@ export function MeetingCard(props: IProps) {
                     </ModalFooter>
                 </Modal>
                 </div>
+                </div>
+                : <div>
+                    <div className={"card-container-item "}>Meeting Link:</div>
+                <div className={"client-notes"}><a href={meetingLink}>{meetingLink}</a></div>
+                    
+                </div>
+                }
+
             </div>
         );
     }
