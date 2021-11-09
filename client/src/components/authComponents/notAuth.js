@@ -11,7 +11,7 @@ export default function withAuth(ComponentToProtect) {
             };
         }
         componentDidMount() {
-            fetch('api/login/auth', {
+            fetch('http://localhost:3000/api/login/auth', {
                 method: 'get'
             }).then(res => {
                 console.log(res)

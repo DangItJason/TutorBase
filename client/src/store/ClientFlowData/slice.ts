@@ -7,7 +7,7 @@ import {Appointment, Subject, Tutor} from "../../services/api.types";
     and anything needed inside the "clientFlow" components */
 export const initialState: ClientFlowSlice = {
     sidebarToggled: false,
-    clientId: "12345",
+    clientId: "6070beb7dad06e015b73a107",
 
     currentStep: 0,
     furthestStep: 0,
@@ -111,10 +111,9 @@ const clientFlowSlice = createSlice({
             state.appointmentLocation = action.payload[4];
             state.appointmentSubjectId = action.payload[5];
         },
-
         decrementStep(state) {
             console.log("== Decrementing Step ==");
-            state.currentStep = state.currentStep <= 1 ? 1 : state.currentStep - 1;
+            state.currentStep = state.currentStep < 1 ? 1 : state.currentStep - 1;
         },
         incrementStep(state) {
             console.log("== Incrementing Step ==");
@@ -128,6 +127,33 @@ const clientFlowSlice = createSlice({
         },
         setLoading(state: ClientFlowSlice, action: PayloadAction<boolean>) {
             state.isLoading = action.payload;
+        },
+        resetSteps(state) {
+            state.currentStep = 0;
+            state.furthestStep = 0;
+
+            state.appointmentDate = "";
+            state.appointmentStartTime = "";
+            state.appointmentEndTime = "";
+            state.appointmentLocation = "";
+            state.appointmentLocation = "";
+            state.appointmentSubjectId = "";
+
+            state.appointmentNotes = "";
+
+            state.selectedCourse = {name: "", id: "",};
+            state.selectedSubject = {id: "", _id: "", courses: []};
+            state.selectedTutor = {
+                email: "",
+                _id: "",
+                first_name: "",
+                interval: "",
+                phone: "",
+                price: "",
+                last_name: "",
+                profile_img: "",
+                times: {Friday: [], Monday: [], Saturday: [], Sunday: [], Tuesday: [], Thursday: [], Wednesday: []}
+            };
         },
     },
 });

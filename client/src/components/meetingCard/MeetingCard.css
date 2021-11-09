@@ -54,7 +54,7 @@
     font-size: 16px;
 }
 
-.card-container-end {       
+.card-container-end {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -99,7 +99,7 @@
 .card-time {
     display: flex;
     justify-content: flex-start;
-    width: 25%;
+    width: 35%;
 }
 
 .card-name {

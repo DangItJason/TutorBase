@@ -24,6 +24,7 @@ const apptconfirm = require("../../lib/apptconfirm");
 
 const Appointment = require("../../models/Appointment");
 const User = require("../../models/User");
+const Tutor = require("../../models/Tutor");
 const ApptConfToken = require("../../models/ApptConfToken");
 
 const { promisify } = require('util')
@@ -31,6 +32,22 @@ const { promisify } = require('util')
 const randomBytesAsync = promisify(require('crypto').randomBytes)
 
 mongoose.set('useFindAndModify', false);
+
+/**
+ * Route serving subjects form.
+ * @name get/api/appointment
+ * @function
+ * @memberof module:routes/api/users~userRouter
+ * @inner
+ * @param {callback} withAuth - Express middleware.
+ */
+// GET /api/appointment
+// Get all appointment
+router.get("/", (req, res) => {
+  Appointment.find()
+    .then((users) => res.json(users))
+    .catch((err) => res.status(400).json({ msg: err.message }));
+});
 
 /**
  * Route serving subjects form.
@@ -43,7 +60,10 @@ mongoose.set('useFindAndModify', false);
 // Create a new Appointment
 router.post("/", async (req, res) => {
   var startTime = req.body.date ? req.body.date : new Date();
-  var endTime = new Date(parseInt(req.body.end) * 1000);
+  var endTime = req.body.end ? req.body.end : new Date();
+
+  console.log("START TIME: ", startTime)
+  console.log("END TIME: ", endTime)
 
   let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),
@@ -73,21 +93,24 @@ router.post("/", async (req, res) => {
     client = await User.findOne(
       { _id: req.body.client_id }
     );
-    tutor = await User.findOne(
+    tutor = await Tutor.findOne(
       { _id: req.body.tutor_id }
     );
     course = await Course.findOne(
-      { _id: req.body.course_id }
+      { id: req.body.course_id }
     );
   } catch (e) {
     console.log(e);
     return;
   }
   // Send confirmation email and texts
-  console.log(apptconfirm.tutor(newAppt.appt_id, tok, tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,
-    client.first_name + ' ' + client.last_name, req.body.date, startTime, endTime, course.name,
-    req.body.notes, req.body.loc ? req.body.loc : "test"));
-  console.log(apptconfirm.client(client.phone, client.email));
+  if(tutor.phone || tutor.email !== null)
+    console.log(apptconfirm.tutor(newAppt.appt_id, tok, tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,
+      client.first_name + ' ' + client.last_name, req.body.date, startTime, endTime, course.name,
+      req.body.notes, req.body.loc ? req.body.loc : "test"));
+
+  if(client.phone || client.email !== null)
+    console.log(apptconfirm.client(client.phone, client.email));
 
   console.log("DEBUG: Printing newAppt =>", newAppt);
   res.json(newAppt);
@@ -111,7 +134,7 @@ router.get('/tutors/:tutor_id', (req, res) => {
 
 /**
  * Route serving subjects form.
- * @name post/api/appointment/tutors/:client_id
+ * @name post/api/appointment/clients/:client_id
  * @function
  * @memberof module:routes/api/appointment~appointmentOperationsRouter
  * @inner

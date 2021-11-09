@@ -1,5 +1,5 @@
 /** Express router providing user related routes
- * @module routes/api/login
+ * @module routes/api/subjects
  * @requires express
  */
 

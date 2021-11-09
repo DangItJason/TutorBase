@@ -1,31 +1,24 @@
 ![Tutorbase Logo](src/containers/LandingPage/assets/img/logo2.png)
 
-<hr />
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-<hr />
 
 # Getting Started 
-<hr/>
 
- - Clone the repository
+- Clone the repository
 - run npm install in:
     * client/
     * server/
-    
 - npm start in:
     * client/
     * server
-    
 - Done!
 
 # Want to know more about the project?
-<hr/>
+
 Checkout our wiki page on the github: https://github.com/DangItJason/TutorBase/wiki
 
 # Available Scripts
-<hr/>
 
 In the project directory, you can run:
 
@@ -63,8 +56,6 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 # Create React App Documentation:
-
-<hr/>
 
 ## Learn More
 

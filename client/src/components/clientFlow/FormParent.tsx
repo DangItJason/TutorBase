@@ -13,6 +13,7 @@ import {
     selectFurthestStep
 } from "../../store/ClientFlowData/selectors";
 import {actions as clientFlowActions} from '../../store/ClientFlowData/slice';
+import styled from "styled-components";
 
 export function FormParent() {
     let clientFlowData = useSelector(selectClientFlowData);
@@ -26,7 +27,7 @@ export function FormParent() {
     // Button to move to a previous step
     function prevButton() {
         // First step has no previous step, dont show
-        if (currentStep !== 1) {
+        if (currentStep !== 0 && currentStep != 5) {
             return (
                 <button
                     className="btn btn-secondary"
@@ -45,7 +46,9 @@ export function FormParent() {
     function nextButton() {
         /* Moving to the next step is only possible
            if it already has been visited */
-        if (currentStep < furthestStep) {
+        if (((currentStep < furthestStep)
+            || (currentStep !== 4 && clientFlowData.appointmentStartTime !== ""))
+            && currentStep !== 5) {
             return (
                 <button
                     className="btn btn-danger"
@@ -84,22 +87,42 @@ export function FormParent() {
     }
 
     return (
-        <Fragment>
-            <h2 className="text-center mt-4 fragment-title">
-                Schedule a Tutoring Session
-            </h2>
-
-            <div className="text-center mt-3 mb-2">
-                <div className="ml-1 mr-1 nav-btn">{prevButton()}</div>
-                <div className="ml-1 mr-1 nav-btn">{nextButton()}</div>
-                <div className="ml-1 mr-1 nav-btn">{confirmButton()}</div>
-            </div>
-
+        <Container>
             {currentStep === 0 && <Step1/>}
             {currentStep === 1 && <Step2/>}
             {currentStep === 2 && <Step3/>}
             {currentStep === 3 && <Step4/>}
             {currentStep === 4 && <Step5/>}
-        </Fragment>
+            {currentStep === 5 && <Step5/>}
+
+            <ButtonBox>
+                <div className="ml-1 mr-1 nav-btn">{prevButton()}</div>
+                <div className="ml-1 mr-1 nav-btn">{nextButton()}</div>
+                <div className="ml-1 mr-1 nav-btn">{confirmButton()}</div>
+            </ButtonBox>
+        </Container>
     );
 }
+
+const Container = styled.div`
+  height: calc(100vh - 80px);
+  
+  display: flex;
+  flex-direction: column;
+  
+  justify-content: center;
+  align-items: center;
+  
+  // DEBUG STYLES //
+  //border: blue solid 5px;
+`
+
+const ButtonBox = styled.div`
+  display: flex;
+  flex: 1;
+  
+  align-items: flex-end;
+  
+  // DEBUG STYLES //
+  //border: red solid 5px;
+`

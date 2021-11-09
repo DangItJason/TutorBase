@@ -4,12 +4,17 @@ import { reducer as signUp } from "./signUpData";
 import { reducer as loginState } from "./loginData";
 import {ClientFlowSlice} from "./ClientFlowData/types";
 import { reducer as clientData } from "./clientData";
+import { ClientDataSlice } from "./ClientData/types";
+import { reducer as tutorData } from "./TutorData/slice";
+import { TutorDataSlice } from "./TutorData/types";
 
 export default configureStore({
-  reducer: combineReducers({ clientFlow, signUp, loginState, clientData }),
+  reducer: combineReducers({ clientFlow, signUp, loginState, clientData, tutorData }),
 });
 
 export interface RootState {
   clientFlow: ClientFlowSlice;
+  clientData: ClientDataSlice;
+  tutorData: TutorDataSlice;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

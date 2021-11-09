@@ -6,6 +6,7 @@ import {VscError} from "react-icons/vsc";
 import "../../styles/Login.css";
 import {ApiBaseAddress} from "../../utils/Environment";
 import {values} from "rambda";
+import * as isEmail from 'email-validator';
 
 export function SignUpPage() {
     const [signUpData, setSignUpData] = useState({
@@ -20,7 +21,8 @@ export function SignUpPage() {
         firstNameValid: false,
         lastNameValid: false,
         phoneValid: false,
-        loginValid: true
+        loginValid: true,
+        emailTaken: false,
     });
 
     const history = useHistory();
@@ -33,6 +35,8 @@ export function SignUpPage() {
             IsFirstNameValid(value)
         else if (name === "last_name")
             IsLastNameValid(value)
+        else if (name === "email")
+            IsEmailValid(value)
     };
 
     const IsFirstNameValid = (value: any) => {
@@ -59,6 +63,15 @@ export function SignUpPage() {
         })
     }
 
+    const IsEmailValid = (value: string) => {
+        setSignUpData((signUpData: any) => ({
+            ...signUpData,
+            email: value,
+            emailValid: isEmail.validate(value),
+            emailTaken: false,
+        }));
+    }
+
     const IsPhoneNumberValid = (value: any) => {
         let phoneValid = false;
         if (value.length === 0 || (value.length === 10 && value.match(/^[0-9]+$/) != null))
@@ -73,21 +86,32 @@ export function SignUpPage() {
 
     const CreateUser = async () => {
         let body = {
-            "email": "test@test.com", // Somehow get returned email
+            "email": signUpData.email,
             "first_name": signUpData.first_name,
             "last_name": signUpData.last_name,
             "phone": signUpData.phone_number,
         }
-        await fetch(ApiBaseAddress + "api/users", {
+
+        const request = await fetch(ApiBaseAddress + "api/users", {
             method: "post",
             body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json",
             },
-        })
-        history.push("home");
-    }
+            credentials: 'include',
+        });
 
+        if (request.ok) {
+            history.push("home");
+        } else {
+            setSignUpData((signUpData) => ({
+                ...signUpData,
+                emailTaken: true,
+                emailValid: false,
+            }));
+        }
+    }
+        
     const SubmitEvent = (event: any) => {
         event.preventDefault();
         if (signUpData.firstNameValid && signUpData.lastNameValid) {
@@ -159,6 +183,30 @@ export function SignUpPage() {
                                 </Container>
                             </FormGroup>
                             <FormGroup row>
+                                <Container>
+                                    <Row>
+                                        <Col xs="auto">
+                                            <Input
+                                                type="email"
+                                                className="form-control"
+                                                name="email"
+                                                placeholder="Email"
+                                                value={signUpData.email}
+                                                onChange={event => HandleChange(event)}
+                                                autoComplete="off"
+                                            />
+                                        </Col>
+                                        <Col xs="auto">
+                                            <div>
+                                                {signUpData.emailValid ?
+                                                    <MdCheck size="30px" color="green"></MdCheck> :
+                                                    <VscError size="30px" color="red"></VscError>}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </FormGroup>
+                            <FormGroup row>
                                 <Container fluid>
                                     <Row>
                                         <Col xs="auto">
@@ -186,6 +234,9 @@ export function SignUpPage() {
                             </FormGroup>
                             <div>
                                 {signUpData.loginValid ? '' : 'Invalid Fields'}
+                            </div>
+                            <div>
+                                {signUpData.emailTaken && 'Email already taken'}
                             </div>
                             <Button color="danger" type="submit">
                                 Create Account

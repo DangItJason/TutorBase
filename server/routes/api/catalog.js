@@ -3,6 +3,10 @@
  * @requires express
  */
 
+/**
+ * express module
+ * @const
+ */
 const express = require("express");
 const mongoose = require("mongoose");
 const Subject = require("../../models/Subject");
