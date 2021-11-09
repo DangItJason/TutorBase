@@ -4,6 +4,7 @@ import { Navbar, Button } from "reactstrap";
 import Settings from "../../components/tutorComponents/settings";
 import Analytics from "../../components/tutorComponents/data";
 import { TutorHistory } from "./TutorHistory";
+import { Meetings } from "./Meetings";
 import Dashboard from "./Dashboard";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSidebarToggled } from "../../store/ClientFlowData/selectors";
@@ -39,7 +40,7 @@ export const Panel = (props: IProps) => {
 
             </div> */}
             {extension === "schedule" ? <Settings></Settings> : null}
-            {extension === "meetings" ? <div>Hello World(Meetings)</div> : null}
+            {extension === "meetings" ? <Meetings mode="Tutor"></Meetings> : null}
             {extension === "history" ? <TutorHistory></TutorHistory> : null}
             {extension === "analytics" ? <DataVisualization /> : null}
             {extension === "settings" ? <Settings></Settings> : null}
