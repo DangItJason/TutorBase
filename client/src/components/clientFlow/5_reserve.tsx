@@ -90,7 +90,7 @@ export function Step5() {
                         value={clientFlowData.appointmentNotes}
                         onChange={(value) => dispatch(clientFlowActions.setAppointmentNotes(value.target.value))}
                         placeholder="Have a preferred location? Need help on a specific homework or project? Let the tutor know here!"
-                    ></textarea>
+                    />
                     <br/>
                     <button
                         className="btn btn-danger"
@@ -108,8 +108,8 @@ export function Step5() {
                     <h3>
                         {clientFlowData.appointmentDate}, {convertTimestamp(clientFlowData.appointmentStartTime)} - {convertTimestamp(clientFlowData.appointmentEndTime)}
                     </h3>
-                    <p>Your appointment has been schedueled, please wait for the tutor to accept or deny
-                    the request. You can see updates under the meetings schedule tab.</p>
+                    <p>Your appointment has been scheduled, please wait for the tutor to accept or deny
+                        the request. You can see updates under the meetings schedule tab.</p>
                     <br/>
                     <button
                         className="btn btn-danger"
@@ -118,7 +118,7 @@ export function Step5() {
                         }}
                     >
                         <ToastContainer/>
-                        Scheudle another session!
+                        Schedule another session!
                     </button>
                 </>
             )}
