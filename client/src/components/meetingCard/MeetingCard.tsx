@@ -22,7 +22,7 @@ export function MeetingCard(props: IProps) {
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
     let [modalOpen, setModalOpen] = useState(false);
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
-    let [meetingLink, setMeetingLink] = useState(appt.meetingLink !== null ? appt.meetingLink! : "");
+    let [meetingLink, setMeetingLink] = useState(appt.link !== null ? appt.link! : "");
     let [loading, setLoading] = useState(false);
     let [clientData, setClientData] = useState<User>({
         _id: "",
@@ -177,7 +177,7 @@ export function MeetingCard(props: IProps) {
                 </div>
                 : <div>
                     <div className={"card-container-item "}>Meeting Link:</div>
-                <div className={"client-notes"}><a href={meetingLink}>{meetingLink}</a></div>
+                <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink}</a></div>
                     
                 </div>
                 }

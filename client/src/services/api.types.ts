@@ -71,7 +71,7 @@ export interface Appointment {
     price: string,
     notes: string,
     confirmed: boolean,
-    meetingLink?: string,
+    link?: string,
 }
 
 export interface IAppointmentEndpoint {
