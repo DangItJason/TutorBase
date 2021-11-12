@@ -103,12 +103,12 @@ export function Step5() {
                     </button>
                 </>
             ) : (
-                <>
+                <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
                     <h3 className="hr mt-1">Reserved</h3>
                     <h3>
                         {clientFlowData.appointmentDate}, {convertTimestamp(clientFlowData.appointmentStartTime)} - {convertTimestamp(clientFlowData.appointmentEndTime)}
                     </h3>
-                    <p>Your appointment has been scheduled, please wait for the tutor to accept or deny
+                    <p style={{maxWidth: '400px'}}>Your appointment has been scheduled, please wait for the tutor to accept or deny
                         the request. You can see updates under the meetings schedule tab.</p>
                     <br/>
                     <button
@@ -120,7 +120,7 @@ export function Step5() {
                         <ToastContainer/>
                         Schedule another session!
                     </button>
-                </>
+                </div>
             )}
         </div>
     );
