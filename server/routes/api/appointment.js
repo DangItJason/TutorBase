@@ -158,14 +158,14 @@ router.get('/clients/:client_id', (req, res) => {
  */
 // POST api/appointment/link
 // Adds meeting link to appointment
-router.post("/link/", async (req, res) => {
-
+router.post("/link", async (req, res) => {
   try {
+    await Appointment.updateOne(
+      { appt_id: req.body.apptid },
+      {$set:{link:req.body.link}});
     let appt = await Appointment.findOne(
-      { _id: req.body.apptid }
-    );
-    appt.link = req.body.link;
-    appt.save();
+        { appt_id: req.body.apptid }
+      );
     res.json(appt);
   } catch (e) {
     console.log(e);

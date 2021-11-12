@@ -35,9 +35,10 @@ export function MeetingCard(props: IProps) {
     function setMeetingLinkChange(link: React.FormEvent<HTMLInputElement>) {
         setMeetingLink(link.currentTarget.value);
     }
-    function updateMeetingLink() {
+    async function updateMeetingLink() {
         setLoading(true);
-        api.SetMeetingLink(appt.appt_id, meetingLink);
+        let res = await api.SetMeetingLink(appt.appt_id, meetingLink);
+        console.log(res);
         setLoading(false);
         //setModalOpen(!modalOpen);
     }
@@ -49,7 +50,6 @@ export function MeetingCard(props: IProps) {
         cardType = "denied-card";
         cardStatus = "Denied";
     }
-    console.log(IsFutureDate(appt.start_time));
 
     useEffect(() => {
         const getUser = async () => {
