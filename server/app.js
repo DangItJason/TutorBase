@@ -31,13 +31,18 @@ const tutorsRouter = require("./routes/api/tutors");
 const appointmentsRouter = require("./routes/api/appointment");
 const confirmApptFromEmailRouter = require("./routes/api/confirmapptfromemail");
 const photosRouter = require("./routes/api/photos");
+const feedbackRouter = require("./routes/api/feedback");
 
 //Secret
 const secret = require("./config/secret");
 
-
 // Allowing Cors Usage
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  })
+);
 
 // View engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -63,7 +68,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
@@ -86,6 +90,7 @@ app.use("/api/catalog", catalogRouter);
 app.use("/api/tutors", tutorsRouter);
 app.use("/api/appointment", appointmentsRouter);
 app.use("/api/confirmappt", confirmApptFromEmailRouter);
+app.use("/api/feedback", feedbackRouter);
 // app.get('/api/checkLogin', isLoggedIn, function (req, res) {
 //     res.sendStatus(200);
 // })

@@ -23,4 +23,5 @@ const loginSlice = createSlice({
   },
 });
 
+export const { setEmail, setPassword, setLogin } = loginSlice.actions
 export const { actions, reducer, name: sliceKey } = loginSlice;

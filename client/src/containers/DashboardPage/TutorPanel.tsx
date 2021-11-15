@@ -1,26 +1,25 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { Navbar, Button } from "reactstrap";
-import Settings from "../../../components/tutorComponents/settings";
-import Analytics from "../../../components/tutorComponents/data";
-import TutorDashboard from "./TutorDashboard";
+import Settings from "../../components/tutorComponents/settings";
+import Analytics from "../../components/tutorComponents/data";
+import { TutorHistory } from "./TutorHistory";
+import { Meetings } from "./Meetings";
+import Dashboard from "./Dashboard";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSidebarToggled } from "../../../store/ClientFlowData/selectors";
-import { actions } from "../../../store/ClientFlowData/slice";
-import { useParams } from "react-router-dom";
+import { selectSidebarToggled } from "../../store/ClientFlowData/selectors";
+import { actions } from "../../store/ClientFlowData/slice";
+import { useLocation, useParams } from "react-router-dom";
+import DataVisualization from "../../components/tutorComponents/DataVisualization/DataVisualization";
 
 interface IProps {}
-
-interface IParams {
-    panelContent: string;
-}
 
 export const Panel = (props: IProps) => {
     let dispatch = useDispatch();
     let sidebarToggled = useSelector(selectSidebarToggled);
 
-    const params: IParams = useParams();
-    const extension: string = params.panelContent;
+    let params : string = useLocation().pathname;
+    let extension:string = params.split('/')[2];
 
     return (
         <div id="panel-wrapper">
@@ -41,9 +40,9 @@ export const Panel = (props: IProps) => {
 
             </div> */}
             {extension === "schedule" ? <Settings></Settings> : null}
-            {extension === "meetings" ? <div>Hello World(Meetings)</div> : null}
-            {extension === "history" ? <div>Hello World(History)</div> : null}
-            {extension === "analytics" ? <Analytics></Analytics> : null}
+            {extension === "meetings" ? <Meetings mode="Tutor"></Meetings> : null}
+            {extension === "history" ? <TutorHistory></TutorHistory> : null}
+            {extension === "analytics" ? <DataVisualization /> : null}
             {extension === "settings" ? <Settings></Settings> : null}
 
         </div>

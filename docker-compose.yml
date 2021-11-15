@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: tutorbase-server
+    container_name: tutorbase-server
+    command: npm run dev
+    volumes:
+      - ./server/:/usr/src/app/backend
+      - /usr/src/app/backend/node_modules
+    ports:
+      - "9000:9000"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: tutorbase-client
+    container_name: tutorbase-client
+    command: npm start
+    volumes:
+      - ./client/:/usr/src/app/frontend
+      - /usr/src/app/frontend/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    environment:
+    - REACT_APP_API_BASE_ADDRESS=http://localhost:9000/
+    networks:
+      - app-network
+  
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  node_modules:
+  web-root:
+    driver: local
