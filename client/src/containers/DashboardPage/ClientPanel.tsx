@@ -73,7 +73,11 @@ export const Panel = () => {
                     ☰
                 </Button>
 
-                {typeof params === "undefined" && (
+                
+            </Navbar>
+
+            <div className="container-fluid">
+            {params === "schedule" && (
                     <Container>
                         {renderSteps().map((component, index) => (
                             <React.Fragment key={index}>
@@ -82,9 +86,7 @@ export const Panel = () => {
                         ))}
                     </Container>
                 )}
-            </Navbar>
-
-            <div className="container-fluid">{body}</div>
+                {body}</div>
         </div>
     );
 }
