@@ -132,11 +132,15 @@ export function MeetingCard(props: IProps) {
                     ? <FeedbackForm apptTutorId={appt.tutor_id} />
                     : <></>}
                 {cardTag}
-                <FontAwesomeIcon
-                    icon={faArrowDown}
+                <Button
+                    color="none"
                     onClick={(e) => {
-                    toggleCardExpansion(!cardExpanded)
-                    }} />
+                        toggleCardExpansion(!cardExpanded)
+                    }} >
+                    <FontAwesomeIcon
+                        icon={faArrowDown}
+                    />
+                </Button>
             </div>
         </CompressedCard>
     );
@@ -144,13 +148,14 @@ export function MeetingCard(props: IProps) {
     if(cardExpanded) {
         card = (
             <ExpandedCard
+                onClick={() => { toggleCardExpansion(!cardExpanded) }}
                 className={cardType}
             >
                 <div className={"card-container-start-expanded"}>{upperCardContent}</div>
                 <div className={"card-container-end-expanded"}>
                     {cardStatus === "Completed" ? <FeedbackForm apptTutorId={appt.tutor_id} /> : <></>}
                     {cardTag}
-                    <Button 
+                    <Button
                     color="none"
                     onClick={(e) => {
                     toggleCardExpansion(!cardExpanded)
@@ -167,14 +172,17 @@ export function MeetingCard(props: IProps) {
                 <div className={"break"}></div>
                 <div className={"client-notes"}>{appt.notes}</div>
                 <div className={"break"}></div>
-                
-                
-                { props.isTutor ? 
+
+
+                { props.isTutor ?
                 <div>
                 <div className={"client-notes"}>
                 <Button
                     color="danger"
-                    onClick={() => setModalOpen(!modalOpen)}
+                    onClick={(e) => {
+                        setModalOpen(!modalOpen);
+                        e.stopPropagation();
+                    }}
                     >
                     Add Zoom/Webex meeting link
                     </Button>
@@ -183,14 +191,14 @@ export function MeetingCard(props: IProps) {
                     Add Tutoring Meeting Link
                     </ModalHeader>
                     <ModalBody>
-                    Link: 
+                    Link:
                     <Input onChange={setMeetingLinkChange} value={meetingLink}>
                     </Input>
                     </ModalBody>
                     <ModalFooter>
                     <Button
                         color={check ? "success": err ? "danger" : "primary"}
-                        
+
                         onClick={updateMeetingLink}
                     >
                     {loading ? (<Spinner />)
@@ -209,7 +217,7 @@ export function MeetingCard(props: IProps) {
                 : <div>
                     <div className={"card-container-item "}>Meeting Link:</div>
                 <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink}</a></div>
-                    
+
                 </div>
                 }
 
