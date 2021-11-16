@@ -147,7 +147,6 @@ export class ApiService {
             apptid: id,
             link: link
         };
-
         return await axios.post(url, body, {withCredentials: true});
     }
 

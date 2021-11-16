@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown, faArrowUp, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowUp, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Spinner } from "reactstrap";
 import {Appointment, Tutor, TutorsResponse, User} from "../../services/api.types";
 import { api } from "../../services/api";
@@ -25,6 +25,8 @@ export function MeetingCard(props: IProps) {
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
     let [meetingLink, setMeetingLink] = useState(appt.link !== null ? appt.link! : "");
     let [loading, setLoading] = useState(false);
+    let [check, setCheck] = useState(false);
+    let [err, setErr] = useState(false);
     let [clientData, setClientData] = useState<User>({
         _id: "",
         profile_img: "",
@@ -38,9 +40,17 @@ export function MeetingCard(props: IProps) {
     }
     async function updateMeetingLink() {
         setLoading(true);
-        let res = await api.SetMeetingLink(appt.appt_id, meetingLink);
-        console.log(res);
-        setLoading(false);
+        try {
+            let res = await api.SetMeetingLink(appt.appt_id, meetingLink);
+            setLoading(false);
+            if (res.status === 200) {
+                setCheck(true);
+            }
+        }
+        catch {
+            setLoading(false);
+            setErr(true);
+        }
         //setModalOpen(!modalOpen);
     }
     let [tutorFirstName, setTutorFirstName] = useState("");
@@ -134,18 +144,21 @@ export function MeetingCard(props: IProps) {
     if(cardExpanded) {
         card = (
             <ExpandedCard
-                onClick={(e) => { toggleCardExpansion(!cardExpanded) }}
                 className={cardType}
             >
                 <div className={"card-container-start-expanded"}>{upperCardContent}</div>
                 <div className={"card-container-end-expanded"}>
                     {cardStatus === "Completed" ? <FeedbackForm apptTutorId={appt.tutor_id} /> : <></>}
                     {cardTag}
-                    <FontAwesomeIcon
-                    icon={faArrowUp}
+                    <Button 
+                    color="none"
                     onClick={(e) => {
                     toggleCardExpansion(!cardExpanded)
-                    }} />
+                    }} >
+                    <FontAwesomeIcon
+                    icon={faArrowUp}
+                    />
+                    </Button>
                 </div>
 
                 <hr style={{width: '100%', backgroundColor: 'black', margin: '0 0.5em'}}/>
@@ -158,7 +171,6 @@ export function MeetingCard(props: IProps) {
                 
                 { props.isTutor ? 
                 <div>
-                <div className={"break"}></div>
                 <div className={"client-notes"}>
                 <Button
                     color="danger"
@@ -172,16 +184,19 @@ export function MeetingCard(props: IProps) {
                     </ModalHeader>
                     <ModalBody>
                     Link: 
-                    <Input onChange={setMeetingLinkChange}>
+                    <Input onChange={setMeetingLinkChange} value={meetingLink}>
                     </Input>
                     </ModalBody>
                     <ModalFooter>
                     <Button
-                        color="primary"
+                        color={check ? "success": err ? "danger" : "primary"}
                         
                         onClick={updateMeetingLink}
                     >
-                    {loading ? (<Spinner />) : "Save"}
+                    {loading ? (<Spinner />)
+                        : check ? <FontAwesomeIcon icon={faCheck}/>
+                        : err ? <div>Error<FontAwesomeIcon icon={faTimes}/></div>
+                        : "Save"}
                     </Button>
                     {' '}
                     <Button onClick={() => setModalOpen(!modalOpen)}>
