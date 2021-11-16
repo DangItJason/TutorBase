@@ -1,3 +1,5 @@
+
+
 export interface SubjectsResponse {
     data: Array<Subject>;
 }
@@ -53,13 +55,8 @@ export interface Appointment {
     confirmed: boolean
 }
 
+type Day = 'Sunday'| 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export type TutorTimes = {
+    [key in Day]:number[][];
 
-export interface TutorTimes {
-    Sunday: Array<number>,
-    Monday: Array<number>,
-    Tuesday: Array<number>,
-    Wednesday: Array<number>,
-    Thursday: Array<number>,
-    Friday: Array<number>,
-    Saturday: Array<number>,
 }

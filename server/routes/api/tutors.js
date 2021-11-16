@@ -139,4 +139,25 @@ router.put("/tutor", withAuth, (req, res) => {
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
 
+
+/**
+ * Route serving tutor actions.
+ * @name delete/api/tutors/tutor
+ * @function
+ * @memberof module:routes/api/tutors~tutorRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+// PUT /api/tutors/tutor
+// Update a tutor
+router.delete("/tutor", withAuth, (req, res) => {
+
+    Tutor.deleteOne(
+        { _id: req.userid }
+    )
+        .then((tutor) => res.json(tutor))
+        .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
 module.exports = router;

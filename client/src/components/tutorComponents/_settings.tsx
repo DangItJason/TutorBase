@@ -12,7 +12,7 @@ import {Tutor,Course,Appointment, TutorTimes, AppointmentsResponse, CoursesRespo
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
 import 'rc-time-picker/assets/index.css';
-//const rambda = require('rambda');
+const rambda = require('rambda');
 
 interface iSettingsProps {
 
@@ -54,6 +54,8 @@ interface iSettingsState {
 
 }
 
+const days: string[] = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
 class Settings extends Component<iSettingsProps,iSettingsState> {
 
     constructor(props: iSettingsProps) {
@@ -84,7 +86,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
             Thursday: [],
             Friday: [],
             Saturday: []
-        },
+        } as TutorTimes,
           temp_schedule:  {
             Sunday: [],
             Monday: [],
@@ -93,7 +95,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
             Thursday: [],
             Friday: [],
             Saturday: []
-        },
+        } as TutorTimes,
           added_times: {
             Sunday: [],
             Monday: [],
@@ -251,10 +253,9 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
     }
   
     // --- Course Functions ---
-    handleCourseRemove = (e:React.FormEvent<HTMLButtonElement>) => {
-      const { value } = e.target as HTMLButtonElement;
-      e.preventDefault();
-      const filtered_courses = this.state.temp_courses.filter((c:Course) => c.name !== value);
+    handleCourseRemove = (course:Course) => {
+    
+      const filtered_courses = this.state.temp_courses.filter((c:Course) => c.name !== course.name);
       this.setState({ temp_courses: filtered_courses });
     }
     
@@ -290,11 +291,207 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
       this.setState({ added_courses: this.state.added_courses.filter((c, i) => index !== i) })
     }
 
+
+    saveCoursesChange = (e:React.FormEvent<HTMLElement> ) => {
+      // Update tutor's list of courses
+      fetch("http://localhost:9000/api/tutors/tutor", {
+        method: "PUT",
+        body: JSON.stringify({userid: this.state.obj_id, courses: this.state.temp_courses}),
+        headers: {"Content-Type": "application/json"}
+      }).then(res=>{
+        this.setState({courses:this.state.temp_courses, temp_courses: []})
+      });
+
+          // Update course('s) list of tutors
+      let removed_set = this.state.courses.filter((c:Course) => !this.state.temp_courses.includes(c));
+      let added_set = this.state.temp_courses.filter((c:Course) => !this.state.courses.includes(c));
+      let tutor = this.state.obj_id;
+
+      removed_set.forEach(function(c:Course) {
+        fetch(`http://localhost:9000/api/courses/${c._id}/remove-tutor`, {
+          method: "POST",
+          body: JSON.stringify({ tutor_id: tutor}),
+          headers: {"Content-Type": "application/json"},
+        });
+      });
+
+      added_set.forEach(function(c:Course) {
+        fetch(`http://localhost:9000/api/courses/${c._id}/add-tutor`, {
+          method: "POST",
+          body: JSON.stringify({tutor_id:  tutor}),
+          headers: {"Content-Type": "application/json"},
+        });
+      });
+      this.setState({ courses: this.state.temp_courses, added_courses: [], add_course_err: false });
+      this.toggleCoursesModal(e);
+    }
+
+    cancelCoursesChange = (e:React.FormEvent<HTMLElement>) => {
+      this.setState({ temp_courses: this.state.courses, added_courses: [], add_course_err: false });
+      this.toggleCoursesModal(e);
+    }
+
+    setTutorTimes = (schedule:TutorTimes,tab:number,payload:number[][]) => {
+      const times = [
+        schedule.Sunday,
+        schedule.Monday,
+        schedule.Tuesday,
+        schedule.Wednesday,
+        schedule.Thursday,
+        schedule.Friday,
+        schedule.Saturday
+  
+      ];
+      times[tab] = payload;
+      
+    }
+
+    handleTimeBlockRemove = (index:number, block: any, e:React.FormEvent<HTMLElement>) => {
+      e.preventDefault();
+      let sched:TutorTimes = rambda.clone(this.state.temp_schedule);
+      this.extractTutorTimes(sched,this.state.schedule_tab).splice(index, 1);
+      // Sort before setting new state
+      this.setTutorTimes(sched,this.state.schedule_tab, this.extractTutorTimes(sched,this.state.schedule_tab).sort(function(a:number[], b:number[]) {return a[0] - b[0]}) ) 
+      this.setState({ temp_schedule: sched });
+    }
+
+    handleScheduleBlockAdd = (e:React.FormEvent<HTMLElement>) => {
+      e.preventDefault();
+      let added = rambda.clone(this.state.added_times);
+      added[this.state.schedule_tab].push([[moment().minute(0).format('HHmm')], [moment().minute(0).format('HHmm')]]);
+      this.setState({ added_times: added });
+    }
+  
+  
+  // interKey: which block within the given day
+  // intraKey: which time (start=0, end=1) within the given block
+  handleTempTimeChange = (interKey:number, intraKey:number, event: moment.Moment) => {
+    let sched = rambda.clone(this.state.added_times);
+    sched[this.state.schedule_tab][interKey][intraKey] = event.format('HHmm');
+    this.setState({ added_times: sched });
+  }
+
+
+  extractTutorTimes(schedule:TutorTimes,tab:number){
+    const times = [
+      schedule.Sunday,
+      schedule.Monday,
+      schedule.Tuesday,
+      schedule.Wednesday,
+      schedule.Thursday,
+      schedule.Friday,
+      schedule.Saturday
+
+    ];
+    return times[tab];
+  }
+
+  
+
+  handleTempTimeAdd = (index:number, event:React.FormEvent<HTMLButtonElement>) => {
+    let added = rambda.clone(this.state.added_times);
+    let newBlock = [parseInt(added[this.state.schedule_tab][index][0], 10), parseInt(added[this.state.schedule_tab][index][1], 10)];
+    if (newBlock[0] === newBlock[1])
+      this.setState({ add_time_err: true, add_time_err_msg: "Start and end times must be different." });
+    else if (newBlock[0] >= newBlock[1])
+      this.setState({ add_time_err: true, add_time_err_msg: "Start time must be after end time." });
+    else if (rambda.includes(newBlock, this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab) ))
+      this.setState({ add_time_err: true, add_time_err_msg: "Time block is already added." });
+    else {
+      let timeIncl = false;
+      for (let i = 0; i < this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab).length; i++) {
+        if ((this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab)[i][1] <= newBlock[0]) ||
+          (this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab)[i][0] >= newBlock[1]))
+          continue;
+        else if ((this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab)[i][0] <= newBlock[0]) ||
+          (this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab)[i][1] >= newBlock[1]) ||
+          (this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab)[i][0] >= newBlock[0] && 
+          (this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab)[i][1] >= newBlock[1]))) {
+          timeIncl = true;
+          break;
+        }
+      }
+      if (timeIncl)
+        this.setState({ add_time_err: true, add_time_err_msg: "Time block overlaps existing availability." });
+      else {
+        let sched = rambda.clone(this.state.temp_schedule);
+        sched[this.state.schedule_tab].push(newBlock);
+        added[this.state.schedule_tab].splice(index, 1);
+        // Sort before setting new state
+        sched[this.state.schedule_tab] = sched[this.state.schedule_tab].sort(function(a, b) {return a[0] - b[0]});
+        this.setState({ temp_schedule: sched, added_times: added, add_time_err: false });
+      }
+    }
+  }
+
+  handleTempTimeRemove = (index:number, event:React.FormEvent<HTMLElement>) => {
+    let sched = rambda.clone(this.state.added_times);
+    sched[this.state.schedule_tab].splice(index, 1);
+    this.setState({ added_times: sched });
+  }
+
+  saveScheduleChange = (e:React.FormEvent<HTMLElement>) => {
+    let sched = rambda.clone(this.state.temp_schedule);
+    fetch("http://localhost:9000/api/tutors/tutor", {
+      method: "PUT",
+      body: JSON.stringify({userid: this.state.obj_id, times: sched}),
+      headers: {"Content-Type": "application/json"}
+    })
+
+    this.setState({ schedule: rambda.clone(this.state.temp_schedule), 
+      added_times: {
+        Sunday: [],
+        Monday: [],
+        Tuesday: [],
+        Wednesday: [],
+        Thursday: [],
+        Friday: [],
+        Saturday: []
+    } as TutorTimes, add_time_err: false });
+    this.toggleAvailabilityModal(e);
+  }
+
+  cancelScheduleChange = (e:React.FormEvent<HTMLElement>) => {
+    this.setState({ temp_schedule: rambda.clone(this.state.schedule), 
+      added_times: {
+        Sunday: [],
+        Monday: [],
+        Tuesday: [],
+        Wednesday: [],
+        Thursday: [],
+        Friday: [],
+        Saturday: []
+    } as TutorTimes, add_time_err: false });
+    this.toggleScheduleModal(e);
+  }
+  
+    // --- Interval Functions ---
+    handleIntervalChange = (value:number) => {
+      this.setState({ temp_meeting_interval: value });
+    };
+  
+    cancelIntervalChange = (e:React.FormEvent<HTMLElement>) => {
+      this.setState({temp_meeting_interval: this.state.meeting_interval});
+      this.toggleIntervalModal(e);
+    };
+  
+    saveIntervalChange = (e:React.FormEvent<HTMLElement>) => {
+      this.setState({ meeting_interval: this.state.temp_meeting_interval });
+      fetch("http://localhost:9000/api/tutors/tutor", {
+        method: "PUT",
+        body: JSON.stringify({userid: this.state.obj_id, interval: this.state.temp_meeting_interval}),
+        headers: {"Content-Type": "application/json"}
+      })
+      this.toggleIntervalModal(e);
+    };
+  
+
     togglePriceModal = (e:React.FormEvent<HTMLElement>) => {
       e.preventDefault();
       this.setState({ price_modal: !this.state.price_modal })
     };
 
+    
     toggleCoursesModal = (e:React.FormEvent<HTMLElement>) => {
       e.preventDefault();
       this.setState({ courses_modal: !this.state.courses_modal })
@@ -345,13 +542,13 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
   // e.g. Given time = 845, return "8:45AM"
   intToTime = (time:number )=> {
     // Case of after midnight
-    if (time.tostring().length <= 2)
+    if (time.toString().length <= 2)
       return "12:" + time + "AM";
     let mins:any = time % 100;
     let hrs:any =  (time-mins) / 100;
     let meridiem = hrs >= 12 ? "PM" : "AM";
     mins = mins === 0 ? "00" : mins.tostring();
-    hrs = hrs > 12 ? (hrs-12).tostring() : hrs.tostring();
+    hrs = hrs > 12 ? (hrs-12).toString() : hrs.toString();
     return hrs + ":" + mins + meridiem;    
   }
 
@@ -371,7 +568,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                 </ListGroupItem>
                 <ListGroupItem>
                   <span className="heading-item">{this.state.first_name + " " + this.state.last_name}</span>
-                  <a href="#" className="modal-link" onClick={this.toggleNameModal}>
+                  <a href="/#" className="modal-link" onClick={this.toggleNameModal}>
                     <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                   </a>
                   <Modal isOpen={this.state.name_modal} fade={false} toggle={this.toggleNameModal} className="name-modal">
@@ -393,7 +590,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                   </Modal>
   
                   <span className="heading-item">${this.state.price}/h</span>
-                  <a href="#" className="modal-link" onClick={this.togglePriceModal}>
+                  <a href="/#" className="modal-link" onClick={this.togglePriceModal}>
                     <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                   </a>
                   <Modal isOpen={this.state.price_modal} fade={false} toggle={this.togglePriceModal} className="price-modal">
@@ -421,7 +618,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                 <br></br>
                 <ListGroupItem>
                   <span className="heading-item">{this.state.meeting_interval + " minute sessions"}</span>
-                  <a href="#" className="modal-link" onClick={this.toggleIntervalModal}>
+                  <a href="/#" className="modal-link" onClick={this.toggleIntervalModal}>
                     <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                   </a>
                   <Modal isOpen={this.state.interval_modal} fade={false} toggle={this.toggleIntervalModal} className="interval-modal">
@@ -481,7 +678,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                     <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                   </a>
                   <ListGroup>
-                    {this.state.schedule.map((time_blocks, i) => 
+                    {Object.values(this.state.schedule).map((time_blocks, i) => 
                       <span className="day-item" key={i}>{schedule_days[i].abbr}: {this.formatTimeList(time_blocks)}</span>
                     )}
                   </ListGroup>
@@ -513,13 +710,13 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                               : null }
                               <hr/>
                               <ListGroup>
-                                {this.state.temp_schedule[this.state.schedule_tab].map((block, i) => 
+                                {this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab).map((block, i) => 
                                   <ListGroupItem className="body-text" key={i}>
                                     {this.formatTime(block)}
-                                    <Button color="link" className="list-remove" value={block} onClick={this.handleTimeBlockRemove.bind(this, i)}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
+                                    <Button color="link" className="list-remove" onClick={() =>this.handleTimeBlockRemove.bind(this, i, block)}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
                                   </ListGroupItem>
                                 )}
-                                {this.state.added_times[this.state.schedule_tab].map((block, i) => 
+                                {Object.values( this.extractTutorTimes(this.state.added_times,this.state.schedule_tab) ).map((block, i) => 
                                   <Form key={i}>
                                     <ListGroupItem className="body-text">
                                       <InputGroup>
@@ -591,14 +788,14 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                           {this.state.temp_courses.map((course, i) => 
                             <ListGroupItem className="body-text" key={i}>
                               {course}
-                              <Button color="link" className="list-remove" value={course} onClick={this.handleCourseRemove}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
+                              <Button color="link" className="list-remove" onClick={ ()=>{  this.handleCourseRemove(course)}   }>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
                             </ListGroupItem>
                           )}
                           {this.state.added_courses.map((course, i) => 
                             <Form key={i}>
                               <ListGroupItem className="body-text">
                                 <InputGroup>
-                                  <Autocomplete className="list-add-input"
+                                  <Autocomplete 
                                     getItemValue={(item) => item}
                                     items={this.state.course_catalog}
                                     renderItem={(item, isHighlighted) =>
