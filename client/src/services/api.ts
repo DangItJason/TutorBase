@@ -64,6 +64,15 @@ export class ApiService {
         let response = await axios.get(url);
         if(response.status !== 200) return appt;
         appt.data = response.data;
+        appt.data.sort((app1, app2) => {
+            if (app1.start_time > app2.start_time) {
+                return 1;
+            }
+            if (app1.start_time < app2.start_time) {
+                return -1;
+            }
+            return 0;
+        });
         return appt;
     }
 
@@ -73,6 +82,15 @@ export class ApiService {
         let response = await axios.get(url);
         if(response.status !== 200) return appt;
         appt.data = response.data;
+        appt.data.sort((app1, app2) => {
+            if (app1.start_time > app2.start_time) {
+                return 1;
+            }
+            if (app1.start_time < app2.start_time) {
+                return -1;
+            }
+            return 0;
+        });
         return appt;
     }
 
@@ -82,6 +100,15 @@ export class ApiService {
         if(response.status != 200) return null;
         let appt: AppointmentsResponseWithData = {data: []}
         appt.data = await response.data;
+        appt.data.sort((app1, app2) => {
+            if (app1.start_time > app2.start_time) {
+                return 1;
+            }
+            if (app1.start_time < app2.start_time) {
+                return -1;
+            }
+            return 0;
+        });
         return appt;
     }
 

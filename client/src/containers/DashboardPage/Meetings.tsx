@@ -35,6 +35,7 @@ export const Meetings = (params: IParams) => {
         }
 
         getAppointments().then(value => {
+                
                 setAppointments(value);
                 if(params.mode === "Tutor")
                     dispatch(tutorDataActions.setAppointment(value));
@@ -43,6 +44,7 @@ export const Meetings = (params: IParams) => {
             }
         )
     }, [clientData.clientId, tutorData.tutorId, dispatch]);
+
 
     let filteredAppointments = appointments;
     if (dropDownValue==="Pending"){
