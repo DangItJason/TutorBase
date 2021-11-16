@@ -148,4 +148,30 @@ router.get('/clients/:client_id', (req, res) => {
     .catch(err => res.status(400).json({ msg: err.message }));
 });
 
+
+/**
+ * Route serving subjects form.
+ * @name post/api/appointment/link
+ * @function
+ * @memberof module:routes/api/appointment~appointmentOperationsRouter
+ * @inner
+ */
+// POST api/appointment/link
+// Adds meeting link to appointment
+router.post("/link", async (req, res) => {
+  try {
+    await Appointment.updateOne(
+      { appt_id: req.body.apptid },
+      {$set:{link:req.body.link}});
+    let appt = await Appointment.findOne(
+        { appt_id: req.body.apptid }
+      );
+    res.json(appt);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+
+
 module.exports = router;

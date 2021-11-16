@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "reactstrap";
+import { faArrowDown, faArrowUp, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Spinner } from "reactstrap";
 import {Appointment, Tutor, TutorsResponse, User} from "../../services/api.types";
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
 import styled from "styled-components";
 import moment from "moment";
+
 
 interface IProps {
     appt: Appointment,
@@ -20,7 +21,28 @@ export function MeetingCard(props: IProps) {
     let { appt } = props;
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
+    let [modalOpen, setModalOpen] = useState(false);
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
+    let [meetingLink, setMeetingLink] = useState(appt.link !== null ? appt.link! : "");
+    let [loading, setLoading] = useState(false);
+    let [clientData, setClientData] = useState<User>({
+        _id: "",
+        profile_img: "",
+        phone: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+    });
+    function setMeetingLinkChange(link: React.FormEvent<HTMLInputElement>) {
+        setMeetingLink(link.currentTarget.value);
+    }
+    async function updateMeetingLink() {
+        setLoading(true);
+        let res = await api.SetMeetingLink(appt.appt_id, meetingLink);
+        console.log(res);
+        setLoading(false);
+        //setModalOpen(!modalOpen);
+    }
     let [tutorFirstName, setTutorFirstName] = useState("");
     let [tutorLastName, setTutorLastName] = useState("");
 
@@ -100,6 +122,11 @@ export function MeetingCard(props: IProps) {
                     ? <FeedbackForm apptTutorId={appt.tutor_id} />
                     : <></>}
                 {cardTag}
+                <FontAwesomeIcon
+                    icon={faArrowDown}
+                    onClick={(e) => {
+                    toggleCardExpansion(!cardExpanded)
+                    }} />
             </div>
         </CompressedCard>
     );
@@ -114,6 +141,11 @@ export function MeetingCard(props: IProps) {
                 <div className={"card-container-end-expanded"}>
                     {cardStatus === "Completed" ? <FeedbackForm apptTutorId={appt.tutor_id} /> : <></>}
                     {cardTag}
+                    <FontAwesomeIcon
+                    icon={faArrowUp}
+                    onClick={(e) => {
+                    toggleCardExpansion(!cardExpanded)
+                    }} />
                 </div>
 
                 <hr style={{width: '100%', backgroundColor: 'black', margin: '0 0.5em'}}/>
@@ -121,6 +153,51 @@ export function MeetingCard(props: IProps) {
                 <div className={"card-container-item"}>Client Notes:</div>
                 <div className={"break"}></div>
                 <div className={"client-notes"}>{appt.notes}</div>
+                <div className={"break"}></div>
+                
+                
+                { props.isTutor ? 
+                <div>
+                <div className={"break"}></div>
+                <div className={"client-notes"}>
+                <Button
+                    color="danger"
+                    onClick={() => setModalOpen(!modalOpen)}
+                    >
+                    Add Zoom/Webex meeting link
+                    </Button>
+                                <Modal isOpen={modalOpen}>
+                    <ModalHeader toggle={function noRefCheck(){}}>
+                    Add Tutoring Meeting Link
+                    </ModalHeader>
+                    <ModalBody>
+                    Link: 
+                    <Input onChange={setMeetingLinkChange}>
+                    </Input>
+                    </ModalBody>
+                    <ModalFooter>
+                    <Button
+                        color="primary"
+                        
+                        onClick={updateMeetingLink}
+                    >
+                    {loading ? (<Spinner />) : "Save"}
+                    </Button>
+                    {' '}
+                    <Button onClick={() => setModalOpen(!modalOpen)}>
+                        Cancel
+                    </Button>
+                    </ModalFooter>
+                </Modal>
+                </div>
+                </div>
+                : <div>
+                    <div className={"card-container-item "}>Meeting Link:</div>
+                <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink}</a></div>
+                    
+                </div>
+                }
+
             </ExpandedCard>
         );
     }

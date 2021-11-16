@@ -140,6 +140,17 @@ export class ApiService {
 
         return await axios.put(url, body, {withCredentials: true});
     }
+
+    public async SetMeetingLink(id: String, link: String) {
+        let url = this.appointmentsEndpoint + 'link';
+        let body = {
+            apptid: id,
+            link: link
+        };
+
+        return await axios.post(url, body, {withCredentials: true});
+    }
+
 }
 
 export const api = new ApiService();
