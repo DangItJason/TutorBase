@@ -7,7 +7,7 @@ import {Appointment, Tutor, TutorsResponse, User} from "../../services/api.types
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import moment from "moment";
 
 
@@ -220,7 +220,19 @@ export function MeetingCard(props: IProps) {
     return <>{card}</>;
 }
 
+const grow = keyframes`
+ 0% { height: 75px; }
+ 100% { height: 200px; }
+`
+
+const shrink = keyframes`
+ 0% { height: 200px; }
+ 100% { height: 75px; }
+`
+
 const CompressedCard = styled.div`
+  animation: ${shrink} 0.1s ease-out;
+
   width: 100%;
   height: 75px;
 
@@ -240,8 +252,11 @@ const CompressedCard = styled.div`
 `;
 
 const ExpandedCard = styled.div`
+  animation: ${grow} 0.1s ease-out;
+  
   width: 100%;
-  min-height: 200px;
+  height: 200px;
+  //min-height: 200px;
 
   margin: 15px 0;
 

@@ -8,7 +8,7 @@ import {api} from "../../services/api";
 import {Appointment} from "../../services/api.types";
 
 // Given a unix timestamp covert it to a readable time
-// This is used to dispay the time nicely on the final step
+// This is used to display the time nicely on the final step
 function convertTimestamp(timestamp: any) {
     var d = new Date(timestamp), // Convert the passed timestamp to milliseconds
         hh = d.getHours(),
@@ -34,7 +34,6 @@ function convertTimestamp(timestamp: any) {
 export function Step5() {
     const dispatch = useDispatch();
     const clientFlowData = useSelector(selectClientFlowData)
-    const [done, setDone] = useState(false);
     toast.configure();
 
     const confirmSubmit = () => {
@@ -67,8 +66,7 @@ export function Step5() {
         }
         await api.CreateAppointment(appointment);
 
-        // dispatch(clientFlowActions.incrementStep());
-        setDone(true);
+        dispatch(clientFlowActions.incrementStep());
 
         confirmSubmit();
     };
@@ -76,7 +74,7 @@ export function Step5() {
     return (
         <div className="form-group text-center">
 
-            {!done ? (
+            {!(clientFlowData.currentStep === 5) ? (
                 <>
                     <h3 className="hr mt-1">Reserve</h3>
                     <h3>
