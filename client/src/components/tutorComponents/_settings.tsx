@@ -54,8 +54,6 @@ interface iSettingsState {
 
 }
 
-const days: string[] = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-
 class Settings extends Component<iSettingsProps,iSettingsState> {
 
     constructor(props: iSettingsProps) {
