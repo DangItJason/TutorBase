@@ -168,7 +168,11 @@ export function MeetingCard(props: IProps) {
 
                 <hr style={{width: '100%', backgroundColor: 'black', margin: '0 0.5em'}}/>
 
-                <div className={"card-container-item"}>Client Notes:</div>
+                <div className={"card-container-item"}>
+                    {!appt.notes || appt.notes === "" ? ""
+                    : "Client Notes: "
+                    }
+                </div>
                 <div className={"break"}></div>
                 <div className={"client-notes"}>{appt.notes}</div>
                 <div className={"break"}></div>
@@ -214,10 +218,15 @@ export function MeetingCard(props: IProps) {
                 </Modal>
                 </div>
                 </div>
-                : <div>
-                    <div className={"card-container-item "}>Meeting Link:</div>
+                : <div>{meetingLink === "" ? "" :
+                (<div>
+                    
+                    <div className={"card-container-item "}>
+                        Meeting Link:
+                    </div>
                 <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink}</a></div>
-
+                </div>)
+                }
                 </div>
                 }
 
@@ -263,7 +272,6 @@ const ExpandedCard = styled.div`
   animation: ${grow} 0.1s ease-out;
   
   width: 100%;
-  height: 200px;
   //min-height: 200px;
 
   margin: 15px 0;
