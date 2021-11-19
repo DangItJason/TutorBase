@@ -38,6 +38,16 @@
     transition: 0.25s;
 }
 
+.upload-img {
+    padding-top: 5px;
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 300px;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+}
+
 #first-name, #last-name {
     margin-left: 5px;
 }

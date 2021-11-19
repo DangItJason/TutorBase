@@ -168,6 +168,10 @@ export class ApiService {
         return await axios.put(url, body, {withCredentials: true});
     }
 
+    public async SetClientProfileImage(img: String, id: String) {
+        return;
+    }
+
     public async SetMeetingLink(id: String, link: String) {
         let url = this.appointmentsEndpoint + 'link';
         let body = {
