@@ -14,7 +14,7 @@ export interface IParams {
 
 const Dashboard = (params: IParams) => {
     let sidebarToggled = useSelector(selectSidebarToggled);
-
+    
     return (
         <div className={classNames("d-flex", (sidebarToggled) ? "toggled" : "")} id="dashboard-wrapper">
             <Sidebar mode={params.mode}/>

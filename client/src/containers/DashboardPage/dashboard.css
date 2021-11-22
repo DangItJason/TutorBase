@@ -70,7 +70,6 @@ body {
 }
 
 #panel-wrapper {
-    min-width: 100vw;
 }
 
 #dashboard-wrapper.toggled #sidebar-wrapper {

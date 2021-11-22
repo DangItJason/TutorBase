@@ -15,6 +15,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
+// @ts-ignore
+import useMediaQuery from 'use-media-query-hook';
+import {isMobile} from "react-device-detect";
 
 export interface IParams {
     mode: string; // tutor or client
@@ -46,6 +49,19 @@ export const Sidebar = (params: IParams) => {
                             <ListGroupItem tag="a" href="/tutor/settings"
                                            className={classNames("list-group-item", "bg-none", extension==='settings' ?"tab-active" : null)}><FontAwesomeIcon
                                 icon={faCog}/>Settings</ListGroupItem>
+                            {isMobile ?
+                                <div>
+                                <ListGroupItem tag="a" href="/home/schedule" className={classNames("list-group-item", "bg-none")} style={{marginTop:'20rem'}}>
+                                    <FontAwesomeIcon icon={faToggleOn}/>
+                                    Switch to Client Dashboard
+                                </ListGroupItem>
+                                <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}>
+                                    <FontAwesomeIcon icon={faSignOutAlt}/>
+                                    Logout
+                                </ListGroupItem>
+                                </div>
+
+                            : null}
                         </div>
                     )
                     : (
@@ -62,10 +78,24 @@ export const Sidebar = (params: IParams) => {
                             <ListGroupItem tag="a" href="/home/settings"
                                            className={classNames("list-group-item", "bg-none")}><FontAwesomeIcon
                                 icon={faCog}/>Settings</ListGroupItem>
+                            {isMobile ?
+                                <div>
+                                <ListGroupItem tag="a" href="/tutor/meetings" className={classNames("list-group-item", "bg-none")} style={{marginTop:'20rem'}}>
+                                    <FontAwesomeIcon icon={faToggleOff}/>
+                                    Switch to Tutor Dashboard
+                                </ListGroupItem>
+                                <ListGroupItem tag="a" href="#" className={classNames("list-group-item", "bg-none")}>
+                                    <FontAwesomeIcon icon={faSignOutAlt}/>
+                                    Logout
+                                </ListGroupItem>
+                                </div>
+
+                            : null}
                         </div>
                     )}
             </ListGroup>
-            <ListGroup className="list-group-bottom">
+            {isMobile ? null 
+            :<ListGroup className="list-group-bottom">
                 {params.mode === "Tutor"
                     ? (
                         <div>
@@ -91,6 +121,7 @@ export const Sidebar = (params: IParams) => {
                     Logout
                 </ListGroupItem>
             </ListGroup>
+            }
         </div>
     );
 }
