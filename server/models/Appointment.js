@@ -22,7 +22,9 @@ const AppointmentSchema = new Schema({
     price: {type: Number, required: true}, // Total price of session
     notes: String,
 
-    confirmed: {type: Boolean, default: false} // Accepted by tutor
+    confirmed: {type: Boolean, default: false}, // Accepted by tutor
+
+    link: {type: String, required: false}, // Link to zoom/webex
 });
 
 module.exports = Appointment = mongoose.model('Appointment', AppointmentSchema);

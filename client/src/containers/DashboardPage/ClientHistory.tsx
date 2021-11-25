@@ -23,7 +23,7 @@ export const ClientHistory = () => {
 
     useEffect(() => {
         const getAppointments = async () => {
-            return (await api.GetClientAppointments(clientData.clientId)).data;
+            return (await api.GetClientAppointments(clientData.clientId)).data.reverse();
         }
 
         getAppointments().then(value => {

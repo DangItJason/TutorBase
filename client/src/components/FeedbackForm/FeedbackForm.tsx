@@ -36,10 +36,15 @@ export default function FeedbackForm({apptTutorId}: IProps) {
 
     return (
         <Container>
-            <Button onClick={() => setFormOpen(true)} style={{
-                minWidth: '60px',
-                lineHeight: '1'
-            }}>
+            <Button onClick={(e) => {
+                setFormOpen(true);
+                e.stopPropagation();
+            }}
+                    style={{
+                        minWidth: '60px',
+                        lineHeight: '1',
+                        position: "relative",
+                    }}>
                 <div style={{
                     fontSize: "clamp(8px, 1vw, 12px)"
                 }}>

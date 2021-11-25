@@ -64,6 +64,15 @@ export class ApiService {
         let response = await axios.get(url);
         if(response.status !== 200) return appt;
         appt.data = response.data;
+        appt.data.sort((app1, app2) => {
+            if (app1.start_time > app2.start_time) {
+                return 1;
+            }
+            if (app1.start_time < app2.start_time) {
+                return -1;
+            }
+            return 0;
+        });
         return appt;
     }
 
@@ -73,6 +82,15 @@ export class ApiService {
         let response = await axios.get(url);
         if(response.status !== 200) return appt;
         appt.data = response.data;
+        appt.data.sort((app1, app2) => {
+            if (app1.start_time > app2.start_time) {
+                return 1;
+            }
+            if (app1.start_time < app2.start_time) {
+                return -1;
+            }
+            return 0;
+        });
         return appt;
     }
 
@@ -82,6 +100,15 @@ export class ApiService {
         if(response.status != 200) return null;
         let appt: AppointmentsResponseWithData = {data: []}
         appt.data = await response.data;
+        appt.data.sort((app1, app2) => {
+            if (app1.start_time > app2.start_time) {
+                return 1;
+            }
+            if (app1.start_time < app2.start_time) {
+                return -1;
+            }
+            return 0;
+        });
         return appt;
     }
 
@@ -140,7 +167,7 @@ export class ApiService {
 
         return await axios.put(url, body, {withCredentials: true});
     }
-    
+  
     public async ConfirmAppointment(apptId: String) {
         let url = this.appointmentsEndpoint;
         let body = {
@@ -149,6 +176,15 @@ export class ApiService {
         }
         
         return await axios.put(url, body, {withCredentials: true});
+    }
+
+    public async SetMeetingLink(id: String, link: String) {
+        let url = this.appointmentsEndpoint + 'link';
+        let body = {
+            apptid: id,
+            link: link
+        };
+        return await axios.post(url, body, {withCredentials: true});
     }
 }
 

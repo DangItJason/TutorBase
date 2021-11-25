@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "reactstrap";
+import { faArrowDown, faArrowUp, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Spinner } from "reactstrap";
 import {Appointment, Tutor, TutorsResponse, User} from "../../services/api.types";
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import moment from "moment";
+
 
 interface IProps {
     appt: Appointment,
@@ -20,7 +21,38 @@ export function MeetingCard(props: IProps) {
     let { appt } = props;
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
+    let [modalOpen, setModalOpen] = useState(false);
     let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
+    let [meetingLink, setMeetingLink] = useState(appt.link !== null ? appt.link! : "");
+    let [loading, setLoading] = useState(false);
+    let [check, setCheck] = useState(false);
+    let [err, setErr] = useState(false);
+    let [clientData, setClientData] = useState<User>({
+        _id: "",
+        profile_img: "",
+        phone: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+    });
+    function setMeetingLinkChange(link: React.FormEvent<HTMLInputElement>) {
+        setMeetingLink(link.currentTarget.value);
+    }
+    async function updateMeetingLink() {
+        setLoading(true);
+        try {
+            let res = await api.SetMeetingLink(appt.appt_id, meetingLink);
+            setLoading(false);
+            if (res.status === 200) {
+                setCheck(true);
+            }
+        }
+        catch {
+            setLoading(false);
+            setErr(true);
+        }
+        //setModalOpen(!modalOpen);
+    }
     let [tutorFirstName, setTutorFirstName] = useState("");
     let [tutorLastName, setTutorLastName] = useState("");
     let [clientData, setClientData] = useState<User>({
@@ -112,6 +144,15 @@ export function MeetingCard(props: IProps) {
                     ? <FeedbackForm apptTutorId={appt.tutor_id} />
                     : <></>}
                 {cardTag}
+                <Button
+                    color="none"
+                    onClick={(e) => {
+                        toggleCardExpansion(!cardExpanded)
+                    }} >
+                    <FontAwesomeIcon
+                        icon={faArrowDown}
+                    />
+                </Button>
             </div>
         </CompressedCard>
     );
@@ -119,20 +160,88 @@ export function MeetingCard(props: IProps) {
     if(cardExpanded) {
         card = (
             <ExpandedCard
-                onClick={(e) => { toggleCardExpansion(!cardExpanded) }}
+                onClick={() => { toggleCardExpansion(!cardExpanded) }}
                 className={cardType}
             >
                 <div className={"card-container-start-expanded"}>{upperCardContent}</div>
                 <div className={"card-container-end-expanded"}>
                     {cardStatus === "Completed" ? <FeedbackForm apptTutorId={appt.tutor_id} /> : <></>}
                     {cardTag}
+                    <Button
+                    color="none"
+                    onClick={(e) => {
+                    toggleCardExpansion(!cardExpanded)
+                    }} >
+                    <FontAwesomeIcon
+                    icon={faArrowUp}
+                    />
+                    </Button>
                 </div>
 
                 <hr style={{width: '100%', backgroundColor: 'black', margin: '0 0.5em'}}/>
 
-                <div className={"card-container-item"}>Client Notes:</div>
+                <div className={"card-container-item"}>
+                    {!appt.notes || appt.notes === "" ? ""
+                    : "Client Notes: "
+                    }
+                </div>
                 <div className={"break"}></div>
                 <div className={"client-notes"}>{appt.notes}</div>
+                <div className={"break"}></div>
+
+
+                { props.isTutor ?
+                <div>
+                <div className={"client-notes"}>
+                <Button
+                    color="danger"
+                    onClick={(e) => {
+                        setModalOpen(!modalOpen);
+                        e.stopPropagation();
+                    }}
+                    >
+                    Add Zoom/Webex meeting link
+                    </Button>
+                                <Modal isOpen={modalOpen}>
+                    <ModalHeader toggle={function noRefCheck(){}}>
+                    Add Tutoring Meeting Link
+                    </ModalHeader>
+                    <ModalBody>
+                    Link:
+                    <Input onChange={setMeetingLinkChange} value={meetingLink}>
+                    </Input>
+                    </ModalBody>
+                    <ModalFooter>
+                    <Button
+                        color={check ? "success": err ? "danger" : "primary"}
+
+                        onClick={updateMeetingLink}
+                    >
+                    {loading ? (<Spinner />)
+                        : check ? <FontAwesomeIcon icon={faCheck}/>
+                        : err ? <div>Error<FontAwesomeIcon icon={faTimes}/></div>
+                        : "Save"}
+                    </Button>
+                    {' '}
+                    <Button onClick={() => setModalOpen(!modalOpen)}>
+                        Cancel
+                    </Button>
+                    </ModalFooter>
+                </Modal>
+                </div>
+                </div>
+                : <div>{meetingLink === "" ? "" :
+                (<div>
+                    
+                    <div className={"card-container-item "}>
+                        Meeting Link:
+                    </div>
+                <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink}</a></div>
+                </div>)
+                }
+                </div>
+                }
+
             </ExpandedCard>
         );
     }
@@ -140,7 +249,19 @@ export function MeetingCard(props: IProps) {
     return <>{card}</>;
 }
 
+const grow = keyframes`
+ 0% { height: 75px; }
+ 100% { height: 200px; }
+`
+
+const shrink = keyframes`
+ 0% { height: 200px; }
+ 100% { height: 75px; }
+`
+
 const CompressedCard = styled.div`
+  animation: ${shrink} 0.1s ease-out;
+
   width: 100%;
   height: 75px;
 
@@ -160,8 +281,10 @@ const CompressedCard = styled.div`
 `;
 
 const ExpandedCard = styled.div`
+  animation: ${grow} 0.1s ease-out;
+  
   width: 100%;
-  min-height: 200px;
+  //min-height: 200px;
 
   margin: 15px 0;
 
