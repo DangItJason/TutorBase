@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { api } from "../../services/api";
 import { Name } from "../../services/api.types";
@@ -7,6 +7,8 @@ import { actions as clientDataActions } from "../../store/ClientData/slice";
 import { Container, Row, ListGroup, ListGroupItem, Modal, ModalHeader, ModalBody, InputGroup, Input, ModalFooter, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import imageCompression from "browser-image-compression";
+import Avatar from "react-avatar-edit";
 import "./ClientSettings.css";
 import defaultUser from "../../assets/default_user.png";
 
@@ -24,14 +26,17 @@ export const ClientSettings = () => {
         last_name: ""
     }); 
     
-    let [tempImg, setTempImg] = useState<string>("");
+    let [croppedImg, setCroppedImg] = useState<string>("");
     let [clientImg, setClientImg] = useState<string>("");
 
     let dispatch = useDispatch();
+    
     let reader = new FileReader();
-    reader.onload = () => {
-        if(reader.result)
-            setTempImg(reader.result.toString());
+    reader.onload = async () => {
+        if(reader.result) {
+            let res: string = reader.result.toString();
+            handleImageSave(res);
+        }
     };
 
     const saveNameChange = async () => {
@@ -43,10 +48,34 @@ export const ClientSettings = () => {
         setNameModalOpen(false);
     }
 
+    const handleImageSave = async (img: string) => {
+        await api.SetClientProfileImage(img, clientData.clientId);
+        setClientImg(img);
+        dispatch(clientDataActions.setProfileImage(img));
+    }
+
     const saveImgChange = async () => {
-        await api.SetClientProfileImage(tempImg, clientData.clientId);
-        setClientImg(tempImg);
-        dispatch(clientDataActions.setProfileImage(tempImg));
+        // For now, store as a base-64 string
+        // In the future, we would like to upload this to an external object/file storage instead
+        if(croppedImg.toString() !== "") {
+            const options = {
+                maxSizeMB: 1,
+                maxWidthOrHeight: 250,
+                useWebWorker: true
+            };
+
+            fetch(croppedImg)
+                .then(res => res.blob())
+                .then(blob => {
+                const file = new File([blob], "File name", { type: "image/jpg" });
+                imageCompression(file, options)
+                    .then((data: File) => reader.readAsDataURL(data))
+                    .catch((error: Error) => console.log(error.message));
+            });
+        } else {
+            handleImageSave(croppedImg);
+        }
+
         setImgModalOpen(false);
     }
 
@@ -56,15 +85,8 @@ export const ClientSettings = () => {
     }
 
     const cancelImgChange = () => {
-        setTempImg(clientImg);
+        setCroppedImg("");
         setImgModalOpen(false);
-    }
-
-    const onImgChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if(event.target.files && event.target.files.length > 0) {
-            let image: File = event.target.files[0];
-			reader.readAsDataURL(image);
-        }
     }
 
     useEffect(() => {
@@ -75,7 +97,6 @@ export const ClientSettings = () => {
         getUser().then(value => {
             setTempName({first_name: value[0].first_name, last_name: value[0].last_name});
             setClientName({first_name: value[0].first_name, last_name: value[0].last_name});
-            setTempImg(value[0].profile_img);
             setClientImg(value[0].profile_img);
             dispatch(clientDataActions.setFirstName(value[0].first_name));
             dispatch(clientDataActions.setLastName(value[0].last_name));
@@ -95,7 +116,7 @@ export const ClientSettings = () => {
                 <ListGroup>
 
                     <ListGroupItem className="img-item">
-                        <img src={defaultUser} width="200px"/>
+                        <img src={clientImg === ""  ? defaultUser : clientImg} width="200px"/>
                         <a href="#" className="modal-link" onClick={() => setImgModalOpen(true)}>
                             <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                         </a>
@@ -104,10 +125,16 @@ export const ClientSettings = () => {
                             <ModalBody>
                                 Change your profile photo here.
                                 <hr/>
-                                <InputGroup>
-                                    Upload Image:<Input id="profile-img" type="file" accept="image/*" onChange={(e) => {onImgChange(e)}} />
-                                    {tempImg === "" ? <></> : <img className="upload-img" src={tempImg} />}
-                                </InputGroup>
+                                <Avatar
+                                    width={250}
+                                    height={250}
+                                    cropColor="#E66064"
+                                    closeIconColor="#E66064"
+                                    onCrop={(img) => setCroppedImg(img)}
+                                    onClose={() => {setCroppedImg("")}}
+                                    onBeforeFileLoad={() => {}}
+                                    src={clientImg === "" ? defaultUser : clientImg}
+                                />
                             </ModalBody>
                             <ModalFooter>
                                 <Button className="btn-red" onClick={() => {saveImgChange()}}>Save</Button>

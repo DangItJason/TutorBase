@@ -24,8 +24,8 @@
 .img-item a {
     float: left;
     position: absolute;
-    left: 70%;
-    top: 80%;
+    left: 72%;
+    top: 82%;
 }
 
 .modal-link {
@@ -40,10 +40,8 @@
 
 .upload-img {
     padding-top: 5px;
-    min-width: 200px;
-    min-height: 200px;
-    max-width: 300px;
-    max-height: 300px;
+    height: 250px;
+    width: 250px;
     width: auto;
     height: auto;
 }
