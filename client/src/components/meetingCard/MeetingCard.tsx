@@ -55,6 +55,18 @@ export function MeetingCard(props: IProps) {
     }
     let [tutorFirstName, setTutorFirstName] = useState("");
     let [tutorLastName, setTutorLastName] = useState("");
+    let [clientData, setClientData] = useState<User>({
+        _id: "",
+        profile_img: "",
+        phone: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+    });
+
+    const confirmAppt = async () => {
+        await api.ConfirmAppointment(appt.appt_id);
+    }
 
     useEffect(() => {
         const getTutor = async () => {
@@ -96,7 +108,7 @@ export function MeetingCard(props: IProps) {
         cardTag = (
             <>
                 <div className={"card-icon"}>
-                    <Button color="success">
+                    <Button color="success" onClick={() => confirmAppt()}>
                         <FontAwesomeIcon icon={faCheck} />
                     </Button>
                 </div>
