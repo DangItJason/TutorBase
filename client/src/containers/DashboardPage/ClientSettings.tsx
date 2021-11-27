@@ -7,13 +7,15 @@ import { actions as clientDataActions } from "../../store/ClientData/slice";
 import { Container, Row, ListGroup, ListGroupItem, Modal, ModalHeader, ModalBody, InputGroup, Input, ModalFooter, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import imageCompression from "browser-image-compression";
 import Avatar from "react-avatar-edit";
 import "./ClientSettings.css";
 import defaultUser from "../../assets/default_user.png";
+import { CompressAndSaveImg } from "../../services/tools";
 
 export const ClientSettings = () => {
     let clientData = useSelector(selectClientData);
+    let dispatch = useDispatch();
+
     let [nameModalOpen, setNameModalOpen] = useState<boolean>(false);
     let [imgModalOpen, setImgModalOpen] = useState<boolean>(false);
     
@@ -25,19 +27,8 @@ export const ClientSettings = () => {
         first_name: "",
         last_name: ""
     }); 
-    
     let [croppedImg, setCroppedImg] = useState<string>("");
     let [clientImg, setClientImg] = useState<string>("");
-
-    let dispatch = useDispatch();
-    
-    let reader = new FileReader();
-    reader.onload = async () => {
-        if(reader.result) {
-            let res: string = reader.result.toString();
-            handleImageSave(res);
-        }
-    };
 
     const saveNameChange = async () => {
         let name: Name = {first_name: tempName.first_name, last_name: tempName.last_name};
@@ -55,23 +46,8 @@ export const ClientSettings = () => {
     }
 
     const saveImgChange = async () => {
-        // For now, store as a base-64 string
-        // In the future, we would like to upload this to an external object/file storage instead
         if(croppedImg.toString() !== "") {
-            const options = {
-                maxSizeMB: 1,
-                maxWidthOrHeight: 250,
-                useWebWorker: true
-            };
-
-            fetch(croppedImg)
-                .then(res => res.blob())
-                .then(blob => {
-                const file = new File([blob], "File name", { type: "image/jpg" });
-                imageCompression(file, options)
-                    .then((data: File) => reader.readAsDataURL(data))
-                    .catch((error: Error) => console.log(error.message));
-            });
+            CompressAndSaveImg(croppedImg, clientData.first_name + clientData.last_name + "-photo", handleImageSave);
         } else {
             handleImageSave(croppedImg);
         }
