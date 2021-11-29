@@ -12,7 +12,6 @@ import {Tutor,Course,Appointment, TutorTimes, AppointmentsResponse, CoursesRespo
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
 import 'rc-time-picker/assets/index.css';
-const rambda = require('rambda');
 
 interface iSettingsProps {
 
@@ -130,8 +129,8 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
             obj_id: tutor._id,
             price: parseInt(tutor.price),
             temp_price: parseInt(tutor.price),
-            schedule:tutor.times,
-            temp_schedule:tutor.times,
+            schedule: R.clone(tutor.times),
+            temp_schedule: R.clone(tutor.times),
             first_name: tutor.first_name,
             temp_firstn: tutor.first_name,
             last_name: tutor.last_name,
@@ -143,7 +142,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
 
           
           })
-        });
+        }).catch(err=>console.log(err));
 
 
     
@@ -346,7 +345,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
 
     handleTimeBlockRemove = (index:number, block: any, e:React.FormEvent<HTMLElement>) => {
       e.preventDefault();
-      let sched:TutorTimes = rambda.clone(this.state.temp_schedule);
+      let sched:TutorTimes = R.clone(this.state.temp_schedule);
       this.extractTutorTimes(sched,this.state.schedule_tab).splice(index, 1);
       // Sort before setting new state
       this.setTutorTimes(sched,this.state.schedule_tab, this.extractTutorTimes(sched,this.state.schedule_tab).sort(function(a:number[], b:number[]) {return a[0] - b[0]}) ) 
@@ -355,8 +354,9 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
 
     handleScheduleBlockAdd = (e:React.FormEvent<HTMLElement>) => {
       e.preventDefault();
-      let added = rambda.clone(this.state.added_times);
-      added[this.state.schedule_tab].push([[moment().minute(0).format('HHmm')], [moment().minute(0).format('HHmm')]]);
+      let added = R.clone(this.state.added_times);
+      let addedTimes = this.extractTutorTimes(added,this.state.schedule_tab);
+      addedTimes.push([moment().unix()], [moment().unix()]);
       this.setState({ added_times: added });
     }
   
@@ -364,8 +364,8 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
   // interKey: which block within the given day
   // intraKey: which time (start=0, end=1) within the given block
   handleTempTimeChange = (interKey:number, intraKey:number, event: moment.Moment) => {
-    let sched = rambda.clone(this.state.added_times);
-    sched[this.state.schedule_tab][interKey][intraKey] = event.format('HHmm');
+    let sched = R.clone(this.state.added_times);
+    this.extractTutorTimes(sched,this.state.schedule_tab)[interKey][intraKey] = event.unix();
     this.setState({ added_times: sched });
   }
 
@@ -387,13 +387,14 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
   
 
   handleTempTimeAdd = (index:number, event:React.FormEvent<HTMLButtonElement>) => {
-    let added = rambda.clone(this.state.added_times);
-    let newBlock = [parseInt(added[this.state.schedule_tab][index][0], 10), parseInt(added[this.state.schedule_tab][index][1], 10)];
+    let added = R.clone(this.state.added_times);
+    let addedTimes = this.extractTutorTimes(added,this.state.schedule_tab)
+    let newBlock = [addedTimes[index][0], addedTimes[index][1]];
     if (newBlock[0] === newBlock[1])
       this.setState({ add_time_err: true, add_time_err_msg: "Start and end times must be different." });
     else if (newBlock[0] >= newBlock[1])
       this.setState({ add_time_err: true, add_time_err_msg: "Start time must be after end time." });
-    else if (rambda.includes(newBlock, this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab) ))
+    else if (R.includes(newBlock, this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab) ))
       this.setState({ add_time_err: true, add_time_err_msg: "Time block is already added." });
     else {
       let timeIncl = false;
@@ -412,31 +413,33 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
       if (timeIncl)
         this.setState({ add_time_err: true, add_time_err_msg: "Time block overlaps existing availability." });
       else {
-        let sched = rambda.clone(this.state.temp_schedule);
-        sched[this.state.schedule_tab].push(newBlock);
-        added[this.state.schedule_tab].splice(index, 1);
+        let sched = R.clone(this.state.temp_schedule);
+        let schedTimes= this.extractTutorTimes(sched,this.state.schedule_tab);
+        schedTimes.push(newBlock);
+        addedTimes.splice(index, 1);
         // Sort before setting new state
-        sched[this.state.schedule_tab] = sched[this.state.schedule_tab].sort(function(a, b) {return a[0] - b[0]});
+        schedTimes = schedTimes.sort((a:number[], b:number[]) => {return a[0] - b[0]});
         this.setState({ temp_schedule: sched, added_times: added, add_time_err: false });
       }
     }
   }
 
   handleTempTimeRemove = (index:number, event:React.FormEvent<HTMLElement>) => {
-    let sched = rambda.clone(this.state.added_times);
-    sched[this.state.schedule_tab].splice(index, 1);
+    let sched = R.clone(this.state.added_times);
+    let schedTimes= this.extractTutorTimes(sched,this.state.schedule_tab);
+    schedTimes.splice(index, 1);
     this.setState({ added_times: sched });
   }
 
   saveScheduleChange = (e:React.FormEvent<HTMLElement>) => {
-    let sched = rambda.clone(this.state.temp_schedule);
+    let sched = R.clone(this.state.temp_schedule);
     fetch("http://localhost:9000/api/tutors/tutor", {
       method: "PUT",
       body: JSON.stringify({userid: this.state.obj_id, times: sched}),
       headers: {"Content-Type": "application/json"}
     })
 
-    this.setState({ schedule: rambda.clone(this.state.temp_schedule), 
+    this.setState({ schedule: R.clone(this.state.temp_schedule), 
       added_times: {
         Sunday: [],
         Monday: [],
@@ -450,7 +453,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
   }
 
   cancelScheduleChange = (e:React.FormEvent<HTMLElement>) => {
-    this.setState({ temp_schedule: rambda.clone(this.state.schedule), 
+    this.setState({ temp_schedule: R.clone(this.state.schedule), 
       added_times: {
         Sunday: [],
         Monday: [],

@@ -10,6 +10,7 @@ import withAuth from "./components/authComponents/withAuth"
 import notAuth from "./components/authComponents/notAuth"
 
 function App() {
+    
     return (
         <ToastProvider
             placement="top-right"
@@ -21,9 +22,9 @@ function App() {
                     <Route exact path="/" component={landing} />
                     <Route exact path="/login" component={notAuth(LoginPage)} />
                     <Route exact path="/signup" component={notAuth(SignUpPage)} />
-                    <Route exact path="/home/:panelContent?" component={withAuth(ClientDashboard)} />
-                    <Route exact path="/tutor" component={withAuth(TutorDashboard)} />
-                    <Route
+                    <Route exact path="/home/:panelContent?" component={withAuth(<ClientDashboard/>)} />
+                    <Route exact path="/tutor/:panelContent?" component={withAuth(<TutorDashboard/>)} />
+                    {/* <Route
                         exact
                         path="/tutor/preferences"
                         render={(props) => withAuth(
@@ -36,10 +37,13 @@ function App() {
                     <Route
                         exact
                         path="/tutor/settings"
-                        render={(props) => withAuth(
-                            <TutorDashboard {...props} extension="settings" />
-                        )}
+                        component={withAuth(<TutorDashboard  extension="settings" />)}
                     />
+                    {
+                        /*                        render={(props) => withAuth(
+                            <TutorDashboard {...props} extension="settings" />
+                        )} */
+                    }
                     <Route
                         exact
                         path="/tutor/history"
@@ -67,7 +71,7 @@ function App() {
                         render={(props) => withAuth(
                             <TutorDashboard {...props} extension="schedule" />
                         )}
-                    />
+                    /> */}
                 </Switch>
             </Router>
         </ToastProvider >

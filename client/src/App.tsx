@@ -7,6 +7,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {LoginPage} from "./containers/LoginPage/LoginPage";
 
 function App() {
+    console.log('hello?')
     return (
         <BrowserRouter>
             <ToastProvider
@@ -28,6 +29,15 @@ function App() {
                         <Route exact path="/home" >
                             <ClientDashboard />
                         </Route>
+
+                                                {/* <Route*/}
+                        {/*    exact*/}
+                        {/*    path="/tutor/settings"*/}
+                        {/*    render={(props) => (*/}
+                        {/*        <TutorDashboard {...props} extension="settings"/>*/}
+                        {/*    )}*/}
+                        {/*/>*/}
+                        {/*<Route */}
                         {/*<Route exact path="/tutor" component={TutorDashboard}/>*/}
                         {/*<Route*/}
                         {/*    exact*/}

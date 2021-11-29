@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { Navbar, Button } from "reactstrap";
-import Settings from "../../../components/tutorComponents/settings";
+import Settings from "../../../components/tutorComponents/Settings";
 import Analytics from "../../../components/tutorComponents/data";
 import TutorDashboard from "./TutorDashboard";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,8 @@ export const Panel = (props: IProps) => {
 
     const params: IParams = useParams();
     const extension: string = params.panelContent;
-
+    console.log(extension)
+    console.log('hello')
     return (
         <div id="panel-wrapper">
             <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom", "shadow")}>

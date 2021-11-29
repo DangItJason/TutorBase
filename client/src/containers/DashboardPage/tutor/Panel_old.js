@@ -6,9 +6,10 @@ import Analytics from "../../../components/tutorComponents/data";
 import TutorDashboard from "./TutorDashboard";
 
 class Panel extends Component {
-
+    
 
     render() {
+        console.log('hello')
         return (
             <div id="panel-wrapper">
                 <Navbar className={classNames("navbar-expand-lg", "navbar-light", "bg-light", "border-bottom", "shadow")}>
