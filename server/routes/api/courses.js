@@ -83,7 +83,7 @@ router.get("/subject/:subject_id", (req, res) => {
  * @param {string} id - Express path
  */
 // GET api/courses/tutor/:id
-// Get course with a specific course id
+// Get course with a specific tutor id
 router.get("/tutor/:id", (req, res) => {
     console.log("Searching for courses that hold a specific tutor ID");
     Course.find({ tutors: req.params.id })

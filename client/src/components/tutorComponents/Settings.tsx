@@ -7,7 +7,8 @@ import Slider from 'react-rangeslider';
 import Autocomplete from 'react-autocomplete';
 import TimePicker from 'rc-time-picker';
 import moment from 'moment';
-import * as R from 'ramda';
+import Cookies from "js-cookie";
+import R from 'ramda';
 import {Tutor,Course,Appointment, TutorTimes, AppointmentsResponse, CoursesResponse, SubjectsResponse, TutorsResponse} from "../../services/api.types";
 import 'react-rangeslider/lib/index.css';
 import "./settings.css";
@@ -57,13 +58,14 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
 
     constructor(props: iSettingsProps) {
         super(props);
+        const userid = Cookies.get('userid');
         this.state = {
           first_name: "Jason",
           last_name: "Nguyen",
           temp_firstn: "",
           temp_lastn: "",
           email: "test2@gmail.com",
-          obj_id: "5f89d834aa18dfd7e932967d",
+          obj_id: userid !== undefined ? userid : "5f89d834aa18dfd7e932967d",
           profile_pic: "",
           description: "",
           temp_description: "",
@@ -118,19 +120,20 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
       }
 
     componentDidMount() {
-      fetch(`localhost:9000/api/tutors?email=${this.state.email}`,  {
+      fetch(`http://localhost:9000/api/tutors/${this.state.obj_id}`,  {
         method: "GET",
         headers: {"Content-Type": "application/json"},
       }).then(res => {
          console.log(res);
           return res.json()
-        }).then( (tutor: Tutor)  => {
+        }).then( (tutorArray: Tutor[])  => {
+          const tutor = tutorArray[0];
+          
           this.setState({ 
-            obj_id: tutor._id,
             price: parseInt(tutor.price),
             temp_price: parseInt(tutor.price),
             schedule: R.clone(tutor.times),
-            temp_schedule: R.clone(tutor.times),
+            temp_schedule:R.clone(tutor.times),
             first_name: tutor.first_name,
             temp_firstn: tutor.first_name,
             last_name: tutor.last_name,
@@ -155,6 +158,18 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
             }).then((courses:Course[]) => {
 
               this.setState({course_catalog: courses.map((course:Course) => course.name) })
+              
+            });
+
+          fetch(`http://localhost:9000/api/courses/tutor/${this.state.obj_id}`, {
+            method: "GET",
+            headers: {"Content-Type": "application/json"}
+          }).then(res => {
+              console.log(res);
+              return res.json()
+            }).then((courses:Course[]) => {
+
+              this.setState({courses:courses.map((course:Course)=> course) });
               
             });
       
@@ -679,7 +694,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                     <span className="heading-item"><FontAwesomeIcon icon={faEdit} className="font-adj"/></span>
                   </a>
                   <ListGroup>
-                    {Object.values(this.state.schedule).map((time_blocks, i) => 
+                    {this.state.schedule && Object.values(this.state.schedule).map((time_blocks, i) => 
                       <span className="day-item" key={i}>{schedule_days[i].abbr}: {this.formatTimeList(time_blocks)}</span>
                     )}
                   </ListGroup>
@@ -711,13 +726,13 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                               : null }
                               <hr/>
                               <ListGroup>
-                                {this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab).map((block, i) => 
+                                {this.state.temp_schedule && this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab).map((block, i) => 
                                   <ListGroupItem className="body-text" key={i}>
                                     {this.formatTime(block)}
                                     <Button color="link" className="list-remove" onClick={() =>this.handleTimeBlockRemove.bind(this, i, block)}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
                                   </ListGroupItem>
                                 )}
-                                {Object.values( this.extractTutorTimes(this.state.added_times,this.state.schedule_tab) ).map((block, i) => 
+                                {this.state.added_times && Object.values( this.extractTutorTimes(this.state.added_times,this.state.schedule_tab) ).map((block, i) => 
                                   <Form key={i}>
                                     <ListGroupItem className="body-text">
                                       <InputGroup>
@@ -772,7 +787,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                     <hr/>
                     <ListGroup>
                       {this.state.courses.map((course, i) => 
-                        <ListGroupItem className="body-text" key={i}>{course}</ListGroupItem>
+                        <ListGroupItem className="body-text" key={i}>{course.name}</ListGroupItem>
                       )}
                     </ListGroup>
                     <Modal isOpen={this.state.courses_modal} fade={false} toggle={this.toggleCoursesModal} className="courses-modal">
