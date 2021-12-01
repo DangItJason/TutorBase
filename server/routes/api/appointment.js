@@ -34,7 +34,7 @@ const { promisify } = require('util')
 
 const randomBytesAsync = promisify(require('crypto').randomBytes)
 
-mongoose.set('useFindAndModify', false);
+//mongoose.set('useFindAndModify', false);
 
 /**
  * Route serving subjects form.

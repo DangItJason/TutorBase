@@ -32,6 +32,9 @@ const clientDataSlice = createSlice({
         },
         setLastName(state: ClientDataSlice, action: PayloadAction<string>){
             state.last_name = action.payload;
+        },
+        setProfileImage(state: ClientDataSlice, action: PayloadAction<string>){
+            state.profile_img = action.payload;
         }
     },
 });
