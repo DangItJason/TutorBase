@@ -55,14 +55,6 @@ export function MeetingCard(props: IProps) {
     }
     let [tutorFirstName, setTutorFirstName] = useState("");
     let [tutorLastName, setTutorLastName] = useState("");
-    let [clientData, setClientData] = useState<User>({
-        _id: "",
-        profile_img: "",
-        phone: "",
-        email: "",
-        first_name: "",
-        last_name: "",
-    });
 
     const confirmAppt = async () => {
         await api.ConfirmAppointment(appt.appt_id);
