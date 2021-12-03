@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { Navbar, Button } from "reactstrap";
 import Settings from "../../components/tutorComponents/settings";
 import Analytics from "../../components/tutorComponents/data";
+import { TutorOverview } from "./TutorOverview";
 import { TutorHistory } from "./TutorHistory";
 import { Meetings } from "./Meetings";
 import Dashboard from "./Dashboard";
@@ -39,7 +40,7 @@ export const Panel = (props: IProps) => {
                 <Button variant="danger">Drop Course</Button>
 
             </div> */}
-            {extension === "schedule" ? <Settings></Settings> : null}
+            {extension === "overview" ? <TutorOverview></TutorOverview> : null}
             {extension === "meetings" ? <Meetings mode="Tutor"></Meetings> : null}
             {extension === "history" ? <TutorHistory></TutorHistory> : null}
             {extension === "analytics" ? <DataVisualization /> : null}

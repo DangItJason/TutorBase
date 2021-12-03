@@ -69,6 +69,27 @@ export function IsFutureDate(standard_time: String): boolean {
     return true;
 }
 
+// Gets the week that the provided day is a part of. Weeks are assumed to be Sunday - Saturday.
+// The return key is a day of the week (e.g. Sunday) and the value is the date (e.g. 10/10/2021)
+export function GetWeekMap(date: Date): Map<Number, Date> {
+    let weekMap = new Map<Number, Date>();
+    let day = date.getDay();
+    
+    for(let i = 0; i < 7; i++) {
+        let new_date = new Date();
+        if(i < day) {
+            new_date.setDate(date.getDate() - (day - i) - 1);
+        } else if(i === day) {
+            new_date = new Date(date);
+        } else {
+            new_date.setDate(date.getDate() + (i - day) - 1);
+        }
+        weekMap.set(i, new_date);
+    }
+
+    return weekMap;
+}
+
 // For now, store as a base-64 string
 // In the future, we would like to upload this to an external object/file storage instead
 export function CompressAndSaveImg(input: string, name: string, saveHandler: (img: string) => void): void {
