@@ -60,7 +60,7 @@ export const Panel = () => {
     }
 
     return (
-        <div id="panel-wrapper">
+        <div id="panel-wrapper" style={{width:'100vw'}}>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>TutorBase - Dashboard</title>
@@ -76,9 +76,9 @@ export const Panel = () => {
                 
             </Navbar>
 
-            <div className="container-fluid">
+            <div className="container-fluid" style={{maxWidth:'100vw'}}>
             {params === "schedule" && (
-                    <Container>
+                    <Container >
                         {renderSteps().map((component, index) => (
                             <React.Fragment key={index}>
                                 { component }
