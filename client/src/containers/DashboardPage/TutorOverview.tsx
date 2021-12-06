@@ -1,15 +1,101 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Appointment } from "../../services/api.types";
+import { api } from "../../services/api";
+import { selectTutorData } from "../../store/TutorData/selectors";
+import { actions as tutorDataActions } from "../../store/TutorData/slice";
 import { Container, Row, Col, Table, Tooltip } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
-import { BreakDownTime, GetWeekMap } from "../../services/tools";
+import { BreakDownTime } from "../../services/tools";
 import "./TutorOverview.css";
 
+export function UnconfirmedMeetingExists(appts: Array<Appointment>): boolean {
+    for(let i = 0; i < appts.length; i++) {
+        if(!appts[i].confirmed)
+            return true;
+    }
+    return false;
+}
+
+export function GetAppointmentsWithinRange(appts: Array<Appointment>, start_date: Date, end_date: Date): Array<Appointment> {
+    return appts.filter((appt) => {
+        let checkDate = new Date(appt.start_time);
+        return checkDate.getTime() >= start_date.getTime() && checkDate.getTime() <= end_date.getTime();
+    });
+}
+
+export function GetDailyAppointments(appts: Array<Appointment>, date: Date): Array<Appointment> {
+    let dayBegin = new Date();
+    let dayEnd = new Date();
+
+    dayBegin.setDate(date.getDate());
+    dayEnd.setDate(date.getDate());
+    dayBegin.setHours(0, 0, 0, 1);
+    dayEnd.setHours(23, 59, 59, 99);
+
+    return GetAppointmentsWithinRange(appts, dayBegin, dayEnd);
+}
+
+export function GetWeeklyAppointments(appts: Array<Appointment>, date: Date): Array<Appointment> {
+    let day = date.getDay();
+    let firstWeekDay = new Date();
+    let lastWeekDay = new Date();
+
+    firstWeekDay.setDate(date.getDate() - day);
+    firstWeekDay.setHours(0, 0, 0, 1);
+    lastWeekDay.setDate(date.getDate() + (7 - day) - 1);
+    lastWeekDay.setHours(23, 59, 59, 99);
+
+    return GetAppointmentsWithinRange(appts, firstWeekDay, lastWeekDay);
+}
+
+// Gets the week that the provided day is a part of. Weeks are assumed to be Sunday - Saturday.
+// The return key is a day of the week (e.g. Sunday) and the value is the date (e.g. 10/10/2021)
+export function GetWeekMap(date: Date): Map<Number, Date> {
+    let weekMap = new Map<Number, Date>();
+    let day = date.getDay();
+    
+    for(let i = 0; i < 7; i++) {
+        let new_date = new Date();
+        if(i < day) {
+            new_date.setDate(date.getDate() - (day - i) - 1);
+        } else if(i === day) {
+            new_date = new Date(date);
+        } else {
+            new_date.setDate(date.getDate() + (i - day) - 1);
+        }
+        weekMap.set(i, new_date);
+    }
+
+    return weekMap;
+}
+
 export const TutorOverview = () => {
+    let tutorData = useSelector(selectTutorData);
+    let dispatch = useDispatch();
+
+    // let [coursesModalOpened, setCoursesModalOpened] = useState<boolean>(false);
     let [tooltipsOpen, setTooltipsOpen] = useState<Array<boolean>>([false, false, false, false, false, false, false]);
+    // let [tempCourses, setTempCourses] = useState<Array<string>>([]);
+    // let [tutorCourses, setTutorCourses] = useState<Array<string>>([]);
+    let [weeklyAppointments, setWeeklyAppointments] = useState<Array<Appointment>>([]);
 
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    let currWeekMap = GetWeekMap(new Date());
+    let currDate = new Date();
+    let currWeekMap = GetWeekMap(currDate);
+
+    useEffect(() => {
+        const getTutorAppointments = async () => {
+            return (await api.GetTutorAppointments(tutorData.tutorId)).data;
+        }
+
+        getTutorAppointments().then(value => {
+                setWeeklyAppointments(GetWeeklyAppointments(value, currDate));
+                dispatch(tutorDataActions.setAppointment(value));
+            }
+        )
+    }, [tutorData.tutorId, dispatch]);
 
     return (
         <Container className="overview" fluid>
@@ -39,20 +125,24 @@ export const TutorOverview = () => {
                                     let date = currWeekMap.get(day);
                                     if(date != undefined) {
                                         let date_time = BreakDownTime(date.toISOString());
+                                        let daily_appointments = GetDailyAppointments(weeklyAppointments, date);
+                                        let unconfirmed = UnconfirmedMeetingExists(daily_appointments);
                                         return (
                                             <tr key={day}>
                                                 <td className="sched-date">{daysOfWeek[day]}, {date_time[0].split(",")[0]}</td>
-                                                <td>1 Meeting
+                                                <td>
+                                                    {daily_appointments.length} Meetings
+                                                    {unconfirmed ? 
                                                     <span className="sched-pending">
                                                         <FontAwesomeIcon id={"pending-icon-"+day} icon={faQuestionCircle}/>
                                                         <Tooltip placement="top" isOpen={tooltipsOpen[day]} target={"pending-icon-"+day} toggle={() => {
-                                                            let tooltipsOpenCopy = [false, false, false, false, false, false, false];
+                                                            let tooltipsOpenCopy = [...tooltipsOpen];
                                                             tooltipsOpenCopy[day] = !tooltipsOpen[day];
                                                             setTooltipsOpen(tooltipsOpenCopy); 
                                                         }}>
                                                             You have one or more unconfirmed meetings on this day.
                                                         </Tooltip>
-                                                    </span>
+                                                    </span> : <></>}
                                                 </td>
                                             </tr>
                                         );
