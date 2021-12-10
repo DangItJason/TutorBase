@@ -371,7 +371,8 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
       e.preventDefault();
       let added = R.clone(this.state.added_times);
       let addedTimes = this.extractTutorTimes(added,this.state.schedule_tab);
-      addedTimes.push([moment().unix()], [moment().unix()]);
+      addedTimes.push( [0, 0] )
+      console.log(added);
       this.setState({ added_times: added });
     }
   
@@ -380,7 +381,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
   // intraKey: which time (start=0, end=1) within the given block
   handleTempTimeChange = (interKey:number, intraKey:number, event: moment.Moment) => {
     let sched = R.clone(this.state.added_times);
-    this.extractTutorTimes(sched,this.state.schedule_tab)[interKey][intraKey] = event.unix();
+    this.extractTutorTimes(sched,this.state.schedule_tab)[interKey][intraKey] = parseInt(event.format('HHmm'))    ;
     this.setState({ added_times: sched });
   }
 
@@ -732,15 +733,16 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                                     <Button color="link" className="list-remove" onClick={() =>this.handleTimeBlockRemove.bind(this, i, block)}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
                                   </ListGroupItem>
                                 )}
-                                {this.state.added_times && Object.values( this.extractTutorTimes(this.state.added_times,this.state.schedule_tab) ).map((block, i) => 
+                                {this.state.added_times && Object.values( this.extractTutorTimes(this.state.added_times,this.state.schedule_tab) ).map((block:number[], i:number) => 
                                   <Form key={i}>
+                                    {console.log(block)}
                                     <ListGroupItem className="body-text">
                                       <InputGroup>
                                         <TimePicker
                                           showSecond={false}
-                                          value={moment(('0000' + block[0]).slice(-4), 'HHmm')}
+                                          value={moment(block[0].toString(), 'HHmm')}
                                           defaultValue={moment().hour(0).minute(0)}
-                                          onChange={this.handleTempTimeChange.bind(this, i, 0)}
+                                          onChange={(e) => {this.handleTempTimeChange( i, 0,e)} }
                                           format={'h:mm a'}
                                           minuteStep={this.state.meeting_interval}
                                           allowEmpty={false}
@@ -749,9 +751,9 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                                         />
                                         <TimePicker
                                           showSecond={false}
-                                          value={moment(('0000' + block[1]).slice(-4), 'HHmm')}
+                                          value={moment(block[1].toString(), 'HHmm')}
                                           defaultValue={moment().hour(0).minute(0)}
-                                          onChange={this.handleTempTimeChange.bind(this, i, 1)}
+                                          onChange={(e) => {this.handleTempTimeChange( i, 1,e)} }
                                           format={'h:mm a'}
                                           minuteStep={this.state.meeting_interval}
                                           allowEmpty={false}
