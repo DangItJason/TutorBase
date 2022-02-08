@@ -16,7 +16,7 @@ const Dashboard = (params: IParams) => {
     let sidebarToggled = useSelector(selectSidebarToggled);
     
     return (
-        <div className={classNames("d-flex", (sidebarToggled) ? "toggled" : "")} id="dashboard-wrapper">
+        <div className={classNames("d-flex", (sidebarToggled) ? "toggled" : "")} id="dashboard-wrapper" style={{maxWidth:'100vw'}}>
             <Sidebar mode={params.mode}/>
             {params.mode === "Tutor" ? <TutorPanel/> : <ClientPanel/>}
         </div>
