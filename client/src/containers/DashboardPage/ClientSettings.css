@@ -1,0 +1,51 @@
+.row {
+    text-align: center;
+    justify-content: center;
+}
+
+.heading-item {
+    font-size: 20px;
+}
+
+.list-group li {
+    padding-top: 30px;
+    background-color: transparent;
+    border: none;
+}
+
+.img-item {
+    position: relative;
+}
+
+.img-item img {
+    border-radius: 50%;
+}
+
+.img-item a {
+    float: left;
+    position: absolute;
+    left: 72%;
+    top: 82%;
+}
+
+.modal-link {
+    color: #212529;
+    transition: 0.25s;
+}
+
+.modal-link:hover {
+    color: #E66064;
+    transition: 0.25s;
+}
+
+.upload-img {
+    padding-top: 5px;
+    height: 250px;
+    width: 250px;
+    width: auto;
+    height: auto;
+}
+
+#first-name, #last-name {
+    margin-left: 5px;
+}

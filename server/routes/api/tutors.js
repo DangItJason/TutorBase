@@ -28,7 +28,7 @@ const Tutor = require('../../models/Tutor');
 // Middleware
 const withAuth = require('../../middleware/token_auth')
 
-mongoose.set('useFindAndModify', false);
+//mongoose.set('useFindAndModify', false);
 
 /**
  * Route serving tutor actions.

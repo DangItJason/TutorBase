@@ -43,7 +43,7 @@ const secret = require("../../config/secret");
 /*
 developer mode
 */
-const developer = true;
+const developer = process.env.NODE_ENV !== 'production';
 
 /**
  * Route serving login form.
@@ -70,8 +70,7 @@ router.get("/", (req, res, next) => {
       expiration.setUTCDate(expiration.getUTCDate() + 1);
       const expr_string = expiration.toUTCString()
       res.cookie('expiration', expr_string,  { maxAge: 86400000})
-      res.cookie('userid', '61a5a9bbc73a5d336d8d0b74' ,{ maxAge: 86400000} )
-      return res.redirect('http://localhost:3000/home');
+      return res.redirect('http://localhost:3000/home/schedule');
   }
   else{
     passport.authenticate('cas', function (err, user, info) {
@@ -103,8 +102,7 @@ router.get("/", (req, res, next) => {
         expiration.setUTCDate(expiration.getUTCDate() + 1);
         const expr_string = expiration.toUTCString()
         res.cookie('expiration', expr_string, { maxAge: 86400000})
-        res.cookie('userid',user._id,{ maxAge: 86400000} )
-        return res.redirect('http://localhost:3000/home');
+        return res.redirect('http://localhost:3000/home/schedule');
       });
 
     })(req, res, next);

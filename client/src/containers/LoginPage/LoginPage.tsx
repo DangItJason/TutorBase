@@ -38,7 +38,7 @@ export function LoginPage() {
                     //     pathname: "/home", //---Change path as desired.
                     //     email: this.state.email,
                     // });
-                    history.push("/home")
+                    history.push("/home/schedule")
                 } else if (data.message === "failure") {
                     console.log("failure");
                     console.log("Incorrect credentials");

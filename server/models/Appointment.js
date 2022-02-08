@@ -7,6 +7,12 @@ const AppointmentSchema = new Schema({
 
     start_time: {type: Date, required: true},
     end_time: {type: Number, required: true},
+    // END TIME SHOULD BE A DATE BUT ITS A NUMBER
+    // CHANING IT COULD BREAK THINGS
+    // IM NOT BRAVE ENOUGH TO DO SUCH
+    // SO IF YOU WANT TO BE BRAVE
+    // CHANGE IT FROM A NUMBER TO A DATE AND FIX THE ERRORS
+    // - NICK
 
     location: {type: String, required: true},
 
@@ -16,7 +22,9 @@ const AppointmentSchema = new Schema({
     price: {type: Number, required: true}, // Total price of session
     notes: String,
 
-    confirmed: {type: Boolean, default: false} // Accepted by tutor
+    confirmed: {type: Boolean, default: false}, // Accepted by tutor
+
+    link: {type: String, required: false}, // Link to zoom/webex
 });
 
 module.exports = Appointment = mongoose.model('Appointment', AppointmentSchema);

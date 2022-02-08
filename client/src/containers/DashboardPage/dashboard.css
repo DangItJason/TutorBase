@@ -17,8 +17,10 @@ body {
 #sidebar-wrapper {
     background-image: linear-gradient(180deg, #E66064 10%, #C93642 100%);
     background-size: cover;
+
     min-height: 100vh;
     margin-left: -15rem;
+
     -webkit-transition: margin .25s ease-out;
     -moz-transition: margin .25s ease-out;
     -o-transition: margin .25s ease-out;
@@ -68,7 +70,6 @@ body {
 }
 
 #panel-wrapper {
-    min-width: 100vw;
 }
 
 #dashboard-wrapper.toggled #sidebar-wrapper {

@@ -26,10 +26,16 @@ export interface TutorsResponse {
     data: Array<Tutor>;
 }
 
+export interface UserResponse {
+    data: Array<User>;
+}
+
 export interface AppointmentsResponse {
     data: Array<Appointment>;
 }
-
+export interface AppointmentsResponseWithData {
+    data: Array<IAppointmentEndpoint>;
+}
 export interface Tutor {
     _id: string;
     times: TutorTimes,
@@ -42,6 +48,20 @@ export interface Tutor {
     last_name: string,
 }
 
+export interface User {
+    _id: string,
+    profile_img: string;
+    phone: string,
+    email: string,
+    first_name: string,
+    last_name: string,
+}
+
+export interface Name {
+    first_name: string,
+    last_name: string
+}
+
 export interface Appointment {
     appt_id: string;
     course_id: string,
@@ -52,11 +72,35 @@ export interface Appointment {
     client_id: string, // User email (ID)
     price: string,
     notes: string,
-    confirmed: boolean
+    confirmed: boolean,
+    link?: string,
+}
+
+export interface IAppointmentEndpoint {
+    appt_id: string;
+    course_id: string;
+    start_time: string;
+    end_time: number;
+    location: string;
+    tutor_id: string;
+    client_id: string; // User email (ID)
+    price: number;
+    notes: string;
+    confirmed: boolean;
+    __v?: number;
+    _id?: string;
+    meetingLink?: string,
 }
 
 type Day = 'Sunday'| 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 export type TutorTimes = {
     [key in Day]:number[][];
 
+}
+
+export interface Feedback {
+    message: string,
+    rating: number,
+    clientId: string,
+    tutorId: string,
 }
