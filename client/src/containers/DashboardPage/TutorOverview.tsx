@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Appointment } from "../../services/api.types";
+import { Course, Appointment } from "../../services/api.types";
 import { api } from "../../services/api";
 import { selectTutorData } from "../../store/TutorData/selectors";
 import { actions as tutorDataActions } from "../../store/TutorData/slice";
@@ -80,6 +80,7 @@ export const TutorOverview = () => {
     // let [tempCourses, setTempCourses] = useState<Array<string>>([]);
     // let [tutorCourses, setTutorCourses] = useState<Array<string>>([]);
     let [weeklyAppointments, setWeeklyAppointments] = useState<Array<Appointment>>([]);
+    let [tutorCourses, setTutorCourses] = useState<Array<Course>>([]);
 
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let currDate = new Date();
@@ -93,6 +94,18 @@ export const TutorOverview = () => {
         getTutorAppointments().then(value => {
                 setWeeklyAppointments(GetWeeklyAppointments(value, currDate));
                 dispatch(tutorDataActions.setAppointment(value));
+            }
+        )
+    }, [tutorData.tutorId, dispatch]);
+
+    useEffect(() => {
+        const getTutorCourses = async () => {
+            return (await api.GetCoursesByTutorId(tutorData.tutorId)).data;
+        }
+
+        getTutorCourses().then(value => {
+                setTutorCourses(value);
+                dispatch(tutorDataActions.setCourses(value));
             }
         )
     }, [tutorData.tutorId, dispatch]);

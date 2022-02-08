@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {TutorDataSlice} from "./types";
-import {Appointment} from "../../services/api.types";
+import {Course, Appointment} from "../../services/api.types";
 
 export const initialState: TutorDataSlice = {
     tutorId: "606b344247aec641c8b74b42",
+    courses: [],
     appointments: [],
 };
 
@@ -11,6 +12,9 @@ const tutorDataSlice = createSlice({
     name: "tutorData",
     initialState,
     reducers: {
+        setCourses(state: TutorDataSlice, action: PayloadAction<Array<Course>>){
+            state.courses = action.payload;
+        },
         setAppointment(state: TutorDataSlice, action: PayloadAction<Array<Appointment>>){
             state.appointments = action.payload;
         },

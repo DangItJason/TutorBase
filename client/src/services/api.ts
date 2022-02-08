@@ -114,14 +114,14 @@ export class ApiService {
 
     public async GetCoursesByTutorId(id: String) {
         let url = this.coursesEndpoint + "tutor/" + id;
-        let response = await axios.get(url);
-        if(response.status != 200) return null;
         let courses: CoursesResponse = {data: []};
+        let response = await axios.get(url);
+        if(response.status != 200) return courses;
         courses.data = response.data;
         console.log("Courses", courses.data);
         return courses;
     }
-
+    
     public async CreateAppointment(appointment: Appointment) {
         let url = this.appointmentsEndpoint;
         let body = {
