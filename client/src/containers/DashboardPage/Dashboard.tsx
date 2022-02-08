@@ -7,6 +7,8 @@ import TutorPanel from "./TutorPanel";
 import ClientPanel from "./ClientPanel";
 import {useSelector} from 'react-redux'
 import {selectSidebarToggled} from "../../store/ClientFlowData/selectors";
+import { selectClientData } from "../../store/ClientData/selectors";
+import TutorPanelBlank from "./TutorPanelBlank";
 
 export interface IParams {
     mode: string; // tutor or client
@@ -14,11 +16,12 @@ export interface IParams {
 
 const Dashboard = (params: IParams) => {
     let sidebarToggled = useSelector(selectSidebarToggled);
+    let isClient = useSelector(selectClientData);
     
     return (
         <div className={classNames("d-flex", (sidebarToggled) ? "toggled" : "")} id="dashboard-wrapper" style={{maxWidth:'100vw'}}>
             <Sidebar mode={params.mode}/>
-            {params.mode === "Tutor" ? <TutorPanel/> : <ClientPanel/>}
+            {params.mode === "Tutor" ? (isClient.isTutor ? <TutorPanel/> : <TutorPanelBlank />) : <ClientPanel/>}
         </div>
     );
 }
