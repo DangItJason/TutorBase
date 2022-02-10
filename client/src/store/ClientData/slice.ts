@@ -5,7 +5,7 @@ import {Appointment} from "../../services/api.types";
 /* clientData slice is the storage medium for
    everything to do with client user data */
 export const initialState: ClientDataSlice = {
-    clientId: "606b344247aec641c8b74b42",
+    clientId: "6070beb7dad06e015b73a107",
     appointments: [],
     profile_img: "",
     phone: "",
