@@ -21,7 +21,6 @@ export const Panel = () => {
     let sidebarToggled = useSelector(selectSidebarToggled);
     let clientFlowData = useSelector(selectClientFlowData);
     let steps = ["Subject", "Class", "Tutor", "Time", "Notes"];
-
     let params : string = useLocation().pathname;
     params = params.split('/')[2];
 

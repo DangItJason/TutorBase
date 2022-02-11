@@ -42,6 +42,7 @@ const withAuth = require('../../middleware/token_auth')
 // GET /api/tutors
 // Get all tutors
 router.get("/", withAuth, (req, res) => {
+    console.log("wev")
     Tutor.find()
         .sort({ name: 1 })
         .then((tutors) => res.json(tutors))

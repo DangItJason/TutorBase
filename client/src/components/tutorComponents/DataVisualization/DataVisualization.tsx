@@ -9,6 +9,8 @@ import HoursLine, { LineGraph } from "./components/LineGraph";
 import { api } from "../../../services/api";
 import { IAppointmentEndpoint } from "../../../services/api.types";
 import { JsxElement } from "typescript";
+import { useSelector } from "react-redux";
+import { selectClientData } from "../../../store/ClientData/selectors";
 
 function getNow() {
   let currentYear:Date = new Date();
@@ -30,8 +32,8 @@ async function GetTutoringHours(course:string): Promise<[Map<number,number>, Map
   let hrs = 0;
   let apts = 0;
   let earnings = 0;
-  
-  const value = await api.GetTutorAppointmentsWithData("6074736540e6e45a2dc36f08"); // When tutor store is set up get tutor id here
+  let tutorID = useSelector(selectClientData).clientId;
+  const value = await api.GetTutorAppointmentsWithData(tutorID);
     let appointmentsList:Array<IAppointmentEndpoint> = [];
     if (!value)
       console.error("Error Fetching Past Appointments.");
