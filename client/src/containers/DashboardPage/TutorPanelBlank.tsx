@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Navbar, Button } from "reactstrap";
+import { Navbar, Button, Container, Row } from "reactstrap";
 import Settings from "../../components/tutorComponents/settings";
 import Analytics from "../../components/tutorComponents/data";
 import { TutorHistory } from "./TutorHistory";
@@ -39,9 +39,24 @@ export const Panel = (props: IProps) => {
                 <Button variant="danger">Drop Course</Button>
 
             </div> */}
-            You are not currently signed up as a tutor. This dashboard is for tutors only.
-            <Button>Tutor Sign Up</Button>
+            <Container fluid className="background" style={{marginBottom:'10em'}}>
+        <hr></hr>
+        <Row xs="2" className="parent">
 
+        </Row>
+        <div style={{display:'flex', flexDirection:'column', flexWrap:'wrap', alignContent:'center'}}>
+            
+        <div style={{display:'flex', flexDirection:'row', flex:'1 1 0px', flexWrap:'wrap', justifyContent:'center', marginTop:'10em'}}>
+            <h5>You are not currently signed up as a tutor. This dashboard is for tutors only.
+            </h5></div>
+            
+            <div style={{display:'flex', flexDirection:'row', flex:'1 1 0px', flexWrap:'wrap', justifyContent:'center', marginTop:'1em'}}>
+            <Button className="btn-red" style={{height:'4em', width:'10em', borderRadius:'20em'}}>
+                Sign Up as Tutor
+                </Button>
+            </div>
+</div>
+</Container>
         </div>
     );
 }

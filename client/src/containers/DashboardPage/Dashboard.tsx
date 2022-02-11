@@ -20,7 +20,9 @@ const Dashboard = (params: IParams) => {
     
     return (
         <div className={classNames("d-flex", (sidebarToggled) ? "toggled" : "")} id="dashboard-wrapper" style={{maxWidth:'100vw'}}>
-            <Sidebar mode={params.mode}/>
+            <Sidebar 
+                mode={params.mode}
+                isTutor = {isClient.isTutor}/>
             {params.mode === "Tutor" ? (isClient.isTutor ? <TutorPanel/> : <TutorPanelBlank />) : <ClientPanel/>}
         </div>
     );
