@@ -47,12 +47,12 @@ export const Panel = (props: IProps) => {
         <div style={{display:'flex', flexDirection:'column', flexWrap:'wrap', alignContent:'center'}}>
             
         <div style={{display:'flex', flexDirection:'row', flex:'1 1 0px', flexWrap:'wrap', justifyContent:'center', marginTop:'10em'}}>
-            <h5>You are not currently signed up as a tutor. This dashboard is for tutors only.
+            <h5>You are not currently signed up as a tutor. This dashboard is for tutors only. You can apply to be a TutorBase tutor below!
             </h5></div>
             
             <div style={{display:'flex', flexDirection:'row', flex:'1 1 0px', flexWrap:'wrap', justifyContent:'center', marginTop:'1em'}}>
             <Button className="btn-red" style={{height:'4em', width:'10em', borderRadius:'20em'}}>
-                Sign Up as Tutor
+                Sign up as tutor
                 </Button>
             </div>
 </div>
