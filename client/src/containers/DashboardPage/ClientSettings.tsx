@@ -69,9 +69,6 @@ export const ClientSettings = () => {
         const getUser = async () => {
             return (await api.GetUserById(clientData.clientId)).data;
         }
-        const getTutor = async () => {
-            return (await api.GetTutorById(clientData.clientId)).data;
-        }
         getUser().then(value => {
             setTempName({first_name: value[0].first_name, last_name: value[0].last_name});
             setClientName({first_name: value[0].first_name, last_name: value[0].last_name});
@@ -80,9 +77,7 @@ export const ClientSettings = () => {
             dispatch(clientDataActions.setLastName(value[0].last_name));
             dispatch(clientDataActions.setProfileImage(value[0].profile_img));
         });
-        getTutor().then(value => {
-            dispatch(clientDataActions.setIsTutor((value !== null)));
-        });
+        
     }, [clientData.clientId, dispatch]);
 
     return (
