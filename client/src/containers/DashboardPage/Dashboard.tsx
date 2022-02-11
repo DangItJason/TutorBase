@@ -9,8 +9,10 @@ import { actions as clientDataActions } from "../../store/ClientData/slice";
 import { selectClientData } from "../../store/ClientData/selectors";
 import {useDispatch, useSelector} from 'react-redux'
 import {selectSidebarToggled} from "../../store/ClientFlowData/selectors";
-import TutorPanelBlank from "./TutorPanelBlank";
+import TutorPanelBlank from "./TutorPanelSignup";
 import { api } from "../../services/api";
+import { Spinner } from "reactstrap";
+import TutorPanelSignup from "./TutorPanelSignup";
 
 export interface IParams {
     mode: string; // tutor or client
@@ -20,6 +22,7 @@ const Dashboard = (params: IParams) => {
     let dispatch = useDispatch();
     let sidebarToggled = useSelector(selectSidebarToggled);
     let clientData = useSelector(selectClientData);
+    const [loading, setLoading] = useState(true);
     const [isTutor, setIsTutor] = useState(false);
     useEffect(() => {
         const getTutor = async () => {
@@ -28,6 +31,8 @@ const Dashboard = (params: IParams) => {
         getTutor().then(value => {
             setIsTutor(value !== null);
             dispatch(clientDataActions.setIsTutor((value !== null)));
+            
+        setLoading(false);
         });
     });
     return (
@@ -35,7 +40,7 @@ const Dashboard = (params: IParams) => {
             <Sidebar 
                 mode={params.mode}
                 isTutor = {isTutor}/>
-            {params.mode === "Tutor" ? (isTutor ? <TutorPanel/> : <TutorPanelBlank />) : <ClientPanel/>}
+            {params.mode === "Tutor" ? (isTutor ? <TutorPanel/> : <TutorPanelSignup isLoading={loading}/>) : <ClientPanel/>}
         </div>
     );
 }

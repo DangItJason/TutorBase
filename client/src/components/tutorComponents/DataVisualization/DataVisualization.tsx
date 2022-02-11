@@ -20,7 +20,7 @@ function getNow() {
     currentYear.setMilliseconds(0);
     return currentYear;
 }
-async function GetTutoringHours(course:string): Promise<[Map<number,number>, Map<number,number>, number, number, number, Array<string>]> {
+async function GetTutoringHours(course:string, tutorID: string): Promise<[Map<number,number>, Map<number,number>, number, number, number, Array<string>]> {
   let meetingsMap : Map<number,number> = new Map<number,number>();
   let moneyMap : Map<number, number> = new Map<number, number>();
   let coursesSet : Set<string> = new Set<string>();
@@ -32,7 +32,6 @@ async function GetTutoringHours(course:string): Promise<[Map<number,number>, Map
   let hrs = 0;
   let apts = 0;
   let earnings = 0;
-  let tutorID = useSelector(selectClientData).clientId;
   const value = await api.GetTutorAppointmentsWithData(tutorID);
     let appointmentsList:Array<IAppointmentEndpoint> = [];
     if (!value)
@@ -90,8 +89,10 @@ export const DataVisualization = () => {
   const toggle = () => setDropdownOpen(prevState => !prevState);
   const toggle2 = () => setDropdownOpen2(prevState => !prevState);
   const toggle3 = () => setDropdownOpen3(prevState => !prevState);
+  let tutor = useSelector(selectClientData);
+  let tutorID = tutor.clientId;
   useEffect(() => {
-    GetTutoringHours(course).then( apiResult => {
+    GetTutoringHours(course, tutorID).then( apiResult => {
     setMeetingsMap(apiResult[0]);
     setEarningsMap(apiResult[1]);
     setAppointments(apiResult[3]);
@@ -106,7 +107,7 @@ export const DataVisualization = () => {
   let coursesDropdowns:Array<ReactElement> = [];
   coursesDropdowns.push(<DropdownItem onClick={() => {
     setCourse("All Courses");
-    GetTutoringHours("All Courses").then( apiResult => {
+    GetTutoringHours("All Courses", tutorID).then( apiResult => {
       setMeetingsMap(apiResult[0]);
       setEarningsMap(apiResult[1]);
       setAppointments(apiResult[3]);
@@ -120,7 +121,7 @@ export const DataVisualization = () => {
   for (let i = 0; i < courses.length; i++) {
     coursesDropdowns.push(<DropdownItem onClick={() => {
       setCourse(courses[i]);
-      GetTutoringHours(courses[i]).then( apiResult => {
+      GetTutoringHours(courses[i], tutorID).then( apiResult => {
         setMeetingsMap(apiResult[0]);
         setEarningsMap(apiResult[1]);
         setAppointments(apiResult[3]);

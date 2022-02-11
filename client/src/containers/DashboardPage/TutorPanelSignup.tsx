@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Navbar, Button, Container, Row } from "reactstrap";
+import { Navbar, Button, Container, Row, Spinner } from "reactstrap";
 import Settings from "../../components/tutorComponents/settings";
 import Analytics from "../../components/tutorComponents/data";
 import { TutorHistory } from "./TutorHistory";
@@ -12,7 +12,9 @@ import { actions } from "../../store/ClientFlowData/slice";
 import { useLocation, useParams } from "react-router-dom";
 import DataVisualization from "../../components/tutorComponents/DataVisualization/DataVisualization";
 
-interface IProps {}
+interface IProps {
+    isLoading: boolean;
+}
 
 export const Panel = (props: IProps) => {
     let dispatch = useDispatch();
@@ -45,7 +47,10 @@ export const Panel = (props: IProps) => {
 
         </Row>
         <div style={{display:'flex', flexDirection:'column', flexWrap:'wrap', alignContent:'center'}}>
-            
+        {props.isLoading ? (<div style={{display:'flex', flexDirection:'row', flex:'1 1 0px', flexWrap:'wrap', justifyContent:'center', marginTop:'10em'}}>
+        <Spinner style={{color:'#E66064'}}></Spinner></div>) 
+        : (
+            <div>
         <div style={{display:'flex', flexDirection:'row', flex:'1 1 0px', flexWrap:'wrap', justifyContent:'center', marginTop:'10em'}}>
             <h5>You are not currently signed up as a tutor. This dashboard is for tutors only. You can apply to be a TutorBase tutor below!
             </h5></div>
@@ -55,6 +60,7 @@ export const Panel = (props: IProps) => {
                 Sign up as tutor
                 </Button>
             </div>
+            </div>)}
 </div>
 </Container>
         </div>
