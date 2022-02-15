@@ -26,7 +26,7 @@ const Dashboard = (params: IParams) => {
     const [isTutor, setIsTutor] = useState(false);
     useEffect(() => {
         const getTutor = async () => {
-            return (await api.GetTutorById(clientData.clientId)).data;
+            return null; //(await api.GetTutorById(clientData.clientId)).data;
         }
         getTutor().then(value => {
             setIsTutor(value !== null);
