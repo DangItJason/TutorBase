@@ -123,9 +123,23 @@ export const TutorOverview = () => {
                     <Row className="title" style={{ marginTop: '25px'}}>
                         <h2>Courses</h2>
                     </Row>
-                    <Row>
-
-                    </Row>
+                    <Container className="table-container">
+                        <Table className="table-striped">
+                            <tbody>
+                                {tutorCourses.map((course, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td className="td-bold">{course.name}</td>
+                                            </tr>
+                                        );
+                                    }
+                                )}
+                                {tutorCourses.length > 0 ? <></> :
+                                    <h6>No courses found!<br/>Change which courses you plan to tutor from the Settings page.</h6>
+                                }
+                            </tbody>
+                        </Table>
+                    </Container>
                 </Col>
                 <Col className="weekly-sched-col" md={6}>
                     <Row className="title" style={{ marginTop: '25px'}}>
@@ -142,7 +156,7 @@ export const TutorOverview = () => {
                                         let unconfirmed = UnconfirmedMeetingExists(daily_appointments);
                                         return (
                                             <tr key={day}>
-                                                <td className="sched-date">{daysOfWeek[day]}, {date_time[0].split(",")[0]}</td>
+                                                <td className="td-bold">{daysOfWeek[day]}, {date_time[0].split(",")[0]}</td>
                                                 <td>
                                                     {daily_appointments.length} Meetings
                                                     {unconfirmed ? 
