@@ -65,9 +65,9 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
           temp_firstn: "",
           temp_lastn: "",
           email: "test2@gmail.com",
-          obj_id: userid !== undefined ? userid : "5f89d834aa18dfd7e932967d",
+          obj_id: userid !== undefined ? userid : "61a5a9bbc73a5d336d8d0b74",
           profile_pic: "",
-          description: "",
+          description: "Typescript port",
           temp_description: "",
           price: 55,
           temp_price: 55,
@@ -124,7 +124,6 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
         method: "GET",
         headers: {"Content-Type": "application/json"},
       }).then(res => {
-         console.log(res);
           return res.json()
         }).then( (tutorArray: Tutor[])  => {
           const tutor = tutorArray[0];
@@ -410,8 +409,8 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
       this.setState({ add_time_err: true, add_time_err_msg: "Start and end times must be different." });
     else if (newBlock[0] >= newBlock[1])
       this.setState({ add_time_err: true, add_time_err_msg: "Start time must be after end time." });
-    else if (R.includes(newBlock, this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab) ))
-      this.setState({ add_time_err: true, add_time_err_msg: "Time block is already added." });
+    // else if (R.includes(newBlock, this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab) ))
+    //   this.setState({ add_time_err: true, add_time_err_msg: "Time block is already added." });
     else {
       let timeIncl = false;
       for (let i = 0; i < this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab).length; i++) {
@@ -450,6 +449,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
   saveScheduleChange = (e:React.FormEvent<HTMLElement>) => {
     let sched = R.clone(this.state.temp_schedule);
     fetch("http://localhost:9000/api/tutors/tutor", {
+      credentials: 'include',
       method: "PUT",
       body: JSON.stringify({userid: this.state.obj_id, times: sched}),
       headers: {"Content-Type": "application/json"}
@@ -564,7 +564,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
     let mins:any = time % 100;
     let hrs:any =  (time-mins) / 100;
     let meridiem = hrs >= 12 ? "PM" : "AM";
-    mins = mins === 0 ? "00" : mins.tostring();
+    mins = mins === 0 ? "00" : mins.toString();
     hrs = hrs > 12 ? (hrs-12).toString() : hrs.toString();
     return hrs + ":" + mins + meridiem;    
   }
@@ -735,12 +735,12 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                                 )}
                                 {this.state.added_times && Object.values( this.extractTutorTimes(this.state.added_times,this.state.schedule_tab) ).map((block:number[], i:number) => 
                                   <Form key={i}>
-                                    {console.log(block)}
+                               
                                     <ListGroupItem className="body-text">
                                       <InputGroup>
                                         <TimePicker
                                           showSecond={false}
-                                          value={moment(block[0].toString(), 'HHmm')}
+                                          value={moment(block[0].toString().padStart(4,'0'), 'HHmm')}
                                           defaultValue={moment().hour(0).minute(0)}
                                           onChange={(e) => {this.handleTempTimeChange( i, 0,e)} }
                                           format={'h:mm a'}
@@ -751,7 +751,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                                         />
                                         <TimePicker
                                           showSecond={false}
-                                          value={moment(block[1].toString(), 'HHmm')}
+                                          value={moment(block[1].toString().padStart(4,'0'), 'HHmm')}
                                           defaultValue={moment().hour(0).minute(0)}
                                           onChange={(e) => {this.handleTempTimeChange( i, 1,e)} }
                                           format={'h:mm a'}

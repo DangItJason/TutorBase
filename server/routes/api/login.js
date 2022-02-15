@@ -65,7 +65,7 @@ router.get("/", (req, res, next) => {
       // });
 
       //MaxAge: 24 Hours
-      res.cookie("token", tok, { httpOnly: true, maxAge: 86400000, secure: true })
+      res.cookie("token", tok, {httpOnly: true, maxAge: 86400000 })
       const expiration = new Date();
       expiration.setUTCDate(expiration.getUTCDate() + 1);
       const expr_string = expiration.toUTCString()
