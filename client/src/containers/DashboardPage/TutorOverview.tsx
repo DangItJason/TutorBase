@@ -58,12 +58,15 @@ export function GetWeekMap(date: Date): Map<Number, Date> {
     
     for(let i = 0; i < 7; i++) {
         let new_date = new Date();
-        if(i < day) {
-            new_date.setDate(date.getDate() - (day - i) - 1);
+        if(i < day + 1) {
+        // if(i < day + 1) {
+            // new_date.setDate(date.getDate() - (day - i) - 1);
+            new_date.setDate(date.getDate() - (day - i));
         } else if(i === day) {
             new_date = new Date(date);
         } else {
-            new_date.setDate(date.getDate() + (i - day) - 1);
+            new_date.setDate(date.getDate() + (i - day));
+            // new_date.setDate(date.getDate() + (i - day) - 1);
         }
         weekMap.set(i, new_date);
     }
@@ -135,7 +138,7 @@ export const TutorOverview = () => {
                                     }
                                 )}
                                 {tutorCourses.length > 0 ? <></> :
-                                    <h6>No courses found!<br/>Change which courses you plan to tutor from the Settings page.</h6>
+                                    <tr><td className="td-bold">No courses found!<br/>Change which courses you plan to tutor from the Settings page.</td></tr>
                                 }
                             </tbody>
                         </Table>
