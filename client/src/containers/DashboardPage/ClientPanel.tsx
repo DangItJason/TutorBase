@@ -21,13 +21,12 @@ export const Panel = () => {
     let sidebarToggled = useSelector(selectSidebarToggled);
     let clientFlowData = useSelector(selectClientFlowData);
     let steps = ["Subject", "Class", "Tutor", "Time", "Notes"];
-
     let params : string = useLocation().pathname;
     params = params.split('/')[2];
 
     let body = <FormParent />;
     if (params === 'meetings') {
-        body = <Meetings />;
+        body = <Meetings mode="Client" />;
     } else if (params === 'history') {
         body = <ClientHistory />;
     } else if (params === 'settings') {
@@ -60,7 +59,7 @@ export const Panel = () => {
     }
 
     return (
-        <div id="panel-wrapper">
+        <div id="panel-wrapper" style={{width:'100vw'}}>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>TutorBase - Dashboard</title>
@@ -73,8 +72,12 @@ export const Panel = () => {
                     ☰
                 </Button>
 
-                {typeof params === "undefined" && (
-                    <Container>
+                
+            </Navbar>
+
+            <div className="container-fluid" style={{maxWidth:'100vw'}}>
+            {params === "schedule" && (
+                    <Container >
                         {renderSteps().map((component, index) => (
                             <React.Fragment key={index}>
                                 { component }
@@ -82,9 +85,7 @@ export const Panel = () => {
                         ))}
                     </Container>
                 )}
-            </Navbar>
-
-            <div className="container-fluid">{body}</div>
+                {body}</div>
         </div>
     );
 }

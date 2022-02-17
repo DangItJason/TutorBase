@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { Navbar, Button } from "reactstrap";
+import { Navbar, Button, Container, Row, Spinner } from "reactstrap";
 import Settings from "../../components/tutorComponents/settings";
 import Analytics from "../../components/tutorComponents/data";
 import { TutorHistory } from "./TutorHistory";
@@ -12,7 +12,9 @@ import { actions } from "../../store/ClientFlowData/slice";
 import { useLocation, useParams } from "react-router-dom";
 import DataVisualization from "../../components/tutorComponents/DataVisualization/DataVisualization";
 
-interface IProps {}
+interface IProps {
+    isLoading: boolean;
+}
 
 export const Panel = (props: IProps) => {
     let dispatch = useDispatch();
@@ -39,12 +41,28 @@ export const Panel = (props: IProps) => {
                 <Button variant="danger">Drop Course</Button>
 
             </div> */}
-            {extension === "schedule" ? <Settings></Settings> : null}
-            {extension === "meetings" ? <Meetings mode="Tutor"></Meetings> : null}
-            {extension === "history" ? <TutorHistory></TutorHistory> : null}
-            {extension === "analytics" ? <DataVisualization /> : null}
-            {extension === "settings" ? <Settings></Settings> : null}
+            <Container fluid className="background" style={{marginBottom:'10em'}}>
+        <hr></hr>
+        <Row xs="2" className="parent">
 
+        </Row>
+        <div style={{display:'flex', flexDirection:'column', flexWrap:'wrap', alignContent:'center'}}>
+        {props.isLoading ? (<div style={{display:'flex', flexDirection:'row', flex:'1 1 0px', flexWrap:'wrap', justifyContent:'center', marginTop:'10em'}}>
+        <Spinner style={{color:'#E66064'}}></Spinner></div>) 
+        : (
+            <div>
+        <div style={{display:'flex', flexDirection:'row', flex:'1 1 0px', flexWrap:'wrap', justifyContent:'center', marginTop:'10em'}}>
+            <h5>You are not currently signed up as a tutor. This dashboard is for tutors only. You can apply to be a TutorBase tutor below!
+            </h5></div>
+            
+            <div style={{display:'flex', flexDirection:'row', flex:'1 1 0px', flexWrap:'wrap', justifyContent:'center', marginTop:'1em'}}>
+            <Button className="btn-red" style={{height:'4em', width:'10em', borderRadius:'20em'}}>
+                Sign up as tutor
+                </Button>
+            </div>
+            </div>)}
+</div>
+</Container>
         </div>
     );
 }

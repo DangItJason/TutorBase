@@ -5,13 +5,14 @@ import {Appointment} from "../../services/api.types";
 /* clientData slice is the storage medium for
    everything to do with client user data */
 export const initialState: ClientDataSlice = {
-    clientId: "606b344247aec641c8b74b42",
+    clientId: "6070beb7dad06e015b73a107",
     appointments: [],
     profile_img: "",
     phone: "",
     email: "",
     first_name: "",
-    last_name: ""
+    last_name: "",
+    isTutor: false,
 };
 
 const clientDataSlice = createSlice({
@@ -32,6 +33,12 @@ const clientDataSlice = createSlice({
         },
         setLastName(state: ClientDataSlice, action: PayloadAction<string>){
             state.last_name = action.payload;
+        },
+        setProfileImage(state: ClientDataSlice, action: PayloadAction<string>){
+            state.profile_img = action.payload;
+        },
+        setIsTutor(state: ClientDataSlice, action: PayloadAction<boolean>){
+            state.isTutor = action.payload;
         }
     },
 });

@@ -70,7 +70,8 @@ export interface Appointment {
     client_id: string, // User email (ID)
     price: string,
     notes: string,
-    confirmed: boolean
+    confirmed: boolean,
+    link?: string,
 }
 
 export interface IAppointmentEndpoint {
@@ -86,6 +87,7 @@ export interface IAppointmentEndpoint {
     confirmed: boolean;
     __v?: number;
     _id?: string;
+    meetingLink?: string,
 }
 
 

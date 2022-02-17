@@ -28,7 +28,7 @@ const Tutor = require('../../models/Tutor');
 // Middleware
 const withAuth = require('../../middleware/token_auth')
 
-mongoose.set('useFindAndModify', false);
+//mongoose.set('useFindAndModify', false);
 
 /**
  * Route serving tutor actions.
@@ -42,6 +42,7 @@ mongoose.set('useFindAndModify', false);
 // GET /api/tutors
 // Get all tutors
 router.get("/", withAuth, (req, res) => {
+    console.log("wev")
     Tutor.find()
         .sort({ name: 1 })
         .then((tutors) => res.json(tutors))

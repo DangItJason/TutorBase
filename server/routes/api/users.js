@@ -128,7 +128,7 @@ router.post('/', async (req, res) => {
       sameSite: false,
     });
     
-    return res.json({ link: 'http://localhost:3000/home' });
+    return res.json({ link: 'http://localhost:3000/home/schedule' });
   });
 });
 

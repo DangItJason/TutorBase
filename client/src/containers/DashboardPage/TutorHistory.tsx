@@ -23,7 +23,7 @@ export const TutorHistory = () => {
 
     useEffect(() => {
         const getAppointments = async () => {
-            return (await api.GetTutorAppointments(tutorData.tutorId)).data;
+            return (await api.GetTutorAppointments(tutorData.tutorId)).data.reverse();
         }
 
         getAppointments().then(value => {

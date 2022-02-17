@@ -1,37 +1,15 @@
 
-.compressed-card {
-    display: flex;
-    /*align-items: flex-start;*/
-    width: 100%;
-    height: 75px;
-    border-radius: 0.28571429rem;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.075);
-    padding-top: 5px;
-    margin: 15px 0;
-    cursor: pointer;
-    color: black;
-}
-
 
 .expanded-card {
-    display: flex;
-    /*align-items: flex-start;*/
-    flex-wrap: wrap;
-    width: 100%;
-    min-height: 200px;
-    border-radius: 0.28571429rem;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.075);
-    margin: 15px 0;
-    cursor: pointer;
-    color: black;
+
 }
 
 .card-container-start {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
     padding-left: 20px;
-    width: 50%;
     font-size: 16px;
 }
 
@@ -46,21 +24,26 @@
 }
 
 .card-container-item {
+    width: 50%;
+    padding-left: 20px;
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 20px;
-    width: 50%;
+
     font-size: 16px;
+    font-weight: bold;
 }
 
 .card-container-end {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
     padding-right: 20px;
-    width: 50%;
-    font-size: 16px;
+    font-size: clamp(12px, 2vw, 18px);
+
     font-weight: bold;
 }
 
@@ -85,41 +68,61 @@
     justify-content: flex-start;
     align-items: center;
     padding-left: 20px;
-    padding-bottom: 150px;
-    width: 50%;
+    padding-bottom: 20px;
+    width: 75%;
     font-size: 16px;
 }
 
 .card-location {
     display: flex;
-    justify-content: flex-start;
-    width: 18%;
+    justify-content: center;
+    align-items: center;
+
+    margin: 5px;
+
+    font-size: clamp(12px, 2vw, 16px);
+
+    line-height: 2;
 }
 
 .card-time {
     display: flex;
-    justify-content: flex-start;
-    width: 35%;
+    justify-content: center;
+    align-items: center;
+
+    margin: 5px;
+
+    font-size: clamp(12px, 2vw, 16px);
+
+    line-height: 2;
 }
 
 .card-name {
     display: flex;
-    justify-content: flex-start;
-    width: 25%;
+    justify-content: center;
+    align-items: center;
+
+    margin: 5px;
+
+    font-size: clamp(12px, 2vw, 16px);
+
+    line-height: 2;
 }
 
 .card-icon {
     display: flex;
     justify-content: flex-end;
+
+    font-size: clamp(12px, 2vw, 16px);
+
     padding-right: 20px;
     margin-right: 10px;
-    width: 5%;
 }
 
 .card-status {
     display: flex;
     justify-content: flex-start;
-    width: 15%;
+    font-size: clamp(12px, 2vw, 18px);
 }
 
 .completed-card {
