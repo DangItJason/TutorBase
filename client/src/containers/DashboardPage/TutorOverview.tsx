@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Course, Appointment } from "../../services/api.types";
 import { api } from "../../services/api";
@@ -78,15 +78,12 @@ export const TutorOverview = () => {
     let tutorData = useSelector(selectTutorData);
     let dispatch = useDispatch();
 
-    // let [coursesModalOpened, setCoursesModalOpened] = useState<boolean>(false);
     let [tooltipsOpen, setTooltipsOpen] = useState<Array<boolean>>([false, false, false, false, false, false, false]);
-    // let [tempCourses, setTempCourses] = useState<Array<string>>([]);
-    // let [tutorCourses, setTutorCourses] = useState<Array<string>>([]);
     let [weeklyAppointments, setWeeklyAppointments] = useState<Array<Appointment>>([]);
     let [tutorCourses, setTutorCourses] = useState<Array<Course>>([]);
 
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    let currDate = new Date();
+    let currDate = useMemo(() => {return new Date()}, [])
     let currWeekMap = GetWeekMap(currDate);
 
     useEffect(() => {
@@ -99,7 +96,7 @@ export const TutorOverview = () => {
                 dispatch(tutorDataActions.setAppointment(value));
             }
         )
-    }, [tutorData.tutorId, dispatch]);
+    }, [currDate, tutorData.tutorId, dispatch]);
 
     useEffect(() => {
         const getTutorCourses = async () => {
@@ -153,7 +150,7 @@ export const TutorOverview = () => {
                             <tbody>
                                 {Array.from(Array(7).keys()).map(day => {
                                     let date = currWeekMap.get(day);
-                                    if(date != undefined) {
+                                    if(date !== undefined) {
                                         let date_time = BreakDownTime(date.toISOString());
                                         let daily_appointments = GetDailyAppointments(weeklyAppointments, date);
                                         let unconfirmed = UnconfirmedMeetingExists(daily_appointments);
@@ -161,7 +158,7 @@ export const TutorOverview = () => {
                                             <tr key={day}>
                                                 <td className="td-bold">{daysOfWeek[day]}, {date_time[0].split(",")[0]}</td>
                                                 <td>
-                                                    {daily_appointments.length} Meetings
+                                                    {daily_appointments.length > 0 ? daily_appointments.length : "No"} Meetings
                                                     {unconfirmed ? 
                                                     <span className="sched-pending">
                                                         <FontAwesomeIcon id={"pending-icon-"+day} icon={faQuestionCircle}/>
@@ -176,6 +173,8 @@ export const TutorOverview = () => {
                                                 </td>
                                             </tr>
                                         );
+                                    } else {
+                                        return <></>;
                                     }
                                 })}
                             </tbody>
