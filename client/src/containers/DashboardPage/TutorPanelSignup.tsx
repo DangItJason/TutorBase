@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import classNames from "classnames";
-import { Navbar, Button, Container, Row, Spinner, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup } from "reactstrap";
+import { Navbar, Button, Container, Row, Spinner, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup, Badge } from "reactstrap";
 import Settings from "../../components/tutorComponents/settings";
 import Analytics from "../../components/tutorComponents/data";
 import { TutorHistory } from "./TutorHistory";
@@ -14,18 +14,26 @@ import DataVisualization from "../../components/tutorComponents/DataVisualizatio
 import { Subject } from '../../services/api.types'
 import { api } from "../../services/api";
 import { SubjectToColor } from "../../services/tools";
+import { cp } from "fs";
 interface IProps {
     isLoading: boolean;
 }
 
+export function SelectedSubjectsHandler(selectedSubjects:Set<string>, subName:string) : Set<string> {
 
+    selectedSubjects.has(subName)
+                    ? selectedSubjects.delete(subName)
+                    : selectedSubjects.add(subName);
+    return new Set<string>(selectedSubjects);
+}
 
 export const Panel = (props: IProps) => {
     let dispatch = useDispatch();
     const [modalOpen, setModalOpen] = useState(false);
     let params : string = useLocation().pathname;
-    let selectedSubjects = new Set<string>();
+    const [selectedSubjects, setSelectedSubjects] = useState(new Set<string>());
     let subjects = [];
+    let selectedSubjectsOutput = [];
     const [subjectsList, setSubjectsList] = useState(new Array<Subject>());
     useEffect(() => {
         // Get all avaliable subjects from API
@@ -41,16 +49,57 @@ export const Panel = (props: IProps) => {
     for (let i = 0; i < subjectsList.length; i++) {
         let name: string = subjectsList[i].id;
         let color = SubjectToColor(name);
-        console.log(color);
         subjects.push(
             (<Button
-                style={{background: {color}}}
-                onClick={() => selectedSubjects.add(name)}
+                style={{background: color}}
+                onClick={() => setSelectedSubjects(SelectedSubjectsHandler(selectedSubjects, name))}
             >
                 {name}
             </Button>
             )
             );
+    }
+    let selectedSubs:Array<string> = Array.from(selectedSubjects.keys());
+    for (let i = 0; i < selectedSubs.length; i++) {
+        let name: string = selectedSubs[i];
+        let color = SubjectToColor(name);
+        selectedSubjectsOutput.push(
+            (
+                <div style={{
+                    minHeight: '1em',
+                    minWidth: '5em',
+                    display: "flex",
+                    flexDirection:'row',
+                    flexWrap: 'wrap'
+                }}>
+
+                    <Badge
+                    style={{
+                        backgroundColor: color,
+                        cursor:'default',
+                        color: "black"
+                    }}
+                    pill
+                >
+                    <div style={{
+                        minHeight: '1em',
+                        display: "flex",
+                        width: '100%',
+                    }}>
+                        {name + ' '}
+                    </div> 
+                    <div style={{
+                        minHeight: '1em',
+                        display: "flex",
+                        width:'100%',
+                    }}>
+                    <Button close onClick={() => setSelectedSubjects(SelectedSubjectsHandler(selectedSubjects, name))} /> 
+                    </div>
+                </Badge>
+                {' '}
+              </div>
+            )
+        );
     }
     return (
         <div id="panel-wrapper">
@@ -98,7 +147,13 @@ export const Panel = (props: IProps) => {
                                     
                                 </ButtonGroup>
                                 <p>
-                                    Selected: [{selectedSubjects}]
+                                    Selected:
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: 'row'
+                                }}>
+                                {selectedSubjectsOutput}
+                            </div>
                                 </p>
                                 
                                 
