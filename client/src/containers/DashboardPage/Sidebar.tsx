@@ -20,7 +20,8 @@ import useMediaQuery from 'use-media-query-hook';
 import {isMobile} from "react-device-detect";
 
 export interface IParams {
-    mode: string; // tutor or client
+    mode: string; // tutor or client menu currently viewed
+    isTutor: boolean; // tutor menu allowed to be accessed
 }
 
 export const Sidebar = (params: IParams) => {
@@ -32,7 +33,7 @@ export const Sidebar = (params: IParams) => {
             <div className="sidebar-heading" style={{position: "fixed"}}>TutorBase</div>
             <ListGroup>
                 {params.mode === "Tutor"
-                    ? (
+                    ? ( params.isTutor ? (
                         <div style={{position: "fixed", top: '50px'}}>
                             <ListGroupItem tag="a" href="/tutor/overview"
                                            className={classNames("list-group-item", "bg-none", extension==='overview' ?"tab-active" : null)}><FontAwesomeIcon
@@ -63,6 +64,9 @@ export const Sidebar = (params: IParams) => {
 
                             : null}
                         </div>
+                    )
+                    :
+                    <div></div>
                     )
                     : (
                         <div style={{position: "fixed", top: '50px'}}>

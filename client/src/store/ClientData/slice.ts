@@ -11,7 +11,8 @@ export const initialState: ClientDataSlice = {
     phone: "",
     email: "",
     first_name: "",
-    last_name: ""
+    last_name: "",
+    isTutor: false,
 };
 
 const clientDataSlice = createSlice({
@@ -35,6 +36,9 @@ const clientDataSlice = createSlice({
         },
         setProfileImage(state: ClientDataSlice, action: PayloadAction<string>){
             state.profile_img = action.payload;
+        },
+        setIsTutor(state: ClientDataSlice, action: PayloadAction<boolean>){
+            state.isTutor = action.payload;
         }
     },
 });

@@ -5,7 +5,7 @@ import {Course, Appointment} from "../../services/api.types";
 export const initialState: TutorDataSlice = {
     tutorId: "6070beb7dad06e015b73a107",
     courses: [],
-    appointments: [],
+    appointments: []
 };
 
 const tutorDataSlice = createSlice({

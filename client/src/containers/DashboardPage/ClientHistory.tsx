@@ -45,7 +45,7 @@ export const ClientHistory = () => {
     ));
 
     return (
-        <Container fluid>
+        <Container fluid style={{maxWidth:"100vw"}}>
             <Row className="title" style={{ marginTop: '25px'}}>
             <div className="profile-text">History</div>
             </Row>
