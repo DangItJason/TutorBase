@@ -35,6 +35,9 @@ export const Panel = (props: IProps) => {
     const [selectedSubjects, setSelectedSubjects] = useState(new Set<string>());
     const [RIN, setRIN] = useState("");
     const [validRIN, setValidRIN] = useState(false);
+    const [cohort, setCohort] = useState("");
+    const [comments, setComments] = useState("");
+    const [footerMessage, setFooterMessage] = useState("");
     let subjects = [];
     let selectedSubjectsOutput = [];
     const [subjectsList, setSubjectsList] = useState(new Array<Subject>());
@@ -43,11 +46,23 @@ export const Panel = (props: IProps) => {
             setValidRIN(false);
         }
         else {
-            setValidRIN(true);
+            setValidRIN(true); 
         }
         setRIN(value);
 
     }
+    function submit() {
+        if (!validRIN
+            || cohort === ""
+            || cohort === "Select"
+            || selectedSubjects.size === 0) {
+                setFooterMessage("Please complete required fields.");
+                return;
+        }
+        console.log("RIN: " + RIN + "\nCohort:" + cohort + "\nSubjects: " + Array.from(selectedSubjects.keys()) + "\nComments: " + comments);
+        setFooterMessage("Application submitted.");
+    }
+    
     useEffect(() => {
         // Get all avaliable subjects from API
         const getSubjects = async () => {
@@ -148,15 +163,44 @@ export const Panel = (props: IProps) => {
                                 scrollable={true}
                                 isOpen={modalOpen}
                             >
-                                <ModalHeader toggle={function noRefCheck(){}}>
+                                <ModalHeader toggle={() => setModalOpen(!modalOpen)}>
                                     Tutor Application Form
                                 </ModalHeader>
                                 <ModalBody>
                                 <h5>RIN</h5>
                                 <Input 
+                                    defaultValue={RIN}
                                     onChange={(e) => checkRIN(e.target.value)}
                                     valid={validRIN}
+                                    invalid={!validRIN}
                                     />
+                                <p />
+                                <h5>Cohort</h5>
+                                <Input 
+                                type="select"
+                                    onChange={(e) => setCohort(e.target.value)}
+                                    initialValue="Select"
+                                    invalid={cohort === "" || cohort === "Select"}>
+                                        <option>
+                                        Select
+                                    </option>
+                                    <option>
+                                        Freshman
+                                    </option>
+                                    <option>
+                                        Sophomore
+                                    </option>
+                                    <option>
+                                        Junior
+                                    </option>
+                                    <option>
+                                        Senior
+                                    </option>
+                                    <option>
+                                        Graduate
+                                    </option>
+                                    </Input>
+                                <p />
                                 <h5>Select Subjects to tutor</h5>
                                 <ButtonGroup>
                                     {subjects}
@@ -164,21 +208,35 @@ export const Panel = (props: IProps) => {
                                 </ButtonGroup>
                                 <p>
                                     Selected:
-                                    <Card>
-                                <CardBody style={{
-                                    display: "flex",
-                                    background: 'lightgray'
-                                }}>
+                                    <Card
+                                    outline={selectedSubjects.size === 0}
+                                    color= {selectedSubjects.size === 0 ? "danger" : ""}>
+                                <CardBody 
+                                    style={{
+                                        display: "flex",
+                                        background: "lightgray",
+                                        minHeight: "4em",
+                                        flexWrap: 'wrap'
+                                    }}>
                                 {selectedSubjectsOutput}
+
+
                             </CardBody></Card>
                                 </p>
-                                
-                                
+                                <h5>Comments</h5>
+                                <Input 
+                                    type="textarea"
+                                    onChange={(e) => setComments(e.target.value)} />
+
                                 </ModalBody>
                                 <ModalFooter>
+                                <p style={{color: footerMessage === "Application submitted." ? 'green' : 'red'}}>
+                                    {footerMessage}
+                                </p>
+
                                 <Button
                                     color="primary"
-                                    onClick={() => setModalOpen(true)}
+                                    onClick={() => submit()}
                                 >
                                     Submit
                                 </Button>
