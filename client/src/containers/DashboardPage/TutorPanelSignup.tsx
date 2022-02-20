@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import classNames from "classnames";
-import { Navbar, Button, Container, Row, Spinner, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup, Badge } from "reactstrap";
+import { Navbar, Button, Container, Row, Spinner, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup, Badge, Card, CardBody, Input } from "reactstrap";
 import Settings from "../../components/tutorComponents/settings";
 import Analytics from "../../components/tutorComponents/data";
 import { TutorHistory } from "./TutorHistory";
@@ -15,6 +15,7 @@ import { Subject } from '../../services/api.types'
 import { api } from "../../services/api";
 import { SubjectToColor } from "../../services/tools";
 import { cp } from "fs";
+import { checkServerIdentity } from "tls";
 interface IProps {
     isLoading: boolean;
 }
@@ -32,9 +33,21 @@ export const Panel = (props: IProps) => {
     const [modalOpen, setModalOpen] = useState(false);
     let params : string = useLocation().pathname;
     const [selectedSubjects, setSelectedSubjects] = useState(new Set<string>());
+    const [RIN, setRIN] = useState("");
+    const [validRIN, setValidRIN] = useState(false);
     let subjects = [];
     let selectedSubjectsOutput = [];
     const [subjectsList, setSubjectsList] = useState(new Array<Subject>());
+    function checkRIN(value: string) {
+        if (value.length !== 9) {
+            setValidRIN(false);
+        }
+        else {
+            setValidRIN(true);
+        }
+        setRIN(value);
+
+    }
     useEffect(() => {
         // Get all avaliable subjects from API
         const getSubjects = async () => {
@@ -74,7 +87,8 @@ export const Panel = (props: IProps) => {
                         minWidth: '6em',
                         display: "flex",
                         flexDirection:'row',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        marginRight: '0.5em'
                     }}
                     pill
                 >
@@ -135,20 +149,28 @@ export const Panel = (props: IProps) => {
                                 isOpen={modalOpen}
                             >
                                 <ModalHeader toggle={function noRefCheck(){}}>
-                                    Tutor Signup
+                                    Tutor Application Form
                                 </ModalHeader>
                                 <ModalBody>
+                                <h5>RIN</h5>
+                                <Input 
+                                    onChange={(e) => checkRIN(e.target.value)}
+                                    valid={validRIN}
+                                    />
+                                <h5>Select Subjects to tutor</h5>
                                 <ButtonGroup>
                                     {subjects}
                                     
                                 </ButtonGroup>
                                 <p>
                                     Selected:
-                                <div style={{
-                                    display: "flex"
+                                    <Card>
+                                <CardBody style={{
+                                    display: "flex",
+                                    background: 'lightgray'
                                 }}>
                                 {selectedSubjectsOutput}
-                            </div>
+                            </CardBody></Card>
                                 </p>
                                 
                                 
