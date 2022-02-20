@@ -65,39 +65,35 @@ export const Panel = (props: IProps) => {
         let color = SubjectToColor(name);
         selectedSubjectsOutput.push(
             (
-                <div style={{
-                    minHeight: '1em',
-                    minWidth: '5em',
-                    display: "flex",
-                    flexDirection:'row',
-                    flexWrap: 'wrap'
-                }}>
-
+               
                     <Badge
                     style={{
                         backgroundColor: color,
                         cursor:'default',
-                        color: "black"
+                        color: "black",
+                        minWidth: '6em',
+                        display: "flex",
+                        flexDirection:'row',
+                        alignItems: 'center'
                     }}
                     pill
                 >
                     <div style={{
-                        minHeight: '1em',
                         display: "flex",
-                        width: '100%',
+                        flex: '50%',
                     }}>
                         {name + ' '}
                     </div> 
-                    <div style={{
-                        minHeight: '1em',
+                    <Button 
+                    close 
+                    style={{
                         display: "flex",
-                        width:'100%',
-                    }}>
-                    <Button close onClick={() => setSelectedSubjects(SelectedSubjectsHandler(selectedSubjects, name))} /> 
-                    </div>
+                        flex: '50%',
+                        alignItems: 'center'
+                    }}
+                    onClick={() => setSelectedSubjects(SelectedSubjectsHandler(selectedSubjects, name))} /> 
+                    
                 </Badge>
-                {' '}
-              </div>
             )
         );
     }
@@ -149,8 +145,7 @@ export const Panel = (props: IProps) => {
                                 <p>
                                     Selected:
                                 <div style={{
-                                    display: "flex",
-                                    flexDirection: 'row'
+                                    display: "flex"
                                 }}>
                                 {selectedSubjectsOutput}
                             </div>
