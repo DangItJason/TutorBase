@@ -30,12 +30,12 @@ interface iSettingsState {
     temp_description: string,
     price: number,
     temp_price: number,
-    course_catalog: string[],
+    course_catalog: Course[],
     meeting_interval: number,
     temp_meeting_interval:number,
     courses:Course[],
     temp_courses:Course[],
-    added_courses:Course[],
+    added_courses:string[],
     schedule:TutorTimes,
     temp_schedule:TutorTimes,
     added_times:TutorTimes,
@@ -156,7 +156,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
               return res.json()
             }).then((courses:Course[]) => {
 
-              this.setState({course_catalog: courses.map((course:Course) => course.name) })
+              this.setState({course_catalog: courses})
               
             });
 
@@ -225,15 +225,28 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
       this.setState({ temp_price: value })
     }
 
-    savePriceChange = (e:React.FormEvent<HTMLButtonElement>) => {
-      
-      fetch("http://localhost:9000/tutor-operations/price", {
+    savePriceChange = (e:React.FormEvent<HTMLElement>) => {
+      let sched = R.clone(this.state.temp_schedule);
+      fetch("http://localhost:9000/api/tutors/tutor", {
+        credentials: 'include',
         method: "PUT",
-        body: JSON.stringify({email: this.state.email, price: this.state.temp_price}),
-        headers: {"Content-Type": "application/json"},
-      }).then(res=>{this.setState({ price: this.state.temp_price })});
-      this.togglePriceModal(e);
+        body: JSON.stringify({userid: this.state.obj_id,price: this.state.temp_price}),
+        headers: {"Content-Type": "application/json"}
+      }).then(res=>{
+        this.setState({ price: this.state.temp_price });
+        this.togglePriceModal(e);
+      });
+      //this.togglePriceModal(e);
     }
+    // (e:React.FormEvent<HTMLButtonElement>) => {
+      
+    //   fetch("http://localhost:9000/tutor-operations/price", {
+    //     method: "PUT",
+    //     body: JSON.stringify({email: this.state.email, price: this.state.temp_price}),
+    //     headers: {"Content-Type": "application/json"},
+    //   }).then(res=>{this.setState({ price: this.state.temp_price })});
+    //   this.togglePriceModal(e);
+    // }
 
     cancelPriceChange = (e:React.FormEvent<HTMLButtonElement>) => {
       this.setState({ temp_price: this.state.price });
@@ -249,13 +262,16 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
     }
 
     saveDescChange = (e:React.FormEvent<HTMLElement>) => {
-      fetch("http://localhost:9000/tutor-operations/description", {
+      fetch("http://localhost:9000/api/tutors/tutor", {
+        credentials: 'include',
         method: "PUT",
-        body: JSON.stringify({email: this.state.email, description: this.state.temp_description}),
+        body: JSON.stringify({userid: this.state.obj_id,description: this.state.temp_description}),
         headers: {"Content-Type": "application/json"}
+      }).then(res=>  {
+        this.setState({description: this.state.temp_description});
+        this.toggleDescModal(e);
       });
-      this.setState({description: this.state.temp_description});
-      this.toggleDescModal(e);
+
     }
 
     cancelDescChange = (e:React.FormEvent<HTMLElement>) => {
@@ -272,28 +288,30 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
     
     handleCourseAdd = (e:React.FormEvent<HTMLElement>) => {
       e.preventDefault();
-      this.setState({ added_courses: [...this.state.added_courses ]})
+      this.setState({ added_courses: [...this.state.added_courses, '' ]})
     }
-    handleTempCourseChange = (i:number,course:Course, event:React.FormEvent<HTMLInputElement>) => {
+    handleTempCourseChange = (i:number,courseName:string, event:React.FormEvent<HTMLInputElement>) => {
+      const target = event.target as HTMLInputElement;
       let values = [...this.state.added_courses];
-      values[i] = course;
+      values[i] = courseName;
       this.setState({ added_courses: values });
     }
 
     handleAutofillCourse = (i:number, course:Course) => {
       let values = [...this.state.added_courses];
-      values[i] = course;
+      values[i] = course.name;
       this.setState({ added_courses: values });
+      this.handleTempCourseAdd(course)
     }
 
     handleTempCourseAdd = ( course:Course ) => {
       if (this.state.temp_courses.includes(course))
         this.setState({ add_course_err: true, add_course_err_msg: "Course already added." });
-      else if (!this.state.course_catalog.includes(course.name))
+      else if (!this.state.course_catalog.includes(course))
         this.setState({ add_course_err: true, add_course_err_msg: "Invalid course." });
       else {
         this.setState(prevState => ({ temp_courses: [...prevState.temp_courses, course],
-          added_courses: this.state.added_courses.filter(a_course => a_course !== course),
+          added_courses: this.state.added_courses.filter(a_course => a_course !== course.name),
           add_course_err: false
         }));
       }
@@ -310,7 +328,8 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
         body: JSON.stringify({userid: this.state.obj_id, courses: this.state.temp_courses}),
         headers: {"Content-Type": "application/json"}
       }).then(res=>{
-        this.setState({courses:this.state.temp_courses, temp_courses: []})
+        this.setState({courses:this.state.temp_courses, temp_courses: []});
+        this.toggleCoursesModal(e);
       });
 
           // Update course('s) list of tutors
@@ -493,14 +512,27 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
     };
   
     saveIntervalChange = (e:React.FormEvent<HTMLElement>) => {
-      this.setState({ meeting_interval: this.state.temp_meeting_interval });
+      let sched = R.clone(this.state.temp_schedule);
       fetch("http://localhost:9000/api/tutors/tutor", {
+        credentials: 'include',
         method: "PUT",
-        body: JSON.stringify({userid: this.state.obj_id, interval: this.state.temp_meeting_interval}),
+        body: JSON.stringify({userid: this.state.obj_id,interval: this.state.temp_meeting_interval}),
         headers: {"Content-Type": "application/json"}
-      })
-      this.toggleIntervalModal(e);
-    };
+      }).then(res=>{
+        this.setState({ meeting_interval: this.state.temp_meeting_interval })
+        this.toggleIntervalModal(e);
+      
+      });
+    }
+    // (e:React.FormEvent<HTMLElement>) => {
+    //   this.setState({ meeting_interval: this.state.temp_meeting_interval });
+    //   fetch("http://localhost:9000/api/tutors/tutor", {
+    //     method: "PUT",
+    //     body: JSON.stringify({userid: this.state.obj_id, interval: this.state.temp_meeting_interval}),
+    //     headers: {"Content-Type": "application/json"}
+    //   })
+    //   this.toggleIntervalModal(e);
+    // };
   
 
     togglePriceModal = (e:React.FormEvent<HTMLElement>) => {
@@ -809,7 +841,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                               <Button color="link" className="list-remove" onClick={ ()=>{  this.handleCourseRemove(course)}   }>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
                             </ListGroupItem>
                           )}
-                          {this.state.added_courses.map((course, i) => 
+                          {this.state.added_courses.map((courseName:string, i) => 
                             <Form key={i}>
                               <ListGroupItem className="body-text">
                                 <InputGroup>
@@ -818,14 +850,14 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                                     items={this.state.course_catalog}
                                     renderItem={(item, isHighlighted) =>
                                       <div key={item} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                                        {item}
+                                        {item.name}
                                       </div>
                                     }
-                                    value={course || ''}
-                                    onChange={this.handleTempCourseChange.bind(this, i, course)}
-                                    onSelect={(index, val) => this.handleAutofillCourse(i, val)}
+                                    value={courseName || ''}
+                                    onChange={this.handleTempCourseChange.bind(this, i, courseName)}
+                                    onSelect={(index, course) => this.handleAutofillCourse(i, course )}
                                   />
-                                  <Button color="link" className="list-add" onClick={(c) => this.handleTempCourseAdd(course)}><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
+                                  <Button color="link" className="list-add" onClick={(c) => this.handleTempCourseAdd({name:courseName} as Course)}><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
                                   <Button color="link" className="list-remove" onClick={(index) => this.handleTempCourseRemove(i)}><FontAwesomeIcon icon={faTimes} className="font-adj"/></Button>
                                 </InputGroup>
                               </ListGroupItem>
