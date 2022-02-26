@@ -16,6 +16,7 @@ import { api } from "../../services/api";
 import { SubjectToColor } from "../../services/tools";
 import { cp } from "fs";
 import { checkServerIdentity } from "tls";
+import { selectClientData } from "../../store/ClientData/selectors";
 interface IProps {
     isLoading: boolean;
 }
@@ -30,6 +31,7 @@ export function SelectedSubjectsHandler(selectedSubjects:Set<string>, subName:st
 
 export const Panel = (props: IProps) => {
     let dispatch = useDispatch();
+    let id = useSelector(selectClientData).clientId;
     const [modalOpen, setModalOpen] = useState(false);
     let params : string = useLocation().pathname;
     const [selectedSubjects, setSelectedSubjects] = useState(new Set<string>());
@@ -38,6 +40,7 @@ export const Panel = (props: IProps) => {
     const [cohort, setCohort] = useState("");
     const [comments, setComments] = useState("");
     const [footerMessage, setFooterMessage] = useState("");
+    const [rate, setRate] = useState(0);
     let subjects = [];
     let selectedSubjectsOutput = [];
     const [subjectsList, setSubjectsList] = useState(new Array<Subject>());
@@ -59,8 +62,14 @@ export const Panel = (props: IProps) => {
                 setFooterMessage("Please complete required fields.");
                 return;
         }
-        console.log("RIN: " + RIN + "\nCohort:" + cohort + "\nSubjects: " + Array.from(selectedSubjects.keys()) + "\nComments: " + comments);
-        setFooterMessage("Application submitted.");
+        let subs: Array<String> = Array.from(selectedSubjects.keys());
+        api.TutorSignup(id, RIN, subs, comments, rate).then(res =>{
+            res ?
+            setFooterMessage("Application submitted.")
+            : setFooterMessage("Error submitting. Please try again.");
+            }).catch(err => {
+                setFooterMessage("Error submitting. Please try again.")
+            });
     }
     
     useEffect(() => {
@@ -222,8 +231,14 @@ export const Panel = (props: IProps) => {
 
 
                             </CardBody></Card>
+                            </p>
+                            <p>
+                                <h5>Hourly Rate ($) (optional)</h5>
+                                <Input
+                                type="number"
+                                    onChange={(e) => setRate(+(e.target.value))} />
                                 </p>
-                                <h5>Comments</h5>
+                                <h5>Comments (optional)</h5>
                                 <Input 
                                     type="textarea"
                                     onChange={(e) => setComments(e.target.value)} />

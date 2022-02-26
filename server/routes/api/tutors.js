@@ -24,6 +24,7 @@ const Subject = require('../../models/Subject');
 const Course = require('../../models/Course');
 const Appointment = require('../../models/Appointment');
 const Tutor = require('../../models/Tutor');
+const TutorApplication = require('../../models/TutorApplication');
 
 // Middleware
 const withAuth = require('../../middleware/token_auth')
@@ -139,5 +140,30 @@ router.put("/tutor", withAuth, (req, res) => {
         .then((tutor) => res.json(tutor))
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
+
+
+/**
+ * Route serving tutor applications.
+ * @name post/api/tutors/apply
+ * @function
+ * @memberof module:routes/api/tutors~tutorRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+// POST /api/tutors
+// Create a tutor
+router.post("/apply", withAuth, (req, res) => {
+    const newTutorApplication = new TutorApplication({
+        userId: req.body.userId,
+        rin: req.body.rin,
+        subjects: req.body.subjects,
+        comments: req.body.comments,
+        
+        rate: req.body.rate
+    });
+    newTutorApplication.save().then((app) => res.json(app));
+});
+
 
 module.exports = router;

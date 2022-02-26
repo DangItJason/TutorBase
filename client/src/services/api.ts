@@ -187,7 +187,6 @@ export class ApiService {
 
         return await axios.put(url, body, {withCredentials: true});
     }
-
     public async SetMeetingLink(id: String, link: String) {
         let url = this.appointmentsEndpoint + 'link';
         let body = {
@@ -195,6 +194,21 @@ export class ApiService {
             link: link
         };
         return await axios.post(url, body, {withCredentials: true});
+    }
+
+    public async TutorSignup(id: String, rin: String, subjects: Array<String>, comments: String, rate: number) {
+        let url = this.tutorsEndpoint + 'apply';
+        let body = {
+            userId: id,
+            rin: rin,
+            subjects: subjects,
+            comments: comments,
+            rate: rate
+        };
+        let res = await axios.post(url, body, {withCredentials: true});
+        console.log(res);
+        return res.status === 200;
+        
     }
 }
 
