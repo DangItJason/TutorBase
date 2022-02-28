@@ -140,9 +140,8 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
             meeting_interval: parseInt(tutor.interval),
             temp_meeting_interval: parseInt(tutor.interval),
             profile_pic:tutor.profile_img,
+            description: tutor.description || "",
 
-
-          
           })
         }).catch(err=>console.log(err));
 
@@ -168,7 +167,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
               return res.json()
             }).then((courses:Course[]) => {
 
-              this.setState({courses:courses.map((course:Course)=> course) });
+              this.setState({courses:R.clone(courses),temp_courses:R.clone(courses) });
               
             });
       
@@ -202,6 +201,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
     saveNameChange = (e:React.FormEvent<HTMLButtonElement>) => {
       fetch("http://localhost:9000/api/tutors/tutor", {
         method: "PUT",
+        credentials: 'include',
         body: JSON.stringify({userid: this.state.obj_id, first_name: this.state.temp_firstn, last_name: this.state.temp_lastn}),
         headers: {"Content-Type": "application/json"}
       }).then(res=>{
@@ -236,17 +236,8 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
         this.setState({ price: this.state.temp_price });
         this.togglePriceModal(e);
       });
-      //this.togglePriceModal(e);
     }
-    // (e:React.FormEvent<HTMLButtonElement>) => {
-      
-    //   fetch("http://localhost:9000/tutor-operations/price", {
-    //     method: "PUT",
-    //     body: JSON.stringify({email: this.state.email, price: this.state.temp_price}),
-    //     headers: {"Content-Type": "application/json"},
-    //   }).then(res=>{this.setState({ price: this.state.temp_price })});
-    //   this.togglePriceModal(e);
-    // }
+
 
     cancelPriceChange = (e:React.FormEvent<HTMLButtonElement>) => {
       this.setState({ temp_price: this.state.price });
@@ -293,25 +284,26 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
     handleTempCourseChange = (i:number,courseName:string, event:React.FormEvent<HTMLInputElement>) => {
       const target = event.target as HTMLInputElement;
       let values = [...this.state.added_courses];
-      values[i] = courseName;
+      values[i] = target.value;
       this.setState({ added_courses: values });
     }
 
-    handleAutofillCourse = (i:number, course:Course) => {
+    handleAutofillCourse = (i:number, course:string) => {
       let values = [...this.state.added_courses];
-      values[i] = course.name;
+      values[i] = course;
       this.setState({ added_courses: values });
       this.handleTempCourseAdd(course)
     }
 
-    handleTempCourseAdd = ( course:Course ) => {
-      if (this.state.temp_courses.includes(course))
+    handleTempCourseAdd = ( courseName:string ) => {
+      if (this.state.temp_courses.map((course)=>course.name).includes(courseName))
         this.setState({ add_course_err: true, add_course_err_msg: "Course already added." });
-      else if (!this.state.course_catalog.includes(course))
+      else if (!this.state.course_catalog.map(course=>course.name).includes(courseName))
         this.setState({ add_course_err: true, add_course_err_msg: "Invalid course." });
       else {
+        const course = this.state.course_catalog.filter(course=>course.name === courseName)[0]
         this.setState(prevState => ({ temp_courses: [...prevState.temp_courses, course],
-          added_courses: this.state.added_courses.filter(a_course => a_course !== course.name),
+          added_courses: this.state.added_courses.filter(a_course => a_course !== courseName),
           add_course_err: false
         }));
       }
@@ -322,15 +314,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
 
 
     saveCoursesChange = (e:React.FormEvent<HTMLElement> ) => {
-      // Update tutor's list of courses
-      fetch("http://localhost:9000/api/tutors/tutor", {
-        method: "PUT",
-        body: JSON.stringify({userid: this.state.obj_id, courses: this.state.temp_courses}),
-        headers: {"Content-Type": "application/json"}
-      }).then(res=>{
-        this.setState({courses:this.state.temp_courses, temp_courses: []});
-        this.toggleCoursesModal(e);
-      });
+
 
           // Update course('s) list of tutors
       let removed_set = this.state.courses.filter((c:Course) => !this.state.temp_courses.includes(c));
@@ -340,6 +324,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
       removed_set.forEach(function(c:Course) {
         fetch(`http://localhost:9000/api/courses/${c._id}/remove-tutor`, {
           method: "POST",
+          credentials: 'include',
           body: JSON.stringify({ tutor_id: tutor}),
           headers: {"Content-Type": "application/json"},
         });
@@ -348,6 +333,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
       added_set.forEach(function(c:Course) {
         fetch(`http://localhost:9000/api/courses/${c._id}/add-tutor`, {
           method: "POST",
+          credentials: 'include',
           body: JSON.stringify({tutor_id:  tutor}),
           headers: {"Content-Type": "application/json"},
         });
@@ -379,7 +365,9 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
     handleTimeBlockRemove = (index:number, block: any, e:React.FormEvent<HTMLElement>) => {
       e.preventDefault();
       let sched:TutorTimes = R.clone(this.state.temp_schedule);
+      console.log(this.extractTutorTimes(sched,this.state.schedule_tab))
       this.extractTutorTimes(sched,this.state.schedule_tab).splice(index, 1);
+      console.log(this.extractTutorTimes(sched,this.state.schedule_tab))
       // Sort before setting new state
       this.setTutorTimes(sched,this.state.schedule_tab, this.extractTutorTimes(sched,this.state.schedule_tab).sort(function(a:number[], b:number[]) {return a[0] - b[0]}) ) 
       this.setState({ temp_schedule: sched });
@@ -762,7 +750,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                                 {this.state.temp_schedule && this.extractTutorTimes(this.state.temp_schedule,this.state.schedule_tab).map((block, i) => 
                                   <ListGroupItem className="body-text" key={i}>
                                     {this.formatTime(block)}
-                                    <Button color="link" className="list-remove" onClick={() =>this.handleTimeBlockRemove.bind(this, i, block)}>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
+                                    <Button color="link" className="list-remove" onClick={(e) =>this.handleTimeBlockRemove( i, block,e) }>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
                                   </ListGroupItem>
                                 )}
                                 {this.state.added_times && Object.values( this.extractTutorTimes(this.state.added_times,this.state.schedule_tab) ).map((block:number[], i:number) => 
@@ -837,7 +825,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                         <ListGroup>
                           {this.state.temp_courses.map((course, i) => 
                             <ListGroupItem className="body-text" key={i}>
-                              {course}
+                              {course.name}
                               <Button color="link" className="list-remove" onClick={ ()=>{  this.handleCourseRemove(course)}   }>Remove <FontAwesomeIcon icon={faBan} className="font-adj"/></Button>
                             </ListGroupItem>
                           )}
@@ -847,17 +835,19 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
                                 <InputGroup>
                                   <Autocomplete 
                                     getItemValue={(item) => item}
-                                    items={this.state.course_catalog}
+                                    items={this.state.course_catalog.map(course=>course.name)}
                                     renderItem={(item, isHighlighted) =>
                                       <div key={item} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                                        {item.name}
+                                        {item}
                                       </div>
                                     }
+                                    shouldItemRender={ (item,value) => item.toLowerCase().includes(value.toLowerCase())  }
+                                    sortItems={(a,b,value)=>  a.localeCompare(b) }
                                     value={courseName || ''}
                                     onChange={this.handleTempCourseChange.bind(this, i, courseName)}
                                     onSelect={(index, course) => this.handleAutofillCourse(i, course )}
                                   />
-                                  <Button color="link" className="list-add" onClick={(c) => this.handleTempCourseAdd({name:courseName} as Course)}><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
+                                  <Button color="link" className="list-add" onClick={(c) => this.handleTempCourseAdd(courseName)}><FontAwesomeIcon icon={faCheck} className="font-adj"/></Button>
                                   <Button color="link" className="list-remove" onClick={(index) => this.handleTempCourseRemove(i)}><FontAwesomeIcon icon={faTimes} className="font-adj"/></Button>
                                 </InputGroup>
                               </ListGroupItem>

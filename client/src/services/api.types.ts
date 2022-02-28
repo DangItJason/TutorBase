@@ -46,6 +46,7 @@ export interface Tutor {
     email: string, // User email (ID)
     first_name: string,
     last_name: string,
+    description?:string
 }
 
 export interface User {
