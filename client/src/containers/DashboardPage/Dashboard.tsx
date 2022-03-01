@@ -26,11 +26,14 @@ const Dashboard = (params: IParams) => {
     const [isTutor, setIsTutor] = useState(false);
     useEffect(() => {
         const getTutor = async () => {
-            return (await api.GetTutorById(clientData.clientId)).data;
+            return (await api.GetTutorById(clientData.clientId)).data[0];
         }
         getTutor().then(value => {
             setIsTutor(value !== null);
             dispatch(clientDataActions.setIsTutor((value !== null)));
+            
+        setLoading(false);
+        }).catch(err => {
             
         setLoading(false);
         });
