@@ -29,7 +29,7 @@ const Appointment = require("../../models/Appointment");
 const User = require("../../models/User");
 const Tutor = require("../../models/Tutor");
 const ApptConfToken = require("../../models/ApptConfToken");
-
+const secrets = require("../../lib/secrets");
 const { promisify } = require('util')
 
 const randomBytesAsync = promisify(require('crypto').randomBytes)
@@ -79,6 +79,9 @@ router.post("/", async (req, res) => {
     price: req.body.price,
     notes: req.body.notes,
   });
+
+
+
   newAppt.save();
   let tokBytes, tok;
   tokBytes = await randomBytesAsync(256);
@@ -106,6 +109,27 @@ router.post("/", async (req, res) => {
     console.log(e);
     return;
   }
+  // Create paypal payment
+  var xhr = new XMLHttpRequest();
+xhr.open("POST", "https://api-m.sandbox.paypal.com/v2/checkout/orders", true);
+xhr.setRequestHeader('Content-Type', 'application/json');
+xmlHttpRequest.setRequestHeader('Authorization', 'Bearer ' + secrets.PAYPALAPITOKEN);
+        
+xhr.send(
+  JSON.stringify({
+    intent: "CAPTURE",
+    purchase_units: [
+      {
+        amount: {
+          currency_code: "USD",
+          value: req.body.price * (endTime - startTime) / 60 / 60
+        },
+        payee: {
+          email_address: tutor.paypal_email
+        }
+      }
+    ]
+  }));
   // Send confirmation email and texts
   if(tutor.phone || tutor.email !== null)
     console.log(apptconfirm.tutor(newAppt.appt_id, tok, tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,

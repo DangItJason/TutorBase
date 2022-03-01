@@ -36,3 +36,5 @@ server/lib/configIGNORE.js
 client/.idea/
 
 server/.idea/
+
+server/lib/secrets.js
