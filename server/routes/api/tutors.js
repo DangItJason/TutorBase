@@ -18,6 +18,9 @@ const express = require('express');
  */
 let router = express.Router();
 
+//Email notify admins of new tutor signup applications
+var emailsender = require("../../lib/emailsender.js");
+
 //Models
 const mongoose = require('mongoose');
 const Subject = require('../../models/Subject');
@@ -159,10 +162,20 @@ router.post("/apply", withAuth, (req, res) => {
         rin: req.body.rin,
         subjects: req.body.subjects,
         comments: req.body.comments,
-        
         rate: req.body.rate
     });
-    newTutorApplication.save().then((app) => res.json(app));
+    newTutorApplication.save().then((app) => {
+        var htmlOrig = fs.readFileSync(__dirname + '../../lib/email_tutor_application.html').toString();
+
+        var html = htmlOrig.replace("{{user-id}}", req.body.userId)
+                    .replace("{{rin}}", req.body.rin)
+                    .replace("{{subjects}}", req.body.subjects)
+                    .replace("{{comments}}", req.body.comments)
+                    .replace("{{rate}}", req.body.rate)
+                    ;
+        var emailresult = emailsender.send("tutorbaseadmin@gmail.com", html, "NEW TUTOR APPLICATION: " + req.body.rin);
+        res.json(app);
+    });
 });
 
 
