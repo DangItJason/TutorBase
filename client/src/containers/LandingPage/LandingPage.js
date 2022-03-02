@@ -165,7 +165,6 @@ class landing extends Component {
         </section>
         {/* Services Section End */}
         <div>
-      
           {/* Features Section Start */}
           <section id="features" className="section-padding">
             <div className="container">
@@ -225,11 +224,7 @@ class landing extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                  <div className="show-box wow fadeInUp" data-wow-delay="0.3s">
-                    <img src="assets/img/feature/intro-mobile.png" alt />
-                  </div>
-                </div>
+                
                 <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                   <div className="content-right">
                     <div
@@ -307,7 +302,7 @@ class landing extends Component {
                     <div className="team-img">
                       <img
                         className="img-fluid"
-                        src="assets/img/team/team-01.png"
+                        //src="assets/img/team/team-01.png"
                         alt
                       />
                     </div>
@@ -364,7 +359,7 @@ class landing extends Component {
                     <div className="team-img">
                       <img
                         className="img-fluid"
-                        src="assets/img/team/team-02.png"
+                        //src="assets/img/team/team-02.png"
                         alt
                       />
                     </div>

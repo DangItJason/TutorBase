@@ -18,17 +18,21 @@ const express = require('express');
  */
 let router = express.Router();
 
+//Email notify admins of new tutor signup applications
+var emailsender = require("../../lib/emailsender.js");
+
 //Models
 const mongoose = require('mongoose');
 const Subject = require('../../models/Subject');
 const Course = require('../../models/Course');
 const Appointment = require('../../models/Appointment');
 const Tutor = require('../../models/Tutor');
+const TutorApplication = require('../../models/TutorApplication');
 
 // Middleware
 const withAuth = require('../../middleware/token_auth')
 
-mongoose.set('useFindAndModify', false);
+//mongoose.set('useFindAndModify', false);
 
 /**
  * Route serving tutor actions.
@@ -42,6 +46,7 @@ mongoose.set('useFindAndModify', false);
 // GET /api/tutors
 // Get all tutors
 router.get("/", withAuth, (req, res) => {
+    console.log("wev")
     Tutor.find()
         .sort({ name: 1 })
         .then((tutors) => res.json(tutors))
@@ -138,5 +143,40 @@ router.put("/tutor", withAuth, (req, res) => {
         .then((tutor) => res.json(tutor))
         .catch((err) => res.status(400).json({ msg: err.message }));
 });
+
+
+/**
+ * Route serving tutor applications.
+ * @name post/api/tutors/apply
+ * @function
+ * @memberof module:routes/api/tutors~tutorRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+// POST /api/tutors
+// Create a tutor
+router.post("/apply", withAuth, (req, res) => {
+    const newTutorApplication = new TutorApplication({
+        userId: req.body.userId,
+        rin: req.body.rin,
+        subjects: req.body.subjects,
+        comments: req.body.comments,
+        rate: req.body.rate
+    });
+    newTutorApplication.save().then((app) => {
+        var htmlOrig = fs.readFileSync(__dirname + '../../lib/email_tutor_application.html').toString();
+
+        var html = htmlOrig.replace("{{user-id}}", req.body.userId)
+                    .replace("{{rin}}", req.body.rin)
+                    .replace("{{subjects}}", req.body.subjects)
+                    .replace("{{comments}}", req.body.comments)
+                    .replace("{{rate}}", req.body.rate)
+                    ;
+        var emailresult = emailsender.send("tutorbaseadmin@gmail.com", html, "NEW TUTOR APPLICATION: " + req.body.rin);
+        res.json(app);
+    });
+});
+
 
 module.exports = router;

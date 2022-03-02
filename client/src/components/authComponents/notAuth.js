@@ -33,7 +33,7 @@ export default function withAuth(ComponentToProtect) {
                 return null;
             }
             if (redirect) {
-                return <Redirect to="/home" />;
+                return <Redirect to="/home/schedule" />;
             }
             return <ComponentToProtect {...this.props} />;
         }

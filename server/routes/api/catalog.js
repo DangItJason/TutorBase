@@ -103,38 +103,5 @@ router.post("/appointment", withAuth, (req, res) => {
   res.json(newAppt);
 });
 
-/**
- * Route serving courses form.
- * @name get/api/catalog/appointments/:tutor_id
- * @function
- * @memberof module:routes/api/catalog~catalogRouter
- * @inner
- * @param {string} tutor_id - Express Path
- * @param {callback} withAuth - Express Middleware
- */
-// GET api/catalog/appointments/tutor_id
-// Get a specific tutor's already scheduled appointments
-router.get('/appointments/:tutor_id', withAuth, (req, res) => {
-  Appointment.find({ tutor_id: req.params.tutor_id })
-    .then(appointments => res.json(appointments))
-    .catch(err => res.status(400).json({ msg: err.message }));
-});
-
-/**
- * Route serving courses form.
- * @name get/api/catalog/appointments/:client_id
- * @function
- * @memberof module:routes/api/catalog~catalogRouter
- * @inner
- * @param {string} client_id - Express Path
- * @param {callback} withAuth - Express Middleware
- */
-// GET api/catalog/appointments/client_id
-// Get a specific users's already scheduled appointments
-router.get('/appointments/:client_id', withAuth, (req, res) => {
-  Appointment.find({ client_id: req.params.client_id })
-    .then(appointments => res.json(appointments))
-    .catch(err => res.status(400).json({ msg: err.message }));
-});
 
 module.exports = router;

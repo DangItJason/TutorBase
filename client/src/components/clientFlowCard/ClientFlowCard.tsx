@@ -46,7 +46,7 @@ const Container = styled.div<IContainerProps>`
   
   margin: 1em;
   
-  width: 150px;
+  width: 180px;
   height: 150px;
   
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

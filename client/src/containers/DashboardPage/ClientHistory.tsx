@@ -23,7 +23,7 @@ export const ClientHistory = () => {
 
     useEffect(() => {
         const getAppointments = async () => {
-            return (await api.GetClientAppointments(clientData.clientId)).data;
+            return (await api.GetClientAppointments(clientData.clientId)).data.reverse();
         }
 
         getAppointments().then(value => {
@@ -45,7 +45,7 @@ export const ClientHistory = () => {
     ));
 
     return (
-        <Container fluid>
+        <Container fluid style={{maxWidth:"100vw"}}>
             <Row className="title" style={{ marginTop: '25px'}}>
             <div className="profile-text">History</div>
             </Row>

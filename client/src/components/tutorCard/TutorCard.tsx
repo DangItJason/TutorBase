@@ -1,8 +1,8 @@
-import React, {Component, useEffect, useState} from "react";
-import { useDispatch } from "react-redux";
+import React, {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
 import styled from "styled-components";
 import legoDude from "../../assets/lego_dude.jpg";
-import { actions } from "../../store/ClientFlowData/slice";
+import {actions} from "../../store/ClientFlowData/slice";
 import ReactStars from 'react-stars'
 import {api} from "../../services/api";
 
@@ -14,7 +14,7 @@ interface IProps {
 // this.props.data.profile_img
 // this.props.data.first_name
 // this.props.data.last_name
-export default function TutorCard({tutor, checked}: IProps){
+export default function TutorCard({tutor, checked}: IProps) {
     console.log("== DEBUG == Tutor Date: ", tutor);
 
     let [tutorRating, setTutorRating] = useState(0);
@@ -40,7 +40,12 @@ export default function TutorCard({tutor, checked}: IProps){
             <TutorImg>
                 <img src={legoDude} width={150} height={150} alt="Tutor" style={{borderRadius: '180px'}}/>
             </TutorImg>
-            <ReactStars count={5} size={24} color2={'#ffd700'} value={tutorRating} edit={false} />
+
+            {tutorRating === -1 ? (
+                <p style={{color: "white"}}>Tutor not rated!</p>
+            ) : (
+                <ReactStars count={5} size={24} color2={'#ffd700'} value={tutorRating} edit={false}/>
+            )}
         </Container>
     );
 }
@@ -65,27 +70,27 @@ const Container = styled.div<IContainer>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+
   width: 200px;
   height: 230px;
-  
+
   margin: 0.5em;
   padding: 0.2em;
-  
+
   //border: lightcoral solid 4px;
   border-radius: 0.5em;
 
   background-color: ${props => props.$checked ? '#C93642' : '#8C252E'};
-  
+
   // DEBUG STYLES //
   //border: red solid 5px;
 `;
 
 const TutorName = styled.div`
   color: white;
-  
+
   padding: 0.25em;
-  
+
   width: 100%;
   text-align: center;
   font-size: large;

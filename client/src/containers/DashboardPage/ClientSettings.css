@@ -24,8 +24,8 @@
 .img-item a {
     float: left;
     position: absolute;
-    left: 70%;
-    top: 80%;
+    left: 72%;
+    top: 82%;
 }
 
 .modal-link {
@@ -36,6 +36,14 @@
 .modal-link:hover {
     color: #E66064;
     transition: 0.25s;
+}
+
+.upload-img {
+    padding-top: 5px;
+    height: 250px;
+    width: 250px;
+    width: auto;
+    height: auto;
 }
 
 #first-name, #last-name {

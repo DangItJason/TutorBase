@@ -44,10 +44,10 @@ export function Step2() {
                             dispatch(actions.incrementStep())
                         }}
 
-                        color={"gray"}
+                        color={"#C93642"}
                         title={course.name}
                         checked={clientFlowData.selectedCourse.id === course.id}
-                    ></ClientFlowCard>
+                    />
                 })}
             </Cards>
         </Container>

@@ -7,7 +7,6 @@ import ReactStars from "react-stars";
 import {useSelector} from "react-redux";
 import {selectClientData} from "../../store/ClientData/selectors";
 import {api} from "../../services/api";
-import {Feedback} from "../../services/api.types";
 
 interface IProps {
     apptTutorId: string;
@@ -37,9 +36,21 @@ export default function FeedbackForm({apptTutorId}: IProps) {
 
     return (
         <Container>
-            <Button onClick={() => setFormOpen(true)}>
-                Rate
-                <FontAwesomeIcon icon={faStar} style={{marginLeft: '5px'}}/>
+            <Button onClick={(e) => {
+                setFormOpen(true);
+                e.stopPropagation();
+            }}
+                    style={{
+                        minWidth: '60px',
+                        lineHeight: '1',
+                        position: "relative",
+                    }}>
+                <div style={{
+                    fontSize: "clamp(8px, 1vw, 12px)"
+                }}>
+                    Rate
+                    <FontAwesomeIcon icon={faStar} style={{marginLeft: '5px'}}/>
+                </div>
             </Button>
 
             <Modal

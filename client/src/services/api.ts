@@ -64,6 +64,15 @@ export class ApiService {
         let response = await axios.get(url);
         if(response.status !== 200) return appt;
         appt.data = response.data;
+        appt.data.sort((app1, app2) => {
+            if (app1.start_time > app2.start_time) {
+                return 1;
+            }
+            if (app1.start_time < app2.start_time) {
+                return -1;
+            }
+            return 0;
+        });
         return appt;
     }
 
@@ -73,6 +82,15 @@ export class ApiService {
         let response = await axios.get(url);
         if(response.status !== 200) return appt;
         appt.data = response.data;
+        appt.data.sort((app1, app2) => {
+            if (app1.start_time > app2.start_time) {
+                return 1;
+            }
+            if (app1.start_time < app2.start_time) {
+                return -1;
+            }
+            return 0;
+        });
         return appt;
     }
 
@@ -82,9 +100,28 @@ export class ApiService {
         if(response.status != 200) return null;
         let appt: AppointmentsResponseWithData = {data: []}
         appt.data = await response.data;
+        appt.data.sort((app1, app2) => {
+            if (app1.start_time > app2.start_time) {
+                return 1;
+            }
+            if (app1.start_time < app2.start_time) {
+                return -1;
+            }
+            return 0;
+        });
         return appt;
     }
 
+    public async GetCoursesByTutorId(id: String) {
+        let url = this.coursesEndpoint + "tutor/" + id;
+        let courses: CoursesResponse = {data: []};
+        let response = await axios.get(url);
+        if(response.status != 200) return courses;
+        courses.data = response.data;
+        console.log("Courses", courses.data);
+        return courses;
+    }
+    
     public async CreateAppointment(appointment: Appointment) {
         let url = this.appointmentsEndpoint;
         let body = {
@@ -121,14 +158,13 @@ export class ApiService {
         let url = this.feedbackEndpoint + "/" + id;
         let feedback =  await axios.get(url);
 
-        console.log("TUTOR FEEDBACK DATA: ", feedback)
-
         let rating = 0;
-        feedback.data.forEach((feedback: Feedback) => {
-            rating += feedback.rating;
+        feedback.data.forEach((userFeedback: Feedback) => {
+            rating += userFeedback.rating;
         })
 
-        return (rating / feedback.data.count);
+        if(feedback.data.length === 0) return -1;
+        return (rating / feedback.data.length);
     }
 
     public async SetClientName(name: Name, id: String) {
@@ -140,6 +176,49 @@ export class ApiService {
         }
 
         return await axios.put(url, body, {withCredentials: true});
+    }
+  
+    public async ConfirmAppointment(apptId: String) {
+        let url = this.appointmentsEndpoint;
+        let body = {
+            apptid: apptId,
+            confirmed: true
+        }
+        
+        return await axios.put(url, body, {withCredentials: true});
+    }
+
+    public async SetClientProfileImage(img: String, id: String) {
+        let url = this.usersEndpoint + 'user';
+        let body = {
+            userid: id,
+            profile_img: img
+        }
+
+        return await axios.put(url, body, {withCredentials: true});
+    }
+    public async SetMeetingLink(id: String, link: String) {
+        let url = this.appointmentsEndpoint + 'link';
+        let body = {
+            apptid: id,
+            link: link
+        };
+        return await axios.post(url, body, {withCredentials: true});
+    }
+
+    public async TutorSignup(id: String, rin: String, subjects: Array<String>, comments: String, rate: number) {
+        let url = this.tutorsEndpoint + 'apply';
+        let body = {
+            userId: id,
+            rin: rin,
+            subjects: subjects,
+            comments: comments,
+            rate: rate
+        };
+        let res = await axios.post(url, body, {withCredentials: true});
+        console.log(res);
+        return res.status === 200;
+        
     }
 }
 

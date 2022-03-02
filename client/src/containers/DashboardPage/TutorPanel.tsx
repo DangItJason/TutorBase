@@ -3,7 +3,9 @@ import classNames from "classnames";
 import { Navbar, Button } from "reactstrap";
 import Settings from "../../components/tutorComponents/settings";
 import Analytics from "../../components/tutorComponents/data";
+import { TutorOverview } from "./TutorOverview";
 import { TutorHistory } from "./TutorHistory";
+import { Meetings } from "./Meetings";
 import Dashboard from "./Dashboard";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSidebarToggled } from "../../store/ClientFlowData/selectors";
@@ -38,8 +40,8 @@ export const Panel = (props: IProps) => {
                 <Button variant="danger">Drop Course</Button>
 
             </div> */}
-            {extension === "schedule" ? <Settings></Settings> : null}
-            {extension === "meetings" ? <div>Hello World(Meetings)</div> : null}
+            {extension === "overview" ? <TutorOverview></TutorOverview> : null}
+            {extension === "meetings" ? <Meetings mode="Tutor"></Meetings> : null}
             {extension === "history" ? <TutorHistory></TutorHistory> : null}
             {extension === "analytics" ? <DataVisualization /> : null}
             {extension === "settings" ? <Settings></Settings> : null}

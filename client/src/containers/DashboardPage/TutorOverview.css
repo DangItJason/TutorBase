@@ -1,0 +1,21 @@
+.table-container {
+    margin-top: 15px;
+}
+
+.table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+td {
+    font-size: 18px;
+}
+
+.td-bold {
+    font-weight: bold;
+}
+
+.sched-pending {
+    color: #F4AD55;
+    padding-left: 5px;
+}
