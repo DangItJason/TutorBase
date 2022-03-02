@@ -3,7 +3,7 @@ import { reducer as clientFlow } from "./ClientFlowData/slice";
 import { reducer as signUp } from "./signUpData";
 import { reducer as loginState } from "./loginData";
 import {ClientFlowSlice} from "./ClientFlowData/types";
-import { reducer as clientData } from "./clientData";
+import { reducer as clientData } from "./ClientData/slice";
 import { ClientDataSlice } from "./ClientData/types";
 import { reducer as tutorData } from "./TutorData/slice";
 import { TutorDataSlice } from "./TutorData/types";
