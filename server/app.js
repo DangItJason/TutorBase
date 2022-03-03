@@ -38,7 +38,7 @@ const secret = require("./config/secret");
 // Allowing Cors Usage
 app.use(
   cors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://tutorbase-rpi.netlify.app'],
     credentials: true,
   })
 );
