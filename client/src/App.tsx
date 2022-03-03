@@ -1,9 +1,11 @@
 import React from "react";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {PrivateRoute} from "./components/authComponents/PrivateRoute";
 import Dashboard from "./containers/DashboardPage/Dashboard";
 import {ToastProvider} from "react-toast-notifications";
-import {BrowserRouter, Route, Switch, useLocation} from "react-router-dom";
 import {LoginPage} from "./containers/LoginPage/LoginPage";
 import {LandingPage} from "./containers/LandingPage/LandingPage";
+
 function App() {
     return (
         <BrowserRouter>
@@ -14,18 +16,18 @@ function App() {
                 <Route exact path="/login">
                     <LoginPage/>
                 </Route>
-                <Route exact path="/tutor/" >
+                <PrivateRoute exact path="/tutor/" >
                     <Dashboard mode="Tutor"/>
-                </Route>
-                <Route exact path="/tutor/*" >
+                </PrivateRoute>
+                <PrivateRoute exact path="/tutor/*" >
                     <Dashboard mode="Tutor"/>
-                </Route>
-                <Route exact path="/home/" >
+                </PrivateRoute>
+                <PrivateRoute exact path="/home/" >
                     <Dashboard mode="Client"/>
-                </Route>
-                <Route exact path="/home/*" >
+                </PrivateRoute>
+                <PrivateRoute exact path="/home/*" >
                     <Dashboard mode="Client"/>
-                </Route>
+                </PrivateRoute>
             </Switch>
             {/*<ToastProvider*/}
             {/*    placement="top-right"*/}
