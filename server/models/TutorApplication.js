@@ -6,7 +6,8 @@ const TutorApplicationSchema = new Schema({
     rin: {type: String, required: true},
     subjects: [{type: String}],
     comments: {type: String, default: ""},
-    rate: {type: Number, default: 0}
+    rate: {type: Number, default: 0},
+    paypal_email: {type: String, default: null}
 
     
 });

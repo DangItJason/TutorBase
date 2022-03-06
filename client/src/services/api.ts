@@ -206,14 +206,15 @@ export class ApiService {
         return await axios.post(url, body, {withCredentials: true});
     }
 
-    public async TutorSignup(id: String, rin: String, subjects: Array<String>, comments: String, rate: number) {
+    public async TutorSignup(id: String, rin: String, subjects: Array<String>, comments: String, rate: number, email: String) {
         let url = this.tutorsEndpoint + 'apply';
         let body = {
             userId: id,
             rin: rin,
             subjects: subjects,
             comments: comments,
-            rate: rate
+            rate: rate,
+            paypal_email : email
         };
         let res = await axios.post(url, body, {withCredentials: true});
         console.log(res);
