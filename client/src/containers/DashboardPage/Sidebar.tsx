@@ -20,7 +20,8 @@ import useMediaQuery from 'use-media-query-hook';
 import {isMobile} from "react-device-detect";
 
 export interface IParams {
-    mode: string; // tutor or client
+    mode: string; // tutor or client menu currently viewed
+    isTutor: boolean; // tutor menu allowed to be accessed
 }
 
 export const Sidebar = (params: IParams) => {
@@ -32,11 +33,11 @@ export const Sidebar = (params: IParams) => {
             <div className="sidebar-heading" style={{position: "fixed"}}>TutorBase</div>
             <ListGroup>
                 {params.mode === "Tutor"
-                    ? (
+                    ? ( params.isTutor ? (
                         <div style={{position: "fixed", top: '50px'}}>
-                            <ListGroupItem tag="a" href="/tutor/preferences"
-                                           className={classNames("list-group-item", "bg-none", extension==='preferences' ?"tab-active" : null)}><FontAwesomeIcon
-                                icon={faUserClock}/>Schedule Preferences</ListGroupItem>
+                            <ListGroupItem tag="a" href="/tutor/overview"
+                                           className={classNames("list-group-item", "bg-none", extension==='overview' ?"tab-active" : null)}><FontAwesomeIcon
+                                icon={faUserClock}/>Overview</ListGroupItem>
                             <ListGroupItem tag="a" href="/tutor/meetings"
                                            className={classNames("list-group-item", "bg-none", extension==='meetings' ?"tab-active" : null)}><FontAwesomeIcon
                                 icon={faCalendar}/>Upcoming Meetings</ListGroupItem>
@@ -63,6 +64,9 @@ export const Sidebar = (params: IParams) => {
 
                             : null}
                         </div>
+                    )
+                    :
+                    <div></div>
                     )
                     : (
                         <div style={{position: "fixed", top: '50px'}}>
@@ -107,7 +111,7 @@ export const Sidebar = (params: IParams) => {
                     ) :
                     (
                         <div>
-                            <ListGroupItem tag="a" href="/tutor/meetings" className={classNames("list-group-item", "bg-none")}>
+                            <ListGroupItem tag="a" href="/tutor/overview" className={classNames("list-group-item", "bg-none")}>
                                 <FontAwesomeIcon icon={faToggleOff}/>
                                 Switch to Tutor Dashboard
                             </ListGroupItem>

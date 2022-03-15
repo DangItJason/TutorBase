@@ -101,6 +101,24 @@ router.get("/tutor/:id", (req, res) => {
 
 /**
  * Route serving courses form.
+ * @name get/api/courses/tutor/:tutorid
+ * @function
+ * @memberof module:routes/api/courses~coursesRouter
+ * @inner
+ * @param {string} tutorid - Express path
+ */
+// GET /api/courses/tutor/tutorid
+// Get all courses by a specific tutor ID
+router.get('/tutor/:tutor_id', (req, res) => {
+  console.log('Searching for courses by a specific tutor ID');
+  Course.find({ tutors: req.params.tutor_id })
+    .sort({ name: 1 })
+    .then((courses) => res.json(courses))
+    .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
+/**
+ * Route serving courses form.
  * @name post/api/courses
  * @function
  * @memberof module:routes/api/courses~coursesRouter

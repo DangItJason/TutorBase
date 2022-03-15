@@ -1,5 +1,18 @@
 import imageCompression from "browser-image-compression";
 
+// Current colors of subject buttons are hard-coded
+export function SubjectToColor(courseid:string) {
+    let hash = 0;
+    for (var i = 0; i < courseid.length; i++) {
+       hash = courseid.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  let c = (hash & 0x00FFFFFF)
+  .toString(16)
+  .toUpperCase();
+  return '#' + ("00000".substring(0, 6 - c.length) + c);
+}
+
+
 export function BreakDownTime(standard_time: String): Array<String> {
     const monthMap = new Map([
         [1, "January"],

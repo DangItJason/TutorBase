@@ -7,6 +7,7 @@ import {Subject} from "../../services/api.types";
 import styled from "styled-components";
 import ClientFlowCard from "../clientFlowCard/ClientFlowCard";
 import { toast } from "react-toastify";
+import { SubjectToColor } from "../../services/tools";
 
 /* Step one of the appointment scheduler is for
    the user to pick their tutor subject */
@@ -39,9 +40,7 @@ export function Step1() {
                             dispatch(clientFlowActions.incrementStep());
                             dispatch(clientFlowActions.setSelectedSubject(subject));
                         }}
-                        color={subject.id === "CSCI" ? "blue"
-                            : subject.id === "MATH" ? "green"
-                                : "red"}
+                        color={SubjectToColor(subject._id)}
                         title={subject.id}
                         checked={clientFlowData.selectedSubject.id === subject.id}
                     ></ClientFlowCard>

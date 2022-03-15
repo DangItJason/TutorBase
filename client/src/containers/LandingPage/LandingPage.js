@@ -72,13 +72,6 @@ class landing extends Component {
                     <p>Find the help you need with confidence for any offered class on RPI's very first remote, hiring platform for students.</p>
                     <div className="header-button">
                       <a
-                        rel="nofollow"
-                        href="/signup"
-                        className="btn btn-common"
-                      >
-                        Sign Up Now!
-                        </a>
-                      <a
                         href="/login"
                         className="btn btn-border video-popup"
                       >
@@ -172,7 +165,6 @@ class landing extends Component {
         </section>
         {/* Services Section End */}
         <div>
-          
           {/* Features Section Start */}
           <section id="features" className="section-padding">
             <div className="container">
