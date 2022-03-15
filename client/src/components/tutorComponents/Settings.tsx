@@ -141,6 +141,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
             temp_meeting_interval: parseInt(tutor.interval),
             profile_pic:tutor.profile_img,
             description: tutor.description || "",
+            temp_description:  tutor.description || ""
 
           })
         }).catch(err=>console.log(err));
