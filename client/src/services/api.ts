@@ -140,6 +140,11 @@ export class ApiService {
         return await axios.post(url, body);
     }
 
+    public async CheckPaymentConfirmed(appointment: Appointment): Promise<boolean> {
+        let url = this.appointmentsEndpoint + appointment.appt_id + "/paymentconfirmed";
+        return await axios.get(url);
+    }
+
     public async SubmitFeedback(feedback: Feedback) {
         let url = this.feedbackEndpoint;
         let body = {
@@ -217,7 +222,6 @@ export class ApiService {
             paypal_email : email
         };
         let res = await axios.post(url, body, {withCredentials: true});
-        console.log(res);
         return res.status === 200;
         
     }

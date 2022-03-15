@@ -72,6 +72,8 @@ export interface Appointment {
     notes: string,
     confirmed: boolean,
     link?: string,
+    paypal_tx?: string,
+    paypal_approved?: boolean
 }
 
 export interface IAppointmentEndpoint {
@@ -88,6 +90,8 @@ export interface IAppointmentEndpoint {
     __v?: number;
     _id?: string;
     meetingLink?: string,
+    paypal_tx?: string,
+    paypal_approved?: boolean
 }
 
 

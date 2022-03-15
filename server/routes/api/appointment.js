@@ -267,7 +267,7 @@ function checkPaymentConfirmed(appointmentID) {
         .then(response => response.json())
         .then(json => {
                 if (json.status === "APPROVED") {
-                  Appointment.updateOne(
+                  await Appointment.updateOne(
                     { appt_id: appointmentID },
                     { $set: {paypal_approved: true} }
                   );

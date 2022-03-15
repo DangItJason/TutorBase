@@ -19,6 +19,7 @@ interface IProps {
 
 export function MeetingCard(props: IProps) {
     let { appt } = props;
+    const link = "https://api.sandbox.paypal.com/v2/checkout/orders/";
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
     let [modalOpen, setModalOpen] = useState(false);
@@ -27,6 +28,7 @@ export function MeetingCard(props: IProps) {
     let [loading, setLoading] = useState(false);
     let [check, setCheck] = useState(false);
     let [err, setErr] = useState(false);
+    let [refreshAppLoading, setRefreshAppLoading] = useState(false);
     let [clientData, setClientData] = useState<User>({
         _id: "",
         profile_img: "",
@@ -37,6 +39,11 @@ export function MeetingCard(props: IProps) {
     });
     function setMeetingLinkChange(link: React.FormEvent<HTMLInputElement>) {
         setMeetingLink(link.currentTarget.value);
+    }
+    async function checkAppt(appt: Appointment) {
+        setRefreshAppLoading(true);
+        appt.paypal_approved = await api.CheckPaymentConfirmed(appt);
+        setRefreshAppLoading(false);
     }
     async function updateMeetingLink() {
         setLoading(true);
@@ -220,6 +227,16 @@ export function MeetingCard(props: IProps) {
                     </Button>
                     </ModalFooter>
                 </Modal>
+                {appt.paypal_tx !== null
+                ? appt.paypal_approved 
+                ? <div>
+                    <div style={{color:'green'}}>Payment Completed</div>
+                    <Button onClick={() => checkAppt(appt)}> 
+                        <Spinner hidden={refreshAppLoading} />
+                    </Button>
+                </div>
+                : <div style={{color:'red'}}>Payment Incomplete</div>
+                : <></>}
                 </div>
                 </div>
                 : <div>{meetingLink === "" ? "" :
@@ -231,6 +248,26 @@ export function MeetingCard(props: IProps) {
                 <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink}</a></div>
                 </div>)
                 }
+                {appt.paypal_tx !== null
+                ? appt.paypal_approved 
+                ? <div>
+                    <div style={{color:'green'}}>Payment Completed</div>
+                    <Button onClick={() => checkAppt(appt)}> 
+                        <Spinner hidden={refreshAppLoading} />
+                    </Button>
+                </div>
+                :<div>
+                    <a href={link+appt.paypal_tx} target="_new">
+                        <Button style={{backgroundColor: 'yellow'}}>
+                            Pay with
+                            <img src="../../assets/pypl.png" />
+                            
+                        </Button>
+                    </a>
+                 <div style={{color:'red'}}>Payment Incomplete</div>
+                </div>
+                    
+                : <></>}
                 </div>
                 }
 
