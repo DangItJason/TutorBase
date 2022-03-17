@@ -5,6 +5,7 @@ import {ToastProvider} from "react-toast-notifications";
 import {BrowserRouter, Route, Switch, useLocation} from "react-router-dom";
 import {LoginPage} from "./containers/LoginPage/LoginPage";
 function App() {
+    console.log('hello?')
     return (
         <BrowserRouter>
             <Switch>

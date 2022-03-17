@@ -68,7 +68,7 @@ export default function withAuth(ComponentToProtect) {
         if (redirect) {
             return <Redirect to="/login" />;
         }
-        return <ComponentToProtect />;
+        return ComponentToProtect;
         
     }
 }

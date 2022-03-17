@@ -55,7 +55,7 @@ router.get("/", withAuth, (req, res) => {
 
 /**
  * Route serving tutor actions.
- * @name get/api/tutors/tutor
+ * @name get/api/tutors
  * @function
  * @memberof module:routes/api/tutors~tutorRouter
  * @inner
@@ -64,7 +64,7 @@ router.get("/", withAuth, (req, res) => {
  */
 // GET /api/tutors/tutor
 // Get tutor by id
-router.get("/tutor/:tutor_id", (req, res) => {
+router.get("/:tutor_id", (req, res) => {
     console.log("Searching forn tutor by ID");
     Tutor.find({ _id: req.params.tutor_id })
         .sort({ name: 1 })
@@ -133,12 +133,34 @@ router.put("/tutor", withAuth, (req, res) => {
     const entries = Object.keys(req.body)
     const updates = {}
 
-    for (let i = 0; i < entries.length; i++)
+    for (let i = 0; i < entries.length; i++){
         updates[entries[i]] = Object.values(req.body)[i]
+    }
 
-    Tutor.update(
-        { _id: req.userid },
-        { $set: updates }
+    Tutor.findOneAndUpdate(
+        { _id: req.body.userid },
+        updates 
+    )
+        .then((tutor) => res.json(tutor))
+        .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
+
+/**
+ * Route serving tutor actions.
+ * @name delete/api/tutors/tutor
+ * @function
+ * @memberof module:routes/api/tutors~tutorRouter
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+// DELETE /api/tutors/tutor
+// Update a tutor
+router.delete("/:tutor_id", withAuth, (req, res) => {
+
+    Tutor.deleteOne(
+        { _id: req.params.tutor_id }
     )
         .then((tutor) => res.json(tutor))
         .catch((err) => res.status(400).json({ msg: err.message }));

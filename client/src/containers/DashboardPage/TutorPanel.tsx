@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { Navbar, Button } from "reactstrap";
-import Settings from "../../components/tutorComponents/settings";
+import Settings from "../../components/tutorComponents/Settings";
 import Analytics from "../../components/tutorComponents/data";
 import { TutorOverview } from "./TutorOverview";
 import { TutorHistory } from "./TutorHistory";

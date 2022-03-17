@@ -1,3 +1,5 @@
+
+
 export interface SubjectsResponse {
     data: Array<Subject>;
 }
@@ -44,6 +46,7 @@ export interface Tutor {
     email: string, // User email (ID)
     first_name: string,
     last_name: string,
+    description?:string
 }
 
 export interface User {
@@ -90,15 +93,10 @@ export interface IAppointmentEndpoint {
     meetingLink?: string,
 }
 
+type Day = 'Sunday'| 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export type TutorTimes = {
+    [key in Day]:number[][];
 
-export interface TutorTimes {
-    Sunday: Array<number>,
-    Monday: Array<number>,
-    Tuesday: Array<number>,
-    Wednesday: Array<number>,
-    Thursday: Array<number>,
-    Friday: Array<number>,
-    Saturday: Array<number>,
 }
 
 export interface Feedback {
