@@ -1,7 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import classNames from "classnames";
 import { Navbar, Button, Container, Row, Spinner, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup, Badge, Card, CardBody, Input } from "reactstrap";
-import Settings from "../../components/tutorComponents/settings";
 import Analytics from "../../components/tutorComponents/data";
 import { TutorHistory } from "./TutorHistory";
 import { Meetings } from "./Meetings";
