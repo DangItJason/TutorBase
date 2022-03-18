@@ -9,7 +9,7 @@ import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../servic
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
 import styled, {keyframes} from "styled-components";
 import moment from "moment";
-
+import pypl from "../../assets/pypl.png";
 
 interface IProps {
     appt: Appointment,
@@ -23,7 +23,7 @@ export function MeetingCard(props: IProps) {
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
     let [modalOpen, setModalOpen] = useState(false);
-    let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
+    let [cardExpanded, toggleCardExpansion] = useState(false);
     let [meetingLink, setMeetingLink] = useState(appt.link !== null ? appt.link! : "");
     let [loading, setLoading] = useState(false);
     let [check, setCheck] = useState(false);
@@ -155,7 +155,6 @@ export function MeetingCard(props: IProps) {
             </div>
         </CompressedCard>
     );
-
     if(cardExpanded) {
         card = (
             <ExpandedCard
@@ -230,12 +229,12 @@ export function MeetingCard(props: IProps) {
                 {appt.paypal_tx !== null
                 ? appt.paypal_approved 
                 ? <div>
-                    <div style={{color:'green'}}>Payment Completed</div>
+                    <div style={{color:'green', marginLeft: '1em'}}>Payment Completed</div>
                     <Button onClick={() => checkAppt(appt)}> 
                         <Spinner hidden={refreshAppLoading} />
                     </Button>
                 </div>
-                : <div style={{color:'red'}}>Payment Incomplete</div>
+                : <div style={{color:'red', marginLeft: '1em'}}><b>Payment Incomplete</b></div>
                 : <></>}
                 </div>
                 </div>
@@ -251,20 +250,24 @@ export function MeetingCard(props: IProps) {
                 {appt.paypal_tx !== null
                 ? appt.paypal_approved 
                 ? <div>
-                    <div style={{color:'green'}}>Payment Completed</div>
+                    <div style={{color:'green', marginLeft: '1em'}}>Payment Completed</div>
                     <Button onClick={() => checkAppt(appt)}> 
                         <Spinner hidden={refreshAppLoading} />
                     </Button>
                 </div>
                 :<div>
                     <a href={link+appt.paypal_tx} target="_new">
-                        <Button style={{backgroundColor: 'yellow'}}>
-                            Pay with
-                            <img src="../../assets/pypl.png" />
+                        <Button style={{
+                            marginLeft: '1em',
+                            backgroundColor: 'yellow', 
+                            color: 'blue',
+                            borderColor:'none'}}>
+                            Pay with {' '}
+                            <img src={pypl} style={{height:'1em'}} />
                             
                         </Button>
                     </a>
-                 <div style={{color:'red'}}>Payment Incomplete</div>
+                 <div style={{color:'red', marginLeft: '1em'}}><b>Payment Incomplete</b></div>
                 </div>
                     
                 : <></>}
@@ -274,7 +277,6 @@ export function MeetingCard(props: IProps) {
             </ExpandedCard>
         );
     }
-
     return <>{card}</>;
 }
 

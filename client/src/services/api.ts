@@ -45,7 +45,7 @@ export class ApiService {
         let response = await axios.get(url);
         let tutor: TutorsResponse = {data: []}
         tutor.data = response.data;
-        console.log("Tutor", tutor.data);
+        //console.log("Tutor", tutor.data);
         return tutor;
     }
 
@@ -59,6 +59,7 @@ export class ApiService {
     }
 
     public async GetTutorAppointments(id: String) {
+        console.log(id);
         let url = this.appointmentsEndpoint + "tutors/" + id;
         let appt: AppointmentsResponse = {data: []}
         let response = await axios.get(url);
@@ -80,6 +81,7 @@ export class ApiService {
         let url = this.appointmentsEndpoint + "clients/" + id;
         let appt: AppointmentsResponse = {data: []}
         let response = await axios.get(url);
+        console.log(id);
         if(response.status !== 200) return appt;
         appt.data = response.data;
         appt.data.sort((app1, app2) => {

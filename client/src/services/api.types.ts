@@ -44,6 +44,7 @@ export interface Tutor {
     email: string, // User email (ID)
     first_name: string,
     last_name: string,
+    paypal_email?: string
 }
 
 export interface User {
