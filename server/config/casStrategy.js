@@ -6,7 +6,7 @@ module.exports = new CasStrategy(
   {
     version: 'CAS3.0',
     ssoBaseURL: "https://cas-auth.rpi.edu/cas",
-    serverBaseURL: "http://localhost:9000",
+    serverBaseURL: process.env.APP_BASE_URL,
   },
   function (profile, done) {
     var login = profile.user.toLowerCase();
