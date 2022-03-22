@@ -19,7 +19,7 @@ interface IProps {
 
 export function MeetingCard(props: IProps) {
     let { appt } = props;
-    const link = "https://api.sandbox.paypal.com/v2/checkout/orders/";
+    const link = "https://www.sandbox.paypal.com/checkoutnow?token=";
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
     let [modalOpen, setModalOpen] = useState(false);

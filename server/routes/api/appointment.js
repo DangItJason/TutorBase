@@ -9,7 +9,7 @@
 * @const
 */
 const express = require('express');
-
+const fetch = require('node-fetch');
 /**
  * Express router to mount user related functions on.
  * @type {object}
@@ -96,7 +96,7 @@ router.post("/", async (req, res) => {
     }
   console.log("START TIME: ", startTime)
   console.log("END TIME: ", endTime)
-
+console.log(tutor);
   if (tutor.paypal_email !== null) {
     // Create paypal payment
     var postbody = {
@@ -105,7 +105,7 @@ router.post("/", async (req, res) => {
         {
           amount: {
             currency_code: "USD",
-            value: req.body.price * (endTime - startTime) / 60 / 60
+            value: req.body.price * (endTime - startTime) / 1000 / 60 / 60
           },
           payee: {
             email_address: tutor.paypal_email
@@ -113,19 +113,22 @@ router.post("/", async (req, res) => {
         }
       ]
     }
-    fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders", {
+    try {
+      const response = await fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders", {
       method: 'post', 
       body: JSON.stringify(postbody),
-      headers: new Headers({
+      headers: {
         'Content-Type': 'application/json',
-        'Authorization' : 'Basic ' + btoa(secrets.PAYPALAPITOKEN)
-      })
-    })
-    .then(response => response.json())
-    .then(json => {
-            var txlink = json.links[1].href;
-            paypal_tx = txlink.substring(txlink.indexOf("token=") + 6);
-          });
+        'Authorization' : 'Basic ' + Buffer.from(secrets.PAYPALAPITOKEN).toString('base64')
+      }
+      });
+      const json = await response.json();
+      var txlink = json.links[1].href;
+      paypal_tx = txlink.substring(txlink.indexOf("token=") + 6);
+    }
+    catch(err) {
+      console.log(err);
+    }
   }
 
   let newAppt = new Appointment({
@@ -153,12 +156,6 @@ router.post("/", async (req, res) => {
     appt_confirmation_token: tok
   });
   newAptConfToken.save();
-
-  
-
-  
-
-
 
   // Send confirmation email and texts
   if(tutor.phone || tutor.email !== null)
@@ -253,31 +250,38 @@ router.post("/link", async (req, res) => {
   }
 });
 
-function checkPaymentConfirmed(appointmentID) {
-  Appointment.findOne({ appt_id: appointmentID })
-    .then(appointment => {
-      if (appointment.paypal_tx !== null) {
-        fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders/" + appointment.paypal_tx, {
-          method: 'get', 
-          headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization' : 'Basic ' + btoa(secrets.PAYPALAPITOKEN)
-          })
-        })
-        .then(response => response.json())
-        .then(json => {
-                if (json.status === "APPROVED") {
-                  Appointment.updateOne(
-                    { appt_id: appointmentID },
-                    { $set: {paypal_approved: true} }
-                  ).then(res => {return true;});
-                }
-                return false;
-              });
+async function checkPaymentConfirmed(appointmentID) {
+      var appointment = await Appointment.findOne({ appt_id: appointmentID });
+      if (appointment === null) {
+        return false;
       }
-      return true;
-    });
-    return false;
-}
+      if (appointment.paypal_tx !== null) {
+        try {
+          const response = await fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders" + appointment.paypal_tx, {
+          method: 'get', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : 'Basic ' + Buffer.from(secrets.PAYPALAPITOKEN).toString('base64')
+          }
+          });
+          const json = await response.json();
+          if (json.status === "APPROVED") {
+            await Appointment.updateOne(
+              { appt_id: appointmentID },
+              { $set: {paypal_approved: true} }
+            );
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+        catch(err) {
+          console.log(err);
+          return false;
+        }
+      }
+      return false;
+    }
 
 module.exports = router;
