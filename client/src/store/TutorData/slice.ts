@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {TutorDataSlice} from "./types";
 import {Course, Appointment} from "../../services/api.types";
+import { TutorIdPlaceholder } from "../../utils/Environment";
 
 export const initialState: TutorDataSlice = {
-    tutorId: (process.env.NODE_ENV==="development" ? (process.env.TUTORID_PLACEHOLDER ?? "") : "" ),
+    tutorId: (process.env.NODE_ENV==="development" ? (TutorIdPlaceholder ?? "") : "" ),
     courses: [],
     appointments: []
 };
