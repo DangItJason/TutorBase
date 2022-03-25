@@ -6,7 +6,7 @@ import { ClientIdPlaceholder } from "../../utils/Environment";
 /* clientData slice is the storage medium for
    everything to do with client user data */
 export const initialState: ClientDataSlice = {
-    clientId: (process.env.NODE_ENV==="development" ? (ClientIdPlaceholder ?? "") : "" ),
+    clientId: ClientIdPlaceholder,
     appointments: [],
     profile_img: "",
     phone: "",

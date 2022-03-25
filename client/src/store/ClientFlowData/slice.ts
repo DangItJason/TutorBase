@@ -8,7 +8,7 @@ import { ClientIdPlaceholder } from "../../utils/Environment";
     and anything needed inside the "clientFlow" components */
 export const initialState: ClientFlowSlice = {
     sidebarToggled: false,
-    clientId: (process.env.NODE_ENV==="development" ? (ClientIdPlaceholder ?? "") : "" ),
+    clientId: ClientIdPlaceholder,
 
     currentStep: 0,
     furthestStep: 0,
