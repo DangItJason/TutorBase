@@ -15,8 +15,7 @@ const session = require("express-session");
 const passport = require("passport");
 
 // Connect to database
-const uri =
-  "mongodb+srv://Admin:DataStructures@cluster0-wcree.mongodb.net/TutorBase?retryWrites=true&w=majority";
+const uri = "mongodb+srv://" + process.env.MONGO_USER + ":" + process.env.MONGO_PASS + "@" + process.env.MONGO_HOST + "/TutorBase?retryWrites=true&w=majority";
 mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
 
 // Routers
@@ -38,7 +37,7 @@ const secret = require("./config/secret");
 // Allowing Cors Usage
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://tutorbase-rpi.netlify.app'],
+    origin: [procss.env.CORS_ORIGIN_ADDRESS],
     credentials: true,
   })
 );

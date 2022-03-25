@@ -1,11 +1,12 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ClientDataSlice} from "./types";
 import {Appointment} from "../../services/api.types";
+import { ClientIdPlaceholder } from "../../utils/Environment";
 
 /* clientData slice is the storage medium for
    everything to do with client user data */
 export const initialState: ClientDataSlice = {
-    clientId: "6070beb7dad06e015b73a107",
+    clientId: (process.env.NODE_ENV==="development" ? (ClientIdPlaceholder ?? "") : "" ),
     appointments: [],
     profile_img: "",
     phone: "",

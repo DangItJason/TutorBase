@@ -1,13 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ClientFlowSlice, Course} from "./types";
 import {Appointment, Subject, Tutor} from "../../services/api.types";
+import { ClientIdPlaceholder } from "../../utils/Environment";
 
 /* clientFlowData slice is the storage medium for
    everything to do with creating a tutor appointment,
     and anything needed inside the "clientFlow" components */
 export const initialState: ClientFlowSlice = {
     sidebarToggled: false,
-    clientId: "6070beb7dad06e015b73a107",
+    clientId: (process.env.NODE_ENV==="development" ? (ClientIdPlaceholder ?? "") : "" ),
 
     currentStep: 0,
     furthestStep: 0,
