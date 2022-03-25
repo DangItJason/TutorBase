@@ -62,8 +62,8 @@ router.get("/", (req, res) => {
  */
 // GET /api/appointment
 // Get all appointment
-router.get("/:appt_id/paymentconfirmed", (req, res) => {
-  res.json({confirmed: checkPaymentConfirmed(appt_id)});
+router.get("/:appt_id/paymentconfirmed", async (req, res) => {
+  res.json({confirmed: await checkPaymentConfirmed( req.params.appt_id)});
 });
 
 
@@ -257,7 +257,7 @@ async function checkPaymentConfirmed(appointmentID) {
       }
       if (appointment.paypal_tx !== null) {
         try {
-          const response = await fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders" + appointment.paypal_tx, {
+          const response = await fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders/" + appointment.paypal_tx, {
           method: 'get', 
           headers: {
             'Content-Type': 'application/json',

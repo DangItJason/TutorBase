@@ -229,12 +229,17 @@ export function MeetingCard(props: IProps) {
                 {appt.paypal_tx !== null
                 ? appt.paypal_approved 
                 ? <div>
-                    <div style={{color:'green', marginLeft: '1em'}}>Payment Completed</div>
-                    <Button onClick={() => checkAppt(appt)}> 
-                        <Spinner hidden={refreshAppLoading} />
-                    </Button>
+                    <div style={{color:'green', marginLeft: '1em', marginBottom:'1em'}}>Payment Completed</div>
                 </div>
-                : <div style={{color:'red', marginLeft: '1em'}}><b>Payment Incomplete</b></div>
+                : <div style={{color:'red', marginLeft: '1em', marginBottom:'1em'}}>
+                <b>Payment Incomplete</b>
+                <Button 
+                    style={{marginLeft:'0.5em'}}
+                    onClick={(e) => {checkAppt(appt); e.stopPropagation();}}>
+                       Refresh
+                   <Spinner hidden={!refreshAppLoading} />
+                   </Button>
+                </div>
                 : <></>}
                 </div>
                 </div>
@@ -247,13 +252,10 @@ export function MeetingCard(props: IProps) {
                 <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink}</a></div>
                 </div>)
                 }
-                {appt.paypal_tx !== null
-                ? appt.paypal_approved 
+                {appt.paypal_tx !== undefined && appt.paypal_tx!.length > 0
+                ? (appt.paypal_approved 
                 ? <div>
-                    <div style={{color:'green', marginLeft: '1em'}}>Payment Completed</div>
-                    <Button onClick={() => checkAppt(appt)}> 
-                        <Spinner hidden={refreshAppLoading} />
-                    </Button>
+                    <div style={{color:'green', marginLeft: '1em', marginBottom: '1em'}}>Payment Completed</div>
                 </div>
                 :<div>
                     <a href={link+appt.paypal_tx} target="_new">
@@ -267,8 +269,16 @@ export function MeetingCard(props: IProps) {
                             
                         </Button>
                     </a>
-                 <div style={{color:'red', marginLeft: '1em'}}><b>Payment Incomplete</b></div>
-                </div>
+                 <div style={{color:'red', marginLeft: '1em', marginBottom:'1em'}}>
+                     <b>Payment Incomplete</b>
+                     <Button 
+                        style={{marginLeft:'0.5em'}}
+                        onClick={(e) => {checkAppt(appt); e.stopPropagation();}}>
+                            Refresh
+                        <Spinner hidden={!refreshAppLoading} />
+                        </Button>
+                     </div>
+                </div>)
                     
                 : <></>}
                 </div>

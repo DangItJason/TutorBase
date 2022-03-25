@@ -144,7 +144,8 @@ export class ApiService {
 
     public async CheckPaymentConfirmed(appointment: Appointment): Promise<boolean> {
         let url = this.appointmentsEndpoint + appointment.appt_id + "/paymentconfirmed";
-        return await axios.get(url);
+        let res = (await axios.get(url)).data;
+        return res.confirmed;
     }
 
     public async SubmitFeedback(feedback: Feedback) {
