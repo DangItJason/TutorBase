@@ -38,6 +38,7 @@ export const Panel = (props: IProps) => {
     const [validRIN, setValidRIN] = useState(false);
     const [cohort, setCohort] = useState("");
     const [comments, setComments] = useState("");
+    const [email, setEmail] = useState("");
     const [footerMessage, setFooterMessage] = useState("");
     const [rate, setRate] = useState(0);
     let subjects = [];
@@ -62,7 +63,7 @@ export const Panel = (props: IProps) => {
                 return;
         }
         let subs: Array<String> = Array.from(selectedSubjects.keys());
-        api.TutorSignup(id, RIN, subs, comments, rate).then(res =>{
+        api.TutorSignup(id, RIN, subs, comments, rate, email).then(res =>{
             res ?
             setFooterMessage("Application submitted.")
             : setFooterMessage("Error submitting. Please try again.");
@@ -236,6 +237,12 @@ export const Panel = (props: IProps) => {
                                 <Input
                                 type="number"
                                     onChange={(e) => setRate(+(e.target.value))} />
+                                </p>
+                                <p>
+                                <h5>PayPal Email (optional)</h5>
+                                <Input
+                                type="email"
+                                    onChange={(e) => setEmail(e.target.value)} />
                                 </p>
                                 <h5>Comments (optional)</h5>
                                 <Input 

@@ -45,7 +45,7 @@ export class ApiService {
         let response = await axios.get(url);
         let tutor: TutorsResponse = {data: []}
         tutor.data = response.data;
-        console.log("Tutor", tutor.data);
+        //console.log("Tutor", tutor.data);
         return tutor;
     }
 
@@ -59,6 +59,7 @@ export class ApiService {
     }
 
     public async GetTutorAppointments(id: String) {
+        console.log(id);
         let url = this.appointmentsEndpoint + "tutors/" + id;
         let appt: AppointmentsResponse = {data: []}
         let response = await axios.get(url);
@@ -80,6 +81,7 @@ export class ApiService {
         let url = this.appointmentsEndpoint + "clients/" + id;
         let appt: AppointmentsResponse = {data: []}
         let response = await axios.get(url);
+        console.log(id);
         if(response.status !== 200) return appt;
         appt.data = response.data;
         appt.data.sort((app1, app2) => {
@@ -138,6 +140,12 @@ export class ApiService {
         console.log("== DEBUG == Creating appointment: ", body)
 
         return await axios.post(url, body);
+    }
+
+    public async CheckPaymentConfirmed(appointment: Appointment): Promise<boolean> {
+        let url = this.appointmentsEndpoint + appointment.appt_id + "/paymentconfirmed";
+        let res = (await axios.get(url)).data;
+        return res.confirmed;
     }
 
     public async SubmitFeedback(feedback: Feedback) {
@@ -206,17 +214,17 @@ export class ApiService {
         return await axios.post(url, body, {withCredentials: true});
     }
 
-    public async TutorSignup(id: String, rin: String, subjects: Array<String>, comments: String, rate: number) {
+    public async TutorSignup(id: String, rin: String, subjects: Array<String>, comments: String, rate: number, email: String) {
         let url = this.tutorsEndpoint + 'apply';
         let body = {
             userId: id,
             rin: rin,
             subjects: subjects,
             comments: comments,
-            rate: rate
+            rate: rate,
+            paypal_email : email
         };
         let res = await axios.post(url, body, {withCredentials: true});
-        console.log(res);
         return res.status === 200;
         
     }

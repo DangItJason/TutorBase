@@ -25,6 +25,8 @@ const AppointmentSchema = new Schema({
     confirmed: {type: Boolean, default: false}, // Accepted by tutor
 
     link: {type: String, required: false}, // Link to zoom/webex
+    paypal_tx: {type: String, required: false},
+    paypal_approved: {type: Boolean, required: false}
 });
 
 module.exports = Appointment = mongoose.model('Appointment', AppointmentSchema);

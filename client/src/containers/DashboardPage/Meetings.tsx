@@ -41,6 +41,7 @@ export const Meetings = (params: IParams) => {
                     dispatch(tutorDataActions.setAppointment(value));
                 else
                     dispatch(clientDataActions.setAppointment(value));
+                
             }
         )
     }, [clientData.clientId, tutorData.tutorId, dispatch]);
@@ -52,7 +53,6 @@ export const Meetings = (params: IParams) => {
     } else if (dropDownValue==="Upcoming"){
         filteredAppointments = appointments.filter((appointment) => appointment.confirmed);
     }
-
     let meetingCards = filteredAppointments.map(appointment => (
         <MeetingCard appt={appointment} isTutor={params.mode==="Tutor"} includePrevious={false}/>
     ));
@@ -88,7 +88,6 @@ export const Meetings = (params: IParams) => {
                         }}>Upcoming</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-
             {meetingCards}
         </Container>
     );

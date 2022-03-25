@@ -184,7 +184,8 @@ router.post("/apply", withAuth, (req, res) => {
         rin: req.body.rin,
         subjects: req.body.subjects,
         comments: req.body.comments,
-        rate: req.body.rate
+        rate: req.body.rate,
+        paypal_email: req.body.paypal_email
     });
     newTutorApplication.save().then((app) => {
         var htmlOrig = fs.readFileSync(__dirname + '../../lib/email_tutor_application.html').toString();
@@ -194,6 +195,7 @@ router.post("/apply", withAuth, (req, res) => {
                     .replace("{{subjects}}", req.body.subjects)
                     .replace("{{comments}}", req.body.comments)
                     .replace("{{rate}}", req.body.rate)
+                    .replace("{{paypal-email}}", req.body.paypal_email)
                     ;
         var emailresult = emailsender.send("tutorbaseadmin@gmail.com", html, "NEW TUTOR APPLICATION: " + req.body.rin);
         res.json(app);

@@ -9,7 +9,7 @@ import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../servic
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
 import styled, {keyframes} from "styled-components";
 import moment from "moment";
-
+import pypl from "../../assets/pypl.png";
 
 interface IProps {
     appt: Appointment,
@@ -19,14 +19,16 @@ interface IProps {
 
 export function MeetingCard(props: IProps) {
     let { appt } = props;
+    const link = "https://www.sandbox.paypal.com/checkoutnow?token=";
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
     let [modalOpen, setModalOpen] = useState(false);
-    let [cardExpanded, toggleCardExpansion] = useState<boolean>(false);
+    let [cardExpanded, toggleCardExpansion] = useState(false);
     let [meetingLink, setMeetingLink] = useState(appt.link !== null ? appt.link! : "");
     let [loading, setLoading] = useState(false);
     let [check, setCheck] = useState(false);
     let [err, setErr] = useState(false);
+    let [refreshAppLoading, setRefreshAppLoading] = useState(false);
     let [clientData, setClientData] = useState<User>({
         _id: "",
         profile_img: "",
@@ -37,6 +39,11 @@ export function MeetingCard(props: IProps) {
     });
     function setMeetingLinkChange(link: React.FormEvent<HTMLInputElement>) {
         setMeetingLink(link.currentTarget.value);
+    }
+    async function checkAppt(appt: Appointment) {
+        setRefreshAppLoading(true);
+        appt.paypal_approved = await api.CheckPaymentConfirmed(appt);
+        setRefreshAppLoading(false);
     }
     async function updateMeetingLink() {
         setLoading(true);
@@ -148,7 +155,6 @@ export function MeetingCard(props: IProps) {
             </div>
         </CompressedCard>
     );
-
     if(cardExpanded) {
         card = (
             <ExpandedCard
@@ -220,6 +226,21 @@ export function MeetingCard(props: IProps) {
                     </Button>
                     </ModalFooter>
                 </Modal>
+                {appt.paypal_tx !== null
+                ? appt.paypal_approved 
+                ? <div>
+                    <div style={{color:'green', marginLeft: '1em', marginBottom:'1em'}}>Payment Completed</div>
+                </div>
+                : <div style={{color:'red', marginLeft: '1em', marginBottom:'1em'}}>
+                <b>Payment Incomplete</b>
+                <Button 
+                    style={{marginLeft:'0.5em'}}
+                    onClick={(e) => {checkAppt(appt); e.stopPropagation();}}>
+                       Refresh
+                   <Spinner hidden={!refreshAppLoading} />
+                   </Button>
+                </div>
+                : <></>}
                 </div>
                 </div>
                 : <div>{meetingLink === "" ? "" :
@@ -231,13 +252,41 @@ export function MeetingCard(props: IProps) {
                 <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink}</a></div>
                 </div>)
                 }
+                {appt.paypal_tx !== undefined && appt.paypal_tx!.length > 0
+                ? (appt.paypal_approved 
+                ? <div>
+                    <div style={{color:'green', marginLeft: '1em', marginBottom: '1em'}}>Payment Completed</div>
+                </div>
+                :<div>
+                    <a href={link+appt.paypal_tx} target="_new">
+                        <Button style={{
+                            marginLeft: '1em',
+                            backgroundColor: 'yellow', 
+                            color: 'blue',
+                            borderColor:'none'}}>
+                            Pay with {' '}
+                            <img src={pypl} style={{height:'1em'}} />
+                            
+                        </Button>
+                    </a>
+                 <div style={{color:'red', marginLeft: '1em', marginBottom:'1em'}}>
+                     <b>Payment Incomplete</b>
+                     <Button 
+                        style={{marginLeft:'0.5em'}}
+                        onClick={(e) => {checkAppt(appt); e.stopPropagation();}}>
+                            Refresh
+                        <Spinner hidden={!refreshAppLoading} />
+                        </Button>
+                     </div>
+                </div>)
+                    
+                : <></>}
                 </div>
                 }
 
             </ExpandedCard>
         );
     }
-
     return <>{card}</>;
 }
 

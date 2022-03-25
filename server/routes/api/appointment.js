@@ -9,7 +9,7 @@
 * @const
 */
 const express = require('express');
-
+const fetch = require('node-fetch');
 /**
  * Express router to mount user related functions on.
  * @type {object}
@@ -29,7 +29,7 @@ const Appointment = require("../../models/Appointment");
 const User = require("../../models/User");
 const Tutor = require("../../models/Tutor");
 const ApptConfToken = require("../../models/ApptConfToken");
-
+const secrets = require("../../lib/secrets");
 const { promisify } = require('util')
 
 const randomBytesAsync = promisify(require('crypto').randomBytes)
@@ -54,6 +54,21 @@ router.get("/", (req, res) => {
 
 /**
  * Route serving subjects form.
+ * @name get/api/appointment
+ * @function
+ * @memberof module:routes/api/users~userRouter
+ * @inner
+ * @param {callback} withAuth - Express middleware.
+ */
+// GET /api/appointment
+// Get all appointment
+router.get("/:appt_id/paymentconfirmed", async (req, res) => {
+  res.json({confirmed: await checkPaymentConfirmed( req.params.appt_id)});
+});
+
+
+/**
+ * Route serving subjects form.
  * @name post/api/appointment
  * @function
  * @memberof module:routes/api/appointment~appointmentOperationsRouter
@@ -64,9 +79,57 @@ router.get("/", (req, res) => {
 router.post("/", async (req, res) => {
   var startTime = req.body.date ? req.body.date : new Date();
   var endTime = req.body.end ? req.body.end : new Date();
-
+  var client, tutor, course, paypal_tx;
+    try {
+      client = await User.findOne(
+        { _id: req.body.client_id }
+      );
+      tutor = await Tutor.findOne(
+        { _id: req.body.tutor_id }
+      );
+      course = await Course.findOne(
+        { id: req.body.course_id }
+      );
+    } catch (e) {
+      console.log(e);
+      return;
+    }
   console.log("START TIME: ", startTime)
   console.log("END TIME: ", endTime)
+console.log(tutor);
+  if (tutor.paypal_email !== null) {
+    // Create paypal payment
+    var postbody = {
+      intent: "CAPTURE",
+      purchase_units: [
+        {
+          amount: {
+            currency_code: "USD",
+            value: req.body.price * (endTime - startTime) / 1000 / 60 / 60
+          },
+          payee: {
+            email_address: tutor.paypal_email
+          }
+        }
+      ]
+    }
+    try {
+      const response = await fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders", {
+      method: 'post', 
+      body: JSON.stringify(postbody),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : 'Basic ' + Buffer.from(secrets.PAYPALAPITOKEN).toString('base64')
+      }
+      });
+      const json = await response.json();
+      var txlink = json.links[1].href;
+      paypal_tx = txlink.substring(txlink.indexOf("token=") + 6);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
 
   let newAppt = new Appointment({
     appt_id: new mongoose.mongo.ObjectId(),
@@ -78,7 +141,10 @@ router.post("/", async (req, res) => {
     client_id: req.body.client_id,
     price: req.body.price,
     notes: req.body.notes,
+    paypal_tx: paypal_tx,
+    paypal_approved: false
   });
+  
   newAppt.save();
   let tokBytes, tok;
   tokBytes = await randomBytesAsync(256);
@@ -91,21 +157,6 @@ router.post("/", async (req, res) => {
   });
   newAptConfToken.save();
 
-  var client, tutor, course;
-  try {
-    client = await User.findOne(
-      { _id: req.body.client_id }
-    );
-    tutor = await Tutor.findOne(
-      { _id: req.body.tutor_id }
-    );
-    course = await Course.findOne(
-      { id: req.body.course_id }
-    );
-  } catch (e) {
-    console.log(e);
-    return;
-  }
   // Send confirmation email and texts
   if(tutor.phone || tutor.email !== null)
     console.log(apptconfirm.tutor(newAppt.appt_id, tok, tutor.phone, tutor.email, tutor.first_name + ' ' + tutor.last_name,
@@ -134,7 +185,7 @@ router.put('/', withAuth, (req, res) => {
   for (let i = 0; i < entries.length; i++) {
     updates[entries[i]] = Object.values(req.body)[i]
   }
-
+  checkPaymentConfirmed(req.body.apptid);
   Appointment.updateOne(
     { appt_id: req.body.apptid },
     { $set: updates }
@@ -199,6 +250,38 @@ router.post("/link", async (req, res) => {
   }
 });
 
-
+async function checkPaymentConfirmed(appointmentID) {
+      var appointment = await Appointment.findOne({ appt_id: appointmentID });
+      if (appointment === null) {
+        return false;
+      }
+      if (appointment.paypal_tx !== null) {
+        try {
+          const response = await fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders/" + appointment.paypal_tx, {
+          method: 'get', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : 'Basic ' + Buffer.from(secrets.PAYPALAPITOKEN).toString('base64')
+          }
+          });
+          const json = await response.json();
+          if (json.status === "APPROVED") {
+            await Appointment.updateOne(
+              { appt_id: appointmentID },
+              { $set: {paypal_approved: true} }
+            );
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+        catch(err) {
+          console.log(err);
+          return false;
+        }
+      }
+      return false;
+    }
 
 module.exports = router;
