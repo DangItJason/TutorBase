@@ -8,6 +8,7 @@ const cors = require("cors");
 const app = express();
 const bcrypt = require('bcryptjs');
 const fs = require("fs");
+require("dotenv").config()
 
 // Authentication Packages
 const cas = require("./config/casStrategy");
@@ -37,7 +38,7 @@ const secret = require("./config/secret");
 // Allowing Cors Usage
 app.use(
   cors({
-    origin: [procss.env.CORS_ORIGIN_ADDRESS],
+    origin: [process.env.CORS_ORIGIN_ADDRESS],
     credentials: true,
   })
 );
