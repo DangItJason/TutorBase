@@ -15,7 +15,7 @@ const TutorSchema = new Schema({
 
     price: {type: Number, default: 30},
     interval: {type: Number, default: 30},
-    paypal_email: {type: String, default: null}
+    paypal_email: {type: String, default: null},
     description: {type: String, default: ""},
 });
 
