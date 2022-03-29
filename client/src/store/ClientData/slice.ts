@@ -29,6 +29,9 @@ const clientDataSlice = createSlice({
         addAppointment(state: ClientDataSlice, action: PayloadAction<Appointment>){
             state.appointments.push(action.payload);
         },
+        deleteAppointment(state: ClientDataSlice, action: PayloadAction<string>){
+            state.appointments = state.appointments.filter(appt => appt.appt_id !== action.payload);
+        },
         updateAppointmentPaypalConfirmed(state: ClientDataSlice, action: PayloadAction<string>) {
             const appt = state.appointments.find(appt => appt.appt_id === action.payload);
             if (appt !== undefined)

@@ -47,6 +47,15 @@ export function MeetingCard(props: IProps) {
     function setMeetingLinkChange(link: React.FormEvent<HTMLInputElement>) {
         setMeetingLink(link.currentTarget.value);
     }
+    async function cancelAppointment(appt: Appointment) {
+        const result = await api.DeleteAppointment(appt.appt_id);
+        if (result) {
+            if (isTutor)
+                dispatch(tutorDataActions.deleteAppointment(appt.appt_id));
+            else
+                dispatch(clientDataActions.deleteAppointment(appt.appt_id));
+        }
+    }
     async function checkAppt(appt: Appointment) {
         setRefreshAppLoading(true);
         const result = await api.CheckPaymentConfirmed(appt);

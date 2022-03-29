@@ -81,7 +81,6 @@ export class ApiService {
         let url = this.appointmentsEndpoint + "clients/" + id;
         let appt: AppointmentsResponse = {data: []}
         let response = await axios.get(url);
-        console.log(id);
         if(response.status !== 200) return appt;
         appt.data = response.data;
         appt.data.sort((app1, app2) => {
@@ -113,6 +112,13 @@ export class ApiService {
         });
         return appt;
     }
+
+    public async DeleteAppointment(id: String) {
+        let url = this.appointmentsEndpoint + "/" + id;
+        let response = await axios.delete(url);
+        return (response.status === 200 || response.status === 204);
+    }
+
 
     public async GetCoursesByTutorId(id: String) {
         let url = this.coursesEndpoint + "tutor/" + id;

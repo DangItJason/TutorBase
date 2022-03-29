@@ -172,6 +172,24 @@ console.log(tutor);
 
 /**
  * Route serving subjects form.
+ * @name delete/api/appointment/appt_id
+ * @memberof module:routes/api/appointment~appointmentOperationsRouter
+ * @param {callback} withAuth - Express middleware.
+ */
+// DELETE api/appointment
+// delete an existing Appointment
+router.delete('/:appt_id', withAuth, (req, res) => {
+  Appointment.deleteOne(
+    { _id: req.params.appt_id }
+    )
+    .then((tutor) => res.json(tutor))
+    .catch((err) => res.status(400).json({ msg: err.message }));
+});
+
+
+
+/**
+ * Route serving subjects form.
  * @name put/api/appointment
  * @memberof module:routes/api/appointment~appointmentOperationsRouter
  * @param {callback} withAuth - Express middleware.
