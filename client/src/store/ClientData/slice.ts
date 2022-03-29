@@ -29,6 +29,11 @@ const clientDataSlice = createSlice({
         addAppointment(state: ClientDataSlice, action: PayloadAction<Appointment>){
             state.appointments.push(action.payload);
         },
+        updateAppointmentPaypalConfirmed(state: ClientDataSlice, action: PayloadAction<string>) {
+            const appt = state.appointments.find(appt => appt.appt_id === action.payload);
+            if (appt !== undefined)
+                appt.paypal_approved = !(appt?.paypal_approved);
+        },
         setFirstName(state: ClientDataSlice, action: PayloadAction<string>){
             state.first_name = action.payload;
         },

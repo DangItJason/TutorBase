@@ -22,6 +22,11 @@ const tutorDataSlice = createSlice({
         clearAppointments(state: TutorDataSlice){
             state.appointments = [];
         },
+        updateAppointmentPaypalConfirmed(state: TutorDataSlice, action: PayloadAction<string>) {
+            const appt = state.appointments.find(appt => appt.appt_id === action.payload);
+            if (appt !== undefined)
+                appt.paypal_approved = !(appt?.paypal_approved);
+        },
         addAppointment(state: TutorDataSlice, action: PayloadAction<Appointment>){
             state.appointments.push(action.payload);
         },

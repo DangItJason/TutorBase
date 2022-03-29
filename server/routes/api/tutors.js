@@ -64,7 +64,7 @@ router.get("/", withAuth, (req, res) => {
  */
 // GET /api/tutors/tutor
 // Get tutor by id
-router.get("/:tutor_id", (req, res) => {
+router.get("/tutor/:tutor_id", (req, res) => {
     console.log("Searching forn tutor by ID");
     Tutor.find({ _id: req.params.tutor_id })
         .sort({ name: 1 })

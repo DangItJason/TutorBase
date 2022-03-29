@@ -8,6 +8,9 @@ import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
 import styled, {keyframes} from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import {actions as clientDataActions} from "../../store/ClientData/slice";
+import {actions as tutorDataActions} from "../../store/TutorData/slice";
 import moment from "moment";
 import pypl from "../../assets/pypl.png";
 
@@ -18,7 +21,11 @@ interface IProps {
 }
 
 export function MeetingCard(props: IProps) {
-    let { appt } = props;
+    let { 
+            appt, 
+            isTutor 
+        } = props;
+    let dispatch = useDispatch();
     const link = "https://www.sandbox.paypal.com/checkoutnow?token=";
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
@@ -42,7 +49,13 @@ export function MeetingCard(props: IProps) {
     }
     async function checkAppt(appt: Appointment) {
         setRefreshAppLoading(true);
-        appt.paypal_approved = await api.CheckPaymentConfirmed(appt);
+        const result = await api.CheckPaymentConfirmed(appt);
+        if (result !== appt.paypal_approved) {
+            if (isTutor)
+                dispatch(tutorDataActions.updateAppointmentPaypalConfirmed(appt.appt_id));
+            else
+                dispatch(clientDataActions.updateAppointmentPaypalConfirmed(appt.appt_id));
+        }
         setRefreshAppLoading(false);
     }
     async function updateMeetingLink() {
