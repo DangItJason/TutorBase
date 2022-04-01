@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Spinner } from "reactstrap";
+import { Alert, Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Spinner, UncontrolledAlert } from "reactstrap";
 import {Appointment, Tutor, TutorsResponse, User} from "../../services/api.types";
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
@@ -29,6 +29,7 @@ export function MeetingCard(props: IProps) {
     const link = "https://www.sandbox.paypal.com/checkoutnow?token=";
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
+    let [deleteAlert, setDeleteAlert] = useState("");
     let [modalOpen, setModalOpen] = useState(false);
     let [cardExpanded, toggleCardExpansion] = useState(false);
     let [meetingLink, setMeetingLink] = useState(appt.link !== null ? appt.link! : "");
@@ -49,11 +50,16 @@ export function MeetingCard(props: IProps) {
     }
     async function cancelAppointment(appt: Appointment) {
         const result = await api.DeleteAppointment(appt.appt_id);
+        
         if (result) {
+            setDeleteAlert("Appointment Cancelled Successfully.");
             if (isTutor)
                 dispatch(tutorDataActions.deleteAppointment(appt.appt_id));
             else
                 dispatch(clientDataActions.deleteAppointment(appt.appt_id));
+        }
+        else {
+            setDeleteAlert("Appointment couldn't be cancelled.");
         }
     }
     async function checkAppt(appt: Appointment) {
@@ -263,6 +269,24 @@ export function MeetingCard(props: IProps) {
                    </Button>
                 </div>
                 : <></>}
+                {!appt.paypal_approved
+                ? (
+                    <div>
+                    <Button
+                        color="danger"
+                        style={{display: 'flex', marginBottom: '1em', marginLeft: '1em'}}
+                        onClick={(e) => {
+                            cancelAppointment(appt);
+                            e.stopPropagation();
+                        }}
+                    >
+                    Cancel Meeting
+                    </Button>
+            </div>
+                )
+                :<></>
+                }
+                
                 </div>
                 </div>
                 : <div>{meetingLink === "" ? "" :
@@ -303,13 +327,37 @@ export function MeetingCard(props: IProps) {
                 </div>)
                     
                 : <></>}
+                {!appt.confirmed
+                ? (<div>
+                    <Button
+                        color="danger"
+                        style={{display: 'flex', marginBottom: '1em', marginLeft: '1em'}}
+                        onClick={(e) => {
+                            cancelAppointment(appt);
+                            e.stopPropagation();
+                        }}
+                    >
+                    Cancel Meeting
+                    </Button>
+                    
+            </div>)
+                :<></>
+                }
                 </div>
                 }
 
             </ExpandedCard>
         );
     }
-    return <>{card}</>;
+    return <>
+    {card}
+    <Alert
+        color="info"
+        isOpen={deleteAlert !== ""}
+        >
+        {deleteAlert}
+    </Alert>
+    </>;
 }
 
 const grow = keyframes`

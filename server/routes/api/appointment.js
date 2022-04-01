@@ -176,14 +176,28 @@ console.log(tutor);
  * @memberof module:routes/api/appointment~appointmentOperationsRouter
  * @param {callback} withAuth - Express middleware.
  */
-// DELETE api/appointment
+// DELETE api/appointment/ID
 // delete an existing Appointment
-router.delete('/:appt_id', withAuth, (req, res) => {
-  Appointment.deleteOne(
-    { _id: req.params.appt_id }
-    )
-    .then((tutor) => res.json(tutor))
-    .catch((err) => res.status(400).json({ msg: err.message }));
+router.delete('/:appt_id', withAuth, async (req, res) => {
+  try {
+  const appt = await Appointment.find({ _id: req.params.appt_id });
+  if (appt == null || appt == undefined || appt.confirmed || appt.paypal_approved) {
+    throw("CANNOT DELETE APPT");
+  }
+  else {
+      const count = await Appointment.deleteOne(
+        { appt_id: req.params.appt_id }
+        );
+        if (count > 0)
+          res.status(204);
+        else
+          throw("No matching entries deleted" + count);
+    }
+  }
+    catch(err) {
+      res.status(500).json({ msg: err });
+    }
+  
 });
 
 
