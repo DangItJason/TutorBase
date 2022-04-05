@@ -62,6 +62,7 @@ router.post("/", async (req, res) => {
     let newFeedback = new Feedback({
         clientId: clientId,
         tutorId: tutorId,
+        meetingId: meetingId,
         message: message,
         rating: rating
     })

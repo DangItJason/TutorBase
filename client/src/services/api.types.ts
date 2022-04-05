@@ -109,4 +109,5 @@ export interface Feedback {
     rating: number,
     clientId: string,
     tutorId: string,
+    meetingId: string
 }

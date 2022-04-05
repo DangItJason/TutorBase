@@ -160,7 +160,8 @@ export class ApiService {
             message: feedback.message,
             rating: feedback.rating,
             tutorId: feedback.tutorId,
-            clientId: feedback.clientId
+            clientId: feedback.clientId,
+            meetingId: feedback.meetingId
         };
 
         console.log("== DEBUG == Creating feedback: ", body);
