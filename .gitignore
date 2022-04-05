@@ -37,4 +37,6 @@ client/.idea/
 
 server/.idea/
 
-server/lib/secrets.js
+.env
+server/.env
+client/.env

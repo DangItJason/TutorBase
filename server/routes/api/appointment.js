@@ -29,7 +29,6 @@ const Appointment = require("../../models/Appointment");
 const User = require("../../models/User");
 const Tutor = require("../../models/Tutor");
 const ApptConfToken = require("../../models/ApptConfToken");
-const secrets = require("../../lib/secrets");
 const { promisify } = require('util')
 
 const randomBytesAsync = promisify(require('crypto').randomBytes)
@@ -119,7 +118,7 @@ console.log(tutor);
       body: JSON.stringify(postbody),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization' : 'Basic ' + Buffer.from(secrets.PAYPALAPITOKEN).toString('base64')
+        'Authorization' : 'Basic ' + Buffer.from(process.env.PAYPALAPITOKEN).toString('base64')
       }
       });
       const json = await response.json();
@@ -293,7 +292,7 @@ async function checkPaymentConfirmed(appointmentID) {
           method: 'get', 
           headers: {
             'Content-Type': 'application/json',
-            'Authorization' : 'Basic ' + Buffer.from(secrets.PAYPALAPITOKEN).toString('base64')
+            'Authorization' : 'Basic ' + Buffer.from(process.env.PAYPALAPITOKEN).toString('base64')
           }
           });
           const json = await response.json();
