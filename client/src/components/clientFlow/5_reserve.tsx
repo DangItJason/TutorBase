@@ -6,6 +6,7 @@ import {actions as clientFlowActions} from '../../store/ClientFlowData/slice';
 import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
 import {api} from "../../services/api";
 import {Appointment} from "../../services/api.types";
+import { Button } from "reactstrap";
 
 // Given a unix timestamp covert it to a readable time
 // This is used to display the time nicely on the final step
@@ -35,7 +36,7 @@ export function Step5() {
     const dispatch = useDispatch();
     const clientFlowData = useSelector(selectClientFlowData)
     toast.configure();
-
+    const [confirmButtonEnabled, setConfirmButtonEnabled] = useState(true);
     const confirmSubmit = () => {
         toast.success(
             "Appointment Submitted! We'll let you know when the tutor confirms the appointment!!",
@@ -49,9 +50,12 @@ export function Step5() {
                 progress: undefined,
             }
         );
+        
+        setConfirmButtonEnabled(true);
     };
 
     const handleSubmit = async () => {
+        setConfirmButtonEnabled(false);
         let appointment: Appointment = {
             notes: clientFlowData.appointmentNotes,
             price: clientFlowData.selectedTutor.price,
@@ -67,7 +71,7 @@ export function Step5() {
         await api.CreateAppointment(appointment);
 
         dispatch(clientFlowActions.incrementStep());
-
+        await new Promise(r => setTimeout(r, 200));
         confirmSubmit();
     };
 
@@ -90,7 +94,8 @@ export function Step5() {
                         placeholder="Have a preferred location? Need help on a specific homework or project? Let the tutor know here!"
                     />
                     <br/>
-                    <button
+                    <Button
+                        disabled={!confirmButtonEnabled}
                         className="btn btn-danger"
                         onClick={() => {
                             handleSubmit();
@@ -98,7 +103,7 @@ export function Step5() {
                     >
                         <ToastContainer/>
                         Book Now
-                    </button>
+                    </Button>
                 </>
             ) : (
                 <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>

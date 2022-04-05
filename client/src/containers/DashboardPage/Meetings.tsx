@@ -21,17 +21,14 @@ export interface IParams {
 }
 
 export const Meetings = (params: IParams) => {
-    let [deleteAlert, setDeleteAlertStr] = useState("");
+    let [deleteAlert, setDeleteAlert] = useState("");
     let clientData = useSelector(selectClientData);
     let tutorData = useSelector(selectTutorData);
     let [dropDownOpen, setDropdownOpen] = useState<boolean>(false);
     let [dropDownValue, setDropdownValue] = useState<String>("All");
     let [appointments, setAppointments] = useState<Array<Appointment>>([]);
     let dispatch = useDispatch();
-    
-    function setDeleteAlert(value: string) {
-        setDeleteAlertStr(value);
-    }
+
     useEffect(() => {
         const getAppointments = async () => {
             return params.mode === "Tutor" ? (await api.GetTutorAppointments(tutorData.tutorId)).data : 
@@ -62,7 +59,8 @@ export const Meetings = (params: IParams) => {
             appt={appointment} 
             isTutor={params.mode==="Tutor"} 
             includePrevious={false}
-            setDeleteAlert={setDeleteAlert}/>
+            setDeleteAlert={setDeleteAlert}
+            deleteAlert={deleteAlert}/>
     ));
 
 
@@ -98,7 +96,7 @@ export const Meetings = (params: IParams) => {
             </Dropdown>
             <Alert
             style={{marginTop: '1em'}}
-                color={deleteAlert === "Appointment Cancelled Successfully."
+                color={deleteAlert.includes("Succ")
                     ? "success"
                     : "danger"}
                 isOpen={deleteAlert !== ""}

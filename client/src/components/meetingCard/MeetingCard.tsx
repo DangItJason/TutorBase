@@ -15,17 +15,19 @@ import moment from "moment";
 import pypl from "../../assets/pypl.png";
 
 interface IProps {
-    appt: Appointment,
-    isTutor: boolean,
-    includePrevious: boolean,
-    setDeleteAlert: Function
+    appt: Appointment;
+    isTutor: boolean;
+    includePrevious: boolean;
+    setDeleteAlert: Function;
+    deleteAlert?: string | undefined;
 }
 
 export function MeetingCard(props: IProps) {
     let { 
             appt, 
             isTutor,
-            setDeleteAlert
+            setDeleteAlert,
+            deleteAlert
         } = props;
     let dispatch = useDispatch();
     const link = "https://www.sandbox.paypal.com/checkoutnow?token=";
@@ -53,7 +55,18 @@ export function MeetingCard(props: IProps) {
         const result = await api.DeleteAppointment(appt.appt_id);
         if (result) {
             toggleCardExpansion(false);
-            setDeleteAlert("Appointment Cancelled Successfully.");
+            if (deleteAlert?.includes("Appointment Cancelled Successfully.")){
+                if (deleteAlert === "Appointment Cancelled Successfully.")
+                    setDeleteAlert("(2) Appointment Cancelled Successfully.")
+                else {
+                    let num:number = (+(deleteAlert?.substring(1,2))!);
+                    setDeleteAlert( "(" + num++ + ") Appointment Cancelled Successfully.");
+                }
+                    
+            }
+            else {
+                setDeleteAlert("Appointment Cancelled Successfully.");
+            }
             if (isTutor)
                 dispatch(tutorDataActions.deleteAppointment(appt.appt_id));
             else
