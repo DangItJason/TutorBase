@@ -115,8 +115,14 @@ export class ApiService {
 
     public async DeleteAppointment(id: String) {
         let url = this.appointmentsEndpoint + id;
-        let response = await axios.delete(url, {withCredentials: true});
-        return (response.status === 200 || response.status === 204);
+        try {
+            let response = await axios.delete(url, {withCredentials: true});
+        return response.status === 204;
+        }
+        catch (err) {
+            return false;
+        }
+        
     }
 
 

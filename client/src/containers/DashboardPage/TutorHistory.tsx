@@ -41,7 +41,7 @@ export const TutorHistory = () => {
     }
    
     let meetingCards = filteredAppointments.map(appointment => (
-        <MeetingCard appt={appointment} isTutor={true} includePrevious={true}/>
+        <MeetingCard appt={appointment} isTutor={true} includePrevious={true} setDeleteAlert={() => {}}/>
     ));
 
     return (

@@ -179,18 +179,23 @@ console.log(tutor);
 // delete an existing Appointment
 router.delete('/:appt_id', withAuth, async (req, res) => {
   try {
-  const appt = await Appointment.find({ _id: req.params.appt_id });
-  if (appt == null || appt == undefined || appt.confirmed || appt.paypal_approved) {
-    throw("CANNOT DELETE APPT");
+  const appt = await Appointment.findOne({ appt_id: req.params.appt_id });
+  if (appt === null || appt === undefined || appt === 0 || appt.confirmed || appt.paypal_approved) {
+    throw("Cannot delete appointment or it doesn't exist");
   }
   else {
-      const count = await Appointment.deleteOne(
-        { appt_id: req.params.appt_id }
+      await Appointment.findOneAndDelete(
+        { appt_id: new mongoose.mongo.ObjectId(req.params.appt_id) },
+        function (err, doc) {
+          if (err) {
+            throw("Error Deleting appointment");
+          }
+          else {
+            res.status(204).json({msg: "Success"});
+          }
+        }
         );
-        if (count > 0)
-          res.status(204);
-        else
-          throw("No matching entries deleted" + count);
+
     }
   }
     catch(err) {

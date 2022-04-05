@@ -18,18 +18,19 @@ interface IProps {
     appt: Appointment,
     isTutor: boolean,
     includePrevious: boolean,
+    setDeleteAlert: Function
 }
 
 export function MeetingCard(props: IProps) {
     let { 
             appt, 
-            isTutor 
+            isTutor,
+            setDeleteAlert
         } = props;
     let dispatch = useDispatch();
     const link = "https://www.sandbox.paypal.com/checkoutnow?token=";
     let cardType = appt.confirmed ? "upcoming-card" : "pending-card";
     let cardStatus = appt.confirmed ? "Upcoming" : "Pending";
-    let [deleteAlert, setDeleteAlert] = useState("");
     let [modalOpen, setModalOpen] = useState(false);
     let [cardExpanded, toggleCardExpansion] = useState(false);
     let [meetingLink, setMeetingLink] = useState(appt.link !== null ? appt.link! : "");
@@ -50,8 +51,8 @@ export function MeetingCard(props: IProps) {
     }
     async function cancelAppointment(appt: Appointment) {
         const result = await api.DeleteAppointment(appt.appt_id);
-        
         if (result) {
+            toggleCardExpansion(false);
             setDeleteAlert("Appointment Cancelled Successfully.");
             if (isTutor)
                 dispatch(tutorDataActions.deleteAppointment(appt.appt_id));
@@ -351,12 +352,6 @@ export function MeetingCard(props: IProps) {
     }
     return <>
     {card}
-    <Alert
-        color="info"
-        isOpen={deleteAlert !== ""}
-        >
-        {deleteAlert}
-    </Alert>
     </>;
 }
 

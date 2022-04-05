@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Row } from "reactstrap";
+import { Alert, Container, Row } from "reactstrap";
 import {
   Dropdown,
   DropdownToggle,
@@ -21,13 +21,17 @@ export interface IParams {
 }
 
 export const Meetings = (params: IParams) => {
+    let [deleteAlert, setDeleteAlertStr] = useState("");
     let clientData = useSelector(selectClientData);
     let tutorData = useSelector(selectTutorData);
     let [dropDownOpen, setDropdownOpen] = useState<boolean>(false);
     let [dropDownValue, setDropdownValue] = useState<String>("All");
     let [appointments, setAppointments] = useState<Array<Appointment>>([]);
     let dispatch = useDispatch();
-
+    
+    function setDeleteAlert(value: string) {
+        setDeleteAlertStr(value);
+    }
     useEffect(() => {
         const getAppointments = async () => {
             return params.mode === "Tutor" ? (await api.GetTutorAppointments(tutorData.tutorId)).data : 
@@ -44,7 +48,7 @@ export const Meetings = (params: IParams) => {
                 
             }
         )
-    }, [clientData.clientId, tutorData.tutorId, dispatch]);
+    }, [clientData.clientId, tutorData.tutorId, dispatch, deleteAlert]);
 
 
     let filteredAppointments = appointments;
@@ -54,7 +58,11 @@ export const Meetings = (params: IParams) => {
         filteredAppointments = appointments.filter((appointment) => appointment.confirmed);
     }
     let meetingCards = filteredAppointments.map(appointment => (
-        <MeetingCard appt={appointment} isTutor={params.mode==="Tutor"} includePrevious={false}/>
+        <MeetingCard 
+            appt={appointment} 
+            isTutor={params.mode==="Tutor"} 
+            includePrevious={false}
+            setDeleteAlert={setDeleteAlert}/>
     ));
 
 
@@ -88,6 +96,15 @@ export const Meetings = (params: IParams) => {
                         }}>Upcoming</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
+            <Alert
+            style={{marginTop: '1em'}}
+                color={deleteAlert === "Appointment Cancelled Successfully."
+                    ? "success"
+                    : "danger"}
+                isOpen={deleteAlert !== ""}
+                >
+                {deleteAlert}
+            </Alert>
             {meetingCards}
         </Container>
     );
