@@ -40,3 +40,6 @@ server/.idea/
 .env
 server/.env
 client/.env
+
+# SAML authentication certificates and keys
+server/config/saml/*

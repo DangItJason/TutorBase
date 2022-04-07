@@ -28,6 +28,7 @@
     "nodemailer": "^6.6.1",
     "passport": "^0.4.1",
     "passport-cas": "^0.1.1",
+    "passport-saml": "^3.2.1",
     "react-available-times": "^1.4.0",
     "request": "^2.88.2",
     "underscore": "^1.12.1"
