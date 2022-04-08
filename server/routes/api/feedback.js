@@ -51,18 +51,29 @@ router.get("/:tutorId", (req, res) => {
         .catch((err) => res.status(500).json({ msg: err.message }));
 });
 
+// GET /api/feedback/{apptId}
+// Get feedback for a selected appointment
+router.get("/appointment/:apptId", (req, res) => {
+    // console.log(req);
+
+    Feedback.find({ "apptId": req.params.apptId })
+        .then((feedbacks) => res.json(feedbacks))
+        .catch((err) => res.status(500).json({ msg: err.message }));
+});
+
 // POST api/feedback
 // Create a new feedback
 router.post("/", async (req, res) => {
     let clientId = req.body.clientId;
     let tutorId = req.body.tutorId;
+    let apptId = req.body.apptId;
     let message = req.body.message;
     let rating = req.body.rating;
 
     let newFeedback = new Feedback({
         clientId: clientId,
         tutorId: tutorId,
-        meetingId: meetingId,
+        apptId: apptId,
         message: message,
         rating: rating
     })

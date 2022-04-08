@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const FeedbackSchema = new Schema({
     clientId: {type: String, required: true},
     tutorId: {type: String, required: true},
-    meetingId: {type: String, required: true},
+    apptId: {type: String, required: true},
     message: {type: String, required: true},
     rating: {type: Number, required: true}
 });
