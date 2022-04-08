@@ -13,37 +13,36 @@ export function SubjectToColor(courseid:string) {
 }
 
 
-export function BreakDownTime(standard_time: String): Array<String> {
-    const monthMap = new Map([
-        [1, "January"],
-        [2, "February"],
-        [3, "March"],
-        [4, "April"],
-        [5, "May"],
-        [6, "June"],
-        [7, "July"],
-        [8, "August"],
-        [9, "September"],
-        [10, "October"],
-        [11, "November"],
-        [12, "December"],
-    ])
+export function BreakDownTime(standard_time: string): Array<string> {
+    const months: Array<string> = [
+         "January",
+         "February",
+         "March",
+         "April",
+         "May",
+         "June",
+         "July",
+         "August",
+         "September",
+         "October",
+         "November",
+        "December"
+    ];
+    let date = new Date(standard_time);
+    let time = GetTimeAmPm(date);
+    let datestr = months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+    return [datestr,time];
+}
 
-    let date_time = standard_time.split("T")
-
-    let date_arr = date_time[0].split("-")
-    let month = monthMap.get(Number(date_arr[1])) ? monthMap.get(Number(date_arr[1])) : " ";
-    let date = month + " " + date_arr[2] + ", " + date_arr[0]
-
-    let time_arr = date_time[1].split(":");
-    let meridian = " AM"
-    let hour = Number(time_arr[0])
-    if (hour > 12) {
-        hour -= 12
-        meridian = " PM"
-    }
-    let time = String(hour) + ":" + time_arr[1] + meridian;
-    return [date,time];
+export function GetTimeAmPm(date:Date): string {
+    let hours = date.getHours();
+    let mins = date.getMinutes();
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    let minutes: string = mins < 10 ? ('0'+ mins) : mins.toString();
+    let time = hours + ':' + minutes + ' ' + ampm;
+    return time;
 }
 
 export function CapitalizeFirstLetter(str: String): String {

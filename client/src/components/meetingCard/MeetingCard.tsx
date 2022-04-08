@@ -5,7 +5,7 @@ import { faArrowDown, faArrowUp, faCheck, faTimes } from "@fortawesome/free-soli
 import { Alert, Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Spinner, UncontrolledAlert } from "reactstrap";
 import {Appointment, Tutor, TutorsResponse, User, Feedback} from "../../services/api.types";
 import { api } from "../../services/api";
-import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
+import { BreakDownTime, CapitalizeFirstLetter, GetTimeAmPm, IsFutureDate } from "../../services/tools";
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
 import styled, {keyframes} from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,7 +63,7 @@ export function MeetingCard(props: IProps) {
                     setDeleteAlert("(2) Appointment Cancelled Successfully.")
                 else {
                     let num:number = (+(deleteAlert?.substring(1,2))!);
-                    setDeleteAlert( "(" + num++ + ") Appointment Cancelled Successfully.");
+                    setDeleteAlert( "(" + (num+1) + ") Appointment Cancelled Successfully.");
                 }
                     
             }
@@ -157,6 +157,7 @@ export function MeetingCard(props: IProps) {
     let name = CapitalizeFirstLetter(tutorFirstName + " " + tutorLastName);
     let location = CapitalizeFirstLetter(appt.location);
     let date_time = BreakDownTime(appt.start_time);
+    let end_time = GetTimeAmPm(new Date(appt.end_time));
 
     // Card tag setup
     let cardTag = <div className={"card-status"}>{cardStatus}</div>;
@@ -181,7 +182,7 @@ export function MeetingCard(props: IProps) {
         <>
             <div className={"card-name"}>{name}</div>
             <div className={"card-location"}>{location}</div>
-            <div className={"card-time"}>{date_time[0] + " at " + date_time[1]}</div>
+            <div className={"card-time"}>{date_time[0] + " at " + date_time[1] + " - " + end_time}</div>
         </>
     );
 
@@ -347,7 +348,7 @@ export function MeetingCard(props: IProps) {
                         </Button>
                     </a>
                  <div style={{color:'red', marginLeft: '1em', marginBottom:'1em'}}>
-                     <b>Payment Incomplete</b>
+                     <b>Payment Incomplete</b> Price: ${appt.price}
                      <Button 
                         style={{marginLeft:'0.5em'}}
                         onClick={(e) => {checkAppt(appt); e.stopPropagation();}}>
