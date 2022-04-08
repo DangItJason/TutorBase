@@ -1,4 +1,4 @@
-FROM node
+FROM node:lts
 
 RUN mkdir -p /usr/src/app/backend
 WORKDIR /usr/src/app/backend
