@@ -161,7 +161,7 @@ export class ApiService {
             rating: feedback.rating,
             tutorId: feedback.tutorId,
             clientId: feedback.clientId,
-            meetingId: feedback.meetingId
+            apptId: feedback.apptId
         };
 
         console.log("== DEBUG == Creating feedback: ", body);
@@ -181,6 +181,13 @@ export class ApiService {
         if(feedback.data.length === 0) return -1;
         return (rating / feedback.data.length);
     }
+
+    public async GetFeedbackByAppointment(id: string) {
+        let url = this.feedbackEndpoint + "/appointment/" + id;
+        let feedback =  await axios.get(url);
+
+        return feedback;
+    }   
 
     public async SetClientName(name: Name, id: String) {
         let url = this.usersEndpoint + 'user';

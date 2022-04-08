@@ -3,7 +3,7 @@ import "./MeetingCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Alert, Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Spinner, UncontrolledAlert } from "reactstrap";
-import {Appointment, Tutor, TutorsResponse, User} from "../../services/api.types";
+import {Appointment, Tutor, TutorsResponse, User, Feedback} from "../../services/api.types";
 import { api } from "../../services/api";
 import { BreakDownTime, CapitalizeFirstLetter, IsFutureDate } from "../../services/tools";
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
@@ -45,6 +45,9 @@ export function MeetingCard(props: IProps) {
         first_name: "",
         last_name: "",
     });
+    let [isRated, setIsRated] = useState<boolean>(false);
+    let [apptFeedback, setApptFeedback] = useState<Feedback>();
+
     function setMeetingLinkChange(link: React.FormEvent<HTMLInputElement>) {
         setMeetingLink(link.currentTarget.value);
     }
@@ -104,6 +107,18 @@ export function MeetingCard(props: IProps) {
 
         getTutor();
     }, []);
+
+    useEffect(() => {
+        const getFeedback = async () => {
+            let feedback = (await api.GetFeedbackByAppointment(appt.appt_id));
+            const _isRated: boolean = feedback.data.length > 0;
+            if(_isRated !== isRated)
+                setIsRated(_isRated);
+        }
+        if (cardStatus !== "Completed")
+            return
+        getFeedback();
+    }, [])
 
     // Time checks for different card types
     if (!IsFutureDate(appt.start_time) && appt.confirmed){
@@ -167,8 +182,8 @@ export function MeetingCard(props: IProps) {
             </div>
 
             <div className={"card-container-end"}>
-                {cardStatus === "Completed"
-                    ? <FeedbackForm apptTutorId={appt.tutor_id} />
+                {cardStatus === "Completed" && !isTutor && !isRated
+                    ? <FeedbackForm apptTutorId={appt.tutor_id} meetingId={appt.appt_id} />
                     : <></>}
                 {cardTag}
                 <Button
@@ -191,7 +206,9 @@ export function MeetingCard(props: IProps) {
             >
                 <div className={"card-container-start-expanded"}>{upperCardContent}</div>
                 <div className={"card-container-end-expanded"}>
-                    {cardStatus === "Completed" ? <FeedbackForm apptTutorId={appt.tutor_id} /> : <></>}
+                    {cardStatus === "Completed" && !isTutor && !isRated
+                        ? <FeedbackForm apptTutorId={appt.tutor_id} meetingId={appt.appt_id} /> 
+                        : <></>}
                     {cardTag}
                     <Button
                     color="none"
