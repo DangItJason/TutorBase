@@ -300,7 +300,7 @@ export function MeetingCard(props: IProps) {
                    </Button>
                 </div>
                 : <></>}
-                {!appt.paypal_approved
+                {!appt.paypal_approved && !(cardStatus === "Denied" || cardStatus === "Completed")
                 ? (
                     <div>
                     <Button
@@ -358,7 +358,7 @@ export function MeetingCard(props: IProps) {
                 </div>)
                     
                 : <></>}
-                {!appt.confirmed
+                {!appt.confirmed && !(cardStatus === "Denied" || cardStatus === "Completed")
                 ? (<div>
                     <Button
                         color="danger"
