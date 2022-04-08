@@ -10,9 +10,10 @@ import {api} from "../../services/api";
 
 interface IProps {
     apptTutorId: string;
+    meetingId: string;
 }
 
-export default function FeedbackForm({apptTutorId}: IProps) {
+export default function FeedbackForm({apptTutorId, meetingId}: IProps) {
     const [formOpen, setFormOpen] = useState(false);
     const clientData = useSelector(selectClientData);
     const [feedbackMessage, setFeedbackMessage] = useState("");
@@ -21,12 +22,14 @@ export default function FeedbackForm({apptTutorId}: IProps) {
     const submitFeedback = async () => {
         let clientId = clientData.clientId;
         let tutorId = apptTutorId;
+        let apptId = meetingId;
 
         setFormOpen(false)
 
         await api.SubmitFeedback({
             clientId: clientId,
             tutorId: tutorId,
+            apptId: apptId,
             message: feedbackMessage,
             rating: rating
         });
