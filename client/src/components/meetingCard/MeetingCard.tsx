@@ -179,9 +179,12 @@ export function MeetingCard(props: IProps) {
     // Card details
     let upperCardContent = (
         <>
-            <div className={"card-name"}>{name}</div>
-            <div className={"card-location"}>{location}</div>
-            <div className={"card-time"}>{date_time[0] + " at " + date_time[1]}</div>
+            <div className={"card-name"}>Session with <span className="card-prop-bold">{name}</span></div>
+            {location !== "None"
+                ? <div className={"card-location"}>at <span className="card-prop-bold">{location}</span></div>
+                : <></>
+            }
+            <div className={"card-time"}>on <span className="card-time-bold">{date_time[0]}</span> at {date_time[1]}</div>
         </>
     );
 
@@ -237,13 +240,11 @@ export function MeetingCard(props: IProps) {
 
                 <hr style={{width: '100%', backgroundColor: 'black', margin: '0 0.5em'}}/>
 
-                <div className={"card-container-item"}>
-                    {!appt.notes || appt.notes === "" ? ""
-                    : "Client Notes: "
-                    }
+                <div className={"card-container-item "}>
+                    Client Notes:
                 </div>
                 <div className={"break"}></div>
-                <div className={"client-notes"}>{appt.notes}</div>
+                <div className={"client-notes"}>{appt.notes && appt.notes.length > 0 ? appt.notes : "None"}</div>
                 <div className={"break"}></div>
 
 
@@ -326,7 +327,7 @@ export function MeetingCard(props: IProps) {
                     <div className={"card-container-item "}>
                         Meeting Link:
                     </div>
-                <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink}</a></div>
+                <div className={"client-notes"}><a href={meetingLink} target="new">{meetingLink && meetingLink.length > 0 ? meetingLink : "None"}</a></div>
                 </div>)
                 }
                 {appt.paypal_tx !== undefined && appt.paypal_tx!.length > 0
