@@ -19,7 +19,7 @@
     "js-cookie": "^2.2.1",
     "js-cookies": "^1.0.4",
     "light-toast": "^0.3.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "prettier": "^2.2.1",
     "query-string": "^7.0.0",
     "rambda": "^6.7.0",
