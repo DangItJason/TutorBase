@@ -78,7 +78,7 @@ router.get("/:appt_id/paymentconfirmed", async (req, res) => {
 router.post("/", async (req, res) => {
   var startTime = req.body.date ? req.body.date : new Date();
   var endTime = req.body.end ? req.body.end : new Date();
-  var client, tutor, course, paypal_tx;
+  var client, tutor, course, paypal_tx, tutorsAppts;
     try {
       client = await User.findOne(
         { _id: req.body.client_id }
@@ -89,6 +89,18 @@ router.post("/", async (req, res) => {
       course = await Course.findOne(
         { id: req.body.course_id }
       );
+      tutorsAppts = await Appointment.find(
+        {tutor_id: new mongoose.mongo.ObjectId(req.body.tutor_id)}
+      );
+      tutorsAppts.forEach(function(appt) {
+        if ((startTime >= appt.start_time && startTime <= appt.end_time)
+            || (endTime >= appt.start_time && endTime <= appt.end_time)
+            || (startTime <= appt.start_time && endTime >= appt.end_time)
+            || (startTime >= appt.startTime && endTime <= appt.end_time) ) {
+              throw("Error: cannot schedule appointment. Tutor already has appointment scheduled during selected time.");
+            }
+      });
+
     } catch (e) {
       console.log(e);
       return;

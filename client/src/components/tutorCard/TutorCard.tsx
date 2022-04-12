@@ -5,9 +5,10 @@ import legoDude from "../../assets/lego_dude.jpg";
 import {actions} from "../../store/ClientFlowData/slice";
 import ReactStars from 'react-stars'
 import {api} from "../../services/api";
+import { Tutor } from "../../services/api.types";
 
 interface IProps {
-    tutor: any;
+    tutor: Tutor;
     checked: boolean;
 }
 
@@ -40,7 +41,7 @@ export default function TutorCard({tutor, checked}: IProps) {
             <TutorImg>
                 <img src={legoDude} width={150} height={150} alt="Tutor" style={{borderRadius: '180px'}}/>
             </TutorImg>
-
+            Price: ${tutor.price}/hr
             {tutorRating === -1 ? (
                 <p style={{color: "white"}}>Tutor not rated!</p>
             ) : (
