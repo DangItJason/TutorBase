@@ -21,6 +21,9 @@ let router = express.Router();
 //Email notify admins of new tutor signup applications
 var emailsender = require("../../lib/emailsender.js");
 
+//dev mode
+const developer = process.env.NODE_ENV !== 'production';
+
 //Models
 const mongoose = require('mongoose');
 const Subject = require('../../models/Subject');
@@ -31,6 +34,10 @@ const TutorApplication = require('../../models/TutorApplication');
 
 // Middleware
 const withAuth = require('../../middleware/token_auth')
+const jwt = require('jsonwebtoken');
+const parseCookies = require("../../lib/parseCookies");
+const secret = require("../../config/secret");
+const passport = require('passport');
 
 //mongoose.set('useFindAndModify', false);
 
@@ -130,6 +137,23 @@ router.post("/", withAuth, (req, res) => {
 // PUT /api/tutors/tutor
 // Update a tutor
 router.put("/tutor", withAuth, (req, res) => {
+
+    const token = parseCookies(req.headers.cookie).token
+
+    //protect route
+    if(!!!developer){
+        jwt.verify(token, secret, function (err, decoded) {
+            if (err) {
+        
+                res.status(401).send('Unauthorized: Invalid token');
+            } else if (req.body.userid !== decoded.userid) {
+                res.status(403).send(`Forbidden: Access denied ${req.body.userid} ${decoded.userid}`);
+            
+            } else{
+                true;
+            }});
+    }
+      
     const entries = Object.keys(req.body)
     const updates = {}
 
@@ -158,6 +182,22 @@ router.put("/tutor", withAuth, (req, res) => {
 // DELETE /api/tutors/tutor
 // Update a tutor
 router.delete("/:tutor_id", withAuth, (req, res) => {
+
+    const token = parseCookies(req.headers.cookie).token
+
+    //protect route
+    if(!!!developer){
+        jwt.verify(token, secret, function (err, decoded) {
+            if (err) {
+        
+                res.status(401).send('Unauthorized: Invalid token');
+            } else if (req.body.userid !== decoded.userid) {
+                res.status(403).send('Forbidden: Access denied');
+            
+            } else{
+                true;
+            }});
+    }
 
     Tutor.deleteOne(
         { _id: req.params.tutor_id }

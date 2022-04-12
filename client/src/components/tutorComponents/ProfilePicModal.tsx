@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import { api } from "../../services/api";
-import { Name } from "../../services/api.types";
-import { selectClientData } from "../../store/ClientData/selectors";
-import { actions as clientDataActions } from "../../store/ClientData/slice";
-import { Container, Row, ListGroup, ListGroupItem, Modal, ModalHeader, ModalBody, InputGroup, Input, ModalFooter, Button } from "reactstrap";
+import {  Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "react-avatar-edit";
@@ -14,31 +10,41 @@ import { CompressAndSaveImg } from "../../services/tools";
 
 
  export interface IProfilePicModalProps {
+    isTutor:boolean,
+    firstName:string,
+    lastName:string,
     clientImg:string,
     imgModalOpen:boolean,
     croppedImg:string,
     setImgModalOpen: (arg:boolean) => void,
     cancelImgChange: () => void,
     setCroppedImg: (arg:string) =>void,
-    setClientImg: (arg:string) =>void,   
+    setClientImg: (arg:string) =>void,  
+    userid:string, 
 }
 
 export const ProfilePicModal = (props:IProfilePicModalProps) => {
-    let clientData = useSelector(selectClientData);
-    let dispatch = useDispatch();
 
-    const {clientImg,imgModalOpen,croppedImg} = props;
+    const {clientImg,imgModalOpen,croppedImg,userid} = props;
     const {setImgModalOpen,cancelImgChange,setCroppedImg,setClientImg} = props;
 
     const handleImageSave = async (img: string) => {
-        await api.SetClientProfileImage(img, clientData.clientId);
+        
+        if (props.isTutor === true){
+            console.log(userid)
+            await api.SetTutorProfileImage(img, userid);
+        }
+        else{
+
+            await api.SetClientProfileImage(img, userid);
+
+        }
         setClientImg(img);
-        dispatch(clientDataActions.setProfileImage(img));
     }
 
     const saveImgChange = async () => {
         if(croppedImg.toString() !== "") {
-            CompressAndSaveImg(croppedImg, clientData.first_name + clientData.last_name + "-photo", handleImageSave);
+            CompressAndSaveImg(croppedImg, props.firstName + props.lastName + "-photo", handleImageSave);
         } else {
             handleImageSave(croppedImg);
         }
@@ -59,12 +65,13 @@ export const ProfilePicModal = (props:IProfilePicModalProps) => {
                     <Avatar
                         width={250}
                         height={250}
+                        imageHeight={250}
                         cropColor="#E66064"
                         closeIconColor="#E66064"
                         onCrop={(img) => setCroppedImg(img)}
                         onClose={() => {setCroppedImg("")}}
                         onBeforeFileLoad={() => {}}
-                        src={clientImg === "" ? defaultUser : clientImg}
+                        src={clientImg}
                     />
                 </ModalBody>
                 <ModalFooter>

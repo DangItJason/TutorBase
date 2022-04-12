@@ -41,7 +41,7 @@ export class ApiService {
 
     public async GetTutorById(id: String) {
         console.log("Fetching Tutor");
-        let url = this.tutorsEndpoint + 'tutor/' + id;
+        let url = this.tutorsEndpoint + id;
         let response = await axios.get(url);
         let tutor: TutorsResponse = {data: []}
         tutor.data = response.data;
@@ -197,6 +197,19 @@ export class ApiService {
 
         return await axios.put(url, body, {withCredentials: true});
     }
+
+    public async SetTutorProfileImage(img: String, id: String) {
+        let url = this.tutorsEndpoint + 'tutor';
+        let body = {
+            userid: id,
+            profile_img: img
+        }
+
+        return await axios.put(url, body, {withCredentials: true});
+    }
+
+
+
     public async SetMeetingLink(id: String, link: String) {
         let url = this.appointmentsEndpoint + 'link';
         let body = {

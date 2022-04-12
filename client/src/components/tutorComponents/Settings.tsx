@@ -4,9 +4,11 @@ import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHead
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faBan, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import {ProfilePicModal,IProfilePicModalProps} from './ProfilePicModal'
+import { TutorDataSlice } from "../../store/TutorData/types";
+import { ClientDataSlice } from "../../store/ClientData/types";
+import { connect } from 'react-redux';
 import Slider from 'react-rangeslider';
 import Autocomplete from 'react-autocomplete';
-import Avatar from "react-avatar-edit";
 import defaultUser from "../../assets/default_user.png";
 import TimePicker from 'rc-time-picker';
 import moment from 'moment';
@@ -18,7 +20,8 @@ import "./settings.css";
 import 'rc-time-picker/assets/index.css';
 
 interface iSettingsProps {
-
+  clientData:ClientDataSlice,
+  tutorData: TutorDataSlice
 }
 
 interface iSettingsState {
@@ -59,6 +62,7 @@ interface iSettingsState {
 
 }
 
+//to-do: connect to Redux store Client + Tutor Data slice
 class Settings extends Component<iSettingsProps,iSettingsState> {
 
     constructor(props: iSettingsProps) {
@@ -70,7 +74,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
           temp_firstn: "",
           temp_lastn: "",
           email: "test2@gmail.com",
-          obj_id: "61a5a9bbc73a5d336d8d0b74",
+          obj_id: userid || "61a5a9bbc73a5d336d8d0b74",
           profile_pic: "",
           description: "Typescript port",
           temp_description: "",
@@ -602,17 +606,19 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
 
     render(): JSX.Element{
       let schedule_days = [{day: "Sunday", abbr: "SUN"}, {day: "Monday", abbr: "MON"}, {day: "Tuesday", abbr: "TUE"}, {day: "Wednesday", abbr: "WED"}, {day: "Thursday", abbr: "THU"}, {day: "Friday", abbr: "FRI"}, {day: "Saturday", abbr: "SAT"}];
-      
-
 
       const profilePicProps = {
+        isTutor:true,
+        firstName:this.state.first_name,
+        lastName:this.state.last_name,
         clientImg:this.state.profile_pic,
         imgModalOpen:this.state.imgModalOpen,
         croppedImg:this.state.croppedImg,
         setImgModalOpen: (arg:boolean) => this.setState({...this.state,imgModalOpen:arg}),
         setCroppedImg: (arg:string) =>this.setState({...this.state,croppedImg:arg}),
         setClientImg: (arg:string) =>this.setState({...this.state,profile_pic:arg}), 
-        cancelImgChange: () => this.setState({...this.state,croppedImg:"",imgModalOpen:false}),  
+        cancelImgChange: () => this.setState({...this.state,croppedImg:"",imgModalOpen:false}), 
+        userid:this.state.obj_id 
 
       } as IProfilePicModalProps;
       return (
@@ -901,4 +907,11 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
 
 }
 
-export default Settings;
+function mapStateToProps(state: any) {
+  return { 
+     tutorData: state.tutorData,
+     clientData: state.clientData
+     }
+}
+
+export default connect(mapStateToProps)(Settings);
