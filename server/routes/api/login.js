@@ -53,8 +53,8 @@ const developer = process.env.NODE_ENV !== 'production';
  * @inner
  */
 router.get("/", (req, res, next) => {
-  if(developer){
-    
+  /*if(developer){
+
       var tok = jwt.sign({ userid: "abc" }, secret);
 
       // Token Storage can be used if necessary later on
@@ -72,8 +72,8 @@ router.get("/", (req, res, next) => {
       res.cookie('expiration', expr_string,  { maxAge: 86400000})
       return res.redirect(process.env.LOGIN_REDIRECT);
   }
-  else{
-    passport.authenticate('cas', function (err, user, info) {
+  else{*/
+    passport.authenticate('saml', function (err, user, info) {
       if (err) {
         return next(err);
       }
@@ -106,7 +106,7 @@ router.get("/", (req, res, next) => {
       });
 
     })(req, res, next);
-  }
+  /*}*/
 });
 
 /**

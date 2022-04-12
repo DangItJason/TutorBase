@@ -1,5 +1,6 @@
 const SamlStrategy = require('passport-saml').Strategy;
 const User = require("../models/User");
+const fs = require("fs");
 
 module.exports = new SamlStrategy(
 	{
@@ -8,10 +9,11 @@ module.exports = new SamlStrategy(
 		issuer: process.env['SAML_ISSUER'],
 		identifierFormat: null,
 		decryptionPvk: fs.readFileSync(__dirname + '/saml/key.pem', 'utf8'),
-		privateCert: fs.readFileSync(__dirname + '/saml/key.pem', 'utf8'),
+		privateKey: fs.readFileSync(__dirname + '/saml/key.pem', 'utf8'),
 		cert: fs.readFileSync(__dirname + '/saml/idp_cert.pem', 'utf8'),
-		validateInResponseTo: false,
-		disableRequestedAuthnContext: true
+		// validateInResponseTo: false,
+		// disableRequestedAuthnContext: true,
+		// wantAssertionsSigned: true
 	},
 	function (profile, done) {
 		var login = profile.user.toLowerCase();

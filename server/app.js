@@ -11,7 +11,7 @@ const fs = require("fs");
 require("dotenv").config()
 
 // Authentication Packages
-const cas = require("./config/casStrategy");
+const saml = require("./config/samlStrategy");
 const session = require("express-session");
 const passport = require("passport");
 
@@ -54,7 +54,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Authentication Middleware
-passport.use(cas);
+passport.use(saml);
 
 app.use(session({
   secret: secret,
