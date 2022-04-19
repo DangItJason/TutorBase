@@ -55,7 +55,8 @@
     "use-state-with-callback": "^2.0.3"
   },
   "scripts": {
-    "start": "export NODE_ENV=development; react-scripts start",
+    "start": "react-scripts start",
+    "dev": "export NODE_ENV=development; npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
