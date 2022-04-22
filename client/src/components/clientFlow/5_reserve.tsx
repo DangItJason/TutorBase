@@ -7,6 +7,7 @@ import {selectClientFlowData} from "../../store/ClientFlowData/selectors";
 import {api} from "../../services/api";
 import {Appointment} from "../../services/api.types";
 import { Button } from "reactstrap";
+import { AxiosResponse } from "axios";
 
 // Given a unix timestamp covert it to a readable time
 // This is used to display the time nicely on the final step
@@ -68,8 +69,27 @@ export function Step5() {
             appt_id: "null",
             confirmed: false,
         }
-        await api.CreateAppointment(appointment);
-
+        
+        try {
+            let res:AxiosResponse<any> = await api.CreateAppointment(appointment);
+        }
+        catch(e) {
+            toast.error(
+                "Error scheduling appointment. Try scheduling a different time.",
+                {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                }
+            );
+            
+            setConfirmButtonEnabled(true);
+            return;
+        }
         dispatch(clientFlowActions.incrementStep());
         await new Promise(r => setTimeout(r, 200));
         confirmSubmit();

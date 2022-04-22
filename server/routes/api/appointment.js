@@ -76,8 +76,8 @@ router.get("/:appt_id/paymentconfirmed", async (req, res) => {
 // POST api/appointment
 // Create a new Appointment
 router.post("/", async (req, res) => {
-  var startTime = req.body.date ? req.body.date : new Date();
-  var endTime = req.body.end ? req.body.end : new Date();
+  var startTime = req.body.date;
+  var endTime = req.body.end;
   var client, tutor, course, paypal_tx, tutorsAppts;
     try {
       client = await User.findOne(
@@ -93,17 +93,22 @@ router.post("/", async (req, res) => {
         {tutor_id: new mongoose.mongo.ObjectId(req.body.tutor_id)}
       );
       tutorsAppts.forEach(function(appt) {
-        if ((startTime >= appt.start_time && startTime <= appt.end_time)
-            || (endTime >= appt.start_time && endTime <= appt.end_time)
-            || (startTime <= appt.start_time && endTime >= appt.end_time)
-            || (startTime >= appt.startTime && endTime <= appt.end_time) ) {
+        let tet = new Date(endTime);
+        let tst = new Date(startTime);
+        let st = new Date(appt.startTime);
+        let et = new Date(appt.endTime);
+        if ((tst >= st && tst <= et)
+            || (tet >= st && tet <= et)
+            || (tst <= st && tet >= et)) {
               throw("Error: cannot schedule appointment. Tutor already has appointment scheduled during selected time.");
             }
       });
 
     } catch (e) {
       console.log(e);
-      return;
+      return res.status(400).send({
+        message: e
+     });
     }
   console.log("START TIME: ", startTime)
   console.log("END TIME: ", endTime)

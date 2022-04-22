@@ -41,9 +41,9 @@ export default function TutorCard({tutor, checked}: IProps) {
             <TutorImg>
                 <img src={legoDude} width={150} height={150} alt="Tutor" style={{borderRadius: '180px'}}/>
             </TutorImg>
-            Price: ${tutor.price}/hr
+            <div style={{color: "white", marginTop:'0.5em'}}>Price: ${tutor.price}/hr</div>
             {tutorRating === -1 ? (
-                <p style={{color: "white"}}>Tutor not rated!</p>
+                <p style={{color: "white", marginTop:'0.25em'}}>Tutor not rated!</p>
             ) : (
                 <ReactStars count={5} size={24} color2={'#ffd700'} value={tutorRating} edit={false}/>
             )}
@@ -73,7 +73,7 @@ const Container = styled.div<IContainer>`
   align-items: center;
 
   width: 200px;
-  height: 230px;
+  height: 260px;
 
   margin: 0.5em;
   padding: 0.2em;
