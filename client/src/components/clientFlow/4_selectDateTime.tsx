@@ -57,7 +57,7 @@ export const  Step4 = () => {
             // Add previously schedule meeting to array
 
             let appts = await api.GetTutorAppointments(clientFlowData.selectedTutor._id);
-
+            console.log(appts);
             if (appts !== null) {
                 appts.data.forEach(appt => {
                     previousAppts.push({
