@@ -3,8 +3,13 @@ import classNames from "classnames";
 import { Container, Row, Col, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, InputGroup, Input, Alert, Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faBan, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {ProfilePicModal,IProfilePicModalProps} from './ProfilePicModal'
+import { TutorDataSlice } from "../../store/TutorData/types";
+import { ClientDataSlice } from "../../store/ClientData/types";
+import { connect } from 'react-redux';
 import Slider from 'react-rangeslider';
 import Autocomplete from 'react-autocomplete';
+import defaultUser from "../../assets/default_user.png";
 import TimePicker from 'rc-time-picker';
 import moment from 'moment';
 import Cookies from "js-cookie";
@@ -15,7 +20,8 @@ import "./settings.css";
 import 'rc-time-picker/assets/index.css';
 
 interface iSettingsProps {
-
+  clientData:ClientDataSlice,
+  tutorData: TutorDataSlice
 }
 
 interface iSettingsState {
@@ -49,11 +55,14 @@ interface iSettingsState {
     interval_modal: boolean,
     schedule_modal: boolean,
     add_time_err: boolean,
-    add_time_err_msg: string
+    add_time_err_msg: string,
+    imgModalOpen:boolean,
+    croppedImg:string
 
 
 }
 
+//to-do: connect to Redux store Client + Tutor Data slice
 class Settings extends Component<iSettingsProps,iSettingsState> {
 
     constructor(props: iSettingsProps) {
@@ -65,7 +74,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
           temp_firstn: "",
           temp_lastn: "",
           email: "test2@gmail.com",
-          obj_id: userid !== undefined ? userid : "61a5a9bbc73a5d336d8d0b74",
+          obj_id: userid || "61a5a9bbc73a5d336d8d0b74",
           profile_pic: "",
           description: "Typescript port",
           temp_description: "",
@@ -114,7 +123,9 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
           interval_modal: false,
           schedule_modal: false,
           add_time_err: false,
-          add_time_err_msg: ""
+          add_time_err_msg: "",
+          imgModalOpen:false,
+          croppedImg:""
         } as iSettingsState;
        
       }
@@ -139,7 +150,7 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
             temp_lastn: tutor.last_name,
             meeting_interval: parseInt(tutor.interval),
             temp_meeting_interval: parseInt(tutor.interval),
-            profile_pic:tutor.profile_img,
+            profile_pic:tutor.profile_img || defaultUser,
             description: tutor.description || "",
             temp_description:  tutor.description || ""
 
@@ -590,8 +601,26 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
     return hrs + ":" + mins + meridiem;    
   }
 
+
+
+
     render(): JSX.Element{
       let schedule_days = [{day: "Sunday", abbr: "SUN"}, {day: "Monday", abbr: "MON"}, {day: "Tuesday", abbr: "TUE"}, {day: "Wednesday", abbr: "WED"}, {day: "Thursday", abbr: "THU"}, {day: "Friday", abbr: "FRI"}, {day: "Saturday", abbr: "SAT"}];
+
+      const profilePicProps = {
+        isTutor:true,
+        firstName:this.state.first_name,
+        lastName:this.state.last_name,
+        clientImg:this.state.profile_pic,
+        imgModalOpen:this.state.imgModalOpen,
+        croppedImg:this.state.croppedImg,
+        setImgModalOpen: (arg:boolean) => this.setState({...this.state,imgModalOpen:arg}),
+        setCroppedImg: (arg:string) =>this.setState({...this.state,croppedImg:arg}),
+        setClientImg: (arg:string) =>this.setState({...this.state,profile_pic:arg}), 
+        cancelImgChange: () => this.setState({...this.state,croppedImg:"",imgModalOpen:false}), 
+        userid:this.state.obj_id 
+
+      } as IProfilePicModalProps;
       return (
         <Container fluid className="background">
           <Row className="title">
@@ -601,9 +630,14 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
           <Row xs="2" className="parent">
             <Col xl="6">
               <ListGroup className="heading-text">
-                <ListGroupItem>
+                {/* <ListGroupItem>
                   <img src={this.state.profile_pic} alt={'profile pic'} className="img-responsive"></img>
+                </ListGroupItem> */}
+                <ListGroupItem className="img-item">
+                  <ProfilePicModal {...profilePicProps} />
+
                 </ListGroupItem>
+
                 <ListGroupItem>
                   <span className="heading-item">{this.state.first_name + " " + this.state.last_name}</span>
                   <a href="/#" className="modal-link" onClick={this.toggleNameModal}>
@@ -873,4 +907,11 @@ class Settings extends Component<iSettingsProps,iSettingsState> {
 
 }
 
-export default Settings;
+function mapStateToProps(state: any) {
+  return { 
+     tutorData: state.tutorData,
+     clientData: state.clientData
+     }
+}
+
+export default connect(mapStateToProps)(Settings);

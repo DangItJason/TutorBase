@@ -20,10 +20,11 @@ const secret = require('../../config/secret');
  * @namespace userRouter
  */
 let router = express.Router();
-
+//dev mode
+const developer = process.env.NODE_ENV !== 'production';
 // Middleware
 const withAuth = require('../../middleware/token_auth');
-
+const parseCookies = require("../../lib/parseCookies");
 /**
  * Route serving subjects form.
  * @name get/api/users
@@ -143,6 +144,23 @@ router.post('/', async (req, res) => {
 // PUT /api/users/user
 // Update a user
 router.put("/user", withAuth, (req, res) => {
+
+  const token = parseCookies(req.headers.cookie).token
+  
+  if(!!!developer){
+    jwt.verify(token, secret, function (err, decoded) {
+      console.log(req.body.userid)
+      console.log(decoded.userid)
+      if (err) {
+
+          res.status(401).send('Unauthorized: Invalid token');
+      } else if (req.body.userid !== decoded.userid) {
+          res.status(403).send('Forbidden: Access denied');
+        
+      } else{
+          true;
+      }});
+  }
   const entries = Object.keys(req.body)
   const updates = {}
 

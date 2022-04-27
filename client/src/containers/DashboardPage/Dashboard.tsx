@@ -9,9 +9,7 @@ import { actions as clientDataActions } from "../../store/ClientData/slice";
 import { selectClientData } from "../../store/ClientData/selectors";
 import {useDispatch, useSelector} from 'react-redux'
 import {selectSidebarToggled} from "../../store/ClientFlowData/selectors";
-import TutorPanelBlank from "./TutorPanelSignup";
 import { api } from "../../services/api";
-import { Spinner } from "reactstrap";
 import TutorPanelSignup from "./TutorPanelSignup";
 
 export interface IParams {
